@@ -2,6 +2,8 @@
 
 > Architecture documentation as a traversable Markdown graph — built for AI agents, maintained by them, versioned with your code.
 
+**Repository:** [github.com/abx-git/blueprint-pattern](https://github.com/abx-git/blueprint-pattern)
+
 The **Blueprint Pattern** is a documentation pattern, not a product. It turns your repository into a traversable Markdown link network that AI agents can navigate without embeddings, vector databases, or external services.
 
 ---

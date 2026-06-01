@@ -37,4 +37,4 @@ Be respectful and constructive. Architecture discussions benefit from disagreeme
 
 ## Questions
 
-Open a [GitHub Discussion](https://github.com/your-org/blueprint-pattern/discussions) or an issue labeled `question`.
+Open a [GitHub Discussion](https://github.com/abx-git/blueprint-pattern/discussions) or an issue labeled `question`.
