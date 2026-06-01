@@ -1,0 +1,11 @@
+---
+description: Blueprint Pattern — system behavior for architecture documentation
+alwaysApply: true
+---
+
+Follow the Blueprint Pattern system prompt in [PROMPT.md](../../PROMPT.md#1-system-prompt).
+
+- Read `docs/architecture/blueprint.md` before architecture work (when this repo contains an application Blueprint).
+- Use role prompts from `docs/architecture/prompts/` when the user specifies a role.
+- Update Blueprint and session log before stopping.
+- Extensions: [docs/blueprint-pattern-extensions.md](../../docs/blueprint-pattern-extensions.md)

@@ -20,14 +20,17 @@ Das Blueprint Pattern ist ein **Dokumentationsmuster**, kein Produkt: ein Markdo
 
 ---
 
-## Vier Operationen
+## Operationen
 
 | Operation | Wann | Ergebnis |
 |-----------|------|----------|
 | **Bootstrap** | Einmalig, kein Blueprint | Blueprint + arc42-Abschnitte |
+| **Review** | Eigene Session nach Bootstrap | Prüfbericht in `work/`, keine Fixes |
 | **Refinement** | Laufend (bei großen Systemen Pflicht) | Vertiefung einzelner Abschnitte |
 | **Maintenance** | Bei `git diff` | Nur betroffene Dateien aktualisieren |
 | **Architecture Work** | Nach Bootstrap | Fragen, Analysen, Designs → `work/` |
+
+Erweiterungen (Base Context, Rollen, Compaction, Ops): [Extensions (EN)](../blueprint-pattern-extensions.md).
 
 ---
 

@@ -17,6 +17,7 @@
 | 10    | Quality Requirements       | arc42/quality.md                   | [x] done | 2026-05-05   |
 | 11    | Risks and Technical Debt   | arc42/risks.md                     | [x] done | 2026-05-05   |
 | 12    | Glossary                   | arc42/glossary.md                  | [x] done | 2026-05-05   |
+| 13    | Operational Knowledge      | ops/                               | [x] done | 2026-06-01   |
 
 States: `[ ]` open · `[~]` in progress · `[x]` done · `[!]` blocked
 
@@ -31,15 +32,27 @@ States: `[ ]` open · `[~]` in progress · `[x]` done · `[!]` blocked
 Types: `question` · `analysis` · `design`  
 Status: `draft` · `reviewed` · `superseded`
 
+## Reviews
+
+| Phase / target | Reviewed | Verdict | Report | Findings |
+|----------------|----------|---------|--------|----------|
+| 5 — Building Blocks | 2026-05-21 | PASS WITH NOTES | [work/2026-05-21-review-building-blocks.md](./work/2026-05-21-review-building-blocks.md) | 2 |
+
 ## Guardrail findings
 
-| File | Finding | Severity | Phase |
-|------|---------|----------|-------|
-| arc42/building-blocks.md | Direct coupling to payment client without circuit breaker | medium | 5 |
-| arc42/runtime.md | Missing idempotency key on order creation | low | 6 |
+| File | Finding | Severity | Source |
+|------|---------|----------|--------|
+| arc42/building-blocks.md | Direct coupling to payment client without circuit breaker | medium | Guardrail (Phase 5) |
+| arc42/runtime.md | Missing idempotency key on order creation | low | Guardrail (Phase 6) |
 
 ## Session log
 
-### 2026-05-05
-- Completed: All arc42 sections for sample application
+### 2026-06-01 — Session 4
+- Completed: Extensions sample — context/, prompts/, ops/, review example
+- Key decisions: Phase 13 ops/ populated for sample
 - Next: Run maintenance on git diff when source changes
+- Resume prompt: "Continue Blueprint Pattern. Role: maintenance. Read blueprint.md."
+
+### 2026-05-05 — Session 1
+- Completed: All arc42 sections for sample application
+- Next: Architecture Work and Reviews

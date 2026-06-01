@@ -25,6 +25,7 @@ C4Context
 | Section | File |
 |---------|------|
 | Blueprint (progress) | [blueprint.md](./blueprint.md) |
+| Base context | [context/always-on.md](./context/always-on.md) |
 | Interface exports | [interfaces/exports.md](./interfaces/exports.md) |
 | Interface imports | [interfaces/imports.md](./interfaces/imports.md) |
 | Introduction | [arc42/introduction.md](./arc42/introduction.md) |
@@ -32,6 +33,7 @@ C4Context
 | Runtime | [arc42/runtime.md](./arc42/runtime.md) |
 | Decisions | [arc42/decisions/001-async-messaging.md](./arc42/decisions/001-async-messaging.md) |
 | Architecture Work | [work/README.md](./work/README.md) |
+| Operations | [ops/troubleshooting.md](./ops/troubleshooting.md) · [ops/pitfalls.md](./ops/pitfalls.md) |
 | Ecosystem index | [ecosystem-index.md](../../../ecosystem-index.md) |
 
 ## Source code

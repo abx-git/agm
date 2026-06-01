@@ -120,7 +120,7 @@ This is the same "docs as code" principle you may already advocate — The Bluep
 
 ### 3. AI-maintained lifecycle
 
-The Blueprint Pattern defines four distinct operations:
+The Blueprint Pattern defines these operations:
 
 | Operation | Trigger | Outcome |
 |-----------|---------|---------|
@@ -128,6 +128,9 @@ The Blueprint Pattern defines four distinct operations:
 | **Refinement** | Architect request | Targeted deepening of specific sections |
 | **Maintenance** | Meaningful `git diff` | Update only affected files; idempotent |
 | **Architecture Work** | Question, analysis, or design request | Traverses graph; writes to `work/` |
+| **Review** | After generation (fresh session) | Verifies docs against source; reports to `work/` |
+
+**Extensions** (base context, specialized roles, compaction, ops layer) are documented in [Blueprint Pattern Extensions](../blueprint-pattern-extensions.md).
 
 Bootstrap is a one-time investment spread across multiple agent sessions. Maintenance is the ongoing cost — typically minutes per pull request, not hours of manual wiki editing.
 

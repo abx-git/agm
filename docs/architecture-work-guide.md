@@ -4,6 +4,8 @@ Use the compiled Blueprint graph to **answer questions**, run **analyses**, and 
 
 This phase requires a completed or partially completed Bootstrap (arc42 sections and interface contracts exist). On large core systems, keep investing in **Refinement** in parallel — Architecture Work is most reliable when the underlying graph stays current.
 
+For **base context**, **roles**, **compaction**, **review**, and **ops/** see [Blueprint Pattern Extensions](./blueprint-pattern-extensions.md).
+
 ---
 
 ## When to use
@@ -14,6 +16,8 @@ This phase requires a completed or partially completed Bootstrap (arc42 sections
 | *"What are the risks of our payment integration?"* | **Analysis** | Structured findings |
 | *"Design circuit breaker for payment calls"* | **Design** | Proposal + optional ADR draft |
 
+Use `Role: architecture-work` and [role-architecture-work.md](./templates/architecture/prompts/role-architecture-work.md).
+
 ---
 
 ## Folder structure
@@ -22,17 +26,24 @@ This phase requires a completed or partially completed Bootstrap (arc42 sections
 docs/architecture/
 ├── blueprint.md
 ├── entry-point.md
-├── work/                              ← Architecture Work outputs
+├── context/                           ← base context (Extension 1)
+│   ├── always-on.md
+│   └── on-demand.md
+├── prompts/                           ← role extensions (Extension 2)
+├── work/                              ← Architecture Work + Review outputs
 │   ├── README.md                      ← index (optional, agent-maintained)
-│   ├── _template.md                   ← copy for new work items
-│   └── YYYY-MM-DD-<short-slug>.md     ← one file per work item
+│   ├── _template.md
+│   ├── _template-review.md
+│   └── YYYY-MM-DD-<short-slug>.md
 ├── interfaces/
+├── ops/                               ← operational knowledge (Extension 5)
 └── arc42/
 ```
 
 ### File naming
 
 - Format: `YYYY-MM-DD-<short-slug>.md` (e.g. `2026-05-31-payment-circuit-breaker-design.md`)
+- Reviews: `YYYY-MM-DD-review-<slug>.md`
 - Slug: lowercase, hyphens, max ~50 characters
 - One topic per file; supersede old items by setting status `superseded` and linking to the replacement
 
@@ -55,11 +66,30 @@ Register each file in `blueprint.md` under `## Architecture work` with ID `WRK-N
 ## Rules for agents
 
 1. **Read `blueprint.md` and `entry-point.md` first** — then traverse only via Markdown links.
-2. **Do not duplicate** arc42 or interface contract content — link to it.
-3. **Every claim** must appear in the Traceability table with a link to source (arc42 file, `exports.md`, or source file).
-4. **Write output** to `docs/architecture/work/` and **update** `blueprint.md` before stopping.
-5. If a design implies an architectural decision, **draft an ADR** in `arc42/decisions/` and cross-link.
-6. Run referential integrity check on all new links.
+2. **Load** `prompts/role-architecture-work.md` when using this mode.
+3. **Do not duplicate** arc42 or interface contract content — link to it.
+4. **Every claim** must appear in the Traceability table with a link to source (arc42 file, `exports.md`, `ops/`, or source file).
+5. **Write output** to `docs/architecture/work/` and **update** `blueprint.md` before stopping.
+6. If a design implies an architectural decision, **draft an ADR** in `arc42/decisions/` and cross-link.
+7. Run referential integrity check on all new links.
+8. **Compaction:** after long sessions, follow [PROMPT.md § Compaction](../PROMPT.md#1-system-prompt) and update the session log with a resume prompt.
+
+---
+
+## Review (separate from Architecture Work)
+
+**Review** verifies documentation in a **fresh session** using `role-review.md`. It does not replace Architecture Work.
+
+| Review type | When |
+|-------------|------|
+| Phase | After each arc42 phase |
+| Milestone | After Bootstrap |
+| Maintenance | After a maintenance run |
+| Periodic | Scheduled staleness check |
+
+Output → `work/_template-review.md` format; register in `blueprint.md` → `## Reviews`.
+
+See [PROMPT.md §5 Review prompts](../PROMPT.md#5-review-prompts).
 
 ---
 
@@ -70,13 +100,14 @@ Register each file in `blueprint.md` under `## Architecture work` with ID `WRK-N
 | Bootstrap | Prerequisite — creates the graph to traverse |
 | Refinement | Updates arc42 when documentation was thin; Work may trigger Refinement |
 | Maintenance | Updates arc42 after code changes; Work does not replace Maintenance |
+| Review | Retrospective verification; may reference Work outputs |
 | ADR | Design work may produce ADR drafts for human review |
 
 ---
 
 ## Human review
 
-Architecture Work outputs are **drafts for review**. The architect approves, rejects, or promotes findings into arc42, ADRs, or backlog items.
+Architecture Work outputs are **drafts for review**. The architect approves, rejects, or promotes findings into arc42, ADRs, or backlog items. Prefer the **Review** operation in a separate agent session for systematic verification.
 
 ---
 
