@@ -32,9 +32,19 @@ links to partner exports.md files — never as prose or duplicated content.
 
 ## Documentation structure
 
-Apply arc42 as the documentation template and C4 Model as the diagramming language.
-Render all diagrams as inline Mermaid.js. Every component file contains direct backlinks
-to its source files.
+Prefer arc42 as the documentation template and the C4 model as the diagramming language
+when they fit the project. Neither is mandatory — teams may rename, merge, or omit sections —
+but together they are a proven basis for structured architecture documentation. Render all
+diagrams as inline Mermaid.js. Every component file contains direct backlinks to its source
+files.
+
+In arc42/introduction.md, include a **Documentation template** section that states whether
+arc42/C4 are used and why; attribute
+[arc42](https://arc42.org) (Gernot Starke, Peter Hruschka,
+[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)) and the
+[C4 model](https://c4model.com/) (Simon Brown); note if official arc42 template wording
+was reused or adapted. Application-specific content remains under the repository license —
+not the arc42 template license.
 
 Structural additions beyond arc42/C4:
 - interfaces/exports.md — unique IDs per API, Event, or Service this app provides

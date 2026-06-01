@@ -14,7 +14,7 @@ Bestehende Ansätze (RAG, GraphRAG, Confluence, MkDocs) lösen jeweils nur Teile
 
 ## Die Lösung
 
-Das Blueprint Pattern ist ein **Dokumentationsmuster**, kein Produkt: ein Markdown-Link-Graph in `docs/architecture/`, gepflegt von AI-Agenten, versioniert in Git, strukturiert nach **arc42** und **C4**.
+Das Blueprint Pattern ist ein **Dokumentationsmuster**, kein Produkt: ein Markdown-Link-Graph in `docs/architecture/`, gepflegt von AI-Agenten, versioniert in Git — oft strukturiert nach **arc42** und **C4** (empfohlen, aber nicht Pflicht; gute Basis für strukturierte Architekturdokumentation).
 
 **Kernidee:** Architekturwissen einmal **kompilieren**, dann deterministisch **traversieren** — nicht per Embedding-Suche zur Laufzeit abrufen.
 

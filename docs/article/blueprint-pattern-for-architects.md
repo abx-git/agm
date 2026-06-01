@@ -355,7 +355,7 @@ The Blueprint Pattern shares the RAG-free, Markdown-first philosophy of **Karpat
 | Agent tooling (MCP) | Yes | No | Varies | No |
 | Cross-session state | Blueprint file | Manual | No | No |
 
-The Blueprint Pattern deliberately builds on **existing standards** — arc42 for structure, C4 for diagrams, ADRs for decisions — rather than inventing a parallel notation.
+The Blueprint Pattern deliberately builds on **existing standards** — arc42 for structure, C4 for diagrams, ADRs for decisions — rather than inventing a parallel notation. arc42 and C4 are **recommended defaults**, not requirements; teams may adapt or replace them, but they are a proven basis for structured architecture documentation.
 
 ---
 

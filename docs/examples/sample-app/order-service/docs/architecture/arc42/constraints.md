@@ -13,5 +13,5 @@
 
 ## Conventions
 
-- arc42 for structure, C4 for diagrams
+- arc42 for structure (Starke, Hruschka); C4 for diagrams (Simon Brown) — see [introduction.md](./introduction.md#documentation-template)
 - Unique interface IDs: `API-ORD-*`, `EVT-ORD-*`
