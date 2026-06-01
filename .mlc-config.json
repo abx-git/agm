@@ -1,0 +1,7 @@
+{
+  "ignorePatterns": [],
+  "retryOn429": true,
+  "retryCount": 3,
+  "timeout": "10s",
+  "aliveStatusCodes": [200, 206]
+}
