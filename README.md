@@ -12,13 +12,16 @@ Documentation pattern (not a product): compile architecture into linked Markdown
 
 | Document | Purpose |
 |----------|---------|
-| **[Guide](./docs/guide.md)** | **Start here** — full procedure |
+| **[Adoption kit](https://github.com/abx-git/blueprint-pattern/releases/latest/download/blueprint-pattern-adopt.zip)** | **Download** — unpack at app repo root |
+| **[Guide](./docs/guide.md)** | Full procedure |
 | **[Typical dialog](./docs/typical-dialog.md)** | Example sessions; prompt types explained |
 | **[Assistant](https://abx-git.github.io/blueprint-pattern.github.io/)** | Minimal workflow UI — Create (5 steps) · Use (modes) |
 
 ```bash
-./scripts/bp-workflow.sh checkout bootstrap-init   # then open a new agent chat
-./scripts/open-assistant.sh                        # browse & copy workflows (browser)
+# Download adoption kit → unzip at app repo root → see ADOPT.md
+./scripts/bp-workflow.sh checkout bootstrap-init
+./scripts/open-assistant.sh                        # workflow UI (browser)
+./scripts/build-adoption-package.sh                # build zip locally
 ```
 
 Optional: [Gen AI challenges](./docs/gen-ai-challenges.md) · [Architects article](./docs/article/blueprint-pattern-for-architects.md) · [Sample app](./docs/examples/sample-app/)

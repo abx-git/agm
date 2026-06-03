@@ -58,11 +58,14 @@ Workflow source files: [prompts/workflows/](../prompts/workflows/). Optional: co
 
 ## Setup (once, ~30 min)
 
-1. Copy [docs/templates/architecture/](../docs/templates/architecture/) → `docs/architecture/` in your app.
-2. Fill `docs/architecture/context/always-on.md`.
-3. Copy [core system prompt](../prompts/core/system-prompt.md) into Cursor / Claude / Copilot rules ([tool notes](../prompts/reference/base-context-setup.md)).
-4. `checkout bootstrap-init` → new chat → agent creates `blueprint.md` and first sections.
-5. Enable [CI link check](../prompts/reference/ci-integrity.md) on the app repo.
+**Adoption kit (recommended):** [Download `blueprint-pattern-adopt.zip`](https://github.com/abx-git/blueprint-pattern/releases/latest/download/blueprint-pattern-adopt.zip) — unpack at your application repository root. Read `ADOPT.md` in the archive.
+
+Or build locally: `./scripts/build-adoption-package.sh`
+
+1. Fill `docs/architecture/context/always-on.md`.
+2. Copy `ide/cursor/*.mdc` from the kit to `.cursor/rules/` (or wire [core system prompt](../prompts/core/system-prompt.md) for your IDE — [tool notes](../prompts/reference/base-context-setup.md)).
+3. `checkout bootstrap-init` → new chat → agent creates `blueprint.md` and first sections.
+4. Enable [CI link check](../prompts/reference/ci-integrity.md) on the app repo.
 
 **Template** (record in `entry-point.md`): `arc42` (default) · `c4-light` · `adr-first` · `lean-service` · `custom`.
 
