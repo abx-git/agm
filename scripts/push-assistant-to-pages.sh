@@ -25,6 +25,7 @@ cleanup() {
 trap cleanup EXIT
 
 echo "Pushing to ${REMOTE} ${BRANCH} (contents of docs/assistant/ at repo root)…"
-git push "$REMOTE" "${SPLIT_BRANCH}:${BRANCH}"
+# Pages repo history is unrelated to subtree splits; --force-with-lease is safe for deploy-only main.
+git push --force-with-lease "$REMOTE" "${SPLIT_BRANCH}:${BRANCH}"
 
 echo "Done. Site: https://abx-git.github.io/blueprint-pattern.github.io/"
