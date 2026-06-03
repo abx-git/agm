@@ -7,4 +7,4 @@ Follow the Blueprint Pattern core prompt in [prompts/core/system-prompt.md](../.
 Active session: [prompts/workflows/ACTIVE.md](../../prompts/workflows/ACTIVE.md) (set via `./scripts/bp-workflow.sh checkout <id>`).
 
 Human-in-the-loop scribe only. Read order: always-on.md → blueprint.md → role prompt.
-Output semantic anchors before stopping. Extensions: [docs/blueprint-pattern-extensions.md](../../docs/blueprint-pattern-extensions.md)
+Output semantic anchors before stopping. Procedure: [docs/guide.md](../../docs/guide.md)

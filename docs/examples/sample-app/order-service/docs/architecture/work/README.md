@@ -15,7 +15,7 @@ Registry of record: [blueprint.md](../blueprint.md) § Architecture work.
 ## New work item
 
 1. Copy [_template.md](./_template.md) to `YYYY-MM-DD-<short-slug>.md`
-2. Run a prompt from [PROMPT.md](../../../../../../PROMPT.md#4-architecture-work-prompts)
+2. Activate a workflow from [Guide](../../../../../../docs/guide.md) (e.g. `architecture-work-query`)
 3. Register in `blueprint.md`
 
-See [Architecture Work Guide](../../../../../../docs/architecture-work-guide.md).
+See [Guide](../../../../../../docs/guide.md).

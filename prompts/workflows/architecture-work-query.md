@@ -5,7 +5,6 @@
 | **When** | Answer a specific architecture question using the graph |
 | **Role** | `architecture-work` |
 | **Prerequisite** | Bootstrap phase 0 `[x] done`; `entry-point.md` exists |
-| **Git branch** | `workflow/architecture-work-query` |
 
 ## Session prompt
 

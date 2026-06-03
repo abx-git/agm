@@ -5,7 +5,6 @@
 | **When** | Targeted deepening of specific arc42 sections (ongoing on large systems) |
 | **Role** | `bootstrap` (same role file; scoped steps) |
 | **Fresh session** | Optional |
-| **Git branch** | `workflow/refinement` |
 
 ## Session prompt
 

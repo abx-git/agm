@@ -28,8 +28,7 @@ Examples:
   $(basename "$0") checkout maintenance
   $(basename "$0") checkout architecture-work-query
 
-Git alternative (without script):
-  git checkout origin/workflow/maintenance -- prompts/workflows/ACTIVE.md .cursor/rules/blueprint-active-workflow.mdc
+Procedure: docs/guide.md
 EOF
 }
 
@@ -105,7 +104,7 @@ description: Blueprint Pattern — no active workflow
 alwaysApply: false
 ---
 
-Select a workflow: see [prompts/README.md](../../prompts/README.md).
+Select a workflow: see [docs/guide.md](../../docs/guide.md).
 Run `./scripts/bp-workflow.sh checkout <id>`.
 EOF
 

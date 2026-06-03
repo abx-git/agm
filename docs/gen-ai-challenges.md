@@ -8,9 +8,7 @@ This document answers three questions for each common problem:
 2. **What can the organization fix?** (policy, ownership, rituals)
 3. **What remains unsolvable?** (inherent LLM and static-doc limits)
 
-Use the [Quick start guide](./quick-start-guide.md) for daily steps. Use **this document** for governance workshops, retrospectives, and setting expectations with leadership.
-
-See also: [Extensions](./blueprint-pattern-extensions.md)
+Use the [Guide](./guide.md) for daily steps. Use **this document** for governance workshops, retrospectives, and setting expectations with leadership.
 
 ---
 
@@ -184,7 +182,7 @@ Most tooling lets you open a blank chat. Without a task boundary, the model defa
 | **Wrong operation** | Distinct workflow IDs per operation | Mitigated | Yes | Ticket labels and training on quick start table |
 | **Parallel agents** | Documented sequential sessions per Blueprint | Awareness | Yes | One doc agent per app; branch per doc effort |
 | **Workflow switching mid-session** | Core prompt: do not switch unless human asks | Partial | Yes | New ticket when operation changes mid-flight |
-| **Compaction too late** | Heuristic thresholds in extensions | Partial | Partial | Time-box (e.g. 90 minutes) for architecture sessions |
+| **Compaction too late** | Heuristic thresholds in the [Guide](./guide.md) | Partial | Partial | Time-box (e.g. 90 minutes) for architecture sessions |
 
 **In practice — parallel agents:** `blueprint.md` is a merge hotspot. Two chats updating phase state or WRK IDs will conflict like any shared config file. This is not fixable by better prompts; it is **WIP control** — same as avoiding two people editing migration scripts without coordination.
 
@@ -234,7 +232,7 @@ The core prompt states the agent is a **scribe, not an architect**. That is a no
 |---------|------------------|--------|------|-------------------------|
 | **Autonomous architect** | Scribe mode; human review in guides | Mitigated | Yes | Named approver for ADRs and phase `[x]` |
 | **False confidence from anchors** | Structured session output | Awareness | Partial | Training: anchors are not CI unless you build parsers |
-| **No team RACI** | Described in extensions | Awareness | Yes | Published RACI; CODEOWNERS on `docs/architecture/` |
+| **No team RACI** | Owner in `always-on.md` / team policy | Awareness | Yes | Published RACI; CODEOWNERS on `docs/architecture/` |
 | **Review theater** | Verdict and findings in Blueprint | Partial | Yes | FAIL blocks merge or release train |
 | **Promotion without read** | Human review before arc42 promotion | Awareness | Yes | Formal promote step from `work/` |
 
@@ -318,15 +316,15 @@ These items belong in risk registers and executive briefings, not in sales claim
 
 ---
 
-## Quick reference: extensions → problems
+## Quick reference: mechanisms → problems
 
-| Extension | Primary problems targeted | Org. dependency |
+| Mechanism | Primary problems targeted | Org. dependency |
 |-----------|---------------------------|-----------------|
-| Base context (`always-on.md`) | Cold start, forgotten session context | Someone must maintain `always-on.md` when the system changes |
-| Specialized roles | Wrong behavior mix, scope creep | Teams must load the right workflow, not one mega-prompt |
-| Compaction | Context rot, long sessions | Teams must act on session breaks, not ignore hints |
-| Generator–evaluator (Review) | Self-review bias, unchecked claims | Review must be scheduled and taken seriously |
-| Ops layer | Ops knowledge trapped in chat / tickets | Incident process must write to `ops/` |
+| `always-on.md` | Cold start, forgotten session context | Owner maintains it when the system changes |
+| Roles + workflows | Wrong behavior mix, scope creep | `bp-workflow.sh checkout` per session |
+| Compaction | Context rot, long sessions | New chat when thresholds hit |
+| Review (fresh chat) | Self-review bias, unchecked claims | Review scheduled like code review |
+| `ops/` | Ops knowledge trapped in chat / tickets | Incident process writes to `ops/` |
 
 ---
 
@@ -334,7 +332,7 @@ These items belong in risk registers and executive briefings, not in sales claim
 
 1. **Governance workshop (90 min):** Walk sections A, B, and C. Assign an owner and a date for every **Org. Yes** row you accept. Mark **Org. No** items in the risk register as “contain only.”
 2. **Sprint retrospective:** When an agent session fails, classify it: missing policy (A), needed expert time (B), or accepted LLM limit (C). Fix category A before tweaking prompts.
-3. **Onboarding:** Give new architects the [Quick start guide](./quick-start-guide.md) first; give leads this document second.
+3. **Onboarding:** Give new architects the [Guide](./guide.md) first; give leads this document second.
 4. **Do not outsource:** Anything in section C to the agent without human review — regardless of `LINK_CHECK` or model brand.
 
-For day-to-day operation, use the [Quick start guide](./quick-start-guide.md).
+For day-to-day operation, use the [Guide](./guide.md).

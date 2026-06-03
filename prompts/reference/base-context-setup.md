@@ -18,4 +18,4 @@ Copy role prompts from [docs/templates/architecture/prompts/](../../docs/templat
 
 Copy workflow session prompts from [prompts/workflows/](../workflows/) or activate one via git checkout (see [prompts/README.md](../README.md)).
 
-See [Extensions guide](../../docs/blueprint-pattern-extensions.md) for rationale.
+See [Guide](../../docs/guide.md) for the full procedure.

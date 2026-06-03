@@ -30,7 +30,7 @@ Das Blueprint Pattern ist ein **Dokumentationsmuster**, kein Produkt: ein Markdo
 | **Maintenance** | Bei `git diff` | Nur betroffene Dateien aktualisieren |
 | **Architecture Work** | Nach Bootstrap | Fragen, Analysen, Designs → `work/` |
 
-Erweiterungen (Base Context, Rollen, Compaction, Ops): [Extensions (EN)](../blueprint-pattern-extensions.md).
+Verfahren (Kontext, Rollen, Compaction, Ops): [Leitfaden](../de/leitfaden.md).
 
 ---
 
@@ -46,8 +46,7 @@ Nach dem Bootstrap nutzt ihr den Graphen für:
 
 - **Registry:** `blueprint.md` § Architecture work (IDs `WRK-001`, …)
 - **Template:** `work/_template.md`
-- **Anleitung:** [Architecture Work Guide](../../architecture-work-guide.md)
-- **Workflows:** [prompts/README.md](../../prompts/README.md) (git checkout pro Operation)
+- **Workflows:** [prompts/workflows/](../../prompts/workflows/)
 - **Beispiele:** [Sample work/](../examples/sample-app/order-service/docs/architecture/work/)
 
 **Regeln:** Nur über Links traversieren · nichts aus arc42 duplizieren · Traceability-Tabelle pflegen · Designs mit Entscheidungsbedarf → ADR-Entwurf.
@@ -68,10 +67,9 @@ Nach dem Bootstrap nutzt ihr den Graphen für:
 
 ## Einstieg
 
-1. **[Kurzanleitung](../anleitung.md)** — Übersicht und täglicher Ablauf (zuerst lesen)
+1. **[Leitfaden](../de/leitfaden.md)** — gesamtes Verfahren
 2. [Beispiel-Anwendung](../examples/sample-app/) ansehen
-3. Kernprompt + Workflow `bootstrap-init` (siehe Anleitung)
-4. Architecture Work bei Bedarf (`architecture-work-*` Workflows)
+3. `bp-workflow.sh checkout bootstrap-init` → neuer Chat
 
 ---
 

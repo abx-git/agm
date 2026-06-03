@@ -4,7 +4,6 @@
 |-------|-------|
 | **When** | Resume open WRK items in blueprint.md |
 | **Role** | `architecture-work` |
-| **Git branch** | `workflow/architecture-work-continue` |
 
 ## Session prompt
 

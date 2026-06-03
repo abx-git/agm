@@ -5,7 +5,6 @@
 | **When** | After a maintenance run |
 | **Role** | `review` |
 | **Fresh session** | **Required** |
-| **Git branch** | `workflow/review-maintenance` |
 
 ## Session prompt
 

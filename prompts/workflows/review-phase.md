@@ -5,7 +5,6 @@
 | **When** | After each arc42 phase; verify one phase |
 | **Role** | `review` |
 | **Fresh session** | **Required** (no generation context) |
-| **Git branch** | `workflow/review-phase` |
 
 ## Session prompt
 

@@ -21,7 +21,7 @@ These rules provide context and governance for AI-assisted architecture work.
 1. Read `docs/architecture/context/always-on.md` (app identity, source map, session protocol).
 2. Read `docs/architecture/blueprint.md` (current state and next phases).
 3. If `prompts/workflows/ACTIVE.md` defines a workflow, follow it and load the matching `docs/architecture/prompts/role-<role>.md`.
-4. If role is missing and ACTIVE is unset, request a workflow from [prompts/README.md](../../prompts/README.md) or run `./scripts/bp-workflow.sh checkout <id>`.
+4. If role is missing and ACTIVE is unset, request a workflow from [docs/guide.md](../../docs/guide.md) or run `./scripts/bp-workflow.sh checkout <id>`.
 
 ## On session stop
 
@@ -44,4 +44,4 @@ Supported: `arc42` · `c4-light` · `adr-first` · `lean-service` · `custom`
 
 Record selected template and rationale in `entry-point.md` under ## Documentation template.
 
-Core prompt: [prompts/core/system-prompt.md](../../prompts/core/system-prompt.md) · Workflows: [prompts/README.md](../../prompts/README.md)
+Core prompt: [prompts/core/system-prompt.md](../../prompts/core/system-prompt.md) · Procedure: [docs/guide.md](../../docs/guide.md)

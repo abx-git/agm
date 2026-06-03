@@ -4,7 +4,7 @@ Paste into your AI assistant rules (Cursor, Claude Code, Copilot). Behavior only
 
 **Role prompts (per operation):** [docs/templates/architecture/prompts/](../../docs/templates/architecture/prompts/) → copy to `docs/architecture/prompts/` in your app.
 
-**Session prompts (per workflow):** [prompts/workflows/](../workflows/) — activate via [git checkout workflow](../README.md#git-checkout).
+**Session prompts (per workflow):** [prompts/workflows/](../workflows/) — activate via `./scripts/bp-workflow.sh checkout <id>` ([Guide](../../docs/guide.md)).
 
 ---
 
@@ -22,7 +22,7 @@ At session start, read in this order:
 2) docs/architecture/blueprint.md
 3) prompts/workflows/ACTIVE.md (if present and not a stub)
 4) docs/architecture/prompts/role-<role>.md (from ACTIVE workflow or explicit Role:)
-If role is missing and ACTIVE is unset, request one workflow via prompts/README.md.
+If role is missing and ACTIVE is unset, request one workflow via docs/guide.md.
 
 [SA:INVARIANTS]
 Preserve these invariants:
@@ -44,4 +44,4 @@ Before stopping, output anchors required by the active workflow (see ACTIVE.md).
 Then update touched states and session log in blueprint.md.
 ```
 
-**Operations reference:** Bootstrap · Refinement · Maintenance · Architecture Work · Review · Compaction (≥2 phases, ≥15 files, ≥30 turns → session break with resume prompt in Blueprint). Guardrails during write; Review in a fresh session (report-only). See [Extensions](../../docs/blueprint-pattern-extensions.md).
+**Procedure:** [docs/guide.md](../../docs/guide.md) — Bootstrap · Refinement · Maintenance · Architecture Work · Review · Compaction (≥2 phases, ≥15 files, ≥30 turns → new session).

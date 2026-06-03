@@ -9,7 +9,7 @@ Copy into your application as `docs/architecture/` during Bootstrap.
 | [context/always-on.md](./context/always-on.md) | Session orientation |
 | [context/on-demand.md](./context/on-demand.md) | Domain / environment (on demand) |
 | [prompts/role-*.md](./prompts/) | Operational role prompts |
-| `blueprint.md` | State tracking (see [PROMPT.md](../../../PROMPT.md#2-blueprint-file-format)) |
+| `blueprint.md` | State tracking (see [blueprint-format](../../../prompts/reference/blueprint-format.md)) |
 | `entry-point.md` | Navigation + ## Documentation template |
 | `interfaces/exports.md` · `imports.md` | Contracts |
 | [work/](./work/) | Architecture Work + Review |
@@ -31,4 +31,4 @@ Copy into your application as `docs/architecture/` during Bootstrap.
 | [ops/](./ops/) | Operational knowledge |
 | [work/_template-review.md](./work/_template-review.md) | Review reports |
 
-See [Blueprint Pattern Extensions](../../blueprint-pattern-extensions.md) · [PROMPT.md](../../../PROMPT.md) · [Migration guide](../../migration-arc42-only.md).
+See [Guide](../../guide.md) · [Migration guide](../../migration-arc42-only.md).

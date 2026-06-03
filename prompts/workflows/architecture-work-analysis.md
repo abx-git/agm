@@ -5,7 +5,6 @@
 | **When** | Structured analysis (risks, coupling, quality) |
 | **Role** | `architecture-work` |
 | **Prerequisite** | Bootstrap phase 0 `[x] done` |
-| **Git branch** | `workflow/architecture-work-analysis` |
 
 ## Session prompt
 

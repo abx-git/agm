@@ -5,7 +5,6 @@
 | **When** | After Bootstrap milestone |
 | **Role** | `review` |
 | **Fresh session** | **Required** |
-| **Git branch** | `workflow/review-milestone` |
 
 ## Session prompt
 

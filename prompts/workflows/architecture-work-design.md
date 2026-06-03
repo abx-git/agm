@@ -5,7 +5,6 @@
 | **When** | Architecture design proposal |
 | **Role** | `architecture-work` |
 | **Prerequisite** | Bootstrap phase 0 `[x] done` |
-| **Git branch** | `workflow/architecture-work-design` |
 
 ## Session prompt
 

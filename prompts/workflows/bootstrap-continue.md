@@ -5,7 +5,6 @@
 | **When** | Resume arc42 phases after Bootstrap phase 0 is `[x] done` |
 | **Role** | `bootstrap` |
 | **Fresh session** | Optional |
-| **Git branch** | `workflow/bootstrap-continue` |
 
 ## Session prompt
 

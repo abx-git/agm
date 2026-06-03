@@ -15,7 +15,7 @@ No breaking change for existing adopters.
   ```
 
 - Replace role prompts under `docs/architecture/prompts/` with files from [docs/templates/architecture/prompts/role-bootstrap.md](./templates/architecture/prompts/role-bootstrap.md) (and other `role-*.md`).
-- Adopt the compact [core prompt](../PROMPT.md#1-system-prompt) and semantic anchors (`[[ANCHOR:LINK_CHECK]]`, etc.).
+- Adopt the [core prompt](../prompts/core/system-prompt.md) and follow the [Guide](../docs/guide.md).
 
 ## If you want a lighter template
 
@@ -29,7 +29,7 @@ Update `blueprint.md` phase table to match the new template paths. Do not delete
 
 ## Prompt and tool rules
 
-1. Update `PROMPT.md` system prompt (or tool rules) to the new core prompt.
+1. Update IDE rules from [prompts/core/system-prompt.md](../prompts/core/system-prompt.md) and follow the [Guide](../docs/guide.md).
 2. Point Cursor/Copilot/Claude at [`.cursor/rules/`](../.cursor/rules/) or [`.github/copilot-instructions.md`](../.github/copilot-instructions.md).
 3. Ensure `context/always-on.md` exists.
 

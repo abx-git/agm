@@ -27,7 +27,7 @@ This is deterministic graph traversal — no RAG, no guessing.
 1. Open [work/2026-05-10-order-payment-trace.md](./order-service/docs/architecture/work/2026-05-10-order-payment-trace.md) (query example)
 2. Follow links to [analysis](./order-service/docs/architecture/work/2026-05-15-payment-resilience-analysis.md) and [design](./order-service/docs/architecture/work/2026-05-20-payment-circuit-breaker-design.md)
 
-Prompts: [PROMPT.md § Architecture Work](../../PROMPT.md#4-architecture-work-prompts)
+Workflows: [architecture-work-query](../../prompts/workflows/architecture-work-query.md) · [Guide](../../docs/guide.md)
 
 ## Try it as an agent
 

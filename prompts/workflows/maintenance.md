@@ -5,7 +5,6 @@
 | **When** | After code changes; same PR or follow-up session |
 | **Role** | `maintenance` |
 | **Fresh session** | Optional |
-| **Git branch** | `workflow/maintenance` |
 
 ## Session prompt
 

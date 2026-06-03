@@ -5,7 +5,6 @@
 | **When** | First-time setup; no `docs/architecture/blueprint.md` yet |
 | **Role** | `bootstrap` |
 | **Fresh session** | Recommended |
-| **Git branch** | `workflow/bootstrap-init` |
 
 ## Session prompt
 

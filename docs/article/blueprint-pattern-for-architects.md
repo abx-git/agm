@@ -130,11 +130,11 @@ The Blueprint Pattern defines these operations:
 | **Architecture Work** | Question, analysis, or design request | Traverses graph; writes to `work/` |
 | **Review** | After generation (fresh session) | Verifies docs against source; reports to `work/` |
 
-**Extensions** (base context, specialized roles, compaction, ops layer) are documented in [Blueprint Pattern Extensions](../blueprint-pattern-extensions.md).
+Base context, roles, compaction, and ops are part of the [Guide](../guide.md).
 
 Bootstrap is a one-time investment spread across multiple agent sessions. Maintenance is the ongoing cost — typically minutes per pull request, not hours of manual wiki editing.
 
-**Architecture Work** uses the compiled graph to answer questions, run analyses, and draft designs — without rescanning the whole codebase. Results live in `docs/architecture/work/` and are registered in the Blueprint. See the [Architecture Work Guide](../architecture-work-guide.md) and [PROMPT.md](../../PROMPT.md#4-architecture-work-prompts).
+**Architecture Work** uses the compiled graph to answer questions, run analyses, and draft designs — without rescanning the whole codebase. Results live in `docs/architecture/work/` and are registered in the Blueprint. See the [Guide](../guide.md) and [architecture-work workflows](../../prompts/workflows/).
 
 ### 4. Cross-session continuity via Blueprint
 
@@ -195,7 +195,7 @@ Mechanical enforcement via CI (Markdown link checker) catches what agents miss. 
 
 **Prerequisites:**
 
-1. Copy the [system prompt](../../PROMPT.md#1-system-prompt) into your AI assistant:
+1. Copy the [system prompt](../../prompts/core/system-prompt.md) into your AI assistant:
    - Cursor → `.cursor/rules/blueprint-pattern.mdc`
    - Claude Code → `CLAUDE.md`
    - GitHub Copilot → `.github/copilot-instructions.md`
@@ -283,7 +283,7 @@ MCP integration is optional; the Markdown graph works without it.
 | **Analysis** | Evaluate risks, coupling, quality | `analysis` |
 | **Design** | Propose target architecture | `design` (+ optional ADR draft) |
 
-**Example prompts** (full text in [PROMPT.md](../../PROMPT.md#4-architecture-work-prompts)):
+**Example prompts** (full text in [prompts/workflows/](../../prompts/workflows/)):
 
 - *"Blueprint Pattern — Architecture Work (query). Question: How does order-service connect to payment-service?"*
 - *"Blueprint Pattern — Architecture Work (analysis). Topic: payment resilience. Scope: order-service, payment-service."*
@@ -392,7 +392,7 @@ This is not a finished product. Real-world case studies will refine the prompts,
 ## 9. Getting started
 
 1. Read the [sample application](../examples/sample-app/) to see the pattern in action
-2. Copy the [system prompt](../../PROMPT.md#1-system-prompt) into your AI assistant
+2. Copy the [system prompt](../../prompts/core/system-prompt.md) into your AI assistant
 3. Run: *"Bootstrap Blueprint Pattern documentation for this application"*
 4. Add the [CI link checker](../../.github/workflows/blueprint-pattern-integrity.yml) to your repository
 5. Share your experience via a [case study issue](../../.github/ISSUE_TEMPLATE/case-study.md)
