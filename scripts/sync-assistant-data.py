@@ -8,6 +8,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 WF_DIR = ROOT / "prompts" / "workflows"
 OUT = ROOT / "docs" / "assistant" / "workflows.json"
+ADOPT_SRC = ROOT / "prompts" / "adopt-standalone.md"
+ADOPT_OUT = ROOT / "docs" / "assistant" / "adopt-prompt.txt"
 
 ROLE_GROUPS = {
     "bootstrap": "Bootstrap",
@@ -103,6 +105,14 @@ def main() -> int:
 
     OUT.write_text(json.dumps(items, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     print(f"Wrote {len(items)} workflows to {OUT}")
+
+    if ADOPT_SRC.is_file():
+        text = ADOPT_SRC.read_text(encoding="utf-8")
+        block = re.search(r"## Session prompt\s+```\s*\n(.*?)```", text, re.S)
+        prompt = block.group(1).strip() if block else text.strip()
+        ADOPT_OUT.write_text(prompt + "\n", encoding="utf-8")
+        print(f"Wrote adoption prompt to {ADOPT_OUT}")
+
     return 0
 
 

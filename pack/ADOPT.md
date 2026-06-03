@@ -1,21 +1,25 @@
-# Blueprint Pattern — adoption kit
+# Blueprint Pattern — adoption
 
-Unpack this archive at the **root of your application repository**. It adds:
+## Recommended: one adoption prompt
 
-```
-docs/architecture/     documentation templates (fill always-on.md first)
-prompts/               session workflows + core agent prompt
-scripts/bp-workflow.sh activate a workflow per session
-ide/cursor/            optional Cursor rules (copy to .cursor/rules/)
-```
+Open your application repository in an AI IDE. Start a **new chat** and paste the adoption prompt from:
+
+- [prompts/adopt-standalone.md](https://github.com/abx-git/blueprint-pattern/blob/main/prompts/adopt-standalone.md)  
+- or the [Assistant UI](https://abx-git.github.io/blueprint-pattern.github.io/) → **Copy adoption prompt**
+
+The agent downloads this kit, configures `always-on.md`, and runs bootstrap — like executing a setup script.
+
+## Alternative: manual zip
+
+Download [blueprint-pattern-adopt.zip](https://github.com/abx-git/blueprint-pattern/releases/latest/download/blueprint-pattern-adopt.zip), unzip at repo root, then `./scripts/bp-workflow.sh checkout bootstrap-init`.
 
 ## Part 1 — Create documentation
 
-1. **Unpack** at your app repo root (creates the folders above).
-2. **Configure** — edit `docs/architecture/context/always-on.md`; copy `ide/cursor/*.mdc` to `.cursor/rules/`; ensure `prompts/core/system-prompt.md` is referenced in your IDE.
-3. **First session** — `./scripts/bp-workflow.sh checkout bootstrap-init` → new agent chat.
-4. **Follow-up sessions** — `checkout bootstrap-continue` until bootstrap phases in `blueprint.md` are done.
-5. **Close** — `checkout review-milestone` (new chat, report-only).
+| Step | Action |
+|------|--------|
+| 1 | Run adoption prompt (scaffold + bootstrap) **or** unzip kit + `bootstrap-init` |
+| 2+ | `./scripts/bp-workflow.sh checkout bootstrap-continue` — repeat until done |
+| Close | `checkout review-milestone` (new chat, report-only) |
 
 ## Part 2 — Use documentation
 
@@ -29,6 +33,4 @@ ide/cursor/            optional Cursor rules (copy to .cursor/rules/)
 | Deepen a section | `refinement` |
 | Review | `review-maintenance` |
 
-Each session: `checkout <id>` → new chat → review agent output and `blueprint.md`.
-
-Full guide: https://github.com/abx-git/blueprint-pattern/blob/main/docs/guide.md
+Each session: `checkout <id>` → new chat → review `blueprint.md`.

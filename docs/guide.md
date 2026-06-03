@@ -37,7 +37,8 @@ Core rules (once) + ACTIVE workflow (per chat) → agent → docs/architecture/ 
 
 | Goal | Workflow | New chat |
 |------|----------|----------|
-| Create docs | `bootstrap-init` | Yes |
+| Adopt pattern (prompt-driven) | paste [adopt-standalone](../prompts/adopt-standalone.md) or `bootstrap-adopt` | Yes |
+| Create docs (kit already unpacked) | `bootstrap-init` | Yes |
 | Continue arc42 | `bootstrap-continue` | Yes |
 | Deepen one area | `refinement` | Yes |
 | After code change | `maintenance` (+ paste `git diff`) | Yes |
@@ -58,14 +59,13 @@ Workflow source files: [prompts/workflows/](../prompts/workflows/). Optional: co
 
 ## Setup (once, ~30 min)
 
-**Adoption kit (recommended):** [Download `blueprint-pattern-adopt.zip`](https://github.com/abx-git/blueprint-pattern/releases/latest/download/blueprint-pattern-adopt.zip) — unpack at your application repository root. Read `ADOPT.md` in the archive.
+**Recommended — adoption prompt:** open your application repository in the IDE, start a new chat, paste the session prompt from [prompts/adopt-standalone.md](../prompts/adopt-standalone.md) or the [Assistant UI](https://abx-git.github.io/blueprint-pattern.github.io/). The agent downloads the kit, writes `always-on.md`, and runs bootstrap in one session (`bootstrap-adopt`).
 
-Or build locally: `./scripts/build-adoption-package.sh`
+**Alternative — manual kit:** [Download `blueprint-pattern-adopt.zip`](https://github.com/abx-git/blueprint-pattern/releases/latest/download/blueprint-pattern-adopt.zip), unzip at repo root, then `checkout bootstrap-init`.
 
-1. Fill `docs/architecture/context/always-on.md`.
-2. Copy `ide/cursor/*.mdc` from the kit to `.cursor/rules/` (or wire [core system prompt](../prompts/core/system-prompt.md) for your IDE — [tool notes](../prompts/reference/base-context-setup.md)).
-3. `checkout bootstrap-init` → new chat → agent creates `blueprint.md` and first sections.
-4. Enable [CI link check](../prompts/reference/ci-integrity.md) on the app repo.
+Build kit locally: `./scripts/build-adoption-package.sh`
+
+After scaffold exists, use `./scripts/bp-workflow.sh checkout <id>` for later sessions. Enable [CI link check](../prompts/reference/ci-integrity.md) on the app repo.
 
 **Template** (record in `entry-point.md`): `arc42` (default) · `c4-light` · `adr-first` · `lean-service` · `custom`.
 

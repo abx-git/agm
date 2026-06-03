@@ -24,6 +24,8 @@ cp "$ROOT/prompts/core/system-prompt.md" "$STAGING/prompts/core/"
 cp "$ROOT/prompts/workflows/"*.md "$STAGING/prompts/workflows/"
 cp "$ROOT/scripts/bp-workflow.sh" "$STAGING/scripts/"
 cp "$ROOT/pack/ADOPT.md" "$STAGING/ADOPT.md"
+mkdir -p "$STAGING/prompts/reference"
+cp "$ROOT/prompts/reference/adopt-procedure.md" "$STAGING/prompts/reference/"
 
 for f in "$ROOT/.cursor/rules/blueprint-"*.mdc; do
   [[ -f "$f" ]] && cp "$f" "$STAGING/ide/cursor/"

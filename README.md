@@ -12,16 +12,17 @@ Documentation pattern (not a product): compile architecture into linked Markdown
 
 | Document | Purpose |
 |----------|---------|
-| **[Adoption kit](https://github.com/abx-git/blueprint-pattern/releases/latest/download/blueprint-pattern-adopt.zip)** | **Download** — unpack at app repo root |
+| **[Adoption prompt](../prompts/adopt-standalone.md)** | **Start here** — one chat scaffolds and bootstraps |
+| **[Assistant](https://abx-git.github.io/blueprint-pattern.github.io/)** | Copy adoption prompt and session workflows |
+| **[Adoption kit (zip)](https://github.com/abx-git/blueprint-pattern/releases/latest/download/blueprint-pattern-adopt.zip)** | Manual fallback |
 | **[Guide](./docs/guide.md)** | Full procedure |
 | **[Typical dialog](./docs/typical-dialog.md)** | Example sessions; prompt types explained |
 | **[Assistant](https://abx-git.github.io/blueprint-pattern.github.io/)** | Minimal workflow UI — Create (5 steps) · Use (modes) |
 
 ```bash
-# Download adoption kit → unzip at app repo root → see ADOPT.md
-./scripts/bp-workflow.sh checkout bootstrap-init
-./scripts/open-assistant.sh                        # workflow UI (browser)
-./scripts/build-adoption-package.sh                # build zip locally
+# Paste prompts/adopt-standalone.md into a new agent chat (recommended)
+./scripts/bp-workflow.sh checkout bootstrap-continue   # after adoption
+./scripts/open-assistant.sh                            # copy prompts in browser
 ```
 
 Optional: [Gen AI challenges](./docs/gen-ai-challenges.md) · [Architects article](./docs/article/blueprint-pattern-for-architects.md) · [Sample app](./docs/examples/sample-app/)
