@@ -1,17 +1,21 @@
 # Adoption procedure (agent reference)
 
-Used by workflow `bootstrap-adopt` and the standalone adoption prompt.  
-Human-facing summary: [ADOPT.md](../../pack/ADOPT.md).
+Used by workflow `bootstrap-adopt` and the standalone adoption prompt.
 
 ## Phase A — Scaffold (automated)
 
 Run at application repository root:
 
 ```bash
-curl -fsSL -o /tmp/blueprint-pattern-adopt.zip \
-  https://github.com/abx-git/blueprint-pattern/releases/latest/download/blueprint-pattern-adopt.zip
-unzip -o /tmp/blueprint-pattern-adopt.zip -d .
+git clone --depth 1 https://github.com/abx-git/blueprint-pattern.git /tmp/blueprint-pattern
+mkdir -p docs/architecture scripts prompts .cursor/rules
+cp -R /tmp/blueprint-pattern/docs/templates/architecture/* docs/architecture/
+cp /tmp/blueprint-pattern/scripts/bp-workflow.sh scripts/
+cp -R /tmp/blueprint-pattern/prompts/core prompts/
+cp -R /tmp/blueprint-pattern/prompts/workflows prompts/
+cp /tmp/blueprint-pattern/.cursor/rules/blueprint-*.mdc .cursor/rules/ 2>/dev/null || true
 chmod +x scripts/bp-workflow.sh
+rm -rf /tmp/blueprint-pattern
 ```
 
 Expected layout:
@@ -21,15 +25,13 @@ docs/architecture/     templates + role prompts
 prompts/core/          system-prompt.md
 prompts/workflows/     session workflows
 scripts/bp-workflow.sh workflow checkout
-ide/cursor/            optional Cursor rules
-ADOPT.md
+.cursor/rules/         optional Cursor rules (when copied)
 ```
 
 ## Phase B — Configure
 
 1. Write `docs/architecture/context/always-on.md` from human input.
-2. Copy `ide/cursor/*.mdc` → `.cursor/rules/` when applicable.
-3. Ensure `prompts/core/system-prompt.md` is wired into IDE rules.
+2. Ensure `prompts/core/system-prompt.md` is wired into IDE rules.
 
 ## Phase C — Bootstrap
 

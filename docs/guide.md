@@ -38,8 +38,7 @@ Core rules (once) + ACTIVE workflow (per chat) → agent → docs/architecture/ 
 | Goal | Workflow | New chat |
 |------|----------|----------|
 | Adopt pattern (prompt-driven) | paste [adopt-standalone](../prompts/adopt-standalone.md) or `bootstrap-adopt` | Yes |
-| Create docs (kit already unpacked) | `bootstrap-init` | Yes |
-| Continue arc42 | `bootstrap-continue` | Yes |
+| Continue bootstrap | `bootstrap-continue` | Yes |
 | Deepen one area | `refinement` | Yes |
 | After code change | `maintenance` (+ paste `git diff`) | Yes |
 | Question | `architecture-work-query` | Yes |
@@ -59,11 +58,7 @@ Workflow source files: [prompts/workflows/](../prompts/workflows/). Optional: co
 
 ## Setup (once, ~30 min)
 
-**Recommended — adoption prompt:** open your application repository in the IDE, start a new chat, paste the session prompt from [prompts/adopt-standalone.md](../prompts/adopt-standalone.md) or the [Assistant UI](https://abx-git.github.io/blueprint-pattern.github.io/). The agent downloads the kit, writes `always-on.md`, and runs bootstrap in one session (`bootstrap-adopt`).
-
-**Alternative — manual kit:** [Download `blueprint-pattern-adopt.zip`](https://github.com/abx-git/blueprint-pattern/releases/latest/download/blueprint-pattern-adopt.zip), unzip at repo root, then `checkout bootstrap-init`.
-
-Build kit locally: `./scripts/build-adoption-package.sh`
+**Recommended — adoption prompt:** open your application repository in the IDE, start a new chat, paste the session prompt from [prompts/adopt-standalone.md](../prompts/adopt-standalone.md) or the [Assistant UI](https://abx-git.github.io/blueprint-pattern.github.io/). The agent scaffolds from the pattern repository, writes `always-on.md`, and runs bootstrap in one session.
 
 After scaffold exists, use `./scripts/bp-workflow.sh checkout <id>` for later sessions. Enable [CI link check](../prompts/reference/ci-integrity.md) on the app repo.
 

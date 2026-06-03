@@ -14,7 +14,6 @@ Documentation pattern (not a product): compile architecture into linked Markdown
 |----------|---------|
 | **[Adoption prompt](../prompts/adopt-standalone.md)** | **Start here** — one chat scaffolds and bootstraps |
 | **[Assistant](https://abx-git.github.io/blueprint-pattern.github.io/)** | Copy adoption prompt and session workflows |
-| **[Adoption kit (zip)](https://github.com/abx-git/blueprint-pattern/releases/latest/download/blueprint-pattern-adopt.zip)** | Manual fallback |
 | **[Guide](./docs/guide.md)** | Full procedure |
 | **[Typical dialog](./docs/typical-dialog.md)** | Example sessions; prompt types explained |
 | **[Assistant](https://abx-git.github.io/blueprint-pattern.github.io/)** | Minimal workflow UI — Create (5 steps) · Use (modes) |
