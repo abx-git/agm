@@ -3,6 +3,8 @@
 Copy everything below the line into a new agent chat at your application repository root.  
 The agent **writes** the folder structure, configuration, and first documentation — no download, no checkout script.
 
+**Assistant UI:** [Configure parameters](https://abx-git.github.io/blueprint-pattern.github.io/) (template, app name, stack, …) — the UI injects an **Adoption parameters** block into the copied prompt.
+
 ---
 
 ## Session prompt
@@ -19,9 +21,9 @@ Prerequisites: application repository open in the IDE; human available for a sho
 Instructions:
 1. If docs/architecture/blueprint.md already exists, stop and tell the human to paste the bootstrap-continue session prompt in a new chat instead.
 2. Execute Phase A–C in prompts/reference/adopt-procedure.md (bundled below if not in repo): write all files directly — no git clone, zip, curl, or bp-workflow.sh.
-3. Interview the human briefly. Write docs/architecture/context/always-on.md.
+3. If an **Adoption parameters** block is present below, use it for always-on.md and entry-point.md; interview only for missing facts.
 4. Remind the human to install prompts/core/system-prompt.md in IDE rules (once).
-5. Bootstrap: follow docs/architecture/prompts/role-bootstrap.md — template selection, blueprint.md, entry-point.md, interfaces/, first evidence-based section.
+5. Bootstrap: follow docs/architecture/prompts/role-bootstrap.md — use the selected documentation template, create blueprint.md, entry-point.md, interfaces/, first evidence-based section.
 6. Verify relative links. Append a session log entry to blueprint.md.
 
 Output [[ANCHOR:CHANGED_FILES]], [[ANCHOR:TEMPLATE_SELECTED]], [[ANCHOR:PHASE_STATUS]], [[ANCHOR:OPEN_QUESTIONS]], [[ANCHOR:LINK_CHECK]] before stop.

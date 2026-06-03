@@ -33,7 +33,7 @@ Rules:
 
 ## Phase B — Configure
 
-Interview the human (application name, purpose, stack, key paths, external systems). Write `docs/architecture/context/always-on.md`.
+If the session prompt includes an **Adoption parameters** block, write `docs/architecture/context/always-on.md` from those values. Interview the human only for gaps (source paths, external systems, team conventions).
 
 Remind the human to paste `prompts/core/system-prompt.md` into IDE rules (once).
 
