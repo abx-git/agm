@@ -4,7 +4,7 @@
 
 **Repository:** [github.com/abx-git/blueprint-pattern](https://github.com/abx-git/blueprint-pattern)
 
-Documentation pattern (not a product): compile architecture into linked Markdown in `docs/architecture/`, navigate by explicit links, keep current via `git diff` and agent **workflows**.
+Compile architecture into linked Markdown in `docs/architecture/`, navigate by explicit links, maintain through a **three-phase lifecycle** with agent session prompts.
 
 ---
 
@@ -12,48 +12,47 @@ Documentation pattern (not a product): compile architecture into linked Markdown
 
 | Document | Purpose |
 |----------|---------|
-| **[Adoption prompt](../prompts/adopt-standalone.md)** | **Start here** — one chat scaffolds and bootstraps |
-| **[Assistant](https://abx-git.github.io/blueprint-pattern.github.io/)** | Copy adoption prompt and session workflows |
-| **[Guide](./docs/guide.md)** | Full procedure |
-| **[Typical dialog](./docs/typical-dialog.md)** | Example sessions; prompt types explained |
-| **[Assistant](https://abx-git.github.io/blueprint-pattern.github.io/)** | Minimal workflow UI — Create (5 steps) · Use (modes) |
+| **[Assistant](https://abx-git.github.io/blueprint-pattern.github.io/)** | **Start here** — Build · Evolve · Work + copy prompts |
+| **[Adoption prompt](./prompts/adopt-standalone.md)** | Paste into first agent chat (or use Assistant form) |
+| **[Guide](./docs/guide.md)** | Lifecycle, core files, full procedure |
 
 ```bash
-# Paste prompts/adopt-standalone.md into a new agent chat (recommended)
-./scripts/open-assistant.sh   # copy adoption + session prompts in browser
+./scripts/open-assistant.sh   # local UI at http://localhost:8765
 ```
 
-Optional: [Gen AI challenges](./docs/gen-ai-challenges.md) · [Architects article](./docs/article/blueprint-pattern-for-architects.md) · [Sample app](./docs/examples/sample-app/)
+Optional: [Typical dialog](./docs/typical-dialog.md) · [Gen AI challenges](./docs/gen-ai-challenges.md) · [Sample app](./docs/examples/sample-app/)
 
 ---
 
-## In one sentence
+## Three phases
 
-Agents excel at single files but fail on cross-cutting architecture; this pattern **compiles** knowledge into a repo graph and **maintains** it with scoped workflows (`maintenance`, `review`, …).
+| Phase | What | Lead file |
+|-------|------|-----------|
+| **1 · Build** | Create doc graph iteratively (bootstrap) | `blueprint.md` — construction plan |
+| **2 · Evolve** | Refine sections, sync with `git diff` | `entry-point.md` + template chapters |
+| **3 · Work** | Questions, analysis, design on compiled graph | `work/` + WRK in `blueprint.md` |
 
 ---
 
-## Repository layout (your application)
+## Core files (your application)
 
 ```
 docs/architecture/
-├── blueprint.md       ← phase & session state (not the architecture itself)
-├── entry-point.md
-├── context/           ← always-on.md
-├── prompts/           ← role-*.md
-├── work/
-├── interfaces/
-├── ops/
-└── arc42/             ← or c4-light/, adr-first/, lean-service/
+├── context/always-on.md   ← session context (every chat)
+├── blueprint.md           ← construction plan + progress + WRK + session log
+├── entry-point.md         ← human entry, navigation, source links
+├── interfaces/            ← exports.md, imports.md
+├── work/                  ← architecture work + review reports
+└── arc42/                 ← or c4-light/, adr-first/, lean-service/
 ```
 
 Templates: [docs/templates/architecture/](./docs/templates/architecture/). Core agent rules: [prompts/core/system-prompt.md](./prompts/core/system-prompt.md).
 
 ---
 
-## Scale
+## In one sentence
 
-Mid-sized apps (~10k–100k LOC) are the easiest start. Large systems: phased bootstrap per domain, **continuous refinement**, one agent session at a time on `blueprint.md`. See [AUTHORS.md](./AUTHORS.md#field-experience).
+Agents excel at single files but fail on cross-cutting architecture; this pattern **compiles** knowledge into a repo graph, **builds** it phase by phase, **evolves** it with maintenance, and **works** from it for architecture tasks.
 
 ---
 

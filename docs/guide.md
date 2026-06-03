@@ -6,16 +6,30 @@ Architecture documentation as a **Markdown link graph** in `docs/architecture/`,
 
 ---
 
+## Lifecycle (three phases)
+
+| Phase | Goal | Typical workflows | Lead file |
+|-------|------|-------------------|-----------|
+| **1 · Build** | Create the doc graph iteratively | `bootstrap-adopt`, `bootstrap-continue`, `review-milestone` | **`blueprint.md`** — construction plan: phase → target file |
+| **2 · Evolve** | Deepen or sync docs with code | `refinement`, `maintenance` (+ `git diff`) | Graph + **`entry-point.md`**; agent updates **`blueprint.md`** |
+| **3 · Work** | Use the compiled graph | `architecture-work-query`, `-analysis`, `-design`, `-continue` | Traverse links; write **`work/`**; register WRK in **`blueprint.md`** |
+
+**Review** (`review-phase`, `review-milestone`, `review-maintenance`) applies in all phases — report-only, always a **new chat**.
+
+---
+
 ## Terms (read once)
 
 | Term | Meaning |
 |------|---------|
 | **Graph** | Linked docs: `entry-point.md`, template folders (e.g. `arc42/`), `interfaces/`, `work/`, `ops/` |
-| **`blueprint.md`** | Session **backlog**: phase status, WRK registry, reviews, session log — not the full architecture |
-| **Blueprint Pattern** | The whole method: graph + operations + agent rules |
+| **`always-on.md`** | Stable session context: app identity, stack, source map — read every session |
+| **`blueprint.md`** | **Construction plan** for the doc graph: phase → target file, status, WRK, reviews, session log — not architecture body text |
+| **`entry-point.md`** | Human-facing entry: overview, navigation, source links — same map as blueprint, **no** status or session log |
+| **Blueprint Pattern** | The whole method: graph + lifecycle + agent rules |
 | **Core prompt** | Permanent agent behavior → [prompts/core/system-prompt.md](../prompts/core/system-prompt.md) |
 | **Session prompt** | This chat’s task — paste from [Assistant UI](https://abx-git.github.io/blueprint-pattern.github.io/) or [prompts/workflows/](../prompts/workflows/) |
-| **Role** | Step-by-step procedure → `docs/architecture/prompts/role-*.md` (agent reads; you pick the session prompt only) |
+| **Role** | Step-by-step procedure → `docs/architecture/prompts/role-*.md` |
 
 ```text
 Core rules (once) + session prompt (per chat) → agent → docs/architecture/ → update blueprint.md
@@ -33,21 +47,40 @@ Core rules (once) + session prompt (per chat) → agent → docs/architecture/ �
 
 ---
 
-## Operations
+## Operations by lifecycle phase
+
+### 1 · Build
 
 | Goal | Workflow | New chat |
 |------|----------|----------|
-| Adopt pattern (prompt-driven) | paste [adopt-standalone](../prompts/adopt-standalone.md) or `bootstrap-adopt` | Yes |
-| Continue bootstrap | `bootstrap-continue` | Yes |
-| Deepen one area | `refinement` | Yes |
-| After code change | `maintenance` (+ paste `git diff`) | Yes |
-| Question | `architecture-work-query` | Yes |
-| Analysis | `architecture-work-analysis` | Yes |
-| Design | `architecture-work-design` | Yes |
-| Open WRK items | `architecture-work-continue` | Yes |
-| Verify (no fixes) | `review-phase` / `review-milestone` / `review-maintenance` | **Required** |
+| Adopt pattern | paste [adopt-standalone](../prompts/adopt-standalone.md) or `bootstrap-adopt` | Yes |
+| Continue next blueprint phase | `bootstrap-continue` | Yes |
+| Close build phase | `review-milestone` | **Required** |
 
-Session prompt source files: [prompts/workflows/](../prompts/workflows/). Copy the session block into a new chat — no checkout script in the application repo.
+### 2 · Evolve
+
+| Goal | Workflow | New chat |
+|------|----------|----------|
+| Deepen one section | `refinement` | Yes |
+| After code change | `maintenance` (+ paste `git diff`) | Yes |
+
+### 3 · Work
+
+| Goal | Workflow | New chat |
+|------|----------|----------|
+| Answer question | `architecture-work-query` | Yes |
+| Analysis | `architecture-work-analysis` | Yes |
+| Design proposal | `architecture-work-design` | Yes |
+| Open WRK items | `architecture-work-continue` | Yes |
+
+### Review (all phases)
+
+| Goal | Workflow | New chat |
+|------|----------|----------|
+| Verify one phase | `review-phase` | **Required** |
+| Verify after maintenance | `review-maintenance` | **Required** |
+
+Session prompt source files: [prompts/workflows/](../prompts/workflows/). Copy the session block into a new chat — no checkout script in application repos.
 
 *(Optional in this pattern repository only: `./scripts/bp-workflow.sh checkout <id>` writes `ACTIVE.md` for Cursor rule integration.)*
 
@@ -55,9 +88,9 @@ Session prompt source files: [prompts/workflows/](../prompts/workflows/). Copy t
 
 ## Setup (once, ~30 min)
 
-**Recommended — adoption prompt:** open your application repository in the IDE, start a new chat, paste the session prompt from [prompts/adopt-standalone.md](../prompts/adopt-standalone.md) or the [Assistant UI](https://abx-git.github.io/blueprint-pattern.github.io/). The agent **writes** the folder structure, `always-on.md`, and `blueprint.md` in one session — no git clone, zip, or checkout script.
+**Recommended — adoption prompt:** open your application repository in the IDE, start a new chat, paste from [prompts/adopt-standalone.md](../prompts/adopt-standalone.md) or the [Assistant UI](https://abx-git.github.io/blueprint-pattern.github.io/). The agent writes **`always-on.md`**, **`blueprint.md`** (construction plan), **`entry-point.md`**, template scaffold, and the first section — no git clone or checkout script.
 
-After scaffold exists, copy session prompts for later chats. Enable [CI link check](../prompts/reference/ci-integrity.md) on the app repo.
+After scaffold exists, copy session prompts per lifecycle phase. Enable [CI link check](../prompts/reference/ci-integrity.md) on the app repo.
 
 **Template** (record in `entry-point.md`): `arc42` (default) · `c4-light` · `adr-first` · `lean-service` · `custom`.
 
@@ -77,8 +110,8 @@ After scaffold exists, copy session prompts for later chats. Enable [CI link che
 
 ```
 docs/architecture/
-├── blueprint.md      ← progress & session log
-├── entry-point.md
+├── blueprint.md      ← construction plan + session state
+├── entry-point.md    ← human entry + navigation + source links
 ├── context/          ← always-on.md, on-demand.md
 ├── prompts/          ← role-*.md (from templates)
 ├── work/             ← questions, analyses, designs, reviews
@@ -87,7 +120,7 @@ docs/architecture/
 └── arc42/            ← or c4-light/, adr-first/, lean-service/
 ```
 
-Architecture Work: traverse **links only**; write `work/YYYY-MM-DD-<slug>.md`; register `WRK-NNN` in `blueprint.md`; link to arc42, do not duplicate.
+Architecture Work (phase 3): traverse **links only**; write `work/YYYY-MM-DD-<slug>.md`; register `WRK-NNN` in `blueprint.md`; link to template sections, do not duplicate.
 
 ---
 
@@ -96,6 +129,8 @@ Architecture Work: traverse **links only**; write `work/YYYY-MM-DD-<slug>.md`; r
 | Mechanism | Purpose |
 |-----------|---------|
 | `always-on.md` | Stable app facts every session |
+| `blueprint.md` | Construction plan + progress across sessions |
+| `entry-point.md` | Human-readable entry and navigation |
 | Roles | Same steps per operation family; workflows vary the task |
 | Review (fresh chat, report-only) | Separate generation from verification |
 | `ops/` | Runbooks and pitfalls beside arc42 |
@@ -116,4 +151,4 @@ Architecture Work: traverse **links only**; write `work/YYYY-MM-DD-<slug>.md`; r
 
 ---
 
-**One-liner:** One core prompt, one session prompt per chat, one graph in `docs/architecture/`, `blueprint.md` for state.
+**One-liner:** Build the graph (blueprint plan) → evolve it (refine, maintain) → work from it (architecture work) — one session prompt per chat.

@@ -9,8 +9,8 @@ Copy into your application as `docs/architecture/` during Bootstrap.
 | [context/always-on.md](./context/always-on.md) | Session orientation |
 | [context/on-demand.md](./context/on-demand.md) | Domain / environment (on demand) |
 | [prompts/role-*.md](./prompts/) | Operational role prompts |
-| `blueprint.md` | State tracking (see [blueprint-format](../../../prompts/reference/blueprint-format.md)) |
-| `entry-point.md` | Navigation + ## Documentation template |
+| `blueprint.md` | Construction plan + state (see [blueprint-format](../../../prompts/reference/blueprint-format.md)) |
+| `entry-point.md` | Human entry: overview, navigation, source links + ## Documentation template |
 | `interfaces/exports.md` · `imports.md` | Contracts |
 | [work/](./work/) | Architecture Work + Review |
 

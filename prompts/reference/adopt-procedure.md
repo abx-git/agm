@@ -19,7 +19,8 @@ docs/architecture/
 ├── work/_template-review.md
 ├── interfaces/exports.md     ← stub table
 ├── interfaces/imports.md     ← stub table
-├── entry-point.md            ← stub; completed in Phase C
+├── blueprint.md              ← construction plan; phase table in Phase C
+├── entry-point.md            ← human entry; completed in Phase C
 └── <template>/               ← arc42 (default) | c4-light | adr-first | lean-service
 prompts/core/system-prompt.md ← core agent rules (see appendix A)
 ```
@@ -33,7 +34,13 @@ Rules:
 
 ## Phase B — Configure
 
-If the session prompt includes an **Adoption parameters** block, write `docs/architecture/context/always-on.md` from those values. Interview the human only for gaps (source paths, external systems, team conventions).
+If the session prompt includes an **Adoption parameters** block (with **File roles**), create three separate files — do not merge:
+
+| File | Write |
+|------|-------|
+| `context/always-on.md` | Session context from parameters; interview only for gaps |
+| `blueprint.md` | Construction plan: phase rows for selected template, initial `[ ]` / `[~]` states |
+| `entry-point.md` | Overview stub, navigation table, links to template sections and source paths |
 
 Remind the human to paste `prompts/core/system-prompt.md` into IDE rules (once).
 
@@ -42,17 +49,19 @@ Remind the human to paste `prompts/core/system-prompt.md` into IDE rules (once).
 Follow `docs/architecture/prompts/role-bootstrap.md`:
 
 - Record template in `entry-point.md`.
-- Create `blueprint.md` with phase states.
+- Populate `blueprint.md` phase table; mark first in-progress phase.
 - Populate interfaces/ and the first high-value section from evidence only.
+- Keep blueprint (plan/progress) and entry-point (navigation) in sync.
 - Session log + required anchors at end.
 
-## After adoption
+## Lifecycle after Build (phase 1)
 
-| Next step | Action |
-|-----------|--------|
-| Continue documentation | New chat → paste **bootstrap-continue** session prompt |
-| Close bootstrap | New chat → paste **review-milestone** session prompt |
-| Day-to-day | New chat → paste the matching session prompt (Assistant UI or `prompts/workflows/` in pattern repo) |
+| Phase | Action |
+|-------|--------|
+| **1 · Build** (continue) | `bootstrap-continue` until phases done → `review-milestone` |
+| **2 · Evolve** | `refinement`, `maintenance` (+ git diff) |
+| **3 · Work** | `architecture-work-query`, `-analysis`, `-design`, `-continue` |
+| **Review** (any phase) | `review-phase`, `review-maintenance` — report-only, new chat |
 
 No checkout command — copy the session prompt only.
 

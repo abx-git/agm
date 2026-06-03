@@ -6,6 +6,6 @@
 | EVT-ORD-001 | OrderCreated domain event |
 | EVT-PAY-001 | PaymentCompleted domain event |
 | Blueprint Pattern | Deterministic Markdown link graph for architecture documentation |
-| Blueprint | Session-persistent progress tracker (`blueprint.md`) |
+| Blueprint | Construction plan for the doc graph — phase status, WRK, session log (`blueprint.md`) |
 | Architecture Work | Query, analysis, design using the graph; outputs in `work/` |
 | WRK-NNN | Architecture Work item ID registered in `blueprint.md` |

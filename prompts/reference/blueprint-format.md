@@ -1,6 +1,8 @@
 # Blueprint file format
 
-The agent creates this file during Bootstrap. Phase rows depend on the selected template (`arc42`, `c4-light`, `adr-first`, `lean-service`, `custom`). The table below shows the **arc42** default; see [README § Template selection](../../README.md#template-selection).
+The agent creates this file during Bootstrap. It is the **construction plan** for the documentation graph: which sections exist, where they live, and their completion state. It is not a substitute for template chapter content (arc42, etc.) — that lives in the linked target files and in `entry-point.md`.
+
+Phase rows depend on the selected template (`arc42`, `c4-light`, `adr-first`, `lean-service`, `custom`). The table below shows the **arc42** default; see [README § Template selection](../../README.md#template-selection).
 
 **Path:** `docs/architecture/blueprint.md`
 

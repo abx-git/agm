@@ -1,8 +1,18 @@
 # Typical dialog and prompt types
 
-How a **human ↔ agent** collaboration looks from first documentation through day-to-day work — and why **core**, **workflow**, and **role** are separate (by design, not file sprawl).
+How a **human ↔ agent** collaboration looks across the **three lifecycle phases** — Build, Evolve, Work — and why **core**, **session prompt**, and **role** are separate.
 
 **Procedure:** [Guide](./guide.md) · **Sample app:** [examples/sample-app](./examples/sample-app/)
+
+---
+
+## Lifecycle overview
+
+| Phase | Human goal | Lead file | Example workflows |
+|-------|------------|-----------|-------------------|
+| **1 · Build** | Create doc graph iteratively | `blueprint.md` (construction plan) | adopt, bootstrap-continue, review-milestone |
+| **2 · Evolve** | Deepen or sync with code | `entry-point.md` + chapters | refinement, maintenance |
+| **3 · Work** | Use compiled graph | `work/` + WRK in blueprint | architecture-work-* |
 
 ---
 
@@ -11,13 +21,13 @@ How a **human ↔ agent** collaboration looks from first documentation through d
 | Type | Where | Who maintains | Changes | Purpose |
 |------|-------|---------------|---------|---------|
 | **Core prompt** | IDE rules + [prompts/core/system-prompt.md](../prompts/core/system-prompt.md) | Adopt once from pattern repo | Rarely | **Behavior:** scribe not architect; invariants; read order |
-| **Workflow (session)** | [prompts/workflows/](../prompts/workflows/) → `ACTIVE.md` | Per chat via `bp-workflow.sh` | Every session | **Task now:** bootstrap-init, maintenance, review-phase, … |
+| **Session prompt** | [prompts/workflows/](../prompts/workflows/) | Per chat (Assistant UI) | Every session | **Task now:** bootstrap-adopt, maintenance, architecture-work-query, … |
 | **Role** | `docs/architecture/prompts/role-*.md` | App repo (from templates) | Occasionally | **Procedure:** steps, classification, quality gates |
 
-**Knowledge (not pasted into chat):** `docs/architecture/context/always-on.md` — app name, paths, source map.
+**Knowledge (not pasted into chat):** `always-on.md` (session context), `blueprint.md` (construction plan), `entry-point.md` (human navigation).
 
 ```text
-Core (once) + ACTIVE (this chat) → agent → docs/architecture/ → update blueprint.md
+Core (once) + session prompt (this chat) → agent → docs/architecture/ → update blueprint.md
 ```
 
 ### Why not one mega-prompt?
