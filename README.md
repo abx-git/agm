@@ -20,8 +20,7 @@ Documentation pattern (not a product): compile architecture into linked Markdown
 
 ```bash
 # Paste prompts/adopt-standalone.md into a new agent chat (recommended)
-./scripts/bp-workflow.sh checkout bootstrap-continue   # after adoption
-./scripts/open-assistant.sh                            # copy prompts in browser
+./scripts/open-assistant.sh   # copy adoption + session prompts in browser
 ```
 
 Optional: [Gen AI challenges](./docs/gen-ai-challenges.md) · [Architects article](./docs/article/blueprint-pattern-for-architects.md) · [Sample app](./docs/examples/sample-app/)

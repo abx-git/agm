@@ -14,11 +14,11 @@ Architecture documentation as a **Markdown link graph** in `docs/architecture/`,
 | **`blueprint.md`** | Session **backlog**: phase status, WRK registry, reviews, session log — not the full architecture |
 | **Blueprint Pattern** | The whole method: graph + operations + agent rules |
 | **Core prompt** | Permanent agent behavior → [prompts/core/system-prompt.md](../prompts/core/system-prompt.md) |
-| **Workflow** | This chat’s task → [prompts/workflows/ACTIVE.md](../prompts/workflows/ACTIVE.md) via `bp-workflow.sh` |
-| **Role** | Step-by-step procedure → `docs/architecture/prompts/role-*.md` (agent reads; you pick workflow only) |
+| **Session prompt** | This chat’s task — paste from [Assistant UI](https://abx-git.github.io/blueprint-pattern.github.io/) or [prompts/workflows/](../prompts/workflows/) |
+| **Role** | Step-by-step procedure → `docs/architecture/prompts/role-*.md` (agent reads; you pick the session prompt only) |
 
 ```text
-Core rules (once) + ACTIVE workflow (per chat) → agent → docs/architecture/ → update blueprint.md
+Core rules (once) + session prompt (per chat) → agent → docs/architecture/ → update blueprint.md
 ```
 
 ---
@@ -29,7 +29,7 @@ Core rules (once) + ACTIVE workflow (per chat) → agent → docs/architecture/ 
 |---|------|-------|
 | 1 | Agent rules | `prompts/core/system-prompt.md` in IDE rules |
 | 2 | Architecture content | `docs/architecture/` in your app repo |
-| 3 | Current task | `./scripts/bp-workflow.sh checkout <id>` → `ACTIVE.md` |
+| 3 | Current task | Copy session prompt (Assistant UI or `prompts/workflows/<id>.md`) → new chat |
 
 ---
 
@@ -47,20 +47,17 @@ Core rules (once) + ACTIVE workflow (per chat) → agent → docs/architecture/ 
 | Open WRK items | `architecture-work-continue` | Yes |
 | Verify (no fixes) | `review-phase` / `review-milestone` / `review-maintenance` | **Required** |
 
-```bash
-./scripts/bp-workflow.sh list
-./scripts/bp-workflow.sh checkout maintenance
-```
+Session prompt source files: [prompts/workflows/](../prompts/workflows/). Copy the session block into a new chat — no checkout script in the application repo.
 
-Workflow source files: [prompts/workflows/](../prompts/workflows/). Optional: commit `ACTIVE.md` so the team shares the same task.
+*(Optional in this pattern repository only: `./scripts/bp-workflow.sh checkout <id>` writes `ACTIVE.md` for Cursor rule integration.)*
 
 ---
 
 ## Setup (once, ~30 min)
 
-**Recommended — adoption prompt:** open your application repository in the IDE, start a new chat, paste the session prompt from [prompts/adopt-standalone.md](../prompts/adopt-standalone.md) or the [Assistant UI](https://abx-git.github.io/blueprint-pattern.github.io/). The agent scaffolds from the pattern repository, writes `always-on.md`, and runs bootstrap in one session.
+**Recommended — adoption prompt:** open your application repository in the IDE, start a new chat, paste the session prompt from [prompts/adopt-standalone.md](../prompts/adopt-standalone.md) or the [Assistant UI](https://abx-git.github.io/blueprint-pattern.github.io/). The agent **writes** the folder structure, `always-on.md`, and `blueprint.md` in one session — no git clone, zip, or checkout script.
 
-After scaffold exists, use `./scripts/bp-workflow.sh checkout <id>` for later sessions. Enable [CI link check](../prompts/reference/ci-integrity.md) on the app repo.
+After scaffold exists, copy session prompts for later chats. Enable [CI link check](../prompts/reference/ci-integrity.md) on the app repo.
 
 **Template** (record in `entry-point.md`): `arc42` (default) · `c4-light` · `adr-first` · `lean-service` · `custom`.
 
@@ -68,7 +65,7 @@ After scaffold exists, use `./scripts/bp-workflow.sh checkout <id>` for later se
 
 ## Every session
 
-1. `checkout <workflow>`
+1. Copy session prompt for `<workflow>`
 2. New chat (never review in the write chat)
 3. Confirm `blueprint.md` and changed docs at the end
 
@@ -119,4 +116,4 @@ Architecture Work: traverse **links only**; write `work/YYYY-MM-DD-<slug>.md`; r
 
 ---
 
-**One-liner:** One core prompt, one ACTIVE per chat, one graph in `docs/architecture/`, `blueprint.md` for state.
+**One-liner:** One core prompt, one session prompt per chat, one graph in `docs/architecture/`, `blueprint.md` for state.

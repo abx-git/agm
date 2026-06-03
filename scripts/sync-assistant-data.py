@@ -9,6 +9,7 @@ ROOT = Path(__file__).resolve().parents[1]
 WF_DIR = ROOT / "prompts" / "workflows"
 OUT = ROOT / "docs" / "assistant" / "workflows.json"
 ADOPT_SRC = ROOT / "prompts" / "adopt-standalone.md"
+ADOPT_PROC = ROOT / "prompts" / "reference" / "adopt-procedure.md"
 ADOPT_OUT = ROOT / "docs" / "assistant" / "adopt-prompt.txt"
 
 ROLE_GROUPS = {
@@ -110,6 +111,9 @@ def main() -> int:
         text = ADOPT_SRC.read_text(encoding="utf-8")
         block = re.search(r"## Session prompt\s+```\s*\n(.*?)```", text, re.S)
         prompt = block.group(1).strip() if block else text.strip()
+        if ADOPT_PROC.is_file():
+            procedure = ADOPT_PROC.read_text(encoding="utf-8").strip()
+            prompt = f"{prompt}\n\n---\n\n{procedure}"
         ADOPT_OUT.write_text(prompt + "\n", encoding="utf-8")
         print(f"Wrote adoption prompt to {ADOPT_OUT}")
 

@@ -1,53 +1,96 @@
 # Adoption procedure (agent reference)
 
-Used by workflow `bootstrap-adopt` and the standalone adoption prompt.
+Bundled into the standalone adoption prompt. **Write files directly** — no git clone, zip, curl, or checkout scripts.
 
-## Phase A — Scaffold (automated)
+## Phase A — Scaffold (write files)
 
-Run at application repository root:
-
-```bash
-git clone --depth 1 https://github.com/abx-git/blueprint-pattern.git /tmp/blueprint-pattern
-mkdir -p docs/architecture scripts prompts .cursor/rules
-cp -R /tmp/blueprint-pattern/docs/templates/architecture/* docs/architecture/
-cp /tmp/blueprint-pattern/scripts/bp-workflow.sh scripts/
-cp -R /tmp/blueprint-pattern/prompts/core prompts/
-cp -R /tmp/blueprint-pattern/prompts/workflows prompts/
-cp /tmp/blueprint-pattern/.cursor/rules/blueprint-*.mdc .cursor/rules/ 2>/dev/null || true
-chmod +x scripts/bp-workflow.sh
-rm -rf /tmp/blueprint-pattern
-```
-
-Expected layout:
+Create at application repository root:
 
 ```
-docs/architecture/     templates + role prompts
-prompts/core/          system-prompt.md
-prompts/workflows/     session workflows
-scripts/bp-workflow.sh workflow checkout
-.cursor/rules/         optional Cursor rules (when copied)
+docs/architecture/
+├── context/always-on.md      ← stub first; fill in Phase B
+├── context/on-demand.md      ← minimal stub
+├── prompts/
+│   ├── role-bootstrap.md
+│   ├── role-maintenance.md
+│   ├── role-architecture-work.md
+│   └── role-review.md
+├── work/_template.md
+├── work/_template-review.md
+├── interfaces/exports.md     ← stub table
+├── interfaces/imports.md     ← stub table
+├── entry-point.md            ← stub; completed in Phase C
+└── <template>/               ← arc42 (default) | c4-light | adr-first | lean-service
+prompts/core/system-prompt.md ← core agent rules (see appendix A)
 ```
+
+Rules:
+
+- Create every path by **writing files in the repo** — do not download or clone.
+- Role prompts: use the [SA:ROLE] structure from the Blueprint Pattern (appendix B); match the four role files under `docs/templates/architecture/prompts/` in the pattern repository when you know them.
+- Template folder: default **arc42** unless the human chooses otherwise; create chapter stubs with titles and placeholder sections.
+- Do not create `scripts/bp-workflow.sh`, `prompts/workflows/`, or `ACTIVE.md` — session tasks are pasted per chat.
 
 ## Phase B — Configure
 
-1. Write `docs/architecture/context/always-on.md` from human input.
-2. Ensure `prompts/core/system-prompt.md` is wired into IDE rules.
+Interview the human (application name, purpose, stack, key paths, external systems). Write `docs/architecture/context/always-on.md`.
+
+Remind the human to paste `prompts/core/system-prompt.md` into IDE rules (once).
 
 ## Phase C — Bootstrap
 
 Follow `docs/architecture/prompts/role-bootstrap.md`:
 
-- Select documentation template (record in entry-point.md).
+- Record template in `entry-point.md`.
 - Create `blueprint.md` with phase states.
-- Create entry-point, interfaces, first populated section.
-- Session log + anchors at end.
+- Populate interfaces/ and the first high-value section from evidence only.
+- Session log + required anchors at end.
 
 ## After adoption
 
-| Next step | Workflow |
-|-----------|----------|
-| Continue documentation | `bootstrap-continue` |
-| Close bootstrap | `review-milestone` |
-| Day-to-day use | `maintenance`, `architecture-work-*`, `review-*` |
+| Next step | Action |
+|-----------|--------|
+| Continue documentation | New chat → paste **bootstrap-continue** session prompt |
+| Close bootstrap | New chat → paste **review-milestone** session prompt |
+| Day-to-day | New chat → paste the matching session prompt (Assistant UI or `prompts/workflows/` in pattern repo) |
 
-Activate workflows: `./scripts/bp-workflow.sh checkout <id>`
+No checkout command — copy the session prompt only.
+
+---
+
+## Appendix A — Core prompt (write to `prompts/core/system-prompt.md`)
+
+```
+# Blueprint Pattern — Core Prompt
+
+You maintain architecture documentation for this repository using the Blueprint Pattern.
+
+[SA:MODE]
+You are a human-in-the-loop architecture scribe. Do not act autonomously.
+
+[SA:READ_ORDER]
+At session start, read in this order:
+1) docs/architecture/context/always-on.md
+2) docs/architecture/blueprint.md
+3) This chat's session prompt (Workflow / Role lines)
+4) docs/architecture/prompts/role-<role>.md
+
+[SA:INVARIANTS]
+- Markdown graph with relative links only
+- Blueprint state in docs/architecture/blueprint.md
+- Interface contracts in interfaces/exports.md and interfaces/imports.md
+- Verify links before stopping
+
+[SA:TEMPLATE]
+arc42 | c4-light | adr-first | lean-service | custom — record in entry-point.md
+
+[SA:EVIDENCE]
+Mark uncertainty with [[ANCHOR:ASSUMPTION]]. Link claims to docs or source.
+
+[SA:CHECKPOINT]
+Output anchors required by the session prompt. Update blueprint.md session log.
+```
+
+## Appendix B — Role prompt shape
+
+Each `docs/architecture/prompts/role-*.md` file uses: `[SA:ROLE]`, `[SA:INPUTS]`, `[SA:STEPS]`, `[SA:QUALITY_GATES]`, `[SA:OUTPUT_CONTRACT]`, `[SA:STOP]`. Copy content from the pattern repository templates or equivalent Bootstrap / Maintenance / Architecture Work / Review procedures.

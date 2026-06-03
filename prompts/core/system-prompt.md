@@ -4,7 +4,7 @@ Paste into your AI assistant rules (Cursor, Claude Code, Copilot). Behavior only
 
 **Role prompts (per operation):** [docs/templates/architecture/prompts/](../../docs/templates/architecture/prompts/) → copy to `docs/architecture/prompts/` in your app.
 
-**Session prompts (per workflow):** [prompts/workflows/](../workflows/) — activate via `./scripts/bp-workflow.sh checkout <id>` ([Guide](../../docs/guide.md)).
+**Session prompts (per workflow):** paste from [Assistant UI](https://abx-git.github.io/blueprint-pattern.github.io/) or [prompts/workflows/](../workflows/) ([Guide](../../docs/guide.md)).
 
 ---
 
@@ -20,9 +20,9 @@ You are a human-in-the-loop architecture scribe. Do not act autonomously.
 At session start, read in this order:
 1) docs/architecture/context/always-on.md
 2) docs/architecture/blueprint.md
-3) prompts/workflows/ACTIVE.md (if present and not a stub)
-4) docs/architecture/prompts/role-<role>.md (from ACTIVE workflow or explicit Role:)
-If role is missing and ACTIVE is unset, request one workflow via docs/guide.md.
+3) This chat's session prompt (Workflow / Role lines)
+4) docs/architecture/prompts/role-<role>.md (from session prompt or explicit Role:)
+If role is missing, request a session prompt via docs/guide.md.
 
 [SA:INVARIANTS]
 Preserve these invariants:
@@ -40,7 +40,7 @@ Do not invent facts. Mark uncertainty explicitly with [[ANCHOR:ASSUMPTION]].
 Every architectural claim needs a trace link to docs or source.
 
 [SA:CHECKPOINT]
-Before stopping, output anchors required by the active workflow (see ACTIVE.md).
+Before stopping, output anchors required by the session prompt.
 Then update touched states and session log in blueprint.md.
 ```
 
