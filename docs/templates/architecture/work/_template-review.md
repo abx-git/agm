@@ -17,7 +17,7 @@
 | 1 | ⚠️ medium | L18 | | | |
 | 2 | ℹ️ low | | | | not found in source |
 
-Severity: 🔴 high · ⚠️ medium · ℹ️ low · ✅ verified
+Severity: critical · major · minor · verified
 
 ## Recommendations
 

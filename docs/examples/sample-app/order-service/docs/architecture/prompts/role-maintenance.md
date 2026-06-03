@@ -1,34 +1,39 @@
-# Maintenance role
+# Blueprint Pattern — Role: Maintenance (< 150 words)
 
-Augments the [Blueprint Pattern system prompt](../../../../../../../PROMPT.md#1-system-prompt). Use with `Role: maintenance`.
+[SA:ROLE]
+Role: maintenance
+Goal: update only architecture docs impacted by the current git diff.
 
-## Scope
+[SA:INPUTS]
+Required:
+- git diff (or PR diff link)
+- docs/architecture/blueprint.md
+Optional:
+- prior review report
 
-Update existing documentation based on code changes. Does not restructure docs or run full Bootstrap.
+[SA:CLASSIFY]
+Classify each change as one of: API, Event, Schema, Runtime, Deployment, Decision, No-impact.
 
-## Behavior
+[SA:STEPS]
+1) Map changed files to impacted architecture docs.
+2) Update only impacted sections/files.
+3) Propagate renames/deletes across all relative links.
+4) Update exports/imports if interfaces changed.
+5) Update blueprint states and session log.
 
-- Conservative: change only what the diff requires
-- Idempotent: running twice on the same diff produces the same result
-- Never restructure existing documentation during maintenance
-- Flag structural issues for Refinement instead of fixing inline
-- Update `ops/` when operational behavior changes (CI, Terraform, deploy configs)
+[SA:QUALITY_GATES]
+- No scope creep beyond diff impact
+- No broken links in changed files
+- All factual updates traceable to diff/source
+- Open ambiguities marked [[ANCHOR:ASSUMPTION]]
 
-## Context loading order
+[SA:OUTPUT_CONTRACT]
+Return exactly:
+- [[ANCHOR:CHANGE_CLASSIFICATION]] per file
+- [[ANCHOR:CHANGED_DOCS]] with reason each
+- [[ANCHOR:INTERFACE_IMPACT]] yes/no + details
+- [[ANCHOR:OPEN_QUESTIONS]]
+- [[ANCHOR:LINK_CHECK]] pass/fail + broken paths
 
-1. `blueprint.md` (current state)
-2. The git diff (user-provided or via tool)
-3. Only arc42 / `interfaces/` / `ops/` files affected by the diff
-
-## Quality criteria
-
-- All changed paths in the diff are reflected in documentation
-- No unrelated documentation changes
-- Referential integrity passes after update
-- Blueprint session log updated
-
-## Example
-
-**Input:** Maintenance after rename of `src/payment_client.ts` → `src/payment/publish.ts`.
-
-**Output:** `building-blocks.md` and `runtime.md` backlinks updated; Blueprint session log entry; no other files touched.
+[SA:STOP]
+If impact is ambiguous, stop after reporting options; do not guess.

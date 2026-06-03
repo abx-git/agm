@@ -47,7 +47,7 @@ Nach dem Bootstrap nutzt ihr den Graphen für:
 - **Registry:** `blueprint.md` § Architecture work (IDs `WRK-001`, …)
 - **Template:** `work/_template.md`
 - **Anleitung:** [Architecture Work Guide](../../architecture-work-guide.md)
-- **Prompts:** [PROMPT.md](../../PROMPT.md#4-architecture-work-prompts)
+- **Workflows:** [prompts/README.md](../../prompts/README.md) (git checkout pro Operation)
 - **Beispiele:** [Sample work/](../examples/sample-app/order-service/docs/architecture/work/)
 
 **Regeln:** Nur über Links traversieren · nichts aus arc42 duplizieren · Traceability-Tabelle pflegen · Designs mit Entscheidungsbedarf → ADR-Entwurf.
@@ -68,10 +68,10 @@ Nach dem Bootstrap nutzt ihr den Graphen für:
 
 ## Einstieg
 
-1. [Beispiel-Anwendung](../examples/sample-app/) ansehen
-2. [PROMPT.md](../../PROMPT.md) in den AI-Assistenten kopieren
-3. Bootstrap starten
-4. Architecture Work mit Query-/Analysis-/Design-Prompts nutzen
+1. **[Kurzanleitung](../anleitung.md)** — Übersicht und täglicher Ablauf (zuerst lesen)
+2. [Beispiel-Anwendung](../examples/sample-app/) ansehen
+3. Kernprompt + Workflow `bootstrap-init` (siehe Anleitung)
+4. Architecture Work bei Bedarf (`architecture-work-*` Workflows)
 
 ---
 

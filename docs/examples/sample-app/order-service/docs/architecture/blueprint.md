@@ -1,5 +1,10 @@
 # Blueprint — order-service
 
+## Documentation template
+
+Selected template: arc42  
+Rationale: Full sample for arc42 + interface contracts; see [entry-point.md](./entry-point.md#documentation-template).
+
 ## Status
 
 | Phase | arc42 section              | Target file                        | State   | Last updated |

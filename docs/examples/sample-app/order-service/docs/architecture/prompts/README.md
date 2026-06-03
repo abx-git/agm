@@ -1,7 +1,8 @@
 # Role prompts (sample)
 
-Copy from [docs/templates/architecture/prompts/](../../../../../../templates/architecture/prompts/) in the Blueprint Pattern repository.
+Operational prompts with `[SA:*]` sections. Copied from [docs/templates/architecture/prompts/](../../../../../../templates/architecture/prompts/).
 
-The base system prompt lives in the repo root [PROMPT.md](../../../../../../../PROMPT.md).
+- Core prompt: [prompts/core/system-prompt.md](../../../../../../../prompts/core/system-prompt.md)
+- Workflows: [prompts/README.md](../../../../../../../prompts/README.md)
 
-Session-start examples: [PROMPT.md §3](../../../../../../../PROMPT.md#3-session-start-prompts).
+Roles: `bootstrap` · `maintenance` · `architecture-work` · `review`

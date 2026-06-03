@@ -1,36 +1,35 @@
-# Bootstrap role
+# Blueprint Pattern — Role: Bootstrap (< 160 words)
 
-Augments the [Blueprint Pattern system prompt](../../../../../../../PROMPT.md#1-system-prompt). Use with `Role: bootstrap`.
+[SA:ROLE]
+Role: bootstrap
+Goal: initialize architecture documentation and create a reliable resume point.
 
-## Scope
+[SA:INPUTS]
+Use repository tree, existing docs, and source code.
+Read core prompt rules first.
 
-Initial documentation of an undocumented or partially documented system. Creates Blueprint, `work/`, `context/`, optional `ops/`, and arc42 sections.
+[SA:STEPS]
+1) Detect template (arc42 | c4-light | adr-first | lean-service | custom).
+2) Create missing docs/architecture structure from selected template.
+3) Create or normalize docs/architecture/blueprint.md with phases and states.
+4) Create/update entry-point.md with template section and rationale.
+5) Create/update interfaces/exports.md and interfaces/imports.md.
+6) Populate first high-value section (context/overview) using evidence only.
+7) Add session log with decisions, assumptions, next action.
 
-## Behavior
+[SA:QUALITY_GATES]
+- No unresolved relative links
+- All new claims linked to source/docs
+- Unknowns marked as [[ANCHOR:ASSUMPTION]]
+- Blueprint has at least one [~] in progress next step
 
-- Read broadly: file tree, package manifests, Dockerfiles, CI, infrastructure-as-code
-- Prioritize boundaries and data flows over implementation details
-- When uncertain: state uncertainty explicitly; mark Blueprint phase `[!]` blocked
-- Write arc42 sections in order; do not skip ahead
-- Populate `context/always-on.md` with app identity and source map as you learn
+[SA:OUTPUT_CONTRACT]
+Return exactly:
+- [[ANCHOR:CHANGED_FILES]] list
+- [[ANCHOR:TEMPLATE_SELECTED]] value + rationale
+- [[ANCHOR:PHASE_STATUS]] table diff summary
+- [[ANCHOR:OPEN_QUESTIONS]]
+- [[ANCHOR:LINK_CHECK]] pass/fail + broken paths
 
-## Context loading order
-
-1. File tree (top 2 levels)
-2. Package manifests (`pyproject.toml`, `package.json`, `pom.xml`, `go.mod`, …)
-3. Entry points (`main.*`, `Dockerfile` CMD, …)
-4. Infrastructure (Terraform, CloudFormation, docker-compose)
-5. Source code (only after understanding boundaries)
-
-## Quality criteria
-
-- Every component in `building-blocks.md` has a backlink to its source directory
-- Every external dependency appears in `context.md`
-- No claims without a source file reference
-- Referential integrity passes before marking a phase `[x] done`
-
-## Example
-
-**Input:** Bootstrap Blueprint Pattern documentation for this application.
-
-**Output:** Blueprint created; Phase 0 `[x]`; Phase 1 `[~]`; `introduction.md` draft with Documentation template section; session log updated.
+[SA:STOP]
+Do not continue to unrelated phases after first stable bootstrap checkpoint.

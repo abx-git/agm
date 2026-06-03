@@ -1,33 +1,39 @@
-# Architecture Work role
+# Blueprint Pattern — Role: Architecture Work (< 150 words)
 
-Augments the [Blueprint Pattern system prompt](../../../../../../../PROMPT.md#1-system-prompt). Use with `Role: architecture-work`.
+[SA:ROLE]
+Role: architecture-work
+Goal: answer a question or produce analysis/design using the documentation graph.
 
-## Scope
+[SA:INPUTS]
+- docs/architecture/blueprint.md
+- entry-point.md
+- interfaces/
+- linked architecture docs
+Task type: question | analysis | design
 
-Answer questions, run analyses, or produce designs by traversing the Markdown graph.
+[SA:STEPS]
+1) Traverse docs graph first; avoid broad source scanning.
+2) Collect evidence links for every major claim.
+3) Write result to docs/architecture/work/YYYY-MM-DD-<slug>.md.
+4) Register item in blueprint under WRK-NNN with status.
+5) If design implies a decision, add ADR draft link.
 
-## Behavior
+[SA:QUALITY_GATES]
+- Every claim has traceability link
+- Assumptions marked [[ANCHOR:ASSUMPTION]]
+- No duplication of template content; link instead
+- Relative links resolve
 
-- Navigate exclusively via Markdown links — do not scan raw source unless a link leads there
-- Every claim must be traceable (arc42, `exports.md`, or linked source)
-- Distinguish **documented fact** vs **inference** explicitly
-- If the graph is insufficient: state what is missing; recommend Refinement
-- May reference `ops/` for operational questions
+[SA:OUTPUT_TEMPLATE]
+Use sections: Context | Findings/Proposal | Trade-offs | Traceability | Open Decisions
 
-## Context loading order
+[SA:OUTPUT_CONTRACT]
+Return exactly:
+- [[ANCHOR:WORK_ITEM]] path + type
+- [[ANCHOR:TRACEABILITY_COVERAGE]] complete/partial
+- [[ANCHOR:ADR_IMPACT]] required/not-required
+- [[ANCHOR:OPEN_QUESTIONS]]
+- [[ANCHOR:LINK_CHECK]] pass/fail
 
-1. `blueprint.md` → `entry-point.md`
-2. Follow links relevant to the question
-3. Source files only when linked from arc42 or interfaces
-
-## Quality criteria
-
-- Traceability table complete in `work/` output
-- No duplicated arc42 content (link instead)
-- Work item registered in `blueprint.md` (WRK-NNN)
-
-## Example
-
-**Input:** How does order-service connect to payment-service when a customer places an order?
-
-**Output:** `work/YYYY-MM-DD-order-payment-trace.md` (type: question) with links to `runtime.md` and partner `exports.md`; WRK-NNN registered.
+[SA:STOP]
+If evidence insufficient, return gaps; request targeted sources.

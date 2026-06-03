@@ -4,7 +4,9 @@ Use the compiled Blueprint graph to **answer questions**, run **analyses**, and 
 
 This phase requires a completed or partially completed Bootstrap (arc42 sections and interface contracts exist). On large core systems, keep investing in **Refinement** in parallel — Architecture Work is most reliable when the underlying graph stays current.
 
-For **base context**, **roles**, **compaction**, **review**, and **ops/** see [Blueprint Pattern Extensions](./blueprint-pattern-extensions.md).
+For **base context**, **roles** (`[SA:*]` prompts), **semantic anchors**, **templates**, **compaction**, **review**, and **ops/** see [Extensions](./blueprint-pattern-extensions.md) and [PROMPT.md](./PROMPT.md#1-system-prompt).
+
+**Templates:** arc42 is optional — `arc42` · `c4-light` · `adr-first` · `lean-service` · `custom`. Record choice in `entry-point.md`.
 
 ---
 
@@ -16,7 +18,7 @@ For **base context**, **roles**, **compaction**, **review**, and **ops/** see [B
 | *"What are the risks of our payment integration?"* | **Analysis** | Structured findings |
 | *"Design circuit breaker for payment calls"* | **Design** | Proposal + optional ADR draft |
 
-Use `Role: architecture-work` and [role-architecture-work.md](./templates/architecture/prompts/role-architecture-work.md).
+Activate a workflow: [architecture-work-query](./prompts/workflows/architecture-work-query.md) · [analysis](./prompts/workflows/architecture-work-analysis.md) · [design](./prompts/workflows/architecture-work-design.md) — see [prompts/README.md](./prompts/README.md). Role steps: [role-architecture-work.md](./templates/architecture/prompts/role-architecture-work.md).
 
 ---
 
@@ -65,8 +67,8 @@ Register each file in `blueprint.md` under `## Architecture work` with ID `WRK-N
 
 ## Rules for agents
 
-1. **Read `blueprint.md` and `entry-point.md` first** — then traverse only via Markdown links.
-2. **Load** `prompts/role-architecture-work.md` when using this mode.
+1. **Read** `context/always-on.md` → `blueprint.md` → `entry-point.md` — then traverse only via Markdown links.
+2. **Load** `prompts/role-architecture-work.md`; output `[[ANCHOR:WORK_ITEM]]`, `[[ANCHOR:LINK_CHECK]]`.
 3. **Do not duplicate** arc42 or interface contract content — link to it.
 4. **Every claim** must appear in the Traceability table with a link to source (arc42 file, `exports.md`, `ops/`, or source file).
 5. **Write output** to `docs/architecture/work/` and **update** `blueprint.md` before stopping.
@@ -111,4 +113,4 @@ Architecture Work outputs are **drafts for review**. The architect approves, rej
 
 ---
 
-See [PROMPT.md](./PROMPT.md#4-architecture-work-prompts) for copy-paste prompts.
+See [prompts/workflows/](./prompts/workflows/) for copy-paste session prompts.

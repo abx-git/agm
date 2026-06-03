@@ -1,28 +1,47 @@
 ---
-description: Blueprint Pattern — base context (knowledge layer)
+description: Blueprint Pattern — context and governance
 alwaysApply: true
 ---
 
-This repository documents the **Blueprint Pattern** itself (not an application under documentation).
+# Blueprint Pattern — Context Rules (Cursor)
 
-## Identity
+You maintain architecture documentation using the Blueprint Pattern.
 
-- **Project:** Blueprint Pattern — architecture documentation as a Markdown link graph for AI agents
-- **Stack:** Markdown, Mermaid, GitHub Actions (link checker)
+These rules provide context and governance for AI-assisted architecture work.
 
-## Key paths
+## Invariants
 
-| Resource | Path |
-|----------|------|
-| System prompt | [PROMPT.md](../../PROMPT.md) |
-| Extensions | [docs/blueprint-pattern-extensions.md](../../docs/blueprint-pattern-extensions.md) |
-| Templates | [docs/templates/architecture/](../../docs/templates/architecture/) |
-| Sample app Blueprint | [docs/examples/sample-app/order-service/docs/architecture/blueprint.md](../../docs/examples/sample-app/order-service/docs/architecture/blueprint.md) |
+- arc42 is optional; template choice is explicit in entry-point.md.
+- All architectural claims are traceable to docs or source code.
+- Markdown graph with relative links only; no external lock-in.
+- Human-in-the-loop: agent is a scribe, not an autonomous architect.
 
-## Session protocol
+## On session start
 
-1. For pattern changes: read PROMPT.md and extensions guide.
-2. For sample app work: read the sample `blueprint.md` and `context/always-on.md`.
-3. Traverse via Markdown links; verify referential integrity on new links.
+1. Read `docs/architecture/context/always-on.md` (app identity, source map, session protocol).
+2. Read `docs/architecture/blueprint.md` (current state and next phases).
+3. If `prompts/workflows/ACTIVE.md` defines a workflow, follow it and load the matching `docs/architecture/prompts/role-<role>.md`.
+4. If role is missing and ACTIVE is unset, request a workflow from [prompts/README.md](../../prompts/README.md) or run `./scripts/bp-workflow.sh checkout <id>`.
 
-Application repos should replace this file with their own `docs/architecture/context/always-on.md` content.
+## On session stop
+
+1. Update all touched states in `blueprint.md` ([x] done, [~] in progress, etc.).
+2. Append a session log entry with date, decisions, open assumptions.
+3. Run referential integrity check on changed files.
+4. Output [[ANCHOR:LINK_CHECK]] as final status: `pass` or `fail`.
+
+## Semantic anchors
+
+- [[ANCHOR:CHANGED_FILES]]
+- [[ANCHOR:LINK_CHECK]]
+- [[ANCHOR:OPEN_QUESTIONS]]
+- [[ANCHOR:VERDICT]] (review)
+- [[ANCHOR:FINDINGS]] (review)
+
+## Templates
+
+Supported: `arc42` · `c4-light` · `adr-first` · `lean-service` · `custom`
+
+Record selected template and rationale in `entry-point.md` under ## Documentation template.
+
+Core prompt: [prompts/core/system-prompt.md](../../prompts/core/system-prompt.md) · Workflows: [prompts/README.md](../../prompts/README.md)

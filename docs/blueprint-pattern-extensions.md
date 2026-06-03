@@ -2,7 +2,7 @@
 
 Derived from field experience with production AI-assisted development workflows. These extensions address gaps when comparing the Blueprint Pattern (architecture documentation graph) with a full-lifecycle AI-assisted development system operating in production.
 
-**Implementation:** Copy templates from [`docs/templates/architecture/`](./templates/architecture/) during Bootstrap. Details in [PROMPT.md](../PROMPT.md).
+**Implementation:** Copy templates from [`docs/templates/architecture/`](./templates/architecture/) during Bootstrap. Core + role prompts use `[SA:*]` sections and semantic anchors (`[[ANCHOR:LINK_CHECK]]`, etc.). **arc42 is optional** — see [Template selection](../README.md#template-selection) in README.
 
 ---
 

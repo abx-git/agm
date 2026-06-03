@@ -31,17 +31,12 @@ Prompts: [PROMPT.md § Architecture Work](../../PROMPT.md#4-architecture-work-pr
 
 ## Try it as an agent
 
-Use the [Blueprint Pattern system prompt](../../PROMPT.md) and prompt:
+Use the [core system prompt](../../prompts/core/system-prompt.md). Activate a workflow, e.g.:
 
-```
-Continue Blueprint Pattern documentation for order-service.
-Read docs/architecture/blueprint.md and run maintenance on any pending phases.
+```bash
+./scripts/bp-workflow.sh checkout maintenance
 ```
 
-Or run Architecture Work:
+Or open [maintenance.md](../../prompts/workflows/maintenance.md) and paste the session block.
 
-```
-Blueprint Pattern — Architecture Work (query).
-Question: How does order-service notify the customer after payment?
-Instructions: (see PROMPT.md)
-```
+Architecture Work: [architecture-work-query.md](../../prompts/workflows/architecture-work-query.md) — example question: *How does order-service notify the customer after payment?*

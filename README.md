@@ -12,9 +12,14 @@ The **Blueprint Pattern** is a documentation pattern, not a product. It turns yo
 
 | Document | Audience | Purpose |
 |----------|----------|---------|
+| [**Quick start guide (EN)**](./docs/quick-start-guide.md) | Everyone | **Start here** — overview + daily use (3 concepts) |
+| [Kurzanleitung (DE)](./docs/anleitung.md) | Everyone | Same guide in German |
+| [**Gen AI challenges**](./docs/gen-ai-challenges.md) | Architects & leads | LLM problems — mitigated, partial, or awareness only |
 | [**Blueprint Pattern for Architects**](./docs/article/blueprint-pattern-for-architects.md) | Software architects | Full method: problem, principles, workflow, roles |
-| [Blueprint Pattern für Architekten (DE)](./docs/article/de/blueprint-pattern-fuer-architekten.md) | Deutsche Kurzfassung | Kompakte Übersicht auf Deutsch |
-| [**PROMPT.md**](./PROMPT.md) | Developers & agents | System prompt, Blueprint format, session prompts |
+| [Blueprint Pattern für Architekten (DE)](./docs/article/de/blueprint-pattern-fuer-architekten.md) | Methode auf Deutsch | Nach der Kurzanleitung |
+| [**PROMPT.md**](./PROMPT.md) | Developers & agents | File index (advanced) |
+| [**prompts/**](./prompts/README.md) | Developers & agents | Workflow IDs + git checkout (advanced) |
+| [Migration (arc42-only)](./docs/migration-arc42-only.md) | Existing adopters | Optional templates, no breaking change |
 | [**Extensions**](./docs/blueprint-pattern-extensions.md) | Architects & leads | Base context, roles, compaction, review, ops layer |
 | [**Architecture Work Guide**](./docs/architecture-work-guide.md) | Architects | Query, analysis, design using the graph |
 | [**Sample application**](./docs/examples/sample-app/) | Everyone | Runnable example with complete `docs/architecture/` |
@@ -43,15 +48,32 @@ my-app/
 │   │   ├── exports.md               ← APIs, events, services (unique IDs)
 │   │   └── imports.md               ← links to partner exports.md files
 │   ├── ops/                         ← troubleshooting, runbooks (Extension 5)
-│   └── arc42/
-│       ├── context.md
-│       ├── building-blocks.md
-│       ├── runtime.md
-│       ├── decisions/
-│       └── …
+│   ├── arc42/                       ← template: arc42 (optional)
+│   ├── c4-light/                    ← template: c4-light
+│   ├── adr-first/                   ← template: adr-first
+│   └── lean-service/                ← template: lean-service
 ```
 
 Plain Markdown. Relative links only. No build step. No lock-in.
+
+---
+
+## Template selection
+
+**arc42 is optional.** Choose a documentation template at Bootstrap and record it in `entry-point.md`:
+
+| Template | When to use | Layout |
+|----------|-------------|--------|
+| `arc42` | Enterprise systems, full architecture description (default) | `arc42/` (12 sections) |
+| `c4-light` | C4-focused teams, minimal prose | `c4-light/` (context, containers, components) |
+| `adr-first` | Decision-driven architecture | `adr-first/` (decisions primary, views secondary) |
+| `lean-service` | Single microservice, small scope | `lean-service/` (overview, runtime, decisions) |
+| `custom` | Existing doc structure | Your paths; define phases in `blueprint.md` |
+
+Copy starter files from [`docs/templates/architecture/`](./docs/templates/architecture/).  
+Migrating from arc42-only wording: [migration guide](./docs/migration-arc42-only.md).
+
+If you use **arc42**, attribute [arc42](https://arc42.org) (Starke, Hruschka, CC BY-SA 4.0) and [C4](https://c4model.com/) (Simon Brown) in `entry-point.md` where applicable.
 
 ---
 
@@ -71,10 +93,9 @@ Copy templates from [`docs/templates/architecture/`](./docs/templates/architectu
 
 ## Quick start
 
-1. Copy the [system prompt](./PROMPT.md#1-system-prompt) and set up [base context](./PROMPT.md#6-base-context-setup) (`context/always-on.md` + tool rules)
-2. Run: *"Bootstrap Blueprint Pattern documentation for this application"* (`Role: bootstrap`)
-3. In later sessions: *"Continue Blueprint Pattern documentation — Role: … — read the Blueprint and resume"*
-4. Add the [CI link checker](./.github/workflows/blueprint-pattern-integrity.yml) to enforce referential integrity
+**Simple path:** [Quick start guide](./docs/quick-start-guide.md) — overview, five operations, three steps per session.
+
+**Short version:** (1) Copy [core system prompt](./prompts/core/system-prompt.md) into IDE rules · (2) `./scripts/bp-workflow.sh checkout bootstrap-init` · (3) New chat — agent reads [ACTIVE.md](./prompts/workflows/ACTIVE.md).
 
 See the [sample application](./docs/examples/sample-app/) for a complete reference implementation.
 

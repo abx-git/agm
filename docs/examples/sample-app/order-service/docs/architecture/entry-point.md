@@ -1,5 +1,13 @@
 # order-service — Architecture Entry Point
 
+## Documentation template
+
+Selected template: arc42  
+Rationale: Sample ecosystem uses full arc42 sections for teaching; C4 diagrams in context and runtime views.  
+Attribution: [arc42](https://arc42.org) (Gernot Starke, Peter Hruschka, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)); [C4 model](https://c4model.com/) (Simon Brown).
+
+---
+
 C4 Level 1 context view for the order service in the sample ecosystem.
 
 ## Purpose

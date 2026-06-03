@@ -28,10 +28,10 @@ See [entry-point.md](../entry-point.md#navigation). Operational docs: [ops/](../
 
 ## Session protocol
 
-1. Read [blueprint.md](../blueprint.md) before architecture work.
-2. Load [prompts/role-*.md](../prompts/) when the user specifies a role.
-3. Traverse the Markdown graph; do not scan the repo blindly.
-4. Update Blueprint before stopping.
+1. Read always-on.md → [blueprint.md](../blueprint.md) → `prompts/role-<role>.md` when role given.
+2. If no role: request bootstrap | maintenance | architecture-work | review.
+3. Traverse the Markdown graph; output [[ANCHOR:LINK_CHECK]] before stop.
+4. Update Blueprint; emit [[ANCHOR:CHANGED_FILES]] and [[ANCHOR:OPEN_QUESTIONS]].
 
 ## On-demand context
 

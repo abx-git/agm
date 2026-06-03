@@ -1,0 +1,7 @@
+---
+description: Blueprint Pattern — no active workflow
+alwaysApply: false
+---
+
+Select a workflow: see [prompts/README.md](../../prompts/README.md).
+Run `./scripts/bp-workflow.sh checkout <id>`.

@@ -1,49 +1,48 @@
 # Base context — always on
 
-<!-- Copy to docs/architecture/context/always-on.md and wire into your AI tool (see docs/blueprint-pattern-extensions.md). -->
+<!-- Copy to docs/architecture/context/always-on.md -->
 
 ## System identity
 
 **Application:** <App Name>  
 **Domain:** <one sentence>  
-**Stack:** <e.g. TypeScript / Node.js, PostgreSQL, Kafka>
+**Stack:** <e.g. TypeScript / Node.js>
 
 ## Blueprint
 
-- **Path:** [docs/architecture/blueprint.md](../blueprint.md)
-- **Entry:** [docs/architecture/entry-point.md](../entry-point.md)
+- **Path:** [blueprint.md](../blueprint.md)
+- **Entry:** [entry-point.md](../entry-point.md)
+- **Template:** <!-- arc42 | c4-light | adr-first | lean-service | custom -->
 
 ## Documentation structure
 
 ```
 docs/architecture/
 ├── blueprint.md, entry-point.md
-├── context/          ← this file (+ on-demand.md)
-├── arc42/              ← architecture sections
-├── interfaces/         ← exports.md, imports.md
-├── ops/                ← troubleshooting, runbooks (optional)
-├── prompts/            ← role extensions (optional)
-└── work/               ← questions, analyses, designs, reviews
+├── context/          ← this file
+├── prompts/          ← role-*.md
+├── interfaces/
+├── work/
+└── <template>/       ← arc42 | c4-light | adr-first | lean-service
 ```
 
 ## Source code map
 
-| Service / module | Path |
-|------------------|------|
-| <name> | `<path>/` |
+| Module | Path |
+|--------|------|
+| — | — |
 
 ## Shell constraints
 
-- <!-- e.g. Never run destructive commands without explicit user approval -->
-- <!-- e.g. Use `npm run test` not raw jest -->
+- Human-in-the-loop: propose changes; user approves architectural decisions.
 
 ## Session protocol
 
-1. For architecture work: read [blueprint.md](../blueprint.md) before acting.
-2. Load the role prompt from [prompts/](../prompts/) when the user specifies a role.
-3. Traverse the Markdown graph via links; do not scan the repo blindly.
-4. Update Blueprint and session log before stopping.
+1. Read [always-on.md](./always-on.md) → [blueprint.md](../blueprint.md) → `prompts/role-<role>.md`.
+2. If no role: request bootstrap | maintenance | architecture-work | review.
+3. Traverse Markdown links; verify [[ANCHOR:LINK_CHECK]] before stop.
+4. Output [[ANCHOR:CHANGED_FILES]] and [[ANCHOR:OPEN_QUESTIONS]].
 
-## On-demand context
+## On-demand
 
-Read when the task needs domain or environment detail: [on-demand.md](./on-demand.md)
+[on-demand.md](./on-demand.md)

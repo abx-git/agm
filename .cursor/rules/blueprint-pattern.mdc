@@ -1,11 +1,10 @@
 ---
-description: Blueprint Pattern — system behavior for architecture documentation
+description: Blueprint Pattern — core system prompt
 alwaysApply: true
 ---
 
-Follow the Blueprint Pattern system prompt in [PROMPT.md](../../PROMPT.md#1-system-prompt).
+Follow the Blueprint Pattern core prompt in [prompts/core/system-prompt.md](../../prompts/core/system-prompt.md).
+Active session: [prompts/workflows/ACTIVE.md](../../prompts/workflows/ACTIVE.md) (set via `./scripts/bp-workflow.sh checkout <id>`).
 
-- Read `docs/architecture/blueprint.md` before architecture work (when this repo contains an application Blueprint).
-- Use role prompts from `docs/architecture/prompts/` when the user specifies a role.
-- Update Blueprint and session log before stopping.
-- Extensions: [docs/blueprint-pattern-extensions.md](../../docs/blueprint-pattern-extensions.md)
+Human-in-the-loop scribe only. Read order: always-on.md → blueprint.md → role prompt.
+Output semantic anchors before stopping. Extensions: [docs/blueprint-pattern-extensions.md](../../docs/blueprint-pattern-extensions.md)
