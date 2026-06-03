@@ -14,7 +14,7 @@ Documentation pattern (not a product): compile architecture into linked Markdown
 |----------|---------|
 | **[Guide](./docs/guide.md)** | **Start here** — full procedure |
 | **[Typical dialog](./docs/typical-dialog.md)** | Example sessions; prompt types explained |
-| **[Assistant](https://abx-git.github.io/blueprint-pattern/)** | Interactive UI — copy workflows & anchors (GitHub Pages) |
+| **[Assistant](https://abx-git.github.io/blueprint-pattern.github.io/)** | Interactive UI — [Pages repo](https://github.com/abx-git/blueprint-pattern.github.io) |
 
 ```bash
 ./scripts/bp-workflow.sh checkout bootstrap-init   # then open a new agent chat

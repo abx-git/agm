@@ -1,7 +1,7 @@
 name: Deploy Blueprint Assistant (GitHub Pages)
 
-# Publishes docs/assistant/ to the gh-pages branch.
-# In repo Settings → Pages: Source = "Deploy from a branch", branch gh-pages, folder / (root).
+# Publishes docs/assistant/ to https://github.com/abx-git/blueprint-pattern.github.io
+# Live URL: https://abx-git.github.io/blueprint-pattern.github.io/
 
 on:
   push:
@@ -13,11 +13,8 @@ on:
       - '.github/workflows/pages.yml'
   workflow_dispatch:
 
-permissions:
-  contents: write
-
 concurrency:
-  group: pages-gh-pages
+  group: deploy-blueprint-pattern-github-io
   cancel-in-progress: true
 
 jobs:
@@ -26,13 +23,24 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Require deploy token
+        env:
+          TOKEN: ${{ secrets.BLUEPRINT_PATTERN_GHIO_DEPLOY }}
+        run: |
+          if [ -z "$TOKEN" ]; then
+            echo "::error::Add repo secret BLUEPRINT_PATTERN_GHIO_DEPLOY (PAT with repo scope on abx-git/blueprint-pattern.github.io). See docs/assistant/GITHUB-PAGES-SETUP.md"
+            exit 1
+          fi
+
       - name: Sync workflow prompts into assistant data
         run: python3 scripts/sync-assistant-data.py
 
-      - name: Deploy to gh-pages branch
+      - name: Deploy to blueprint-pattern.github.io
         uses: peaceiris/actions-gh-pages@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          personal_token: ${{ secrets.BLUEPRINT_PATTERN_GHIO_DEPLOY }}
+          external_repository: abx-git/blueprint-pattern.github.io
+          publish_branch: main
           publish_dir: ./docs/assistant
-          publish_branch: gh-pages
-          commit_message: 'Deploy Blueprint Assistant'
+          keep_files: true
+          commit_message: 'Deploy Blueprint Assistant from blueprint-pattern@'
