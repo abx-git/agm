@@ -1,5 +1,8 @@
 name: Deploy Blueprint Assistant (GitHub Pages)
 
+# Publishes docs/assistant/ to the gh-pages branch.
+# In repo Settings → Pages: Source = "Deploy from a branch", branch gh-pages, folder / (root).
+
 on:
   push:
     branches: [main]
@@ -11,16 +14,14 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
-  group: pages
-  cancel-in-progress: false
+  group: pages-gh-pages
+  cancel-in-progress: true
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -28,17 +29,10 @@ jobs:
       - name: Sync workflow prompts into assistant data
         run: python3 scripts/sync-assistant-data.py
 
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Deploy to gh-pages branch
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          path: docs/assistant
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/assistant
+          publish_branch: gh-pages
+          commit_message: 'Deploy Blueprint Assistant'

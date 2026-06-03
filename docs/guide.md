@@ -2,7 +2,7 @@
 
 Architecture documentation as a **Markdown link graph** in `docs/architecture/`, maintained with AI agents, versioned in Git. No RAG, no external wiki.
 
-**Sample app:** [examples/sample-app](./examples/sample-app/) · **Dialogs:** [typical-dialog.md](./typical-dialog.md) · **Assistant:** [abx-git.github.io/blueprint-pattern](https://abx-git.github.io/blueprint-pattern/) (or `./scripts/open-assistant.sh` locally)
+**Sample app:** [examples/sample-app](./examples/sample-app/) · **Dialogs:** [typical-dialog.md](./typical-dialog.md) · **Assistant:** [abx-git.github.io/blueprint-pattern](https://abx-git.github.io/blueprint-pattern/) — [Pages setup](./assistant/GITHUB-PAGES-SETUP.md) if Settings show only *Verified domains*
 
 ---
 
