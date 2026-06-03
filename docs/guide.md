@@ -2,7 +2,7 @@
 
 Architecture documentation as a **Markdown link graph** in `docs/architecture/`, maintained with AI agents, versioned in Git. No RAG, no external wiki.
 
-**Deutsch:** [Leitfaden](./de/leitfaden.md) · **Sample app:** [examples/sample-app](./examples/sample-app/)
+**Sample app:** [examples/sample-app](./examples/sample-app/) · **Dialogs:** [typical-dialog.md](./typical-dialog.md) · **Assistant:** [abx-git.github.io/blueprint-pattern](https://abx-git.github.io/blueprint-pattern/) (or `./scripts/open-assistant.sh` locally)
 
 ---
 
@@ -113,6 +113,7 @@ Architecture Work: traverse **links only**; write `work/YYYY-MM-DD-<slug>.md`; r
 
 | Document | When |
 |----------|------|
+| [Typical dialog](./typical-dialog.md) | Sample sessions; core vs. workflow vs. role |
 | [Gen AI challenges](./gen-ai-challenges.md) | Governance, LLM limits, org vs. not solvable |
 | [Architects article](./article/blueprint-pattern-for-architects.md) | Principles and comparison |
 | [Migration from arc42-only wording](./migration-arc42-only.md) | Existing doc renames |

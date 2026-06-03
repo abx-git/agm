@@ -10,16 +10,18 @@ Documentation pattern (not a product): compile architecture into linked Markdown
 
 ## Start here
 
-| Document | Language |
-|----------|----------|
-| **[Guide](./docs/guide.md)** | English — **the full procedure** |
-| **[Leitfaden](./docs/de/leitfaden.md)** | Deutsch |
+| Document | Purpose |
+|----------|---------|
+| **[Guide](./docs/guide.md)** | **Start here** — full procedure |
+| **[Typical dialog](./docs/typical-dialog.md)** | Example sessions; prompt types explained |
+| **[Assistant](https://abx-git.github.io/blueprint-pattern/)** | Interactive UI — copy workflows & anchors (GitHub Pages) |
 
 ```bash
 ./scripts/bp-workflow.sh checkout bootstrap-init   # then open a new agent chat
+./scripts/open-assistant.sh                        # browse & copy workflows (browser)
 ```
 
-Optional depth: [Gen AI challenges](./docs/gen-ai-challenges.md) · [Architects article](./docs/article/blueprint-pattern-for-architects.md) · [Sample app](./docs/examples/sample-app/)
+Optional: [Gen AI challenges](./docs/gen-ai-challenges.md) · [Architects article](./docs/article/blueprint-pattern-for-architects.md) · [Sample app](./docs/examples/sample-app/)
 
 ---
 

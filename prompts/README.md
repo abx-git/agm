@@ -1,6 +1,6 @@
 # Workflows
 
-Procedure: **[docs/guide.md](../docs/guide.md)** (EN) · **[docs/de/leitfaden.md](../docs/de/leitfaden.md)** (DE)
+Procedure: **[docs/guide.md](../docs/guide.md)** · **[docs/typical-dialog.md](../docs/typical-dialog.md)**
 
 | Path | Purpose |
 |------|---------|
