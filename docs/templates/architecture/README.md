@@ -24,11 +24,21 @@ Installed into your application by [bp-install.sh](../../../scripts/bp-install.s
 | `lean-service` | [lean-service/](./lean-service/) | Overview → runtime → decisions |
 | `custom` | Your layout | Define rows in `blueprint.md` |
 
-## Optional
+## Optional (select in Assistant UI → Documentation focus)
 
-| Path | Extension |
-|------|-----------|
-| [ops/](./ops/) | Operational knowledge |
-| [work/_template-review.md](./work/_template-review.md) | Review reports |
+| Focus ID | Path / effect |
+|----------|----------------|
+| `onboarding` | `entry-point.md` reading paths |
+| `operations` | [ops/](./ops/) runbooks, pitfalls, troubleshooting |
+| `persistence` | Data model sections + `context/on-demand.md` |
+| `interfaces` | `interfaces/` (core; elevated in blueprint) |
+| `security` | constraints / quality / risks |
+| `deployment` | deployment + `ops/environments.md` |
+| `observability` | runtime + `ops/troubleshooting.md` |
+| `decisions` | `<template>/decisions/` |
+| `ecosystem` | `ecosystem-index.md`, imports |
+| `domain-glossary` | glossary + domain terms |
+
+See [doc-extensions](../../../prompts/reference/doc-extensions.md).
 
 See [Guide](../../guide.md) · [Migration guide](../../migration-arc42-only.md).

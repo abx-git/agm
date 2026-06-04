@@ -9,6 +9,7 @@ DOC_ROOT="docs/architecture"
 TEMPLATE="arc42"
 PROJECT="My Application"
 AI_TOOL="cursor"
+DOC_FOCUS=""
 
 usage() {
   cat <<'EOF'
@@ -22,11 +23,17 @@ Options:
   --template NAME   arc42 | c4-light | adr-first | lean-service | custom
   --project NAME    Application / project label (metadata only)
   --ai-tool NAME    cursor | claude | copilot | generic
+  --focus IDS       Comma-separated doc focus (see prompts/reference/doc-extensions.md)
   --bp-ref REF      Git ref on abx-git/blueprint-pattern (default: main)
   -h, --help        Show this help
 
-Environment overrides: DOC_ROOT, TEMPLATE, PROJECT, AI_TOOL, BP_REF
+Environment overrides: DOC_ROOT, TEMPLATE, PROJECT, AI_TOOL, DOC_FOCUS, BP_REF
 EOF
+}
+
+focus_has() {
+  local id="$1"
+  [[ ",${DOC_FOCUS}," == *",${id},"* ]]
 }
 
 norm_doc_root() {
@@ -42,6 +49,7 @@ while [[ $# -gt 0 ]]; do
     --template) TEMPLATE="$2"; shift 2 ;;
     --project) PROJECT="$2"; shift 2 ;;
     --ai-tool) AI_TOOL="$2"; shift 2 ;;
+    --focus) DOC_FOCUS="$2"; shift 2 ;;
     --bp-ref) BP_REF="$2"; BP_REPO="https://raw.githubusercontent.com/abx-git/blueprint-pattern/${BP_REF}"; shift 2 ;;
     -h|--help) usage; exit 0 ;;
     *) echo "Unknown option: $1" >&2; usage >&2; exit 1 ;;
@@ -70,8 +78,12 @@ echo "  Project:   ${PROJECT}"
 echo "  Doc root:  ${DOC_ROOT}"
 echo "  Template:  ${TEMPLATE}"
 echo "  AI tool:   ${AI_TOOL}"
+echo "  Doc focus: ${DOC_FOCUS:-(none)}"
 echo "  Source:    ${BP_REPO}"
 echo
+
+# Normalize comma-separated focus (no spaces)
+DOC_FOCUS="$(echo "$DOC_FOCUS" | tr -d ' ')"
 
 # --- Shared scaffold (from pattern templates) ---
 SHARED=(
@@ -91,6 +103,7 @@ PROMPTS=(
   "prompts/core/system-prompt.md|prompts/core/system-prompt.md"
   "prompts/reference/adopt-procedure.md|prompts/reference/adopt-procedure.md"
   "prompts/reference/blueprint-format.md|prompts/reference/blueprint-format.md"
+  "prompts/reference/doc-extensions.md|prompts/reference/doc-extensions.md"
 )
 
 WORKFLOWS=(
@@ -187,6 +200,42 @@ install_template_files() {
 
 install_template_files "$TEMPLATE"
 
+install_ops_file() {
+  local file="$1"
+  local dest="${DOC_ROOT}ops/${file}"
+  echo "  → ${dest}"
+  fetch "docs/templates/architecture/ops/${file}" "$dest"
+}
+
+install_focus_extensions() {
+  [[ -n "$DOC_FOCUS" ]] || return 0
+  if focus_has operations; then
+    echo "Installing ops/ (operations focus)…"
+    install_ops_file "pitfalls.md"
+    install_ops_file "environments.md"
+    install_ops_file "troubleshooting.md"
+    install_ops_file "runbooks/_template.md"
+  else
+    if focus_has deployment; then
+      echo "  → ${DOC_ROOT}ops/environments.md (deployment focus)"
+      fetch "docs/templates/architecture/ops/environments.md" "${DOC_ROOT}ops/environments.md"
+    fi
+    if focus_has observability; then
+      echo "  → ${DOC_ROOT}ops/troubleshooting.md (observability focus)"
+      fetch "docs/templates/architecture/ops/troubleshooting.md" "${DOC_ROOT}ops/troubleshooting.md"
+    fi
+  fi
+  if focus_has ecosystem; then
+    dest="${DOC_ROOT}ecosystem-index.md"
+    if [[ ! -f "$dest" ]]; then
+      echo "  → ${dest} (ecosystem stub)"
+      printf '# Ecosystem index\n\n<!-- Partner services: link to partner entry-point.md and exports.md -->\n\n| Service | Entry | Exports |\n|---------|-------|--------|\n| — | — | — |\n' > "$dest"
+    fi
+  fi
+}
+
+install_focus_extensions
+
 # --- AI tool wiring ---
 DOC_ROOT_RULE="${DOC_ROOT%/}"
 
@@ -271,6 +320,7 @@ project=${PROJECT}
 doc_root=${DOC_ROOT}
 template=${TEMPLATE}
 ai_tool=${AI_TOOL}
+doc_focus=${DOC_FOCUS}
 installed=$(date -u +%Y-%m-%dT%H:%MZ)
 bp_ref=${BP_REF}
 EOF
