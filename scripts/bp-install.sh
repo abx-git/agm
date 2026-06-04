@@ -59,7 +59,10 @@ fetch() {
   local remote_path="$1"
   local dest="$2"
   mkdir -p "$(dirname "$dest")"
-  curl -fsSL "${BP_REPO}/${remote_path}" -o "$dest"
+  if ! curl -fsSL "${BP_REPO}/${remote_path}" -o "$dest"; then
+    echo "Failed to download: ${BP_REPO}/${remote_path}" >&2
+    exit 1
+  fi
 }
 
 echo "Blueprint Pattern install"

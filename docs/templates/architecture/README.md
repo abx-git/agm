@@ -12,7 +12,7 @@ Installed into your application by [bp-install.sh](../../../scripts/bp-install.s
 | `blueprint.md` | Construction plan + state (see [blueprint-format](../../../prompts/reference/blueprint-format.md)) |
 | `entry-point.md` | Human entry: overview, navigation, source links + ## Documentation template |
 | `interfaces/exports.md` · `imports.md` | Contracts |
-| [work/](./work/) | Architecture Work + Review |
+| [work/_template.md](./work/_template.md) · [_template-review.md](./work/_template-review.md) | Architecture Work + Review |
 
 ## Documentation templates (pick one)
 
