@@ -63,7 +63,8 @@ Core rules (once) + session prompt (per chat) → agent → docs/architecture/ �
 | Goal | Workflow | New chat |
 |------|----------|----------|
 | Deepen one section | `refinement` | Yes |
-| After code change | `maintenance` (+ paste `git diff`) | Yes |
+| After code change (paste diff) | `maintenance` | Yes |
+| After code change (git range) | `maintenance-diff-range` — agent runs `git diff` / Git MCP; [pipeline](../prompts/reference/maintenance-pipeline.md) | Yes |
 
 ### 3 · Work
 

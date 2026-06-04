@@ -6,7 +6,7 @@ Goal: update only architecture docs impacted by the current git diff.
 
 [SA:INPUTS]
 Required:
-- git diff (or PR diff link)
+- git diff: pasted in chat, or DIFF_FROM / DIFF_TO (workflow maintenance-diff-range — agent fetches via Git MCP or `git diff`)
 - docs/architecture/blueprint.md
 Optional:
 - prior review report

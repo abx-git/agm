@@ -93,7 +93,7 @@ PROMPTS=(
 WORKFLOWS=(
   bootstrap-adopt bootstrap-continue bootstrap-init
   architecture-work-query architecture-work-analysis architecture-work-design architecture-work-continue
-  maintenance refinement
+  maintenance maintenance-diff-range refinement
   review-phase review-milestone review-maintenance
 )
 
