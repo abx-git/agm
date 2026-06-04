@@ -2,7 +2,7 @@
 
 | Field | Value |
 |-------|-------|
-| **When** | After each arc42 phase; verify one phase |
+| **When** | After each blueprint phase; verify one phase |
 | **Role** | `review` |
 | **Fresh session** | **Required** (no generation context) |
 

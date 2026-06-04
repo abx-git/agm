@@ -14,7 +14,7 @@ Workflow: architecture-work-analysis
 Role: architecture-work
 
 Topic: <e.g. payment integration resilience>
-Scope: <modules, services, or arc42 sections>
+Scope: <modules, services, or <template> sections>
 Focus: <e.g. coupling, failure modes, security, performance>
 
 Instructions:

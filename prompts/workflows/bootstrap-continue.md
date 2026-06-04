@@ -2,7 +2,7 @@
 
 | Field | Value |
 |-------|-------|
-| **When** | Resume arc42 phases after Bootstrap phase 0 is `[x] done` |
+| **When** | Resume blueprint phases after Bootstrap phase 0 is `[x] done` |
 | **Role** | `bootstrap` |
 | **Fresh session** | Optional |
 

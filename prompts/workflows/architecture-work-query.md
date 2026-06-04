@@ -17,7 +17,7 @@ Question: <your question here>
 
 Instructions:
 1. Read docs/architecture/blueprint.md, entry-point.md, and prompts/role-architecture-work.md.
-2. Traverse the Markdown link graph only; follow imports/exports, arc42, and ops links.
+2. Traverse the Markdown link graph only; follow imports/exports, <template>/, and ops links.
 3. Do not scan raw source unless a link leads there.
 4. Write the answer to docs/architecture/work/YYYY-MM-DD-<slug>.md using work/_template.md (type: question).
 5. Register the item in blueprint.md under ## Architecture work (next WRK-NNN).

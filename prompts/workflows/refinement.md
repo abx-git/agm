@@ -2,7 +2,7 @@
 
 | Field | Value |
 |-------|-------|
-| **When** | Targeted deepening of specific arc42 sections (ongoing on large systems) |
+| **When** | Targeted deepening of specific documentation sections (ongoing on large systems) |
 | **Role** | `bootstrap` (same role file; scoped steps) |
 | **Fresh session** | Optional |
 
@@ -13,9 +13,9 @@ Blueprint Pattern — Refinement.
 Workflow: refinement
 Role: bootstrap
 
-Goal: <e.g. extend arc42/runtime.md with retry and circuit-breaker behavior in payment processing>
+Goal: <goal>
 
-Scope: <arc42 paths, modules, or blueprint phase numbers>
+Scope: <scope>
 
 Follow docs/architecture/prompts/role-bootstrap.md for evidence and link rules.
 Read always-on.md → blueprint.md. Update only the scoped sections and blueprint states.
