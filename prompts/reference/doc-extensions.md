@@ -19,6 +19,7 @@ They do **not** change Blueprint Pattern prompts, workflows, or procedure.
 | ID | Label (UI) | Your Markdown (examples) |
 |----|------------|--------------------------|
 | `onboarding` | Graph index (entry-point) | `entry-point.md` link table for agent traversal; `always-on.md` points here |
+| `implementation` | Software structure & implementation | Template building blocks / runtime / components; `always-on.md` source map; `work/` |
 | `interfaces` | APIs & integration | `interfaces/exports.md`, `imports.md` |
 | `persistence` | Data & storage | Template data sections, `context/on-demand.md` (any storage, not only RDBMS) |
 | `security` | Security & compliance | Constraints, quality, risks, on-demand notes |

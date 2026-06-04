@@ -29,6 +29,7 @@ Installed into your application by [bp-install.sh](../../../scripts/bp-install.s
 | Focus ID | Path / effect |
 |----------|----------------|
 | `onboarding` | `entry-point.md` graph index (agent traversal) |
+| `implementation` | Structure, runtime, source map in `always-on.md`, `work/` |
 | `operations` | [ops/](./ops/) runbooks, pitfalls, troubleshooting |
 | `persistence` | Data model sections + `context/on-demand.md` |
 | `interfaces` | `interfaces/` (core; elevated in blueprint) |
