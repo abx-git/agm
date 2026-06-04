@@ -15,7 +15,7 @@ Role: bootstrap
 
 Goal: <goal>
 
-Scope: <scope>
+Scope: <scope> (architecture **content** section — template file, interfaces/, ops/, or “next open row in blueprint.md”; not entry-point/always-on unless the human explicitly chose navigation/session setup)
 
 Follow <doc-root>prompts/role-bootstrap.md for evidence and link rules.
 Read always-on.md → blueprint.md. Update only the scoped sections and blueprint states.
