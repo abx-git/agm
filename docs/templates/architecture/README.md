@@ -28,8 +28,9 @@ Installed into your application by [bp-install.sh](../../../scripts/bp-install.s
 
 | Focus ID | Path / effect |
 |----------|----------------|
-| `onboarding` | `entry-point.md` graph index (agent traversal) |
 | `implementation` | Structure, runtime, source map in `always-on.md`, `work/` |
+
+`entry-point.md`, `blueprint.md`, and `always-on.md` are **always** agent-maintained — not selectable in the Assistant.
 | `operations` | [ops/](./ops/) runbooks, pitfalls, troubleshooting |
 | `persistence` | Data model sections + `context/on-demand.md` |
 | `interfaces` | `interfaces/` (core; elevated in blueprint) |

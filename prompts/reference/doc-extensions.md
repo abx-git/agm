@@ -1,35 +1,44 @@
 # Architecture documentation areas
 
-General categories of **your** architecture Markdown (multi-select in the Assistant). IDs are passed as `DOC_FOCUS` to `bp-install.sh` and injected into adoption and Evolve prompts.
+Human-selectable categories for **architecture content** in the Assistant (multi-select). IDs pass as `DOC_FOCUS` to `bp-install.sh` and into adoption / Evolve prompts.
 
-They do **not** change Blueprint Pattern prompts, workflows, or procedure.
+## Agent-maintained graph (never selectable)
 
-## Lifecycle (how the UI maps to this)
+The human does **not** tick these. The agent creates and maintains them every session:
 
-| Stage | Tab / step | What happens |
-|-------|------------|--------------|
-| **Foundation** | Build → 1 Install | Scaffold: `prompts/`, template folder, core layout — no area selection required |
-| **Plan** | Build → 2 Areas | Multi-select categories → install extras, adopt phases, blueprint rows |
-| **Adopt** | Build → 3 | Agent creates `blueprint.md`, `entry-point.md`, `always-on.md` using step 2 |
-| **Continue** | Build → 4–5 | Follow open rows in `blueprint.md` |
-| **Improve & sync** | Evolve | Same area checkboxes (add more anytime) + deepen / maintenance workflows |
+| File | Role |
+|------|------|
+| `entry-point.md` | Graph index — links to all content docs and sources |
+| `blueprint.md` | Construction plan, phase status, session log |
+| `context/always-on.md` | Session context, source code map |
 
-## Categories
+When content areas change, the agent updates entry-point links and blueprint rows without the human selecting a special “area”.
 
-| ID | Label (UI) | Your Markdown (examples) |
-|----|------------|--------------------------|
-| `onboarding` | Graph index (entry-point) | `entry-point.md` link table for agent traversal; `always-on.md` points here |
-| `implementation` | Software structure & implementation | Template building blocks / runtime / components; `always-on.md` source map; `work/` |
+`context/on-demand.md` is optional supplementary tables the agent fills when relevant areas are selected — not a separate human choice.
+
+## Lifecycle
+
+| Stage | What happens |
+|-------|----------------|
+| **Install** | Scaffold only |
+| **Plan** | Human multi-selects **content** areas below |
+| **Adopt / Evolve** | Agent maintains graph files + selected content areas |
+
+## Human-selectable categories
+
+| ID | Label (UI) | Content (examples) |
+|----|------------|-------------------|
+| `implementation` | Software structure & implementation | Template building blocks / runtime; `work/` |
 | `interfaces` | APIs & integration | `interfaces/exports.md`, `imports.md` |
-| `persistence` | Data & storage | Template data sections, `context/on-demand.md` (any storage, not only RDBMS) |
-| `security` | Security & compliance | Constraints, quality, risks, on-demand notes |
-| `deployment` | Deployment & environments | Template deployment section, `ops/environments.md` |
+| `persistence` | Data & storage | Template data sections |
+| `security` | Security & compliance | Constraints, quality, risks |
+| `deployment` | Deployment & environments | Template deployment, `ops/environments.md` |
 | `observability` | Observability | Runtime notes, `ops/troubleshooting.md` |
-| `operations` | Operations & incidents | `ops/` (runbooks, pitfalls, troubleshooting) |
+| `operations` | Operations & incidents | `ops/` |
 | `decisions` | Architecture decisions | `<template>/decisions/` ADRs |
-| `domain-glossary` | Domain language & glossary | Glossary / context terminology |
+| `domain-glossary` | Domain language & glossary | Glossary sections in template |
 | `ecosystem` | Multi-service landscape | `ecosystem-index.md`, partner links |
 
-Install/bootstrap/evolve behaviour per ID is unchanged; see git history or workflow prompts for detail.
+Removed: `onboarding` (was entry-point — graph duty, not a content area).
 
-Comma-separated: `onboarding,interfaces,operations`
+Comma-separated: `implementation,interfaces,operations`
