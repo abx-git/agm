@@ -1,6 +1,8 @@
 # Architecture documentation areas
 
-Selected in the [Assistant UI](https://abx-git.github.io/blueprint-pattern.github.io/) or passed as `DOC_FOCUS` to `bp-install.sh`. They control **which Markdown architecture files** the agent should create, extend, or keep aligned with code in **your application repository** (under the documentation root).
+In the [Assistant UI](https://abx-git.github.io/blueprint-pattern.github.io/) → **Build** → **What do you want to document?**, pick a **preset** (e.g. *ER diagram & database*) once. That choice applies to install, adoption, and Evolve — no duplicate forms.
+
+Advanced IDs can be passed as `DOC_FOCUS` to `bp-install.sh`. They control **which Markdown architecture files** the agent should create, extend, or keep aligned with code in **your application repository** (under the documentation root).
 
 They do **not** change:
 
