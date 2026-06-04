@@ -24,7 +24,7 @@ Installed into your application by [bp-install.sh](../../../scripts/bp-install.s
 | `lean-service` | [lean-service/](./lean-service/) | Overview → runtime → decisions |
 | `custom` | Your layout | Define rows in `blueprint.md` |
 
-## Optional (select in Assistant UI → Documentation focus)
+## Optional (Assistant UI → Architecture documentation areas)
 
 | Focus ID | Path / effect |
 |----------|----------------|

@@ -25,7 +25,7 @@ Instructions:
    c) If the range is a PR merge base, use three-dot when appropriate: git diff ${DIFF_FROM}...${DIFF_TO}
 3. If the diff is empty, stop and report; do not update architecture docs.
 4. Classify changes and update only architecture docs impacted by this diff.
-5. If **Documentation focus (evolve)** is present, include docs for those orientations when the diff affects them.
+5. If **Architecture documentation areas (evolve)** is present, update those architecture Markdown files when the diff affects them.
 
 Output [[ANCHOR:CHANGE_CLASSIFICATION]], [[ANCHOR:CHANGED_DOCS]], [[ANCHOR:INTERFACE_IMPACT]], [[ANCHOR:OPEN_QUESTIONS]], [[ANCHOR:LINK_CHECK]] before stop.
 ```
