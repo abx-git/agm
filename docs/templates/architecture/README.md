@@ -10,7 +10,7 @@ Installed into your application by [bp-install.sh](../../../scripts/bp-install.s
 | [context/on-demand.md](./context/on-demand.md) | Domain / environment (on demand) |
 | [prompts/role-*.md](./prompts/) | Operational role prompts |
 | `blueprint.md` | Construction plan + state (see [blueprint-format](../../../prompts/reference/blueprint-format.md)) |
-| `entry-point.md` | Human entry: overview, navigation, source links + ## Documentation template |
+| `entry-point.md` | Agent graph index: navigation table to all docs and sources (+ optional overview, ## Documentation template) |
 | `interfaces/exports.md` · `imports.md` | Contracts |
 | [work/_template.md](./work/_template.md) · [_template-review.md](./work/_template-review.md) | Architecture Work + Review |
 
@@ -28,7 +28,7 @@ Installed into your application by [bp-install.sh](../../../scripts/bp-install.s
 
 | Focus ID | Path / effect |
 |----------|----------------|
-| `onboarding` | `entry-point.md` reading paths |
+| `onboarding` | `entry-point.md` graph index (agent traversal) |
 | `operations` | [ops/](./ops/) runbooks, pitfalls, troubleshooting |
 | `persistence` | Data model sections + `context/on-demand.md` |
 | `interfaces` | `interfaces/` (core; elevated in blueprint) |

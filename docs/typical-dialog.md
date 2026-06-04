@@ -24,7 +24,7 @@ How a **human ↔ agent** collaboration looks across the **three lifecycle phase
 | **Session prompt** | [prompts/workflows/](../prompts/workflows/) | Per chat (Assistant UI) | Every session | **Task now:** bootstrap-adopt, maintenance, architecture-work-query, … |
 | **Role** | `docs/architecture/prompts/role-*.md` | App repo (from templates) | Occasionally | **Procedure:** steps, classification, quality gates |
 
-**Knowledge (not pasted into chat):** `always-on.md` (session context), `blueprint.md` (construction plan), `entry-point.md` (human navigation).
+**Knowledge (not pasted into chat):** `always-on.md` (session context), `blueprint.md` (construction plan), `entry-point.md` (agent graph index / traversal).
 
 ```text
 Core (once) + session prompt (this chat) → agent → docs/architecture/ → update blueprint.md

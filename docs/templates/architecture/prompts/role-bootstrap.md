@@ -12,7 +12,7 @@ Read core prompt rules first.
 1) Detect template (arc42 | c4-light | adr-first | lean-service | custom).
 2) Create missing docs/architecture structure from selected template.
 3) Create blueprint.md — construction plan with phase rows → target files and states.
-4) Create entry-point.md — overview, navigation table, source links (no phase status).
+4) Create entry-point.md — graph index: navigation table to all sections and source links (agent traversal); optional short overview (no phase status).
 5) Create/update interfaces/exports.md and interfaces/imports.md.
 6) Populate first high-value section (context/overview) using evidence only.
 7) Add session log with decisions, assumptions, next action.

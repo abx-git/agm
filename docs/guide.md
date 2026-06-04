@@ -25,7 +25,7 @@ Architecture documentation as a **Markdown link graph** in `docs/architecture/`,
 | **Graph** | Linked docs: `entry-point.md`, template folders (e.g. `arc42/`), `interfaces/`, `work/`, `ops/` |
 | **`always-on.md`** | Stable session context: app identity, stack, source map — read every session |
 | **`blueprint.md`** | **Construction plan** for the doc graph: phase → target file, status, WRK, reviews, session log — not architecture body text |
-| **`entry-point.md`** | Human-facing entry: overview, navigation, source links — same map as blueprint, **no** status or session log |
+| **`entry-point.md`** | **Agent graph index:** linked map to all architecture docs and source paths (workflows traverse from here); optional short overview for humans — **no** phase status or session log |
 | **Blueprint Pattern** | The whole method: graph + lifecycle + agent rules |
 | **Core prompt** | Permanent agent behavior → [prompts/core/system-prompt.md](../prompts/core/system-prompt.md) |
 | **Session prompt** | This chat’s task — paste from [Assistant UI](https://abx-git.github.io/blueprint-pattern.github.io/) or [prompts/workflows/](../prompts/workflows/) |
