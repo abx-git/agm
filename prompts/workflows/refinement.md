@@ -15,7 +15,7 @@ Role: bootstrap
 
 Goal: <goal>
 
-Scope: <scope> (architecture **content** only — template section, interfaces/, ops/, or “next open row in blueprint.md”; never entry-point.md, blueprint.md, or always-on.md — agent maintains those)
+Scope: <scope> (from documentation focus checkboxes or optional text — architecture content only; never entry-point.md, blueprint.md, or always-on.md)
 
 Follow <doc-root>prompts/role-bootstrap.md for evidence and link rules.
 Read always-on.md → blueprint.md. Update only the scoped sections and blueprint states.

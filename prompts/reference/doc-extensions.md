@@ -21,7 +21,8 @@ When content areas change, the agent updates entry-point links and blueprint row
 | Stage | What happens |
 |-------|----------------|
 | **Install** | Scaffold only |
-| **Plan** | Human multi-selects **content** areas below |
+| **Plan** | **Documentation focus:** checkboxes and/or optional free text |
+| **Deepen** | Same checkboxes (synced) + optional text for this session → becomes `Scope` in prompt |
 | **Adopt / Evolve** | Agent maintains graph files + selected content areas |
 
 ## Human-selectable categories
