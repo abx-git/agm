@@ -12,8 +12,9 @@ Compile architecture into linked Markdown in `docs/architecture/`, navigate by e
 
 | Document | Purpose |
 |----------|---------|
-| **[Assistant](https://abx-git.github.io/blueprint-pattern.github.io/)** | **Start here** — Build · Evolve · Work + copy prompts |
-| **[Adoption prompt](./prompts/adopt-standalone.md)** | Paste into first agent chat (or use Assistant form) |
+| **[Assistant](https://abx-git.github.io/blueprint-pattern.github.io/)** | **Start here** — generate install script, adopt, copy workflow prompts |
+| **[Install script](./scripts/bp-install.sh)** | Prompts + scaffold via HTTPS (no git clone) |
+| **[Adoption prompt](./prompts/adopt-standalone.md)** | After install — first agent chat (or Assistant Build → Adopt) |
 | **[Guide](./docs/guide.md)** | Lifecycle, core files, full procedure |
 
 ```bash

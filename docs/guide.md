@@ -53,7 +53,8 @@ Core rules (once) + session prompt (per chat) → agent → docs/architecture/ �
 
 | Goal | Workflow | New chat |
 |------|----------|----------|
-| Adopt pattern | paste [adopt-standalone](../prompts/adopt-standalone.md) or `bootstrap-adopt` | Yes |
+| Install prompts + scaffold | Assistant UI → copy `bp-install.sh` → run in app repo | — |
+| Adopt pattern | Assistant UI → `bootstrap-adopt` or [adopt-standalone](../prompts/adopt-standalone.md) | Yes |
 | Continue next blueprint phase | `bootstrap-continue` | Yes |
 | Close build phase | `review-milestone` | **Required** |
 
@@ -88,9 +89,14 @@ Session prompt source files: [prompts/workflows/](../prompts/workflows/). Copy t
 
 ## Setup (once, ~30 min)
 
-**Recommended — adoption prompt:** open your application repository in the IDE, start a new chat, paste from [prompts/adopt-standalone.md](../prompts/adopt-standalone.md) or the [Assistant UI](https://abx-git.github.io/blueprint-pattern.github.io/). The agent writes **`always-on.md`**, **`blueprint.md`** (construction plan), **`entry-point.md`**, template scaffold, and the first section — no git clone or checkout script.
+**Recommended — Assistant UI (Build tab):**
 
-After scaffold exists, copy session prompts per lifecycle phase. Enable [CI link check](../prompts/reference/ci-integrity.md) on the app repo.
+1. **Install** — choose OS, AI tool, project name, documentation template, and doc root → copy the generated script → run at your application repository root (`bp-install.sh`). Downloads prompts and scaffold via HTTPS — **no git clone** of blueprint-pattern.
+2. **Adopt** — copy the adoption prompt → new chat. The agent creates **`blueprint.md`**, **`entry-point.md`**, configures **`always-on.md`**, and the first evidence-based section.
+
+Alternatively: [prompts/adopt-standalone.md](../prompts/adopt-standalone.md) after running [scripts/bp-install.sh](../scripts/bp-install.sh) manually.
+
+After scaffold exists, copy session prompts per lifecycle phase (UI substitutes your doc root and installed `prompts/workflows/` paths). Enable [CI link check](../prompts/reference/ci-integrity.md) on the app repo.
 
 **Template** (record in `entry-point.md`): `arc42` (default) · `c4-light` · `adr-first` · `lean-service` · `custom`.
 

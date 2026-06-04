@@ -52,16 +52,12 @@ Several workflows share one role when the **procedure** matches but the **goal**
 
 ## Part 2 — Typical dialog (patterns, not mandatory wording)
 
-Work happens in your **application repo** after copying [templates](./templates/architecture/) and installing the core prompt in IDE rules.
+Work happens in your **application repo** after running the install script (Assistant UI → Build → Install) — no git clone of blueprint-pattern.
 
 ### Phase 0 — One-time (human only)
 
-```bash
-cp -R …/docs/templates/architecture/* docs/architecture/
-# Edit docs/architecture/context/always-on.md
-
-./scripts/bp-workflow.sh checkout bootstrap-init
-```
+1. [Assistant UI](https://abx-git.github.io/blueprint-pattern.github.io/) — OS, AI tool, project name, template, doc root → **Copy install script** → run at repo root.
+2. Installs `prompts/`, `<doc-root>/` scaffold, and AI tool rules (`bp-install.sh` via HTTPS).
 
 No agent chat yet.
 

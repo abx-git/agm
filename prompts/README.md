@@ -13,8 +13,9 @@ Procedure: **[docs/guide.md](../docs/guide.md)** · **[docs/typical-dialog.md](.
 
 | Path | Purpose |
 |------|---------|
-| [adopt-standalone.md](./adopt-standalone.md) | **Build phase start** — paste or use [Assistant UI](https://abx-git.github.io/blueprint-pattern.github.io/) |
-| [core/system-prompt.md](./core/system-prompt.md) | IDE rules (once) |
-| [reference/adopt-procedure.md](./reference/adopt-procedure.md) | Agent scaffold reference |
+| [../scripts/bp-install.sh](../scripts/bp-install.sh) | **Build phase prep** — install prompts + scaffold (HTTPS, no git clone) |
+| [adopt-standalone.md](./adopt-standalone.md) | **Build phase adopt** — after install; or use [Assistant UI](https://abx-git.github.io/blueprint-pattern.github.io/) |
+| [core/system-prompt.md](./core/system-prompt.md) | IDE rules (installed by `bp-install.sh`) |
+| [reference/adopt-procedure.md](./reference/adopt-procedure.md) | Agent adoption reference |
 
-Copy session prompts from the Assistant UI or from `workflows/<id>.md`. No checkout script in application repos.
+Copy session prompts from the Assistant UI (doc-root aware) or from `prompts/workflows/<id>.md` after install.

@@ -1,6 +1,6 @@
 # Architecture templates
 
-Copy into your application as `docs/architecture/` during Bootstrap.
+Installed into your application by [bp-install.sh](../../../scripts/bp-install.sh) (or the Assistant UI generator) as `<doc-root>/` before the adoption session.
 
 ## Core files (all templates)
 
