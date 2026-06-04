@@ -1,18 +1,20 @@
 # Documentation focus extensions
 
-Selected in the [Assistant UI](https://abx-git.github.io/blueprint-pattern.github.io/) (Build form) or passed as `DOC_FOCUS` to `bp-install.sh` / the adoption parameter block. Bootstrap uses them to **extend `blueprint.md`** with extra phase rows and scaffold optional folders.
+Selected in the [Assistant UI](https://abx-git.github.io/blueprint-pattern.github.io/) (form above all lifecycle tabs) or passed as `DOC_FOCUS` to `bp-install.sh`. Injected into **Build** (bootstrap), **Evolve** (refinement, maintenance, maintenance-diff-range), and install.
 
-| ID | Label | Install (`bp-install.sh`) | Bootstrap (agent) |
-|----|-------|---------------------------|-------------------|
-| `onboarding` | Onboarding & navigation | — | `entry-point.md`: ## Onboarding (reading order by role); link from `always-on.md` |
-| `operations` | Operations & incidents | `ops/` templates | Blueprint phase → `ops/`; link ## Operations in entry-point |
-| `persistence` | Persistence & data | — | Prioritize data model in template sections (runtime, concepts, overview); `context/on-demand.md` data stores |
-| `interfaces` | Integration contracts | (core `interfaces/`) | Early blueprint priority for `interfaces/exports.md` + `imports.md`; cross-link in building blocks / runtime |
-| `security` | Security & compliance | — | Prioritize constraints, quality, risks; security notes in `context/on-demand.md` |
-| `deployment` | Deployment & environments | `ops/environments.md` if `operations` off | Template deployment section + environment map in on-demand or ops |
-| `observability` | Observability | `ops/troubleshooting.md` if `operations` off | Runtime/logging sections + `ops/troubleshooting.md` stub; link metrics/traces in entry-point |
-| `decisions` | Architecture decisions (ADRs) | (template `decisions/`) | Early `[~]` or `[ ]` phase for `<template>/decisions/`; entry-point ADR index |
-| `ecosystem` | Multi-service ecosystem | — | Emphasize `interfaces/imports.md` partner links; optional `ecosystem-index.md` stub at doc root if multi-repo |
-| `domain-glossary` | Domain language & glossary | — | Prioritize glossary / context terms; `on-demand.md` concept table |
+| ID | Label | Install | Bootstrap | Evolve |
+|----|-------|---------|-----------|--------|
+| `onboarding` | Onboarding & navigation | — | entry-point ## Onboarding; always-on link | Keep onboarding paths current |
+| `operations` | Operations & incidents | full `ops/` | blueprint ops/ phase; entry-point ## Operations | Update ops/ on runtime/deploy/incident diffs |
+| `persistence` | Persistence & data | — | data model sections; on-demand data stores | Sync schema/migration-related docs |
+| `interfaces` | Integration contracts | core `interfaces/` | early interfaces/ priority | Always update exports/imports on API changes |
+| `security` | Security & compliance | — | constraints, quality, risks | Update on auth/policy changes |
+| `deployment` | Deployment & environments | `ops/environments.md`* | deployment + environments | Sync infra/config diffs |
+| `observability` | Observability | `ops/troubleshooting.md`* | runtime + troubleshooting stub | Update logging/metrics/tracing docs |
+| `decisions` | Architecture decisions | `decisions/` | ADR phase + entry-point index | Draft/update ADRs when decisions implied |
+| `ecosystem` | Multi-service ecosystem | `ecosystem-index.md` stub | imports + ecosystem links | Update partner links |
+| `domain-glossary` | Domain language & glossary | — | glossary + on-demand terms | Update terminology |
+
+\*If `operations` is not selected, partial `ops/` files install for deployment/observability only.
 
 Comma-separated IDs: `onboarding,operations,persistence`
