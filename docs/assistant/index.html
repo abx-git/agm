@@ -238,9 +238,13 @@
       </section>
 
       <section id="phase-work" class="phase" role="tabpanel" hidden>
-        <p class="phase-intro">Analysis and design work items (WRK) — separate from everyday doc maintenance.</p>
+        <p class="phase-intro"><strong>Dialog — Lösung herantasten</strong> führt per Interview zur Lösung (eine Frage pro Antwort). Die anderen Modi liefern direkt Analyse, Design oder Antworten als WRK-Dokument.</p>
         <div class="modes" id="work-grid"></div>
         <div id="work-panel" class="mode-panel" hidden>
+          <div id="work-dialog-hint" class="dialog-hint" hidden>
+            <strong>Dialog-Modus:</strong> Prompt in einen <strong>neuen Cursor-Chat</strong> einfügen (nicht Agent/Composer).
+            Die KI stellt nur eine Frage pro Antwort — erst nach „Interview beenden" wird in <code>work/</code> dokumentiert.
+          </div>
           <p class="mode-label" id="work-label"></p>
           <div id="work-inputs" class="workflow-inputs" hidden></div>
           <details class="prompt-preview">
@@ -268,13 +272,13 @@
     </details>
 
     <footer class="foot">
-      <span class="deploy-id">Lifecycle · v30</span>
+      <span class="deploy-id">Lifecycle · v31</span>
       · <a href="https://github.com/abx-git/blueprint-pattern/blob/main/docs/guide.md">Guide</a>
       · <a href="https://github.com/abx-git/blueprint-pattern">Repository</a>
     </footer>
   </main>
 
   <div id="toast" class="toast" hidden>Copied</div>
-  <script src="app.js?v=30" type="module"></script>
+  <script src="app.js?v=31" type="module"></script>
 </body>
 </html>

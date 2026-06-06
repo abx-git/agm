@@ -17,11 +17,15 @@ const EVOLVE_MODES = [
   },
 ];
 
+/** Workflows that run as turn-by-turn interview (Phase 1) before writing docs (Phase 2). */
+const DIALOG_WORKFLOW_IDS = new Set(['architecture-work-interrogate']);
+
 const WORK_MODES = [
   {
     id: 'architecture-work-interrogate',
-    label: 'Lösung im Dialog erarbeiten',
-    note: 'Cursor interviewt dich Schritt für Schritt (One-Question-at-a-Time), um ein präzises, revidierbares Konzept zu erstellen.',
+    label: 'Dialog — Lösung herantasten',
+    note: 'Eine Frage pro Antwort. Cursor Chat verwenden (kein Agent/Composer). Erst nach „Interview beenden" wird dokumentiert.',
+    dialog: true,
   },
   { id: 'architecture-work-query', label: 'Answer question', note: 'Set your question in the prompt.' },
   { id: 'architecture-work-analysis', label: 'Analyze', note: 'Set topic, scope, and focus.' },
@@ -794,17 +798,33 @@ function personalizeWorkflowWhen(workflow, params) {
   );
 }
 
+function buildDialogModeHeader() {
+  return [
+    '## Dialog-Modus (VORRANG in diesem Chat)',
+    '',
+    '**Interview first, write later.** role-architecture-work.md Schritte 3–5 und OUTPUT_CONTRACT gelten erst in Phase 2.',
+    'Phase 1: keine Dateien, keine Designs, keine [[ANCHOR:...]] — genau **eine Frage** pro Antwort.',
+    'Nutze Cursor **Chat** (nicht Agent/Composer) — der Dialog braucht turn-by-turn Antworten.',
+    '',
+  ].join('\n');
+}
+
 function personalizeWorkflowPrompt(workflow, params, inputValues = {}) {
   const template = resolvedTemplate(params);
   let prompt = substituteDocRoot(workflow.prompt, params.docRoot);
   prompt = substituteTemplate(prompt, template);
   prompt = applyWorkflowInputs(prompt, workflow.id, inputValues);
   const docRoot = normDocRoot(params.docRoot);
+  const isDialog = DIALOG_WORKFLOW_IDS.has(workflow.id);
   const focusNote =
     params.docFocus?.length > 0
       ? `- Architecture documentation areas: ${params.docFocus.join(', ')}`
       : '';
+  const roleLine = isDialog
+    ? `- Role file: ${docRoot}prompts/role-${workflowRole(workflow)}.md (Phase 2 only — overridden in Phase 1)`
+    : `- Role file: ${docRoot}prompts/role-${workflowRole(workflow)}.md`;
   const header = [
+    ...(isDialog ? [buildDialogModeHeader()] : []),
     '## Session context (installed prompts)',
     '',
     `- Documentation template: ${template}`,
@@ -812,7 +832,7 @@ function personalizeWorkflowPrompt(workflow, params, inputValues = {}) {
     `- Template folder: ${docRoot}${template}/`,
     focusNote,
     '- Core rules: prompts/core/system-prompt.md (installed)',
-    `- Role file: ${docRoot}prompts/role-${workflowRole(workflow)}.md`,
+    roleLine,
     `- Workflow reference: prompts/workflows/${workflow.id}.md`,
     '',
     buildAgentGraphDutiesBlock(docRoot).trimEnd(),
@@ -1141,7 +1161,7 @@ function initModeGrid(workflows, key, modes, gridId, panelId, labelId, noteId) {
   for (const mode of modes) {
     const btn = document.createElement('button');
     btn.type = 'button';
-    btn.className = 'mode-btn';
+    btn.className = mode.dialog ? 'mode-btn mode-btn--dialog' : 'mode-btn';
     btn.textContent = mode.label;
     btn.addEventListener('click', () => {
       grid.querySelectorAll('.mode-btn').forEach((b) => b.classList.remove('active'));
@@ -1161,6 +1181,11 @@ function initModeGrid(workflows, key, modes, gridId, panelId, labelId, noteId) {
         const text = mode.note || (w.freshChat ? 'New chat required.' : '');
         note.textContent = text;
         note.hidden = !text;
+      }
+
+      const dialogHint = document.getElementById(`${key}-dialog-hint`);
+      if (dialogHint) {
+        dialogHint.hidden = !mode.dialog;
       }
 
       renderWorkflowInputs(inputsHost, w.id, key);
