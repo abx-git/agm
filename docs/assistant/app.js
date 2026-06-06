@@ -34,8 +34,16 @@ const WORK_MODES = [
 ];
 
 const REVIEW_MODES = [
-  { id: 'review-phase', label: 'Review one phase' },
-  { id: 'review-maintenance', label: 'Review all docs' },
+  {
+    id: 'review-phase',
+    label: 'Review one phase',
+    note: 'Checks the next unreviewed blueprint phase against source and links. Report-only — fixes in a follow-up session.',
+  },
+  {
+    id: 'review-maintenance',
+    label: 'Review all docs',
+    note: 'After maintenance: cross-check changed docs against the git diff. Report-only.',
+  },
 ];
 
 /** Evolve workflows that receive the architecture documentation areas block. */
@@ -1255,7 +1263,7 @@ async function main() {
   initBuildPhase(workflows);
   initModeGrid(workflows, 'evolve', EVOLVE_MODES, 'evolve-grid', 'evolve-panel', 'evolve-label', 'evolve-note');
   initModeGrid(workflows, 'work', WORK_MODES, 'work-grid', 'work-panel', 'work-label', 'work-note');
-  initModeGrid(workflows, 'review', REVIEW_MODES, 'review-grid', 'review-panel', 'review-label', null);
+  initModeGrid(workflows, 'review', REVIEW_MODES, 'review-grid', 'review-panel', 'review-label', 'review-note');
   initCopyButtons();
 }
 

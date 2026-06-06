@@ -261,24 +261,29 @@
 
     <details class="review-block">
       <summary>Review (verification)</summary>
-      <p class="review-intro">Separate verification from writing. Pick a review workflow:</p>
+      <p class="review-intro">
+        <strong>What it does:</strong> a separate, read-only Cursor session that <em>verifies</em> architecture docs — it does not write or fix them.
+        The AI compares documentation to source code and the link graph, writes a report to <code>work/</code>, and updates <code>blueprint.md</code> under
+        <strong>Reviews</strong> and <strong>Guardrail findings</strong>. Run in a <strong>new chat</strong> after bootstrap, maintenance, or a work session.
+      </p>
       <div class="modes review-modes" id="review-grid"></div>
       <div id="review-panel" class="mode-panel" hidden>
         <p class="mode-label" id="review-label"></p>
         <div class="cmd-row">
           <button type="button" class="btn primary mode-copy" data-panel="review">Copy prompt</button>
         </div>
+        <p class="mode-note" id="review-note" hidden></p>
       </div>
     </details>
 
     <footer class="foot">
-      <span class="deploy-id">Lifecycle · v32</span>
+      <span class="deploy-id">Lifecycle · v33</span>
       · <a href="https://github.com/abx-git/blueprint-pattern/blob/main/docs/guide.md">Guide</a>
       · <a href="https://github.com/abx-git/blueprint-pattern">Repository</a>
     </footer>
   </main>
 
   <div id="toast" class="toast" hidden>Copied</div>
-  <script src="app.js?v=32" type="module"></script>
+  <script src="app.js?v=33" type="module"></script>
 </body>
 </html>
