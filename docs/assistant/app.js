@@ -23,8 +23,8 @@ const DIALOG_WORKFLOW_IDS = new Set(['architecture-work-interrogate']);
 const WORK_MODES = [
   {
     id: 'architecture-work-interrogate',
-    label: 'Dialog — Lösung herantasten',
-    note: 'Eine Frage pro Antwort. Cursor Chat verwenden (kein Agent/Composer). Erst nach „Interview beenden" wird dokumentiert.',
+    label: 'Dialog — explore solution',
+    note: 'One question per reply. Use Cursor Chat (not Agent/Composer). Documentation only after "end interview".',
     dialog: true,
   },
   { id: 'architecture-work-query', label: 'Answer question', note: 'Set your question in the prompt.' },
@@ -235,14 +235,13 @@ const WORKFLOW_INPUTS = {
   'architecture-work-interrogate': [
     {
       name: 'question',
-      label: 'Deine Fragestellung / Problemstellung',
-      placeholder:
-        'e.g. Wie sichern wir die Event-Kommunikation mit dem Payment-Dienst gegen Timeouts ab?',
+      label: 'Your goal / question',
+      placeholder: 'e.g. How do we make event communication with the payment service resilient to timeouts?',
       required: true,
     },
     {
       name: 'slug',
-      label: 'Work file slug (für den Dateinamen)',
+      label: 'Work file slug',
       placeholder: 'e.g. payment-timeout-resilience',
       required: true,
     },
@@ -800,11 +799,11 @@ function personalizeWorkflowWhen(workflow, params) {
 
 function buildDialogModeHeader() {
   return [
-    '## Dialog-Modus (VORRANG in diesem Chat)',
+    '## Dialog mode (OVERRIDES in this chat)',
     '',
-    '**Interview first, write later.** role-architecture-work.md Schritte 3–5 und OUTPUT_CONTRACT gelten erst in Phase 2.',
-    'Phase 1: keine Dateien, keine Designs, keine [[ANCHOR:...]] — genau **eine Frage** pro Antwort.',
-    'Nutze Cursor **Chat** (nicht Agent/Composer) — der Dialog braucht turn-by-turn Antworten.',
+    '**Interview first, write later.** role-architecture-work.md steps 3–5 and OUTPUT_CONTRACT apply only in Phase 2.',
+    'Phase 1: no files, no designs, no [[ANCHOR:...]] — exactly **one question** per reply.',
+    'Use Cursor **Chat** (not Agent/Composer) — the dialog requires turn-by-turn replies.',
     '',
   ].join('\n');
 }
