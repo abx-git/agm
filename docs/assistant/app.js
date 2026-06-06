@@ -18,6 +18,11 @@ const EVOLVE_MODES = [
 ];
 
 const WORK_MODES = [
+  {
+    id: 'architecture-work-interrogate',
+    label: 'Lösung im Dialog erarbeiten',
+    note: 'Cursor interviewt dich Schritt für Schritt (One-Question-at-a-Time), um ein präzises, revidierbares Konzept zu erstellen.',
+  },
   { id: 'architecture-work-query', label: 'Answer question', note: 'Set your question in the prompt.' },
   { id: 'architecture-work-analysis', label: 'Analyze', note: 'Set topic, scope, and focus.' },
   { id: 'architecture-work-design', label: 'Design proposal', note: 'Set goal and constraints.' },
@@ -223,6 +228,21 @@ const DOC_EXTENSIONS = [
 
 /** Per-workflow user fields (name → placeholder in workflow prompt). */
 const WORKFLOW_INPUTS = {
+  'architecture-work-interrogate': [
+    {
+      name: 'question',
+      label: 'Deine Fragestellung / Problemstellung',
+      placeholder:
+        'e.g. Wie sichern wir die Event-Kommunikation mit dem Payment-Dienst gegen Timeouts ab?',
+      required: true,
+    },
+    {
+      name: 'slug',
+      label: 'Work file slug (für den Dateinamen)',
+      placeholder: 'e.g. payment-timeout-resilience',
+      required: true,
+    },
+  ],
   'architecture-work-query': [
     { name: 'question', label: 'Your question', placeholder: 'e.g. How does order-service call payment-service?', required: true },
     { name: 'slug', label: 'Work file slug', placeholder: 'e.g. order-payment-flow', required: true },

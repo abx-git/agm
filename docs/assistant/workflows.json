@@ -76,6 +76,34 @@
     "prompt": "Blueprint Pattern — Architecture Work (design).\nWorkflow: architecture-work-design\nRole: architecture-work\n\nGoal: <e.g. add circuit breaker between order-service and payment-service>\nConstraints: <optional: latency, no new infra, etc.>\n\nInstructions:\n1. Read blueprint.md and relevant work/ items and <template> sections.\n2. Write design to docs/architecture/work/YYYY-MM-DD-<slug>.md (type: design):\n   Context, Design (with Mermaid), Alternatives, Impact, Traceability.\n3. If the design implies a decision, draft ADR in <template>/decisions/ and cross-link.\n4. Register in blueprint.md (WRK-NNN). Verify links.\n\nOutput [[ANCHOR:WORK_ITEM]], [[ANCHOR:TRACEABILITY_COVERAGE]], [[ANCHOR:ADR_IMPACT]], [[ANCHOR:LINK_CHECK]] before stop."
   },
   {
+    "id": "architecture-work-interrogate",
+    "role": "architecture-work",
+    "group": "Architecture work",
+    "when": "Interaktive Lösungsfindung im Dialog (Interrogatory LLM)",
+    "prerequisite": "Bootstrap phase 0 `[x] done`; `entry-point.md` existiert",
+    "freshChat": false,
+    "freshNote": "",
+    "anchors": [
+      "LINK_CHECK",
+      "TRACEABILITY_COVERAGE",
+      "WORK_ITEM",
+      "OPEN_QUESTIONS"
+    ],
+    "steps": [
+      "Lies docs/architecture/blueprint.md, entry-point.md und die relevanten Architekturabschnitte.",
+      "Erstelle basierend auf der Fragestellung des Menschen einen strukturierten Befragungsplan (3-5 Kernaspekte).",
+      "Führe ein interaktives Interview: Stelle dem Menschen strikt NUR EINE FRAGE AUF EINMAL, um den Plan abzuarbeiten.",
+      "Erlaube dem Menschen, frühere Antworten im Verlauf des Dialogs zu revidieren. Passe das Konzept dynamisch an.",
+      "Schreibe die konsolidierte Lösung nach Abschluss des Dialogs in docs/architecture/work/YYYY-MM-DD-<slug>.md.",
+      "Registriere das Element im blueprint.md unter ## Architecture work (nächste WRK-NNN) und überprüfe die Links."
+    ],
+    "placeholders": [
+      "slug",
+      "your question here"
+    ],
+    "prompt": "Blueprint Pattern — Architecture Work (interrogate).\nWorkflow: architecture-work-interrogate\nRole: architecture-work\n\nZiel / Fragestellung: <your question here>\n\nAnweisungen für Cursor (Verfahrensregeln für diesen Chat):\n1. Lies die Dateien <doc-root>blueprint.md und traverse das System ab <doc-root>entry-point.md, um den aktuellen Architektur-Kontext voll zu erfassen.\n2. Gib als deine ALLERERSTE Antwort einen kurzen, strukturierten Befragungsplan (3 bis 5 bullet points) aus. Dieser Plan zeigt die Aspekte, die wir im Dialog nacheinander klären müssen, um eine fundierte Lösung zu erarbeiten.\n3. Starte direkt nach der Vorstellung des Plans mit dem Interview. \n4. STRIKTE REGEL: Stelle im gesamten Verlauf des Chats IMMER NUR EINE FRAGE AUF EINMAL. Warte die Antwort des Menschen ab, bevor du tiefer bohrst oder zum nächsten Punkt des Plans übergehst.\n5. Dynamische Revision: Wenn der Mensch im Dialog signalisiert, dass eine vorherige Entscheidung geändert oder revidiert werden muss (z.B. Wechsel der Technologie oder der Randbedingungen), passe deinen internen Entwurf sofort an und validiere, wie sich dies auf den restlichen Befragungsplan auswirkt.\n6. Festschreiben: Sobald alle Punkte des Plans abgearbeitet sind oder der Mensch das Interview explizit beendet, kompiliere das gesamte gesammelte Wissen in ein strukturiertes Dokument unter <doc-root>work/YYYY-MM-DD-<slug>.md (Inhalt: Kontext, getroffene Entscheidungen, Architektur-Skizze/Mermaid, Rückverfolgbarkeit).\n7. Registriere dieses neue Dokument mit dem Status `[ ] open` oder `[~]` als nächsten WRK-Eintrag im <doc-root>blueprint.md.\n\nBestätige kurz dein Verständnis des Ablaufs, zeige den Befragungsplan und stelle anschließend direkt Frage 1.\n\nOutput [[ANCHOR:WORK_ITEM]], [[ANCHOR:TRACEABILITY_COVERAGE]], [[ANCHOR:OPEN_QUESTIONS]], [[ANCHOR:LINK_CHECK]] before stop."
+  },
+  {
     "id": "architecture-work-query",
     "role": "architecture-work",
     "group": "Architecture work",
