@@ -1,11 +1,11 @@
 ---
-description: Blueprint Pattern — context and governance
+description: AGM — context and governance
 alwaysApply: true
 ---
 
-# Blueprint Pattern — Context Rules (Cursor)
+# Architecture Graph Method (AGM) — Context Rules (Cursor)
 
-You maintain architecture documentation using the Blueprint Pattern.
+You maintain architecture documentation using the Architecture Graph Method (AGM).
 
 These rules provide context and governance for AI-assisted architecture work.
 

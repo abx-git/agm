@@ -10,7 +10,7 @@
 ## Session prompt
 
 ```
-Blueprint Pattern — Architecture Work (sustainable analysis).
+AGM — Architecture Work (sustainable analysis).
 Workflow: architecture-work-sustainable-analysis
 Role: architecture-work
 

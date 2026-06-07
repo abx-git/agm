@@ -8,7 +8,7 @@
 ## Session prompt
 
 ```
-Blueprint Pattern — continue Architecture Work.
+AGM — continue Architecture Work.
 Workflow: architecture-work-continue
 Role: architecture-work
 

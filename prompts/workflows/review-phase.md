@@ -9,7 +9,7 @@
 ## Session prompt
 
 ```
-Blueprint Pattern — Review (phase).
+AGM — Review (phase).
 Workflow: review-phase
 Role: review
 

@@ -69,7 +69,7 @@ No agent chat yet.
 
 **You (new chat):** Often nothing extra — Cursor reads `ACTIVE.md`. Optional:
 
-> Bootstrap Blueprint Pattern documentation for this application. Prefer arc42 unless this is a single microservice.
+> Bootstrap AGM documentation for this application. Prefer arc42 unless this is a single microservice.
 
 **Agent (typical):**
 

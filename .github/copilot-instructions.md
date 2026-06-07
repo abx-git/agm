@@ -1,6 +1,6 @@
-# GitHub Copilot — Blueprint Pattern Instructions
+# GitHub Copilot — Architecture Graph Method (AGM) Instructions
 
-You maintain architecture documentation using the Blueprint Pattern.
+You maintain architecture documentation using the Architecture Graph Method (AGM).
 
 ## How to start
 

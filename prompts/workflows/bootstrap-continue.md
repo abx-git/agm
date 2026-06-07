@@ -9,11 +9,11 @@
 ## Session prompt
 
 ```
-Blueprint Pattern — Bootstrap (continue).
+AGM — Bootstrap (continue).
 Workflow: bootstrap-continue
 Role: bootstrap
 
-Follow Blueprint Pattern core prompt and docs/architecture/prompts/role-bootstrap.md.
+Follow the AGM core prompt and docs/architecture/prompts/role-bootstrap.md.
 Read docs/architecture/context/always-on.md → docs/architecture/blueprint.md.
 Resume the next [~] or [ ] phase.
 

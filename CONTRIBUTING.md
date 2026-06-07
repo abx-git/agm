@@ -1,12 +1,12 @@
-# Contributing to the Blueprint Pattern
+# Contributing to the Architecture Graph Method (AGM)
 
-Thank you for your interest in the Blueprint Pattern. This repository documents a pattern, not a product — contributions that sharpen the pattern or prove it in practice are especially welcome.
+Thank you for your interest in the Architecture Graph Method (AGM). This repository documents a method, not a product — contributions that sharpen AGM or prove it in practice are especially welcome.
 
 ## Ways to contribute
 
 ### Case studies
 
-The most valuable contribution is a real-world application of the Blueprint Pattern in your repository. Open an issue using the **Case Study** template and include:
+The most valuable contribution is a real-world application of the Architecture Graph Method (AGM) in your repository. Open an issue using the **Case Study** template and include:
 
 - Repository link (public or anonymized excerpt)
 - Application size (LOC, number of services)

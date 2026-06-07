@@ -1,4 +1,4 @@
-# Blueprint Pattern — Role: Architecture Work (< 150 words)
+# AGM — Role: Architecture Work (< 150 words)
 
 [SA:ROLE]
 Role: architecture-work

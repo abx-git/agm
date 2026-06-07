@@ -9,7 +9,7 @@
 ## Organizational
 
 - Sample application — no production SLA
-- Documentation maintained via the Blueprint Pattern
+- Documentation maintained via the Architecture Graph Method (AGM)
 
 ## Conventions
 

@@ -1,4 +1,4 @@
-# Blueprint Pattern — Guide
+# Architecture Graph Method (AGM) — Guide
 
 Architecture documentation as a **Markdown link graph** in `docs/architecture/`, maintained with AI agents, versioned in Git. No RAG, no external wiki.
 
@@ -26,7 +26,9 @@ Architecture documentation as a **Markdown link graph** in `docs/architecture/`,
 | **`always-on.md`** | Stable session context: app identity, stack, source map — read every session |
 | **`blueprint.md`** | **Construction plan** for the doc graph: phase → target file, status, WRK, reviews, session log — not architecture body text |
 | **`entry-point.md`** | **Agent graph index:** linked map to all architecture docs and source paths (workflows traverse from here); optional short overview for humans — **no** phase status or session log |
-| **Blueprint Pattern** | The whole method: graph + lifecycle + agent rules |
+| **Architecture Graph Method (AGM)** | The whole method: graph + lifecycle + agent rules |
+| **Blueprint** | The steering artefact `blueprint.md`: construction plan, WRK register, reviews, session log |
+| **Blueprint Pattern** | Legacy alias for AGM (same method; repository name unchanged) |
 | **Core prompt** | Permanent agent behavior → [prompts/core/system-prompt.md](../prompts/core/system-prompt.md) |
 | **Session prompt** | This chat’s task — paste from [Assistant UI](https://abx-git.github.io/blueprint-pattern.github.io/) or [prompts/workflows/](../prompts/workflows/) |
 | **Role** | Step-by-step procedure → `docs/architecture/prompts/role-*.md` |
@@ -133,7 +135,7 @@ Architecture Work (phase 3): traverse **links only**; write `work/YYYY-MM-DD-<sl
 
 ---
 
-## Mechanisms (built into the pattern)
+## Mechanisms (built into AGM)
 
 | Mechanism | Purpose |
 |-----------|---------|

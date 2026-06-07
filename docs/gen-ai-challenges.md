@@ -1,6 +1,6 @@
-# Gen AI / LLM challenges and the Blueprint Pattern
+# Gen AI / LLM challenges and the Architecture Graph Method (AGM)
 
-Architecture work with large language models fails in predictable ways: context fills up, earlier instructions fade, answers sound authoritative but are wrong, and documentation drifts away from code. The Blueprint Pattern is a **documentation and session discipline** — not a magic model wrapper. It compiles architecture into a linked Markdown graph in the repository and splits agent work into clear operations (bootstrap, maintenance, review, and so on).
+Architecture work with large language models fails in predictable ways: context fills up, earlier instructions fade, answers sound authoritative but are wrong, and documentation drifts away from code. The Architecture Graph Method (AGM) is a **documentation and session discipline** — not a magic model wrapper. It compiles architecture into a linked Markdown graph in the repository and splits agent work into clear operations (bootstrap, maintenance, review, and so on).
 
 This document answers three questions for each common problem:
 
@@ -50,7 +50,7 @@ Each row is one **failure mode** you may already have seen in agent sessions. Th
 
 ### A — Strong organizational levers (Org. **Yes**)
 
-Most rows here are not “AI problems” in the technical sense. They are **coordination failures**: documentation lives outside Git, nobody owns updates, reviews are skipped, or five people run five different session prompts. The Blueprint Pattern gives you files and workflows (`blueprint.md`, `ACTIVE.md`, review report-only mode). **Without organizational enforcement, those files become shelfware** — correct structure, stale or empty content.
+Most rows here are not “AI problems” in the technical sense. They are **coordination failures**: documentation lives outside Git, nobody owns updates, reviews are skipped, or five people run five different session prompts. AGM gives you files and workflows (`blueprint.md`, `ACTIVE.md`, review report-only mode). **Without organizational enforcement, those files become shelfware** — correct structure, stale or empty content.
 
 If your retrospective sounds like “the agent forgot” or “we never updated the wiki,” start with section A before tuning prompts.
 

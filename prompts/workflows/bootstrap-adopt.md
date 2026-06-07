@@ -9,11 +9,11 @@
 ## Session prompt
 
 ```
-Blueprint Pattern — Adopt (standalone session).
+AGM — Adopt (standalone session).
 Workflow: bootstrap-adopt
 Role: bootstrap
 
-Adopt the Blueprint Pattern into this application repository. The human has already run `bp-install.sh` (Assistant UI → Build → Install). Execute Phase B–C in prompts/reference/adopt-procedure.md only.
+Adopt the Architecture Graph Method (AGM) into this application repository. The human has already run `bp-install.sh` (Assistant UI → Build → Install). Execute Phase B–C in prompts/reference/adopt-procedure.md only.
 
 Prerequisites: application repository open in the IDE; install script completed; human available for a short interview.
 

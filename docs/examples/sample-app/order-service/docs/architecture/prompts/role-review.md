@@ -1,4 +1,4 @@
-# Blueprint Pattern — Role: Review (< 150 words)
+# AGM — Role: Review (< 150 words)
 
 [SA:ROLE]
 Role: review

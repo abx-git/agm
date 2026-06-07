@@ -1,4 +1,4 @@
-# Blueprint Pattern — Role: Maintenance (< 150 words)
+# AGM — Role: Maintenance (< 150 words)
 
 [SA:ROLE]
 Role: maintenance

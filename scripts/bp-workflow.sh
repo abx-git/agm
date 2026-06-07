@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Activate a Blueprint Pattern workflow (session prompt + Cursor rule).
+# Activate an AGM workflow (session prompt + Cursor rule).
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -41,7 +41,7 @@ write_rules_mdc() {
   local id="$1"
   cat >"$RULES_FILE" <<EOF
 ---
-description: Blueprint Pattern — active workflow (${id})
+description: AGM — active workflow (${id})
 alwaysApply: true
 ---
 
@@ -100,7 +100,7 @@ EOF
 
   cat >"$RULES_FILE" <<'EOF'
 ---
-description: Blueprint Pattern — no active workflow
+description: AGM — no active workflow
 alwaysApply: false
 ---
 

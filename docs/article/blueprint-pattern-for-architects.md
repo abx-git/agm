@@ -1,8 +1,8 @@
-# Blueprint Pattern for Architects
+# Architecture Graph Method (AGM) for Architects
 
 **How to document software architecture that humans and AI agents can traverse deterministically.**
 
-The Blueprint Pattern is not another documentation tool. It is a **pattern** for co-locating architectural knowledge with source code — structured as a Markdown link graph, maintained by AI agents, versioned in Git, and aligned with arc42 and the C4 Model.
+The Architecture Graph Method (AGM) is not another documentation tool. It is a **method** for co-locating architectural knowledge with source code — structured as a Markdown link graph, maintained by AI agents, versioned in Git, and aligned with arc42 and the C4 Model. *(Formerly known as Blueprint Pattern.)*
 
 This article explains the method for software architects: the problem it solves, the principles behind it, the workflow you operate, and where the boundaries are.
 
@@ -11,7 +11,7 @@ This article explains the method for software architects: the problem it solves,
 ## Table of contents
 
 1. [Why architecture breaks down for AI agents](#1-why-architecture-breaks-down-for-ai-agents)
-2. [The Blueprint Pattern](#2-the-blueprint-pattern)
+2. [The Architecture Graph Method (AGM)](#2-the-architecture-graph-method-agm)
 3. [Seven principles for architects](#3-seven-principles-for-architects)
 4. [The method step by step](#4-the-method-step-by-step)
 5. [Roles and responsibilities](#5-roles-and-responsibilities)
@@ -45,15 +45,15 @@ The knowledge exists. It lives in a senior engineer's head, in a Confluence page
 
 As an architect, you already know the failure mode: documentation decays because updating it is nobody's job in the sprint. AI agents amplify the problem — they consume stale docs confidently.
 
-The Blueprint Pattern addresses both sides: **documentation that stays current** (because it lives in the repo and updates on `git diff`) and **documentation that agents can navigate reliably** (because navigation is graph traversal, not similarity search).
+AGM addresses both sides: **documentation that stays current** (because it lives in the repo and updates on `git diff`) and **documentation that agents can navigate reliably** (because navigation is graph traversal, not similarity search).
 
 ---
 
-## 2. The Blueprint Pattern
+## 2. The Architecture Graph Method (AGM)
 
 ### Core insight
 
-Large language models are excellent at reading and writing structured Markdown. Instead of retrieving architecture knowledge at query time through embeddings, Blueprint Pattern **compiles it once** into an explicit link graph — and keeps it current through incremental maintenance.
+Large language models are excellent at reading and writing structured Markdown. Instead of retrieving architecture knowledge at query time through embeddings, AGM **compiles it once** into an explicit link graph — and keeps it current through incremental maintenance.
 
 ```mermaid
 flowchart LR
@@ -73,7 +73,7 @@ flowchart LR
 
 ### Repository structure
 
-Every application using the Blueprint Pattern adds a `docs/architecture/` directory:
+Every application using the Architecture Graph Method (AGM) adds a `docs/architecture/` directory:
 
 ```
 my-app/
@@ -116,11 +116,11 @@ Every architectural claim is traceable to a concrete file and line number. For a
 
 The architecture graph lives **inside the repository**, co-located with the source it describes. A pull request that changes behavior also changes the documentation. Code review, Git history, and branch workflows apply to architecture knowledge exactly as they apply to code.
 
-This is the same "docs as code" principle you may already advocate — The Blueprint Pattern makes it agent-operational.
+This is the same "docs as code" principle you may already advocate — AGM makes it agent-operational.
 
 ### 3. AI-maintained lifecycle
 
-The Blueprint Pattern defines these operations:
+AGM defines these operations:
 
 | Operation | Trigger | Outcome |
 |-----------|---------|---------|
@@ -204,7 +204,7 @@ Mechanical enforcement via CI (Markdown link checker) catches what agents miss. 
 
 **Steps:**
 
-1. Prompt: *"Bootstrap Blueprint Pattern documentation for this application"*
+1. Prompt: *"Bootstrap AGM documentation for this application"*
 2. The agent analyzes the file tree and creates `blueprint.md` with all phases marked `[ ]`
 3. The agent marks Bootstrap `[x]` and begins Phase 1 (Introduction and Goals)
 4. After each arc42 section, the agent updates Blueprint state and session log
@@ -224,7 +224,7 @@ Mechanical enforcement via CI (Markdown link checker) catches what agents miss. 
 
 **Example prompts:**
 
-- *"Extend Blueprint Pattern documentation by focusing on event sourcing patterns in the order module."*
+- *"Extend AGM documentation by focusing on event sourcing patterns in the order module."*
 - *"Update arc42/runtime.md with the retry and circuit-breaker behavior in payment processing."*
 - *"Add an ADR for the decision to use async messaging instead of synchronous REST between order and notification."*
 
@@ -240,7 +240,7 @@ On **large, core enterprise systems**, Refinement is not optional polish after B
 
 **Steps:**
 
-1. After code changes (or in the same PR), prompt: *"Run Blueprint Pattern maintenance on the current git diff"*
+1. After code changes (or in the same PR), prompt: *"Run AGM maintenance on the current git diff"*
 2. The agent identifies architecturally relevant changes
 3. Updates affected Markdown files, interface contracts, and Blueprint
 4. Runs referential integrity check
@@ -250,7 +250,7 @@ On **large, core enterprise systems**, Refinement is not optional polish after B
 Add to your PR checklist:
 
 - [ ] Code change has architectural impact?
-- [ ] If yes: Blueprint Pattern maintenance run and docs updated in this PR
+- [ ] If yes: AGM maintenance run and docs updated in this PR
 - [ ] CI link check passes
 
 Maintenance is **idempotent** — running it twice on the same diff produces the same result. No full rebuild.
@@ -285,9 +285,9 @@ MCP integration is optional; the Markdown graph works without it.
 
 **Example prompts** (full text in [prompts/workflows/](../../prompts/workflows/)):
 
-- *"Blueprint Pattern — Architecture Work (query). Question: How does order-service connect to payment-service?"*
-- *"Blueprint Pattern — Architecture Work (analysis). Topic: payment resilience. Scope: order-service, payment-service."*
-- *"Blueprint Pattern — Architecture Work (design). Goal: circuit breaker on payment client."*
+- *"AGM — Architecture Work (query). Question: How does order-service connect to payment-service?"*
+- *"AGM — Architecture Work (analysis). Topic: payment resilience. Scope: order-service, payment-service."*
+- *"AGM — Architecture Work (design). Goal: circuit breaker on payment client."*
 
 **Rules:**
 
@@ -307,17 +307,17 @@ See the [sample work items](../examples/sample-app/order-service/docs/architectu
 | Role | Responsibility |
 |------|----------------|
 | **Lead architect** | Prioritize Blueprint phases; review Architecture Work outputs; approve ADRs |
-| **Development team** | Include Blueprint Pattern updates in PRs that change architecture |
+| **Development team** | Include AGM documentation updates in PRs that change architecture |
 | **AI agent** | Bootstrap, Refinement, Maintenance, Architecture Work; referential integrity checks |
 | **DevOps / platform** | CI link checker; optional MCP server deployment |
 
-The Blueprint Pattern amplifies architect capacity — it does not replace architectural judgment. The agent writes; you review and decide.
+AGM amplifies architect capacity — it does not replace architectural judgment. The agent writes; you review and decide.
 
 ---
 
 ## 6. Cross-application dependencies
 
-Interface contracts are the Blueprint Pattern's answer to the question every architect hears: *"Who calls whom, and through what?"*
+Interface contracts are AGM's answer to the question every architect hears: *"Who calls whom, and through what?"*
 
 ### exports.md (provider)
 
@@ -346,9 +346,9 @@ See the [sample application](../examples/sample-app/) for a three-service exampl
 
 ## 7. Comparison with related approaches
 
-The Blueprint Pattern shares the RAG-free, Markdown-first philosophy of **Karpathy's LLM Wiki**, but is specialized for software architecture teams rather than personal knowledge bases.
+AGM shares the RAG-free, Markdown-first philosophy of **Karpathy's LLM Wiki**, but is specialized for software architecture teams rather than personal knowledge bases.
 
-| | Blueprint Pattern | LLM Wiki | Classic RAG | GraphRAG |
+| | Architecture Graph Method (AGM) | LLM Wiki | Classic RAG | GraphRAG |
 |---|---|---|---|---|
 | Infrastructure | Git + Markdown | Git + Markdown | Vector DB + Embeddings | Graph DB + LLM pipeline |
 | Retrieval | Graph traversal | Context load | Similarity search | Graph + Embeddings |
@@ -358,7 +358,7 @@ The Blueprint Pattern shares the RAG-free, Markdown-first philosophy of **Karpat
 | Agent tooling (MCP) | Yes | No | Varies | No |
 | Cross-session state | Blueprint file | Manual | No | No |
 
-The Blueprint Pattern deliberately builds on **existing standards** — arc42 for structure, C4 for diagrams, ADRs for decisions — rather than inventing a parallel notation. arc42 and C4 are **recommended defaults**, not requirements; teams may adapt or replace them, but they are a proven basis for structured architecture documentation.
+AGM deliberately builds on **existing standards** — arc42 for structure, C4 for diagrams, ADRs for decisions — rather than inventing a parallel notation. arc42 and C4 are **recommended defaults**, not requirements; teams may adapt or replace them, but they are a proven basis for structured architecture documentation.
 
 ---
 
@@ -381,7 +381,7 @@ Parallel agent sessions writing to the same Blueprint will produce merge conflic
 
 ### Not a replacement for human architecture
 
-The Blueprint Pattern does not make architectural decisions. It makes decisions **visible**, **linked**, and **maintainable**. Guardrails surface smells; ADRs capture rationale; you remain accountable.
+AGM does not make architectural decisions. It makes decisions **visible**, **linked**, and **maintainable**. Guardrails surface smells; ADRs capture rationale; you remain accountable.
 
 ### Early-stage pattern
 
@@ -393,7 +393,7 @@ This is not a finished product. Real-world case studies will refine the prompts,
 
 1. Read the [sample application](../examples/sample-app/) to see the pattern in action
 2. Copy the [system prompt](../../prompts/core/system-prompt.md) into your AI assistant
-3. Run: *"Bootstrap Blueprint Pattern documentation for this application"*
+3. Run: *"Bootstrap AGM documentation for this application"*
 4. Add the [CI link checker](../../.github/workflows/blueprint-pattern-integrity.yml) to your repository
 5. Share your experience via a [case study issue](../../.github/ISSUE_TEMPLATE/case-study.md)
 
@@ -403,8 +403,8 @@ The underlying insight — that a traversable Markdown link network can serve as
 
 ## About the author
 
-**Andreas Bergmann** is a software architect based in Hamburg. He develops the Blueprint Pattern from day-to-day architecture work with AI agents and prefers to try thoughtful solutions early — even when they are not production-complete yet — if they show clear potential. [More →](../../AUTHORS.md)
+**Andreas Bergmann** is a software architect based in Hamburg. He develops the Architecture Graph Method (AGM) from day-to-day architecture work with AI agents and prefers to try thoughtful solutions early — even when they are not production-complete yet — if they show clear potential. [More →](../../AUTHORS.md)
 
 ---
 
-*Blueprint Pattern — MIT License. Feedback and case studies welcome.*
+*AGM — MIT License. Feedback and case studies welcome.*

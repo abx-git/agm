@@ -9,7 +9,7 @@
 ## Session prompt
 
 ```
-Blueprint Pattern — Architecture Work (query).
+AGM — Architecture Work (query).
 Workflow: architecture-work-query
 Role: architecture-work
 

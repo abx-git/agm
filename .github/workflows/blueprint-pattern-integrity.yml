@@ -1,4 +1,4 @@
-name: Blueprint Pattern integrity check
+name: AGM integrity check
 
 on:
   push:

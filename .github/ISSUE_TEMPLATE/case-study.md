@@ -1,6 +1,6 @@
 ---
 name: Case Study
-about: Share your experience applying the Blueprint Pattern in a real repository
+about: Share your experience applying the Architecture Graph Method (AGM) in a real repository
 title: 'Case study: '
 labels: case-study
 assignees: ''
@@ -31,7 +31,7 @@ Link to the repository (or a public excerpt):
 
 ## What did not work / surprises
 
-## Would you recommend the Blueprint Pattern to other architects?
+## Would you recommend the Architecture Graph Method (AGM) to other architects?
 
 - [ ] Yes, without reservation
 - [ ] Yes, with caveats (describe below)

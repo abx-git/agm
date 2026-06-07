@@ -9,11 +9,11 @@
 ## Session prompt
 
 ```
-Blueprint Pattern — Bootstrap (initialize).
+AGM — Bootstrap (initialize).
 Workflow: bootstrap-init
 Role: bootstrap
 
-Bootstrap Blueprint Pattern documentation for this application.
+Bootstrap AGM documentation for this application.
 
 Follow docs/architecture/prompts/role-bootstrap.md (copy from docs/templates/architecture/prompts/ if missing).
 Read prompts/core/system-prompt.md rules. Create docs/architecture/ structure from the chosen template.

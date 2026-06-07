@@ -10,7 +10,7 @@
 ## Session prompt
 
 ```
-Blueprint Pattern — Architecture Work (interrogate / dialog mode).
+AGM — Architecture Work (interrogate / dialog mode).
 Workflow: architecture-work-interrogate
 Role: architecture-work
 

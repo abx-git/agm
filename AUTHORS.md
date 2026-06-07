@@ -3,7 +3,7 @@
 **Andreas Bergmann**  
 Software Architect · Hamburg, Germany
 
-The Blueprint Pattern grew out of practical work with AI coding agents and architecture documentation. I like to try smart approaches early — even when they are not finished yet — as long as they show real potential. This repository is one of those experiments: feedback, case studies, and pull requests are welcome.
+The Architecture Graph Method (AGM) grew out of practical work with AI coding agents and architecture documentation. I like to try smart approaches early — even when they are not finished yet — as long as they show real potential. This repository is one of those experiments: feedback, case studies, and pull requests are welcome.
 
 ## Field experience
 
@@ -13,4 +13,4 @@ The critical success factor was not a perfect Bootstrap, but **continuous Refine
 
 ---
 
-*Blueprint Pattern — [MIT License](./LICENSE)*
+*AGM — [MIT License](./LICENSE)*

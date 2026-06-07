@@ -1,8 +1,8 @@
-# Blueprint Pattern
+# Architecture Graph Method (AGM)
 
-> Architecture documentation as a traversable Markdown graph — for AI agents and humans, versioned with your code.
+> Living architecture documentation as a traversable Markdown graph — orchestrated via `blueprint.md`. For AI agents and humans, versioned with your code.
 
-**Repository:** [github.com/abx-git/blueprint-pattern](https://github.com/abx-git/blueprint-pattern)
+**Repository:** [github.com/abx-git/blueprint-pattern](https://github.com/abx-git/blueprint-pattern) *(formerly Blueprint Pattern)*
 
 Compile architecture into linked Markdown in `docs/architecture/`, navigate by explicit links, maintain through a **three-phase lifecycle** with agent session prompts.
 
@@ -53,7 +53,7 @@ Templates: [docs/templates/architecture/](./docs/templates/architecture/). Core 
 
 ## In one sentence
 
-Agents excel at single files but fail on cross-cutting architecture; this pattern **compiles** knowledge into a repo graph, **builds** it phase by phase, **evolves** it with maintenance, and **works** from it for architecture tasks.
+Agents excel at single files but fail on cross-cutting architecture; AGM **compiles** knowledge into a repo graph, **builds** it phase by phase, **evolves** it with maintenance, and **works** from it for architecture tasks. The **Blueprint** (`blueprint.md`) is the construction plan — the method is the graph.
 
 ---
 

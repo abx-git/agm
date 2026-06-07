@@ -1,4 +1,4 @@
-# Blueprint Pattern — Role: Bootstrap (< 160 words)
+# AGM — Role: Bootstrap (< 160 words)
 
 [SA:ROLE]
 Role: bootstrap

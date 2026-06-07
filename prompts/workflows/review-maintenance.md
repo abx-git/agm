@@ -9,11 +9,11 @@
 ## Session prompt
 
 ```
-Blueprint Pattern — Review (maintenance).
+AGM — Review (maintenance).
 Workflow: review-maintenance
 Role: review
 
-Review Blueprint Pattern documentation for this application.
+Review AGM documentation for this application.
 Review type: maintenance
 
 Cross-check only files changed in the last maintenance run against the git diff.

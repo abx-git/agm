@@ -1,6 +1,6 @@
 # Diagrams
 
-Mermaid diagrams used in Blueprint Pattern documentation. They render natively on GitHub and in most Markdown viewers.
+Mermaid diagrams used in AGM documentation. They render natively on GitHub and in most Markdown viewers.
 
 ## Lifecycle
 

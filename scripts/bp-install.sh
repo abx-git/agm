@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Blueprint Pattern — install prompts and documentation scaffold (no git clone).
+# AGM — install prompts and documentation scaffold (no git clone).
 set -euo pipefail
 
 BP_REF="${BP_REF:-main}"
@@ -15,7 +15,7 @@ usage() {
   cat <<'EOF'
 Usage: bp-install.sh [options]
 
-Install Blueprint Pattern files into the current repository via HTTPS (raw GitHub).
+Install AGM files into the current repository via HTTPS (raw GitHub).
 No git clone of blueprint-pattern required.
 
 Options:
@@ -73,7 +73,7 @@ fetch() {
   fi
 }
 
-echo "Blueprint Pattern install"
+echo "AGM install"
 echo "  Project:   ${PROJECT}"
 echo "  Doc root:  ${DOC_ROOT}"
 echo "  Template:  ${TEMPLATE}"
@@ -243,11 +243,11 @@ write_cursor_rules() {
   mkdir -p .cursor/rules
   cat > .cursor/rules/blueprint-pattern.mdc <<EOF
 ---
-description: Blueprint Pattern — core system prompt
+description: AGM — core system prompt
 alwaysApply: true
 ---
 
-Follow the Blueprint Pattern core prompt in [prompts/core/system-prompt.md](../../prompts/core/system-prompt.md).
+Follow the AGM core prompt in [prompts/core/system-prompt.md](../../prompts/core/system-prompt.md).
 
 Human-in-the-loop scribe only. Read order: always-on.md → blueprint.md → role prompt.
 Paths: \`${DOC_ROOT_RULE}/\` · Session prompts: paste from Assistant UI or \`prompts/workflows/\`.
@@ -256,11 +256,11 @@ EOF
 
   cat > .cursor/rules/blueprint-context.mdc <<EOF
 ---
-description: Blueprint Pattern — context and governance
+description: AGM — context and governance
 alwaysApply: true
 ---
 
-# Blueprint Pattern — Context Rules
+# Architecture Graph Method (AGM) — Context Rules
 
 1. Read \`${DOC_ROOT_RULE}/context/always-on.md\`
 2. Read \`${DOC_ROOT_RULE}/blueprint.md\`
@@ -275,7 +275,7 @@ EOF
 
 write_claude() {
   cat > CLAUDE.md <<EOF
-# ${PROJECT} — Blueprint Pattern
+# ${PROJECT} — Architecture Graph Method (AGM)
 
 Follow [prompts/core/system-prompt.md](prompts/core/system-prompt.md).
 
@@ -287,7 +287,7 @@ EOF
 write_copilot() {
   mkdir -p .github
   cat > .github/copilot-instructions.md <<EOF
-# Blueprint Pattern
+# Architecture Graph Method (AGM)
 
 Follow [prompts/core/system-prompt.md](../prompts/core/system-prompt.md).
 
@@ -299,11 +299,11 @@ EOF
 
 write_generic() {
   cat > AGENTS.md <<EOF
-# Blueprint Pattern — ${PROJECT}
+# AGM — ${PROJECT}
 
 Core rules: [prompts/core/system-prompt.md](prompts/core/system-prompt.md)
 Documentation: \`${DOC_ROOT_RULE}/\`
-Session prompts: \`prompts/workflows/\` or Blueprint Pattern Assistant UI.
+Session prompts: \`prompts/workflows/\` or AGM Assistant UI.
 EOF
   echo "  → AGENTS.md"
 }
@@ -327,6 +327,6 @@ EOF
 
 echo
 echo "Done. Next:"
-echo "  1. Open Blueprint Pattern Assistant → Build → Adopt (copy session prompt)."
+echo "  1. Open AGM Assistant → Build → Adopt (copy session prompt)."
 echo "  2. New chat in this repo — agent creates blueprint.md, entry-point.md, first section."
 echo "  3. Do not re-run install if ${DOC_ROOT}blueprint.md already exists."

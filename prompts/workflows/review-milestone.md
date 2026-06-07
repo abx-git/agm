@@ -9,11 +9,11 @@
 ## Session prompt
 
 ```
-Blueprint Pattern — Review (milestone).
+AGM — Review (milestone).
 Workflow: review-milestone
 Role: review
 
-Review Blueprint Pattern documentation for this application.
+Review AGM documentation for this application.
 Review type: milestone (bootstrap close)
 
 Focus:

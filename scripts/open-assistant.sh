@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Start Blueprint Pattern Assistant (static UI) on localhost.
+# Start AGM Assistant (static UI) on localhost.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -12,7 +12,7 @@ if ! command -v python3 >/dev/null 2>&1; then
 fi
 
 cd "$DIR"
-echo "Blueprint Pattern Assistant: http://localhost:${PORT}"
+echo "AGM Assistant: http://localhost:${PORT}"
 echo "Press Ctrl+C to stop."
 if command -v open >/dev/null 2>&1; then
   (sleep 0.4 && open "http://localhost:${PORT}") &

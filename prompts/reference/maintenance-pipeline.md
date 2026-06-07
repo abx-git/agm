@@ -39,7 +39,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install Blueprint Pattern prompts
+      - name: Install AGM prompts
         run: |
           curl -fsSL https://raw.githubusercontent.com/abx-git/blueprint-pattern/main/scripts/bp-install.sh -o /tmp/bp-install.sh
           chmod +x /tmp/bp-install.sh

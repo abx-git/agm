@@ -9,7 +9,7 @@
 ## Session prompt
 
 ```
-Blueprint Pattern — Maintenance.
+AGM — Maintenance.
 Workflow: maintenance
 Role: maintenance
 

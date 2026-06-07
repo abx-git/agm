@@ -9,7 +9,7 @@
 ## Session prompt
 
 ```
-Blueprint Pattern — Refinement.
+AGM — Refinement.
 Workflow: refinement
 Role: bootstrap
 

@@ -68,5 +68,5 @@ Source: `Guardrail (Phase N)` · `Review (YYYY-MM-DD)`
 - Open assumptions: …
 - Compaction trigger: … (if applicable)
 - Next: …
-- Resume prompt: "Continue Blueprint Pattern. Workflow: …. Read blueprint.md. …"
+- Resume prompt: "Continue AGM. Workflow: …. Read blueprint.md. …"
 ```

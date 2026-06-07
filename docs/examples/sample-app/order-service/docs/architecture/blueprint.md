@@ -56,7 +56,7 @@ Status: `draft` · `reviewed` · `superseded`
 - Completed: Extensions sample — context/, prompts/, ops/, review example
 - Key decisions: Phase 13 ops/ populated for sample
 - Next: Run maintenance on git diff when source changes
-- Resume prompt: "Continue Blueprint Pattern. Role: maintenance. Read blueprint.md."
+- Resume prompt: "Continue AGM. Role: maintenance. Read blueprint.md."
 
 ### 2026-05-05 — Session 1
 - Completed: All arc42 sections for sample application

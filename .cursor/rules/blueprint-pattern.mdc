@@ -1,9 +1,9 @@
 ---
-description: Blueprint Pattern — core system prompt
+description: AGM — core system prompt
 alwaysApply: true
 ---
 
-Follow the Blueprint Pattern core prompt in [prompts/core/system-prompt.md](../../prompts/core/system-prompt.md).
+Follow the AGM core prompt in [prompts/core/system-prompt.md](../../prompts/core/system-prompt.md).
 Active session: [prompts/workflows/ACTIVE.md](../../prompts/workflows/ACTIVE.md) (set via `./scripts/bp-workflow.sh checkout <id>`).
 
 Human-in-the-loop scribe only. Read order: always-on.md → blueprint.md → role prompt.

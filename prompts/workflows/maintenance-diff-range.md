@@ -9,7 +9,7 @@
 ## Session prompt
 
 ```
-Blueprint Pattern — Maintenance (git diff range).
+AGM — Maintenance (git diff range).
 Workflow: maintenance-diff-range
 Role: maintenance
 

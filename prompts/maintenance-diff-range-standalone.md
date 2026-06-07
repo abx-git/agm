@@ -1,4 +1,4 @@
-# Blueprint Pattern — Maintenance (git diff range)
+# AGM — Maintenance (git diff range)
 
 Copy the session block below into an agent chat or CI step. The agent resolves the diff between **DIFF_FROM** and **DIFF_TO** via Git MCP or `git diff` — no pasted diff.
 
@@ -12,7 +12,7 @@ Substitute `<diff-from>` and `<diff-to>` (or set `DIFF_FROM` / `DIFF_TO` in the 
 ## Session prompt
 
 ```
-Blueprint Pattern — Maintenance (git diff range).
+AGM — Maintenance (git diff range).
 Workflow: maintenance-diff-range
 Role: maintenance
 

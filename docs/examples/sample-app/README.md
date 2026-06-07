@@ -1,6 +1,6 @@
 # Sample Application — Order / Payment / Notification
 
-A minimal three-service example demonstrating the Blueprint Pattern in a multi-application ecosystem.
+A minimal three-service example demonstrating the Architecture Graph Method (AGM) in a multi-application ecosystem.
 
 ## Services
 
