@@ -8,7 +8,7 @@ Procedure: **[docs/guide.md](../docs/guide.md)** · **[docs/typical-dialog.md](.
 |-------|-----------|
 | **1 · Build** | [bootstrap-adopt](./workflows/bootstrap-adopt.md), [bootstrap-continue](./workflows/bootstrap-continue.md), [review-milestone](./workflows/review-milestone.md) |
 | **2 · Evolve** | [refinement](./workflows/refinement.md), [maintenance](./workflows/maintenance.md), [maintenance-diff-range](./workflows/maintenance-diff-range.md) |
-| **3 · Work** | [architecture-work-query](./workflows/architecture-work-query.md), [-analysis](./workflows/architecture-work-analysis.md), [-design](./workflows/architecture-work-design.md), [-continue](./workflows/architecture-work-continue.md) |
+| **3 · Work** | [architecture-work-query](./workflows/architecture-work-query.md), [-analysis](./workflows/architecture-work-analysis.md), [-sustainable-analysis](./workflows/architecture-work-sustainable-analysis.md), [-sustainable-interrogate](./workflows/architecture-work-sustainable-interrogate.md), [-design](./workflows/architecture-work-design.md), [-continue](./workflows/architecture-work-continue.md) |
 | **Review** | [review-phase](./workflows/review-phase.md), [review-maintenance](./workflows/review-maintenance.md) |
 
 | Path | Purpose |

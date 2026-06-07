@@ -72,6 +72,8 @@ Core rules (once) + session prompt (per chat) → agent → docs/architecture/ �
 |------|----------|----------|
 | Answer question | `architecture-work-query` | Yes |
 | Analysis | `architecture-work-analysis` | Yes |
+| Sustainable analysis | `architecture-work-sustainable-analysis` | Yes |
+| Sustainable analysis (dialog) | `architecture-work-sustainable-interrogate` | Yes — Cursor **Chat** |
 | Design proposal | `architecture-work-design` | Yes |
 | Open WRK items | `architecture-work-continue` | Yes |
 
