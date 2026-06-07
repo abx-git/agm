@@ -16,6 +16,7 @@ ROLE_GROUPS = {
     "bootstrap": "Bootstrap",
     "maintenance": "Maintenance",
     "architecture-work": "Architecture work",
+    "domain-work": "Domain work (DDD)",
     "review": "Review",
 }
 

@@ -4,7 +4,7 @@
 
 **Repository:** [github.com/abx-git/blueprint-pattern](https://github.com/abx-git/blueprint-pattern) *(formerly Blueprint Pattern)*
 
-Compile architecture into linked Markdown in `docs/architecture/`, navigate by explicit links, maintain through a **three-phase lifecycle** with agent session prompts.
+Compile architecture into linked Markdown in `docs/architecture/`, navigate by explicit links, maintain through a **four-phase lifecycle** with agent session prompts.
 
 ---
 
@@ -25,13 +25,14 @@ Optional: [Typical dialog](./docs/typical-dialog.md) · [Gen AI challenges](./do
 
 ---
 
-## Three phases
+## Four phases
 
 | Phase | What | Lead file |
 |-------|------|-----------|
 | **1 · Build** | Create doc graph iteratively (bootstrap) | `blueprint.md` — construction plan |
 | **2 · Evolve** | Refine sections, sync with `git diff` | `entry-point.md` + template chapters |
-| **3 · Work** | Questions, analysis, design on compiled graph | `work/` + WRK in `blueprint.md` |
+| **3 · Work (Architecture)** | Questions, analysis, design (technical) | `work/` + WRK (Track: architecture) |
+| **4 · Work (Domain / DDD)** | Context map, aggregates, language, events | `domain/` + `work/` + WRK (Track: domain) |
 
 ---
 
@@ -43,7 +44,8 @@ docs/architecture/
 ├── blueprint.md           ← construction plan + progress + WRK + session log
 ├── entry-point.md         ← human entry, navigation, source links
 ├── interfaces/            ← exports.md, imports.md
-├── work/                  ← architecture work + review reports
+├── domain/                ← context map, subdomains, events, contexts/ (DDD)
+├── work/                  ← architecture + domain work, review reports
 └── arc42/                 ← or c4-light/, adr-first/, lean-service/
 ```
 
@@ -53,7 +55,7 @@ Templates: [docs/templates/architecture/](./docs/templates/architecture/). Core 
 
 ## In one sentence
 
-Agents excel at single files but fail on cross-cutting architecture; AGM **compiles** knowledge into a repo graph, **builds** it phase by phase, **evolves** it with maintenance, and **works** from it for architecture tasks. The **Blueprint** (`blueprint.md`) is the construction plan — the method is the graph.
+Agents excel at single files but fail on cross-cutting architecture; AGM **compiles** knowledge into a repo graph, **builds** it phase by phase, **evolves** it with maintenance, and **works** from it for architecture and **domain (DDD)** tasks. The **Blueprint** (`blueprint.md`) is the construction plan — the method is the graph.
 
 ---
 

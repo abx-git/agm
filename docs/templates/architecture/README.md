@@ -12,7 +12,8 @@ Installed into your application by [bp-install.sh](../../../scripts/bp-install.s
 | `blueprint.md` | Construction plan + state (see [blueprint-format](../../../prompts/reference/blueprint-format.md)) |
 | `entry-point.md` | Agent graph index: navigation table to all docs and sources (+ optional overview, ## Documentation template) |
 | `interfaces/exports.md` · `imports.md` | Contracts |
-| [work/_template.md](./work/_template.md) · [_template-review.md](./work/_template-review.md) | Architecture Work + Review |
+| [work/_template.md](./work/_template.md) · [_template-domain.md](./work/_template-domain.md) · [_template-review.md](./work/_template-review.md) | Architecture + Domain Work + Review |
+| [domain/](./domain/) | DDD: context map, subdomains, events, per-context model |
 
 ## Documentation templates (pick one)
 
@@ -40,6 +41,7 @@ Installed into your application by [bp-install.sh](../../../scripts/bp-install.s
 | `decisions` | `<template>/decisions/` |
 | `ecosystem` | `ecosystem-index.md`, imports |
 | `domain-glossary` | glossary + domain terms |
+| `domain-model` | [domain/](./domain/) context map, contexts, events |
 
 See [doc-extensions](../../../prompts/reference/doc-extensions.md).
 

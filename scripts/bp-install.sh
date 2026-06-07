@@ -92,8 +92,10 @@ SHARED=(
   "docs/templates/architecture/prompts/role-bootstrap.md|${DOC_ROOT}prompts/role-bootstrap.md"
   "docs/templates/architecture/prompts/role-maintenance.md|${DOC_ROOT}prompts/role-maintenance.md"
   "docs/templates/architecture/prompts/role-architecture-work.md|${DOC_ROOT}prompts/role-architecture-work.md"
+  "docs/templates/architecture/prompts/role-domain-work.md|${DOC_ROOT}prompts/role-domain-work.md"
   "docs/templates/architecture/prompts/role-review.md|${DOC_ROOT}prompts/role-review.md"
   "docs/templates/architecture/work/_template.md|${DOC_ROOT}work/_template.md"
+  "docs/templates/architecture/work/_template-domain.md|${DOC_ROOT}work/_template-domain.md"
   "docs/templates/architecture/work/_template-review.md|${DOC_ROOT}work/_template-review.md"
   "docs/templates/architecture/interfaces/exports.md|${DOC_ROOT}interfaces/exports.md"
   "docs/templates/architecture/interfaces/imports.md|${DOC_ROOT}interfaces/imports.md"
@@ -104,11 +106,17 @@ PROMPTS=(
   "prompts/reference/adopt-procedure.md|prompts/reference/adopt-procedure.md"
   "prompts/reference/blueprint-format.md|prompts/reference/blueprint-format.md"
   "prompts/reference/doc-extensions.md|prompts/reference/doc-extensions.md"
+  "prompts/reference/ddd-guardrails.md|prompts/reference/ddd-guardrails.md"
+  "prompts/reference/ddd-work-report-formats.md|prompts/reference/ddd-work-report-formats.md"
 )
 
 WORKFLOWS=(
   bootstrap-adopt bootstrap-continue bootstrap-init
   architecture-work-query architecture-work-analysis architecture-work-design architecture-work-continue
+  architecture-work-interrogate architecture-work-sustainable-analysis architecture-work-sustainable-interrogate
+  domain-work-query domain-work-design domain-work-continue domain-work-event-storm
+  domain-work-context-map domain-work-subdomain-classification domain-work-integration-review
+  domain-work-tactical-review domain-work-language-audit
   maintenance maintenance-diff-range refinement
   review-phase review-milestone review-maintenance
 )
@@ -235,6 +243,25 @@ install_focus_extensions() {
 }
 
 install_focus_extensions
+
+install_domain_scaffold() {
+  echo "Installing domain/ (DDD scaffold)…"
+  local domain_files=(
+    "README.md"
+    "context-map.md"
+    "subdomains.md"
+    "events.md"
+    "contexts/_template/model.md"
+    "contexts/_template/language.md"
+  )
+  for f in "${domain_files[@]}"; do
+    dest="${DOC_ROOT}domain/${f}"
+    echo "  → ${dest}"
+    fetch "docs/templates/architecture/domain/${f}" "$dest"
+  done
+}
+
+install_domain_scaffold
 
 # --- AI tool wiring ---
 DOC_ROOT_RULE="${DOC_ROOT%/}"

@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | **ID** | WRK-NNN |
-| **Type** | question \| analysis \| design |
+| **Type** | question \| analysis \| design *(architecture)* · domain-question \| domain-discovery \| domain-analysis \| domain-design *(domain — see [_template-domain.md](./_template-domain.md))* |
 | **Status** | draft \| reviewed \| superseded |
 | **Date** | YYYY-MM-DD |
 | **Author** | <name or agent session> |

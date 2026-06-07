@@ -23,18 +23,23 @@ Rationale: Full sample for arc42 + interface contracts; see [entry-point.md](./e
 | 11    | Risks and Technical Debt   | arc42/risks.md                     | [x] done | 2026-05-05   |
 | 12    | Glossary                   | arc42/glossary.md                  | [x] done | 2026-05-05   |
 | 13    | Operational Knowledge      | ops/                               | [x] done | 2026-06-01   |
+| 14    | Domain — Context map       | domain/context-map.md              | [x] done | 2026-06-02   |
+| 15    | Domain — Subdomains        | domain/subdomains.md               | [x] done | 2026-06-02   |
+| 16    | Domain — Event catalog     | domain/events.md                   | [x] done | 2026-06-02   |
+| 17    | Domain — Order context     | domain/contexts/order/             | [x] done | 2026-06-02   |
 
 States: `[ ]` open · `[~]` in progress · `[x]` done · `[!]` blocked
 
-## Architecture work
+## Work register
 
-| ID | Title | Type | File | Status | Date |
-|----|-------|------|------|--------|------|
-| WRK-001 | Payment path when customer places order | question | [work/2026-05-10-order-payment-trace.md](./work/2026-05-10-order-payment-trace.md) | reviewed | 2026-05-10 |
-| WRK-002 | Payment integration resilience | analysis | [work/2026-05-15-payment-resilience-analysis.md](./work/2026-05-15-payment-resilience-analysis.md) | reviewed | 2026-05-15 |
-| WRK-003 | Circuit breaker for payment client | design | [work/2026-05-20-payment-circuit-breaker-design.md](./work/2026-05-20-payment-circuit-breaker-design.md) | draft | 2026-05-20 |
+| ID | Track | Title | Type | File | Status | Date |
+|----|-------|-------|------|------|--------|------|
+| WRK-001 | architecture | Payment path when customer places order | question | [work/2026-05-10-order-payment-trace.md](./work/2026-05-10-order-payment-trace.md) | reviewed | 2026-05-10 |
+| WRK-002 | architecture | Payment integration resilience | analysis | [work/2026-05-15-payment-resilience-analysis.md](./work/2026-05-15-payment-resilience-analysis.md) | reviewed | 2026-05-15 |
+| WRK-003 | architecture | Circuit breaker for payment client | design | [work/2026-05-20-payment-circuit-breaker-design.md](./work/2026-05-20-payment-circuit-breaker-design.md) | draft | 2026-05-20 |
 
-Types: `question` · `analysis` · `design`  
+Types (architecture): `question` · `analysis` · `design`  
+Types (domain): `domain-question` · `domain-discovery` · `domain-analysis` · `domain-design`  
 Status: `draft` · `reviewed` · `superseded`
 
 ## Reviews

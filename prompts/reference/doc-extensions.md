@@ -38,6 +38,7 @@ When content areas change, the agent updates entry-point links and blueprint row
 | `operations` | Operations & incidents | `ops/` |
 | `decisions` | Architecture decisions | `<template>/decisions/` ADRs |
 | `domain-glossary` | Domain language & glossary | Glossary sections in template |
+| `domain-model` | DDD strategic & tactical model | `domain/` (context map, contexts/, events) |
 | `ecosystem` | Multi-service landscape | `ecosystem-index.md`, partner links |
 
 Removed: `onboarding` (was entry-point — graph duty, not a content area).

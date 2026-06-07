@@ -32,17 +32,25 @@ Rationale: <!-- recorded at bootstrap; also in entry-point.md -->
 | 11    | Risks and Technical Debt   | arc42/risks.md                     | [ ] open       | —            |
 | 12    | Glossary                   | arc42/glossary.md                  | [ ] open       | —            |
 | 13    | Operational Knowledge      | ops/                               | [ ] open       | —            |
+| 14    | Domain — Context map       | domain/context-map.md              | [ ] open       | —            |
+| 15    | Domain — Subdomains        | domain/subdomains.md               | [ ] open       | —            |
+| 16    | Domain — Event catalog     | domain/events.md                   | [ ] open       | —            |
+| 17    | Domain — Context models    | domain/contexts/                   | [ ] open       | —            |
 
 States: `[ ]` open · `[~]` in progress · `[x]` done · `[!]` blocked
 
-## Architecture work
+## Work register
 
-| ID | Title | Type | File | Status | Date |
-|----|-------|------|------|--------|------|
-| —  | —     | —    | —    | —      | —    |
+| ID | Track | Title | Type | File | Status | Date |
+|----|-------|-------|------|------|--------|------|
+| —  | —     | —     | —    | —    | —      | —    |
 
-Types: `question` · `analysis` · `design`  
-Status: `draft` · `reviewed` · `superseded`
+**Track:** `architecture` · `domain`  
+**Types (architecture):** `question` · `analysis` · `design`  
+**Types (domain):** `domain-question` · `domain-discovery` · `domain-analysis` · `domain-design`  
+**Status:** `draft` · `reviewed` · `superseded`
+
+Legacy heading `## Architecture work` may be used; prefer **Work register** with Track column for new blueprints.
 
 ## Reviews
 

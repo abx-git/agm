@@ -23,6 +23,7 @@ docs/architecture/
 ├── prompts/          ← role-*.md
 ├── interfaces/
 ├── work/
+├── domain/           ← DDD: context map, contexts/, events
 └── <template>/       ← arc42 | c4-light | adr-first | lean-service
 ```
 
