@@ -1,3 +1,12 @@
+---
+type: architecture-context
+title: "Base context — on demand"
+description: "Domain concepts, pitfalls, and environment map loaded on demand"
+resource: "repo://"
+tags: [architecture, context, domain]
+timestamp: ""
+---
+
 # Base context — on demand
 
 <!-- Copy to docs/architecture/context/on-demand.md. Referenced from always-on.md. -->

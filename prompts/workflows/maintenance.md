@@ -2,6 +2,9 @@
 
 | Field | Value |
 |-------|-------|
+| **Track** | Evolve |
+| **Activity** | Sync |
+| **Mode** | Direct |
 | **When** | After code changes; same PR or follow-up session |
 | **Role** | `maintenance` |
 | **Fresh session** | Optional |
@@ -9,7 +12,7 @@
 ## Session prompt
 
 ```
-AGM — Maintenance.
+AGM — Evolve · Sync
 Workflow: maintenance
 Role: maintenance
 

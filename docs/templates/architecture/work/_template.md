@@ -1,3 +1,12 @@
+---
+type: architecture-work-item
+title: "WRK-NNN: [Title]"
+description: "Architecture work item — question, analysis, or design"
+resource: "repo://"
+tags: [architecture, work-item]
+timestamp: ""
+---
+
 # WRK-NNN: <Title>
 
 | Field | Value |

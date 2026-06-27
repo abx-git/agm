@@ -1,3 +1,12 @@
+---
+type: architecture-interface
+title: "Interface exports"
+description: "APIs, events, and services this application provides"
+resource: "repo://"
+tags: [architecture, interface, exports]
+timestamp: ""
+---
+
 # Interface Exports — <application>
 
 APIs, events, and services this application provides.

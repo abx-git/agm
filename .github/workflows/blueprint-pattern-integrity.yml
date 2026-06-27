@@ -5,11 +5,13 @@ on:
     paths:
       - '**.md'
       - '.mlc-config.json'
+      - 'scripts/check-okf-frontmatter.py'
       - '.github/workflows/blueprint-pattern-integrity.yml'
   pull_request:
     paths:
       - '**.md'
       - '.mlc-config.json'
+      - 'scripts/check-okf-frontmatter.py'
       - '.github/workflows/blueprint-pattern-integrity.yml'
 
 jobs:
@@ -22,3 +24,10 @@ jobs:
         with:
           folder-path: docs
           config-file: .mlc-config.json
+
+  okf-frontmatter:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate OKF YAML frontmatter (required type field)
+        run: python3 scripts/check-okf-frontmatter.py docs/templates/architecture

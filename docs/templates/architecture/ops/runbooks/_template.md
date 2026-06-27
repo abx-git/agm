@@ -1,3 +1,12 @@
+---
+type: architecture-runbook
+title: "Runbook: [procedure]"
+description: "Operational runbook for a specific procedure"
+resource: "repo://"
+tags: [operations, runbook]
+timestamp: ""
+---
+
 # Runbook: <procedure>
 
 ## When to use

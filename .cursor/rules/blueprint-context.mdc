@@ -15,20 +15,24 @@ These rules provide context and governance for AI-assisted architecture work.
 - All architectural claims are traceable to docs or source code.
 - Markdown graph with relative links only; no external lock-in.
 - Human-in-the-loop: agent is a scribe, not an autonomous architect.
+- Every artifact is an OKF concept (Markdown + valid YAML frontmatter with mandatory `type`).
+- Maintain `index.md` and `log.md` at every architecture structure level.
 
 ## On session start
 
 1. Read `docs/architecture/context/always-on.md` (app identity, source map, session protocol).
 2. Read `docs/architecture/blueprint.md` (current state and next phases).
+3. Read `docs/architecture/index.md` for progressive disclosure when traversing large graphs.
 3. If `prompts/workflows/ACTIVE.md` defines a workflow, follow it and load the matching `docs/architecture/prompts/role-<role>.md`.
 4. If role is missing and ACTIVE is unset, request a workflow from [docs/guide.md](../../docs/guide.md) or run `./scripts/bp-workflow.sh checkout <id>`.
 
 ## On session stop
 
 1. Update all touched states in `blueprint.md` ([x] done, [~] in progress, etc.).
-2. Append a session log entry with date, decisions, open assumptions.
-3. Run referential integrity check on changed files.
-4. Output [[ANCHOR:LINK_CHECK]] as final status: `pass` or `fail`.
+2. Append a session log entry with date, decisions, open assumptions to `log.md` and blueprint session log.
+3. Update OKF `timestamp` on every modified file.
+4. Run referential integrity and OKF frontmatter check on changed files.
+5. Output [[ANCHOR:LINK_CHECK]] as final status: `pass` or `fail`.
 
 ## Semantic anchors
 

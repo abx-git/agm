@@ -2,6 +2,9 @@
 
 | Field | Value |
 |-------|-------|
+| **Track** | Domain |
+| **Activity** | Clarify |
+| **Mode** | Direct |
 | **When** | Answer a domain / DDD question using the graph |
 | **Role** | `domain-work` |
 | **Prerequisite** | Bootstrap phase 0 `[x] done` |
@@ -9,7 +12,7 @@
 ## Session prompt
 
 ```
-AGM — Domain Work (query).
+AGM — Domain · Clarify
 Workflow: domain-work-query
 Role: domain-work
 

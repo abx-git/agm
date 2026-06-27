@@ -1,0 +1,35 @@
+{
+  "name": "@agm/cli",
+  "version": "0.1.0",
+  "description": "Architecture Graph Method — local CLI and MCP server",
+  "type": "module",
+  "bin": {
+    "agm": "./dist/cli.js",
+    "agm-mcp": "./dist/mcp-server.js"
+  },
+  "files": [
+    "dist",
+    "data/workflows-catalog.json",
+    "data/anchors.json",
+    "templates"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start:mcp": "node dist/mcp-server.js",
+    "prepare": "npm run build"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@inquirer/prompts": "^7.5.0",
+    "@modelcontextprotocol/sdk": "^1.12.1",
+    "commander": "^13.1.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.3",
+    "typescript": "^5.8.3"
+  }
+}

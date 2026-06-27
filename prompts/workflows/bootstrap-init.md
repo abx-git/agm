@@ -2,6 +2,9 @@
 
 | Field | Value |
 |-------|-------|
+| **Track** | Build |
+| **Activity** | Communicate |
+| **Mode** | Direct |
 | **When** | First-time setup; no `docs/architecture/blueprint.md` yet |
 | **Role** | `bootstrap` |
 | **Fresh session** | Recommended |
@@ -9,7 +12,7 @@
 ## Session prompt
 
 ```
-AGM — Bootstrap (initialize).
+AGM — Build · Init
 Workflow: bootstrap-init
 Role: bootstrap
 

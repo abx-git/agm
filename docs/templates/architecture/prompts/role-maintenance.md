@@ -1,3 +1,12 @@
+---
+type: architecture-role-prompt
+title: "Role: Maintenance"
+description: "AGM maintenance role — update docs from git diff"
+resource: "repo://"
+tags: [role, maintenance, agm]
+timestamp: ""
+---
+
 # AGM — Role: Maintenance (< 150 words)
 
 [SA:ROLE]
@@ -16,16 +25,17 @@ Classify each change as one of: API, Event, Schema, Runtime, Deployment, Decisio
 
 [SA:STEPS]
 1) Map changed files to impacted architecture docs.
-2) Update only impacted sections/files.
+2) Update only impacted sections/files; refresh OKF `timestamp` on every modified file.
 3) Propagate renames/deletes across all relative links.
 4) Update exports/imports if interfaces changed.
-5) Update blueprint states and session log.
+5) Append session changes to `log.md` (OKF change log) and update blueprint states and session log.
 
 [SA:QUALITY_GATES]
 - No scope creep beyond diff impact
 - No broken links in changed files
 - All factual updates traceable to diff/source
 - Open ambiguities marked [[ANCHOR:ASSUMPTION]]
+- Every touched file retains valid OKF frontmatter; `timestamp` reflects this session
 
 [SA:OUTPUT_CONTRACT]
 Return exactly:

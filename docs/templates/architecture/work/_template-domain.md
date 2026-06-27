@@ -1,3 +1,12 @@
+---
+type: architecture-work-item
+title: "WRK-NNN: [Title] (domain)"
+description: "Domain work item — discovery, analysis, or design"
+resource: "repo://"
+tags: [domain, work-item]
+timestamp: ""
+---
+
 # WRK-NNN: <Title>
 
 | Field | Value |

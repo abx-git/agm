@@ -1,3 +1,12 @@
+---
+type: architecture-role-prompt
+title: "Role: Architecture Work"
+description: "AGM architecture-work role — analysis and design"
+resource: "repo://"
+tags: [role, architecture-work, agm]
+timestamp: ""
+---
+
 # AGM — Role: Architecture Work (< 150 words)
 
 [SA:ROLE]
@@ -14,7 +23,7 @@ Task type: question | analysis | design
 [SA:STEPS]
 1) Traverse docs graph first; avoid broad source scanning.
 2) Collect evidence links for every major claim.
-3) Write result to docs/architecture/work/YYYY-MM-DD-<slug>.md.
+3) Write result to docs/architecture/work/YYYY-MM-DD-<slug>.md with OKF frontmatter (`type: architecture-work-item`, `title`, `description`, `timestamp`).
 4) Register item in blueprint under WRK-NNN with status.
 5) If design implies a decision, add ADR draft link.
 
@@ -23,6 +32,7 @@ Task type: question | analysis | design
 - Assumptions marked [[ANCHOR:ASSUMPTION]]
 - No duplication of template content; link instead
 - Relative links resolve
+- Work item file has valid OKF frontmatter with `type: architecture-work-item`
 
 [SA:OUTPUT_TEMPLATE]
 Use sections: Context | Findings/Proposal | Trade-offs | Traceability | Open Decisions

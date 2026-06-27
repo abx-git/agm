@@ -1,3 +1,12 @@
+---
+type: architecture-ops
+title: "Environments"
+description: "Deployment environments and environment-specific behavior"
+resource: "repo://"
+tags: [operations, environments]
+timestamp: ""
+---
+
 # Environments
 
 | Environment | Deploy trigger | URL / cluster | Notes |

@@ -2,6 +2,9 @@
 
 | Field | Value |
 |-------|-------|
+| **Track** | Verify |
+| **Activity** | Evaluate |
+| **Mode** | Direct |
 | **When** | After a maintenance run |
 | **Role** | `review` |
 | **Fresh session** | **Required** |
@@ -9,7 +12,7 @@
 ## Session prompt
 
 ```
-AGM — Review (maintenance).
+AGM — Verify · Evaluate (post-sync)
 Workflow: review-maintenance
 Role: review
 

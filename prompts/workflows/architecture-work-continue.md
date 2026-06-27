@@ -2,13 +2,16 @@
 
 | Field | Value |
 |-------|-------|
+| **Track** | Architect |
+| **Activity** | Continue |
+| **Mode** | Direct |
 | **When** | Resume open WRK items in blueprint.md |
 | **Role** | `architecture-work` |
 
 ## Session prompt
 
 ```
-AGM — continue Architecture Work.
+AGM — Architect · Continue
 Workflow: architecture-work-continue
 Role: architecture-work
 

@@ -1,3 +1,12 @@
+---
+type: architecture-decision-index
+title: "Architecture decisions (primary)"
+description: "Primary decision index for adr-first template"
+resource: "repo://"
+tags: [adr, index, adr-first]
+timestamp: ""
+---
+
 # Architecture decisions (primary)
 
 Decisions drive this template. Start here before other sections.

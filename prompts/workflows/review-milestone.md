@@ -2,6 +2,9 @@
 
 | Field | Value |
 |-------|-------|
+| **Track** | Verify |
+| **Activity** | Evaluate |
+| **Mode** | Direct |
 | **When** | After Bootstrap milestone — close creation |
 | **Role** | `review` |
 | **Fresh session** | **Required** |
@@ -9,7 +12,7 @@
 ## Session prompt
 
 ```
-AGM — Review (milestone).
+AGM — Verify · Evaluate (milestone)
 Workflow: review-milestone
 Role: review
 

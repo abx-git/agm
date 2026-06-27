@@ -2,6 +2,9 @@
 
 | Field | Value |
 |-------|-------|
+| **Track** | Architect |
+| **Activity** | Clarify |
+| **Mode** | Dialog |
 | **When** | Dialog to explore a solution (one question per reply) |
 | **Role** | `architecture-work` |
 | **Prerequisite** | Bootstrap phase 0 `[x] done`; `entry-point.md` exists |
@@ -10,7 +13,7 @@
 ## Session prompt
 
 ```
-AGM — Architecture Work (interrogate / dialog mode).
+AGM — Architect · Clarify (dialog)
 Workflow: architecture-work-interrogate
 Role: architecture-work
 

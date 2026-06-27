@@ -1,3 +1,12 @@
+---
+type: architecture-domain-model
+title: "Bounded context — [Context name]"
+description: "Tactical DDD model for a bounded context"
+resource: "repo://"
+tags: [domain, model, ddd]
+timestamp: ""
+---
+
 # Bounded context — <Context name>
 
 <!-- Copy to domain/contexts/<context-slug>/model.md -->

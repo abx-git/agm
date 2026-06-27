@@ -2,6 +2,9 @@
 
 | Field | Value |
 |-------|-------|
+| **Track** | Domain |
+| **Activity** | Design |
+| **Mode** | Direct |
 | **When** | Identify bounded contexts and strategic relationships |
 | **Role** | `domain-work` |
 | **Prerequisite** | Bootstrap phase 0 `[x] done`; `domain/context-map.md` exists |
@@ -9,7 +12,7 @@
 ## Session prompt
 
 ```
-AGM — Domain Work (context map).
+AGM — Domain · Design
 Workflow: domain-work-context-map
 Role: domain-work
 

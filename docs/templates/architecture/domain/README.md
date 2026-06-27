@@ -1,3 +1,12 @@
+---
+type: architecture-domain-index
+title: "Domain documentation (DDD)"
+description: "Index of strategic and tactical domain model artefacts"
+resource: "repo://"
+tags: [domain, ddd, architecture]
+timestamp: ""
+---
+
 # Domain documentation (DDD)
 
 Strategic and tactical domain model artefacts. Maintained via **Domain Work** (phase 4) workflows and Refinement with `domain-model` focus.

@@ -1,3 +1,12 @@
+---
+type: architecture-review
+title: "Review: [target]"
+description: "Architecture review report with findings and verdict"
+resource: "repo://"
+tags: [architecture, review]
+timestamp: ""
+---
+
 # Review: <target>
 
 ## Metadata

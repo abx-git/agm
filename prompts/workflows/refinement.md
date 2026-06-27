@@ -2,14 +2,17 @@
 
 | Field | Value |
 |-------|-------|
+| **Track** | Evolve |
+| **Activity** | Communicate |
+| **Mode** | Direct |
 | **When** | Targeted deepening of specific documentation sections (ongoing on large systems) |
-| **Role** | `bootstrap` (same role file; scoped steps) |
+| **Role** | `bootstrap` |
 | **Fresh session** | Optional |
 
 ## Session prompt
 
 ```
-AGM — Refinement.
+AGM — Evolve · Refine
 Workflow: refinement
 Role: bootstrap
 

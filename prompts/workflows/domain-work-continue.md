@@ -2,6 +2,9 @@
 
 | Field | Value |
 |-------|-------|
+| **Track** | Domain |
+| **Activity** | Continue |
+| **Mode** | Direct |
 | **When** | Resume open domain WRK items |
 | **Role** | `domain-work` |
 | **Fresh session** | Optional |
@@ -9,7 +12,7 @@
 ## Session prompt
 
 ```
-AGM — continue Domain Work.
+AGM — Domain · Continue
 Workflow: domain-work-continue
 Role: domain-work
 

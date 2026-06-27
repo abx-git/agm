@@ -2,6 +2,9 @@
 
 | Field | Value |
 |-------|-------|
+| **Track** | Domain |
+| **Activity** | Evaluate |
+| **Mode** | Direct |
 | **When** | Review cross-context integration against DDD patterns |
 | **Role** | `domain-work` |
 | **Prerequisite** | `interfaces/` and preferably `domain/context-map.md` populated |
@@ -9,7 +12,7 @@
 ## Session prompt
 
 ```
-AGM — Domain Work (integration review).
+AGM — Domain · Evaluate
 Workflow: domain-work-integration-review
 Role: domain-work
 

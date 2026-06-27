@@ -25,14 +25,16 @@ Optional: [Typical dialog](./docs/typical-dialog.md) · [Gen AI challenges](./do
 
 ---
 
-## Four phases
+## Graph lifecycle (four stages)
 
-| Phase | What | Lead file |
-|-------|------|-----------|
-| **1 · Build** | Create doc graph iteratively (bootstrap) | `blueprint.md` — construction plan |
-| **2 · Evolve** | Refine sections, sync with `git diff` | `entry-point.md` + template chapters |
-| **3 · Work (Architecture)** | Questions, analysis, design (technical) | `work/` + WRK (Track: architecture) |
-| **4 · Work (Domain / DDD)** | Context map, aggregates, language, events | `domain/` + `work/` + WRK (Track: domain) |
+| Stage | Track | What | Lead file |
+|-------|-------|------|-----------|
+| **1 · Build** | Build | Create doc graph iteratively | `blueprint.md` — construction plan |
+| **2 · Evolve** | Evolve | Refine sections, sync with `git diff` | `entry-point.md` + template chapters |
+| **3 · Architect** | Architect | Technical clarify, design, evaluate | `work/` + WRK (Track: architecture) |
+| **4 · Domain** | Domain | DDD: context map, aggregates, language | `domain/` + `work/` + WRK (Track: domain) |
+
+**Verify** (`review-*`) runs in a fresh chat after write/sync sessions. Workflow vocabulary: **Track · Activity · Mode** — see [Guide](./docs/guide.md).
 
 ---
 

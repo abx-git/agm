@@ -8,3 +8,10 @@ Active session: [prompts/workflows/ACTIVE.md](../../prompts/workflows/ACTIVE.md)
 
 Human-in-the-loop scribe only. Read order: always-on.md → blueprint.md → role prompt.
 Output semantic anchors before stopping. Procedure: [docs/guide.md](../../docs/guide.md)
+
+## OKF invariants ([SA:INVARIANTS])
+
+- Every artifact must be an OKF concept (Markdown + valid YAML frontmatter bounded by `---`).
+- Mandatory non-empty `type` field in every architecture document header.
+- Maintain `index.md` (progressive disclosure) and `log.md` (change tracking) at every structure level.
+- Relative Markdown links are the sole knowledge-graph linkage mechanism.

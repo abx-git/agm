@@ -87,6 +87,8 @@ DOC_FOCUS="$(echo "$DOC_FOCUS" | tr -d ' ')"
 
 # --- Shared scaffold (from pattern templates) ---
 SHARED=(
+  "docs/templates/architecture/index.md|${DOC_ROOT}index.md"
+  "docs/templates/architecture/log.md|${DOC_ROOT}log.md"
   "docs/templates/architecture/context/always-on.md|${DOC_ROOT}context/always-on.md"
   "docs/templates/architecture/context/on-demand.md|${DOC_ROOT}context/on-demand.md"
   "docs/templates/architecture/prompts/role-bootstrap.md|${DOC_ROOT}prompts/role-bootstrap.md"
@@ -166,34 +168,16 @@ install_template_files() {
       fetch "docs/templates/architecture/lean-service/decisions/001-template.md" "${DOC_ROOT}lean-service/decisions/001-template.md"
       ;;
     arc42)
-      local pairs=(
-        "introduction|Introduction and Goals"
-        "constraints|Constraints"
-        "context|Context and Scope"
-        "solution-strategy|Solution Strategy"
-        "building-blocks|Building Block View"
-        "runtime|Runtime View"
-        "deployment|Deployment View"
-        "concepts|Cross-cutting Concepts"
-        "quality|Quality Requirements"
-        "risks|Risks and Technical Debt"
-        "glossary|Glossary"
+      local files=(
+        introduction constraints context solution-strategy building-blocks
+        runtime deployment concepts quality risks glossary
       )
-      for pair in "${pairs[@]}"; do
-        ch="${pair%%|*}"
-        title="${pair##*|}"
-        dest="${DOC_ROOT}arc42/${ch}.md"
-        mkdir -p "$(dirname "$dest")"
-        if [[ ! -f "$dest" ]]; then
-          echo "  → ${dest} (stub)"
-          printf '# %s\n\n<!-- Fill during Bootstrap — evidence only -->\n' "$title" > "$dest"
-        fi
+      for f in "${files[@]}"; do
+        dest="${DOC_ROOT}arc42/${f}.md"
+        echo "  → ${dest}"
+        fetch "docs/templates/architecture/arc42/${f}.md" "$dest"
       done
-      mkdir -p "${DOC_ROOT}arc42/decisions"
-      if [[ ! -f "${DOC_ROOT}arc42/decisions/README.md" ]]; then
-        echo "  → ${DOC_ROOT}arc42/decisions/README.md (stub)"
-        printf '# Architecture decisions\n\n<!-- ADRs during Bootstrap -->\n' > "${DOC_ROOT}arc42/decisions/README.md"
-      fi
+      fetch "docs/templates/architecture/arc42/decisions/README.md" "${DOC_ROOT}arc42/decisions/README.md"
       ;;
     custom)
       mkdir -p "${DOC_ROOT}${TEMPLATE}"
@@ -279,6 +263,8 @@ Follow the AGM core prompt in [prompts/core/system-prompt.md](../../prompts/core
 Human-in-the-loop scribe only. Read order: always-on.md → blueprint.md → role prompt.
 Paths: \`${DOC_ROOT_RULE}/\` · Session prompts: paste from Assistant UI or \`prompts/workflows/\`.
 Output semantic anchors before stopping.
+
+OKF: every architecture artifact needs YAML frontmatter with mandatory \`type\`; maintain \`index.md\` and \`log.md\`.
 EOF
 
   cat > .cursor/rules/blueprint-context.mdc <<EOF
@@ -293,8 +279,8 @@ alwaysApply: true
 2. Read \`${DOC_ROOT_RULE}/blueprint.md\`
 3. Load \`${DOC_ROOT_RULE}/prompts/role-<role>.md\` from the session prompt
 
-Invariants: relative Markdown links only; human-in-the-loop; traceable claims.
-On stop: update \`blueprint.md\`, session log, [[ANCHOR:LINK_CHECK]].
+Invariants: relative Markdown links only; human-in-the-loop; traceable claims; OKF frontmatter with mandatory type; index.md and log.md at each level.
+On stop: update \`blueprint.md\`, \`log.md\`, OKF timestamps, [[ANCHOR:LINK_CHECK]].
 EOF
   echo "  → .cursor/rules/blueprint-pattern.mdc"
   echo "  → .cursor/rules/blueprint-context.mdc"

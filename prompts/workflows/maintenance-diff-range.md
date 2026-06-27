@@ -2,6 +2,9 @@
 
 | Field | Value |
 |-------|-------|
+| **Track** | Evolve |
+| **Activity** | Sync |
+| **Mode** | Direct |
 | **When** | After code changes; agent fetches `git diff` between two refs (CI-friendly) |
 | **Role** | `maintenance` |
 | **Fresh session** | Optional |
@@ -9,7 +12,7 @@
 ## Session prompt
 
 ```
-AGM — Maintenance (git diff range).
+AGM — Evolve · Sync (git range)
 Workflow: maintenance-diff-range
 Role: maintenance
 

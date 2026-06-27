@@ -2,6 +2,9 @@
 
 | Field | Value |
 |-------|-------|
+| **Track** | Architect |
+| **Activity** | Evaluate |
+| **Mode** | Direct |
 | **When** | Structured analysis (risks, coupling, quality) |
 | **Role** | `architecture-work` |
 | **Prerequisite** | Bootstrap phase 0 `[x] done` |
@@ -9,7 +12,7 @@
 ## Session prompt
 
 ```
-AGM — Architecture Work (analysis).
+AGM — Architect · Evaluate
 Workflow: architecture-work-analysis
 Role: architecture-work
 

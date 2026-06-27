@@ -2,6 +2,9 @@
 
 | Field | Value |
 |-------|-------|
+| **Track** | Build |
+| **Activity** | Communicate |
+| **Mode** | Direct |
 | **When** | First-time adoption; no `docs/architecture/blueprint.md` yet |
 | **Role** | `bootstrap` |
 | **Fresh session** | Required |
@@ -9,7 +12,7 @@
 ## Session prompt
 
 ```
-AGM — Adopt (standalone session).
+AGM — Build · Adopt
 Workflow: bootstrap-adopt
 Role: bootstrap
 

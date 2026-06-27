@@ -1,3 +1,12 @@
+---
+type: architecture-domain-context-map
+title: "Context map"
+description: "Strategic DDD bounded contexts and integration relationships"
+resource: "repo://"
+tags: [domain, context-map, ddd]
+timestamp: ""
+---
+
 # Context map
 
 <!-- Strategic DDD: bounded contexts and relationships. Maintain via domain-work-context-map or Refinement. -->

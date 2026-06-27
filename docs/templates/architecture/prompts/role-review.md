@@ -1,3 +1,12 @@
+---
+type: architecture-role-prompt
+title: "Role: Review"
+description: "AGM review role — validate docs against source"
+resource: "repo://"
+tags: [role, review, agm]
+timestamp: ""
+---
+
 # AGM — Role: Review (< 150 words)
 
 [SA:ROLE]

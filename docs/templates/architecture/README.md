@@ -1,3 +1,12 @@
+---
+type: architecture-template-catalog
+title: "Architecture templates"
+description: "Catalog of AGM architecture documentation templates"
+resource: "repo://"
+tags: [templates, architecture, okf]
+timestamp: ""
+---
+
 # Architecture templates
 
 Installed into your application by [bp-install.sh](../../../scripts/bp-install.sh) (or the Assistant UI generator) as `<doc-root>/` before the adoption session.
@@ -9,6 +18,8 @@ Installed into your application by [bp-install.sh](../../../scripts/bp-install.s
 | [context/always-on.md](./context/always-on.md) | Session orientation |
 | [context/on-demand.md](./context/on-demand.md) | Domain / environment (on demand) |
 | [prompts/role-*.md](./prompts/) | Operational role prompts |
+| [index.md](./index.md) | OKF progressive disclosure index |
+| [log.md](./log.md) | OKF change tracking log |
 | `blueprint.md` | Construction plan + state (see [blueprint-format](../../../prompts/reference/blueprint-format.md)) |
 | `entry-point.md` | Agent graph index: navigation table to all docs and sources (+ optional overview, ## Documentation template) |
 | `interfaces/exports.md` · `imports.md` | Contracts |
@@ -19,7 +30,7 @@ Installed into your application by [bp-install.sh](../../../scripts/bp-install.s
 
 | Template | Folder | Blueprint phases |
 |----------|--------|------------------|
-| `arc42` (default) | Use existing [sample introduction](../../../examples/sample-app/order-service/docs/architecture/arc42/introduction.md) | 1–12 + ops optional |
+| `arc42` (default) | [arc42/](./arc42/) | 1–12 + ops optional |
 | `c4-light` | [c4-light/](./c4-light/) | Context → containers → components → decisions |
 | `adr-first` | [adr-first/](./adr-first/) | Decisions → context → views |
 | `lean-service` | [lean-service/](./lean-service/) | Overview → runtime → decisions |
@@ -46,3 +57,7 @@ Installed into your application by [bp-install.sh](../../../scripts/bp-install.s
 See [doc-extensions](../../../prompts/reference/doc-extensions.md).
 
 See [Guide](../../guide.md) · [Migration guide](../../migration-arc42-only.md).
+
+## OKF (Open Knowledge Format v0.1)
+
+Every template file includes YAML frontmatter with a required `type` field. Bootstrap copies types from templates; maintenance updates `timestamp` and appends to `log.md`.

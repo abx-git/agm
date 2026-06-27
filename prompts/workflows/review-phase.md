@@ -2,6 +2,9 @@
 
 | Field | Value |
 |-------|-------|
+| **Track** | Verify |
+| **Activity** | Evaluate |
+| **Mode** | Direct |
 | **When** | After each blueprint phase; verify one phase |
 | **Role** | `review` |
 | **Fresh session** | **Required** (no generation context) |
@@ -9,7 +12,7 @@
 ## Session prompt
 
 ```
-AGM — Review (phase).
+AGM — Verify · Evaluate
 Workflow: review-phase
 Role: review
 

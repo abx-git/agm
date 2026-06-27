@@ -2,6 +2,9 @@
 
 | Field | Value |
 |-------|-------|
+| **Track** | Architect |
+| **Activity** | Evaluate |
+| **Mode** | Direct |
 | **When** | Sustainable software analysis — structure, drift, technical debt |
 | **Role** | `architecture-work` |
 | **Prerequisite** | Bootstrap phase 0 `[x] done`; `entry-point.md` and source map in `always-on.md` |
@@ -10,7 +13,7 @@
 ## Session prompt
 
 ```
-AGM — Architecture Work (sustainable analysis).
+AGM — Architect · Evaluate (sustainable)
 Workflow: architecture-work-sustainable-analysis
 Role: architecture-work
 

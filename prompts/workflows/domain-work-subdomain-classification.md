@@ -2,6 +2,9 @@
 
 | Field | Value |
 |-------|-------|
+| **Track** | Domain |
+| **Activity** | Clarify |
+| **Mode** | Direct |
 | **When** | Classify subdomains (core / supporting / generic) for investment |
 | **Role** | `domain-work` |
 | **Prerequisite** | Bootstrap phase 0 `[x] done` |
@@ -9,7 +12,7 @@
 ## Session prompt
 
 ```
-AGM — Domain Work (subdomain classification).
+AGM — Domain · Clarify
 Workflow: domain-work-subdomain-classification
 Role: domain-work
 

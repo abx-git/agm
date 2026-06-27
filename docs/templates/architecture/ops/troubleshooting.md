@@ -1,3 +1,12 @@
+---
+type: architecture-ops
+title: "Troubleshooting"
+description: "Decision trees for agents and operators"
+resource: "repo://"
+tags: [operations, troubleshooting]
+timestamp: ""
+---
+
 # Troubleshooting
 
 <!-- Decision trees for agents and operators. Link from entry-point.md. -->

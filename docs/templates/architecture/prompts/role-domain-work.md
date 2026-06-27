@@ -1,3 +1,12 @@
+---
+type: architecture-role-prompt
+title: "Role: Domain Work"
+description: "AGM domain-work role — DDD discovery and design"
+resource: "repo://"
+tags: [role, domain-work, agm]
+timestamp: ""
+---
+
 # AGM — Role: Domain Work (DDD) (< 180 words)
 
 [SA:ROLE]

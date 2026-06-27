@@ -2,6 +2,9 @@
 
 | Field | Value |
 |-------|-------|
+| **Track** | Domain |
+| **Activity** | Design |
+| **Mode** | Direct |
 | **When** | Domain model or boundary design (aggregates, ACL, context split) |
 | **Role** | `domain-work` |
 | **Prerequisite** | Bootstrap phase 0 `[x] done`; context map recommended for cross-context designs |
@@ -9,7 +12,7 @@
 ## Session prompt
 
 ```
-AGM — Domain Work (design).
+AGM — Domain · Design
 Workflow: domain-work-design
 Role: domain-work
 

@@ -2,6 +2,9 @@
 
 | Field | Value |
 |-------|-------|
+| **Track** | Domain |
+| **Activity** | Evaluate |
+| **Mode** | Direct |
 | **When** | Ubiquitous language audit (docs vs code vs APIs) |
 | **Role** | `domain-work` |
 | **Prerequisite** | Glossary or domain/contexts/*/language.md partially populated |
@@ -9,7 +12,7 @@
 ## Session prompt
 
 ```
-AGM — Domain Work (language audit).
+AGM — Domain · Evaluate
 Workflow: domain-work-language-audit
 Role: domain-work
 

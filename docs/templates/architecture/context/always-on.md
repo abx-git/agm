@@ -1,3 +1,12 @@
+---
+type: architecture-context
+title: "Base context — always on"
+description: "Session orientation and source map for architecture work"
+resource: "repo://"
+tags: [architecture, context, session]
+timestamp: ""
+---
+
 # Base context — always on
 
 <!-- Copy to docs/architecture/context/always-on.md -->
@@ -12,13 +21,15 @@
 
 - **Path:** [blueprint.md](../blueprint.md)
 - **Entry:** [entry-point.md](../entry-point.md)
+- **Index:** [index.md](../index.md)
+- **Log:** [log.md](../log.md)
 - **Template:** <!-- arc42 | c4-light | adr-first | lean-service | custom -->
 
 ## Documentation structure
 
 ```
 docs/architecture/
-├── blueprint.md, entry-point.md
+├── blueprint.md, entry-point.md, index.md, log.md
 ├── context/          ← this file
 ├── prompts/          ← role-*.md
 ├── interfaces/

@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Extract session prompts from prompts/workflows/*.md into docs/assistant/workflows.json."""
+"""Extract session prompts from prompts/workflows/*.md into docs/assistant/workflows.json.
+
+Each workflow .md must include **Track**, **Activity**, and **Mode** in its metadata table.
+Run scripts/sync-workflow-metadata.py when adding workflows from the catalog template.
+"""
 import json
 import re
 import sys
@@ -12,12 +16,12 @@ ADOPT_SRC = ROOT / "prompts" / "adopt-standalone.md"
 ADOPT_PROC = ROOT / "prompts" / "reference" / "adopt-procedure.md"
 ADOPT_OUT = ROOT / "docs" / "assistant" / "adopt-prompt.txt"
 
-ROLE_GROUPS = {
-    "bootstrap": "Bootstrap",
-    "maintenance": "Maintenance",
-    "architecture-work": "Architecture work",
-    "domain-work": "Domain work (DDD)",
-    "review": "Review",
+ROLE_TRACK_FALLBACK = {
+    "bootstrap": "Build",
+    "maintenance": "Evolve",
+    "architecture-work": "Architect",
+    "domain-work": "Domain",
+    "review": "Verify",
 }
 
 
@@ -80,6 +84,9 @@ def main() -> int:
             continue
         text = path.read_text(encoding="utf-8")
         role = table_field(text, "Role").strip("`")
+        track = table_field(text, "Track") or ROLE_TRACK_FALLBACK.get(role, role)
+        activity = table_field(text, "Activity")
+        mode = table_field(text, "Mode")
         when = table_field(text, "When")
         prerequisite = table_field(text, "Prerequisite")
         fresh_chat, fresh_note = fresh_chat_value(text)
@@ -89,21 +96,23 @@ def main() -> int:
         steps = parse_steps(prompt)
         placeholders = parse_placeholders(prompt)
 
-        items.append(
-            {
-                "id": path.stem,
-                "role": role,
-                "group": ROLE_GROUPS.get(role, role),
-                "when": when,
-                "prerequisite": prerequisite,
-                "freshChat": fresh_chat,
-                "freshNote": fresh_note,
-                "anchors": anchors,
-                "steps": steps,
-                "placeholders": placeholders,
-                "prompt": prompt,
-            }
-        )
+        entry = {
+            "id": path.stem,
+            "track": track,
+            "activity": activity,
+            "mode": mode,
+            "role": role,
+            "group": track,
+            "when": when,
+            "prerequisite": prerequisite,
+            "freshChat": fresh_chat,
+            "freshNote": fresh_note,
+            "anchors": anchors,
+            "steps": steps,
+            "placeholders": placeholders,
+            "prompt": prompt,
+        }
+        items.append(entry)
 
     OUT.write_text(json.dumps(items, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     print(f"Wrote {len(items)} workflows to {OUT}")

@@ -2,6 +2,9 @@
 
 | Field | Value |
 |-------|-------|
+| **Track** | Build |
+| **Activity** | Communicate |
+| **Mode** | Direct |
 | **When** | Resume blueprint phases after Bootstrap phase 0 is `[x] done` |
 | **Role** | `bootstrap` |
 | **Fresh session** | Optional |
@@ -9,7 +12,7 @@
 ## Session prompt
 
 ```
-AGM — Bootstrap (continue).
+AGM — Build · Continue
 Workflow: bootstrap-continue
 Role: bootstrap
 

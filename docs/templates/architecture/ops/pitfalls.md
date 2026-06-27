@@ -1,3 +1,12 @@
+---
+type: architecture-ops
+title: "Known pitfalls"
+description: "Documented pitfalls, triggers, and mitigations"
+resource: "repo://"
+tags: [operations, pitfalls]
+timestamp: ""
+---
+
 # Known pitfalls
 
 ## <Pitfall title>

@@ -2,6 +2,9 @@
 
 | Field | Value |
 |-------|-------|
+| **Track** | Domain |
+| **Activity** | Clarify |
+| **Mode** | Dialog |
 | **When** | Domain discovery via Event Storming (dialog) |
 | **Role** | `domain-work` |
 | **Prerequisite** | Bootstrap phase 0 `[x] done`; `domain/` scaffold installed |
@@ -10,7 +13,7 @@
 ## Session prompt
 
 ```
-AGM — Domain Work (event storm / dialog).
+AGM — Domain · Clarify (dialog)
 Workflow: domain-work-event-storm
 Role: domain-work
 

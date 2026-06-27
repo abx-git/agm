@@ -1,3 +1,12 @@
+---
+type: architecture-domain-events
+title: "Domain events"
+description: "Catalog of domain and integration events"
+resource: "repo://"
+tags: [domain, events, ddd]
+timestamp: ""
+---
+
 # Domain events
 
 <!-- Catalog of domain and integration events. Sync with interfaces/exports and publishers in code. -->

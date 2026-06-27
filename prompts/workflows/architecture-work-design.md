@@ -2,6 +2,9 @@
 
 | Field | Value |
 |-------|-------|
+| **Track** | Architect |
+| **Activity** | Design |
+| **Mode** | Direct |
 | **When** | Architecture design proposal |
 | **Role** | `architecture-work` |
 | **Prerequisite** | Bootstrap phase 0 `[x] done` |
@@ -9,7 +12,7 @@
 ## Session prompt
 
 ```
-AGM — Architecture Work (design).
+AGM — Architect · Design
 Workflow: architecture-work-design
 Role: architecture-work
 

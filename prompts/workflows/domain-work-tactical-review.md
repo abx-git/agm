@@ -2,6 +2,9 @@
 
 | Field | Value |
 |-------|-------|
+| **Track** | Domain |
+| **Activity** | Evaluate |
+| **Mode** | Direct |
 | **When** | Tactical DDD review (aggregates, invariants, events, repositories) |
 | **Role** | `domain-work` |
 | **Prerequisite** | Bounded context identified; `domain/contexts/<context>/model.md` recommended |
@@ -9,7 +12,7 @@
 ## Session prompt
 
 ```
-AGM — Domain Work (tactical review).
+AGM — Domain · Evaluate
 Workflow: domain-work-tactical-review
 Role: domain-work
 

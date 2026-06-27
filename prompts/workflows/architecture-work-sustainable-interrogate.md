@@ -2,6 +2,9 @@
 
 | Field | Value |
 |-------|-------|
+| **Track** | Architect |
+| **Activity** | Evaluate |
+| **Mode** | Dialog |
 | **When** | Dialog — define scope and focus, then sustainable software analysis |
 | **Role** | `architecture-work` |
 | **Prerequisite** | Bootstrap phase 0 `[x] done`; `entry-point.md` exists |
@@ -10,7 +13,7 @@
 ## Session prompt
 
 ```
-AGM — Architecture Work (sustainable analysis / dialog mode).
+AGM — Architect · Evaluate (dialog)
 Workflow: architecture-work-sustainable-interrogate
 Role: architecture-work
 

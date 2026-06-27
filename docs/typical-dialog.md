@@ -1,18 +1,21 @@
 # Typical dialog and prompt types
 
-How a **human ↔ agent** collaboration looks across the **three lifecycle phases** — Build, Evolve, Work — and why **core**, **session prompt**, and **role** are separate.
+How a **human ↔ agent** collaboration looks across AGM **tracks** (Build, Evolve, Architect, Domain, Verify) and why **core**, **session prompt**, and **role** are separate.
 
 **Procedure:** [Guide](./guide.md) · **Sample app:** [examples/sample-app](./examples/sample-app/)
 
 ---
 
-## Lifecycle overview
+## Graph lifecycle overview
 
-| Phase | Human goal | Lead file | Example workflows |
-|-------|------------|-----------|-------------------|
-| **1 · Build** | Create doc graph iteratively | `blueprint.md` (construction plan) | adopt, bootstrap-continue, review-milestone |
-| **2 · Evolve** | Deepen or sync with code | `entry-point.md` + chapters | refinement, maintenance |
-| **3 · Work** | Use compiled graph | `work/` + WRK in blueprint | architecture-work-* |
+| Stage | Human goal | Lead file | Example tracks / workflows |
+|-------|------------|-----------|----------------------------|
+| **1 · Build** | Create doc graph iteratively | `blueprint.md` (construction plan) | Build — `bootstrap-adopt`, `bootstrap-continue`; Verify — `review-milestone` |
+| **2 · Evolve** | Deepen or sync with code | `entry-point.md` + chapters | Evolve — `refinement`, `maintenance*` |
+| **3 · Architect** | Technical architecture on the graph | `work/` + WRK (architecture) | Architect — `architecture-work-*` |
+| **4 · Domain** | DDD on the graph | `domain/` + `work/` + WRK (domain) | Domain — `domain-work-*` |
+
+Session prompts use a unified header: `AGM — <Track> · <Activity>` (e.g. `AGM — Architect · Clarify`). Workflow **IDs** stay legacy (`architecture-work-query`, …).
 
 ---
 
@@ -21,7 +24,7 @@ How a **human ↔ agent** collaboration looks across the **three lifecycle phase
 | Type | Where | Who maintains | Changes | Purpose |
 |------|-------|---------------|---------|---------|
 | **Core prompt** | IDE rules + [prompts/core/system-prompt.md](../prompts/core/system-prompt.md) | Adopt once from pattern repo | Rarely | **Behavior:** scribe not architect; invariants; read order |
-| **Session prompt** | [prompts/workflows/](../prompts/workflows/) | Per chat (Assistant UI) | Every session | **Task now:** bootstrap-adopt, maintenance, architecture-work-query, … |
+| **Session prompt** | [prompts/workflows/](../prompts/workflows/) | Per chat (Assistant UI) | Every session | **Task now:** Track · Activity header + workflow ID |
 | **Role** | `docs/architecture/prompts/role-*.md` | App repo (from templates) | Occasionally | **Procedure:** steps, classification, quality gates |
 
 **Knowledge (not pasted into chat):** `always-on.md` (session context), `blueprint.md` (construction plan), `entry-point.md` (agent graph index / traversal).
@@ -34,7 +37,7 @@ Core (once) + session prompt (this chat) → agent → docs/architecture/ → up
 
 | Single prompt problem | Split solves it |
 |----------------------|-----------------|
-| Bootstrap + maintenance + review mixed | Review stays report-only in a fresh chat |
+| Build + Evolve + Verify mixed | Verify stays report-only in a fresh chat |
 | Rules + today’s task + all steps | Less context rot; cheaper sessions |
 | Same text when you only need maintenance | Workflow carries only what this chat needs |
 
@@ -44,9 +47,9 @@ Core (once) + session prompt (this chat) → agent → docs/architecture/ → up
 |--|----------|------|
 | **You set** | `checkout <id>` | Nothing (agent loads from workflow) |
 | **Content** | Short session contract | `[SA:STEPS]`, gates, STOP rules |
-| **Example** | `architecture-work-query` vs. `-design` | Both use `role-architecture-work` |
+| **Example** | Architect · Clarify vs. Architect · Design | Both use `role-architecture-work` |
 
-Several workflows share one role when the **procedure** matches but the **goal** differs (`bootstrap-continue` vs. `refinement` → both `role-bootstrap`).
+Several workflows share one role when the **procedure** matches but the **activity** differs (`bootstrap-continue` vs. `refinement` → both `role-bootstrap`, tracks Build vs. Evolve).
 
 ---
 
@@ -100,7 +103,7 @@ No agent chat yet.
 
 ---
 
-### Session 3 — Verify (`review-milestone`)
+### Session 3 — Verify · Evaluate (`review-milestone`)
 
 **New chat required** — not a follow-up in session 2.
 
@@ -117,7 +120,7 @@ No agent chat yet.
 
 ---
 
-### Day-to-day — Code changed (`maintenance`)
+### Day-to-day — Evolve · Sync (`maintenance`)
 
 **You:** `checkout maintenance` → new chat → paste `git diff`.
 
@@ -132,7 +135,7 @@ No agent chat yet.
 
 ---
 
-### Day-to-day — Architecture question (`architecture-work-query`)
+### Day-to-day — Architect · Clarify (`architecture-work-query`)
 
 **You:** `checkout architecture-work-query` → new chat:
 
@@ -142,7 +145,7 @@ No agent chat yet.
 
 ---
 
-### Occasional — Deepen (`refinement`)
+### Occasional — Evolve · Refine (`refinement`)
 
 **You:** `checkout refinement` → new chat:
 
@@ -152,7 +155,7 @@ Same **role** as `bootstrap-continue`; different **workflow** text (explicit sco
 
 ---
 
-### After maintenance — Verify (`review-maintenance`)
+### After maintenance — Verify · Evaluate (`review-maintenance`)
 
 New chat; agent cross-checks only docs touched by last maintenance against the diff — report-only.
 
@@ -167,17 +170,17 @@ Weeks 1–n (bootstrap)
 
 Ongoing
   PR → maintenance (+ optional review-maintenance)
-  Questions → architecture-work-*
-  Milestones → review-milestone / review-phase
+  Questions → Architect · Clarify / Evaluate
+  Milestones → Verify · Evaluate
 ```
 
-| Situation | Workflow | New chat? |
-|-----------|----------|-----------|
-| First docs | `bootstrap-init` | Yes |
-| Continue arc42 | `bootstrap-continue` | Yes (recommended) |
-| After code change | `maintenance` | Yes |
-| Architecture question | `architecture-work-query` | Yes |
-| Verify | `review-*` | **Required** |
+| Situation | Track · Activity | Workflow ID | New chat? |
+|-----------|------------------|-------------|-----------|
+| First docs | Build · Init | `bootstrap-init` | Yes |
+| Continue arc42 | Build · Continue | `bootstrap-continue` | Yes (recommended) |
+| After code change | Evolve · Sync | `maintenance` | Yes |
+| Architecture question | Architect · Clarify | `architecture-work-query` | Yes |
+| Verify | Verify · Evaluate | `review-*` | **Required** |
 
 ---
 

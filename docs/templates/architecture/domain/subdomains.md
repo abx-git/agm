@@ -1,3 +1,12 @@
+---
+type: architecture-domain-subdomains
+title: "Subdomains"
+description: "Core, supporting, and generic subdomain classification"
+resource: "repo://"
+tags: [domain, subdomains, ddd]
+timestamp: ""
+---
+
 # Subdomains
 
 <!-- Classify subdomains for investment decisions. Maintain via domain-work-subdomain-classification. -->

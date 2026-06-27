@@ -30,6 +30,9 @@ Preserve these invariants:
 - Blueprint state tracking in docs/architecture/blueprint.md
 - Interface contracts in interfaces/exports.md and interfaces/imports.md
 - Referential integrity before final output
+- Every artifact is an OKF concept (Markdown + valid YAML frontmatter bounded by ---)
+- Mandatory non-empty `type` field in every architecture document header
+- Maintain index.md (progressive disclosure) and log.md (change tracking) at every structure level
 
 [SA:TEMPLATE]
 arc42 is optional. Allowed templates: arc42, c4-light, adr-first, lean-service, custom.
