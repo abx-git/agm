@@ -15,4 +15,4 @@ Also installs: role prompts under `<doc-root>/prompts/`, workflow session prompt
 
 Session prompts: paste from the Assistant UI (paths adjusted to your doc root) or read `prompts/workflows/<id>.md`.
 
-See [Guide](../../docs/guide.md) for the full procedure.
+See [Guide](../guide.md) for the full procedure.

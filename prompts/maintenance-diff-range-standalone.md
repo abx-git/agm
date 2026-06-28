@@ -3,7 +3,7 @@
 Copy the session block below into an agent chat or CI step. The agent resolves the diff between **DIFF_FROM** and **DIFF_TO** via Git MCP or `git diff` — no pasted diff.
 
 **Workflow file:** [prompts/workflows/maintenance-diff-range.md](./workflows/maintenance-diff-range.md)  
-**Pipeline guide:** [prompts/reference/maintenance-pipeline.md](./reference/maintenance-pipeline.md)
+**Pipeline guide:** [docs/reference/maintenance-pipeline.md](../docs/reference/maintenance-pipeline.md)
 
 Substitute `<diff-from>` and `<diff-to>` (or set `DIFF_FROM` / `DIFF_TO` in the shell) before sending the prompt.
 

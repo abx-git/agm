@@ -1,22 +1,28 @@
 # AGM — Architecture Graph Method CLI & MCP Server
 
-Local, closed tool for the [Architecture Graph Method](https://github.com/abx-git/blueprint-pattern). Workflows are triggered via **MCP tool calls**, not copy-pasted prompts.
+Local CLI and MCP server for the [Architecture Graph Method](https://github.com/abx-git/blueprint-pattern).
+
+**Default onboarding:** copy session prompts from the [Assistant UI](https://abx-git.github.io/blueprint-pattern.github.io/) or `prompts/workflows/` into a new chat — see [docs/quickstart.md](../docs/quickstart.md).
+
+**Optional (IDE-native):** MCP `agm_trigger_workflow` loads the same prompt pack without copy-paste. Requires a private prompt pack (or future minimal public starter pack — see [docs/ROADMAP.md](../docs/ROADMAP.md)).
 
 ## Public vs private split
 
-| Shipped publicly (`@agm/cli`) | Private (never publish) |
-|-------------------------------|-------------------------|
-| `data/workflows-catalog.json` — IDs, roles, steps, anchors | `prompts-pack/workflows-prompts.json` — prompt bodies |
+| Shipped publicly (`@agm/cli`) | Private (optional — full catalog) |
+|-------------------------------|-----------------------------------|
+| `data/workflows-catalog.json` — IDs, roles, steps, anchors | `prompts-pack/workflows-prompts.json` — all prompt bodies |
+| `data/workflows-starter-prompts.json` — **golden path** prompts (8 workflows) | Overrides starter when installed |
 | Graph CLI: `init`, `verify`, `status` | Distribute via private git, npm, or `~/.agm/prompts-pack/` |
-| MCP without prompt pack: list workflows, graph ops | Required for `agm_trigger_workflow` |
+| MCP without private pack: golden path via starter pack | Extended workflows (`domain-work-*`, dialog, analysis, …) |
 
-The **method** (graph structure, phases, anchors, procedure steps) can be public. **Prompt engineering** stays in the private pack.
+The **method** (graph structure, phases, anchors, procedure steps) is public. **Full prompt engineering** for extended workflows stays in the optional private pack.
 
 ## Requirements
 
 - Node.js 20+
 - An application repository with AGM documentation under `docs/architecture/` (or your chosen doc root)
-- **Private prompt pack** for workflow execution (`agm_trigger_workflow`)
+- **Starter pack** ships with `@agm/cli` — `agm_trigger_workflow` works for golden-path workflows out of the box
+- **Optional:** full private prompt pack for extended workflows
 
 ## Install
 
@@ -80,9 +86,17 @@ The public npm package **does not** include prompt bodies.
 
 ## CLI
 
+### `agm install`
+
+Print the golden-path `bp-install.sh` curl command (full scaffold — prompts, templates, workflows):
+
+```bash
+agm install --project "order-service" --template arc42
+```
+
 ### `agm init`
 
-Bootstrap the three core graph orchestration files:
+Bootstrap **three core files only** (`always-on.md`, `blueprint.md`, `entry-point.md`). For first-time setup use **`agm install`** / `bp-install.sh` instead — see [docs/reference/install.md](../docs/reference/install.md).
 
 - `context/always-on.md`
 - `blueprint.md`
@@ -139,7 +153,7 @@ Open your **application repository** in Cursor (where `.agm/config.json` lives).
 | `agm_list_workflows` | No (catalog only) |
 | `agm_prompt_pack_status` | No |
 | `agm_register_work_item` | No |
-| `agm_trigger_workflow` | **Yes** |
+| `agm_trigger_workflow` | **Starter** (golden path) or **full** private pack |
 
 `agm_trigger_workflow` returns **two blocks**:
 
@@ -148,10 +162,10 @@ Open your **application repository** in Cursor (where `.agm/config.json` lives).
 
 ### Example agent flow
 
-1. `agm_prompt_pack_status` — confirm private pack is installed
+1. `agm_prompt_pack_status` — expect `tier: "starter"` or `"full"`
 2. `agm_load_context`
 3. `agm_get_graph_status`
-4. `agm_trigger_workflow` with `workflowId` + `parameters`
+4. `agm_trigger_workflow` with `workflowId` + `parameters` (golden path IDs work with starter pack)
 5. `agm_register_work_item`
 6. `agm_verify_links`
 
@@ -160,9 +174,10 @@ Open your **application repository** in Cursor (where `.agm/config.json` lives).
 ```
 agm/
 ├── data/
-│   ├── workflows-catalog.json   # public metadata (no prompt field)
+│   ├── workflows-catalog.json        # public metadata (no prompt field)
+│   ├── workflows-starter-prompts.json # public golden-path prompts
 │   └── anchors.json
-├── prompts-pack/                # PRIVATE — gitignored JSON
+├── prompts-pack/                # OPTIONAL full pack — gitignored JSON
 │   ├── README.md
 │   └── workflows-prompts.json   # generate via scripts/agm-split-prompts.mjs
 ├── src/
@@ -188,7 +203,7 @@ cp docs/assistant/anchors.json agm/data/anchors.json
 
 ## Design principles
 
-1. **Public engine, private prompts** — safe to publish CLI; prompt IP stays out of npm
-2. **No copy-paste UI** — LLMs use MCP tools
+1. **Public engine, optional full prompts** — starter pack covers golden path; extended workflows optional
+2. **MCP optional** — copy-paste is the default; MCP triggers the same workflows for IDE-native agents
 3. **Local-only graph ops** — `init`, `verify`, `git diff` on the filesystem
 4. **Traceable** — `agm verify` enforces relative link integrity

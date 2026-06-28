@@ -1,206 +1,79 @@
-# Typical dialog and prompt types
+# Typical dialogs (golden path)
 
-How a **human ↔ agent** collaboration looks across AGM **tracks** (Build, Evolve, Architect, Domain, Verify) and why **core**, **session prompt**, and **role** are separate.
+Three sample **human ↔ agent** sessions after [install](../scripts/bp-install.sh). Not mandatory wording — patterns only.
 
-**Procedure:** [Guide](./guide.md) · **Sample app:** [examples/sample-app](./examples/sample-app/)
-
----
-
-## Graph lifecycle overview
-
-| Stage | Human goal | Lead file | Example tracks / workflows |
-|-------|------------|-----------|----------------------------|
-| **1 · Build** | Create doc graph iteratively | `blueprint.md` (construction plan) | Build — `bootstrap-adopt`, `bootstrap-continue`; Verify — `review-milestone` |
-| **2 · Evolve** | Deepen or sync with code | `entry-point.md` + chapters | Evolve — `refinement`, `maintenance*` |
-| **3 · Architect** | Technical architecture on the graph | `work/` + WRK (architecture) | Architect — `architecture-work-*` |
-| **4 · Domain** | DDD on the graph | `domain/` + `work/` + WRK (domain) | Domain — `domain-work-*` |
-
-Session prompts use a unified header: `AGM — <Track> · <Activity>` (e.g. `AGM — Architect · Clarify`). Workflow **IDs** stay legacy (`architecture-work-query`, …).
+**Procedure:** [quickstart.md](./quickstart.md) · **Sample app:** [examples/sample-app](./examples/sample-app/)
 
 ---
 
-## Part 1 — Three prompt types (why they exist)
+## Three prompt layers
 
-| Type | Where | Who maintains | Changes | Purpose |
-|------|-------|---------------|---------|---------|
-| **Core prompt** | IDE rules + [prompts/core/system-prompt.md](../prompts/core/system-prompt.md) | Adopt once from pattern repo | Rarely | **Behavior:** scribe not architect; invariants; read order |
-| **Session prompt** | [prompts/workflows/](../prompts/workflows/) | Per chat (Assistant UI) | Every session | **Task now:** Track · Activity header + workflow ID |
-| **Role** | `docs/architecture/prompts/role-*.md` | App repo (from templates) | Occasionally | **Procedure:** steps, classification, quality gates |
+| Layer | Where | Purpose |
+|-------|-------|---------|
+| **Core** | IDE rules + `prompts/core/system-prompt.md` | Behavior every session |
+| **Session** | Assistant UI → copy into chat | This chat’s task (Track + workflow) |
+| **Role** | `<doc-root>/prompts/role-*.md` | Step-by-step procedure |
 
-**Knowledge (not pasted into chat):** `always-on.md` (session context), `blueprint.md` (construction plan), `entry-point.md` (agent graph index / traversal).
-
-```text
-Core (once) + session prompt (this chat) → agent → docs/architecture/ → update blueprint.md
-```
-
-### Why not one mega-prompt?
-
-| Single prompt problem | Split solves it |
-|----------------------|-----------------|
-| Build + Evolve + Verify mixed | Verify stays report-only in a fresh chat |
-| Rules + today’s task + all steps | Less context rot; cheaper sessions |
-| Same text when you only need maintenance | Workflow carries only what this chat needs |
-
-### Workflow vs. role
-
-| | Workflow | Role |
-|--|----------|------|
-| **You set** | `checkout <id>` | Nothing (agent loads from workflow) |
-| **Content** | Short session contract | `[SA:STEPS]`, gates, STOP rules |
-| **Example** | Architect · Clarify vs. Architect · Design | Both use `role-architecture-work` |
-
-Several workflows share one role when the **procedure** matches but the **activity** differs (`bootstrap-continue` vs. `refinement` → both `role-bootstrap`, tracks Build vs. Evolve).
+Knowledge the agent reads (not pasted): `always-on.md`, `blueprint.md`, `entry-point.md`.
 
 ---
 
-## Part 2 — Typical dialog (patterns, not mandatory wording)
+## Dialog 1 — Build: adopt and continue
 
-Work happens in your **application repo** after running the install script (Assistant UI → Build → Install) — no git clone of blueprint-pattern.
+**Once (human):** Assistant UI → copy install script → run at app repo root.
 
-### Phase 0 — One-time (human only)
+**Session A — `bootstrap-adopt` (new chat):**
 
-1. [Assistant UI](https://abx-git.github.io/blueprint-pattern.github.io/) — OS, AI tool, project name, template, doc root → **Copy install script** → run at repo root.
-2. Installs `prompts/`, `<doc-root>/` scaffold, and AI tool rules (`bp-install.sh` via HTTPS).
+> Agent: Install verified. Creating `blueprint.md`, `entry-point.md`, `always-on.md`. First section: arc42 introduction from source evidence. Assumption: payment is external — confirm?
 
-No agent chat yet.
+> You: Confirm. Use arc42.
 
----
+> Agent: `[[ANCHOR:CHANGED_FILES]]` … `[[ANCHOR:LINK_CHECK]] pass`. Next: `bootstrap-continue`.
 
-### Session 1 — Create docs (`bootstrap-init`)
+**Session B — `bootstrap-continue` (new chat):**
 
-**You (terminal):** `checkout bootstrap-init`
+> You: (paste prompt — optional: “next open phase from blueprint.md”)
 
-**You (new chat):** Often nothing extra — Cursor reads `ACTIVE.md`. Optional:
+> Agent: Phase 2 context view populated from `src/`. Session log updated.
 
-> Bootstrap AGM documentation for this application. Prefer arc42 unless this is a single microservice.
-
-**Agent (typical):**
-
-> I read `always-on.md` and the repository layout. Proposed template: **arc42** — multiple modules and integrations visible. Creating `blueprint.md` (phase 0 in progress), `entry-point.md`, `interfaces/exports.md`, starting Introduction/Goals. Assumption: payment service is external — please confirm.
-
-**You:** Confirm template and assumptions.
-
-**Agent (end of session):**
-
-> [[ANCHOR:TEMPLATE_SELECTED]] arc42  
-> [[ANCHOR:CHANGED_FILES]] blueprint.md, entry-point.md, arc42/introduction.md, interfaces/exports.md  
-> [[ANCHOR:PHASE_STATUS]] phase 0 [x], phase 1 [~]  
-> [[ANCHOR:OPEN_QUESTIONS]] Notification: push or pull?  
-> [[ANCHOR:LINK_CHECK]] pass  
-> Session log updated. Next: `bootstrap-continue`.
-
-**You:** Skim output; do not mark phases `[x]` if content is still thin.
+**You:** Skim output; do not mark phases `[x]` until content is evidence-backed.
 
 ---
 
-### Session 2 — Continue (`bootstrap-continue`)
+## Dialog 2 — Evolve + Verify: sync and review
 
-**You:** `checkout bootstrap-continue` → new chat. Optional: “Resume next open phase from blueprint.md.”
+**After a merged PR (new chat) — `maintenance-diff-range`:**
 
-**Agent:** Works phases with evidence links; may suggest compaction after two phases.
+> You: DIFF_FROM=`origin/main`, DIFF_TO=`HEAD`
 
-**You (mid-session):** “Record the guardrail finding on order_service.ts in blueprint.md; no ADR yet.”
+> Agent: `[[ANCHOR:CHANGE_CLASSIFICATION]]` API change on orders endpoint. Updated `interfaces/exports.md`, arc42 building blocks. `[[ANCHOR:LINK_CHECK]] pass`
 
----
+**Fresh chat — `review-maintenance`:**
 
-### Session 3 — Verify · Evaluate (`review-milestone`)
+> Agent: Report-only. VERDICT: PASS WITH NOTES — runtime.md mentions retry; code shows timeout only. Report in `work/2026-06-03-review-maintenance.md`. **No files modified.**
 
-**New chat required** — not a follow-up in session 2.
-
-**You:** `checkout review-milestone`
-
-**Agent (report-only):**
-
-> [[ANCHOR:REVIEW_SCOPE]] full `docs/architecture/` graph  
-> [[ANCHOR:VERDICT]] PASS WITH NOTES  
-> [[ANCHOR:FINDINGS]] major: runtime.md mentions retry; code only has timeout — missing link to payment_client.ts  
-> Report: `work/2026-06-03-review-milestone.md`. **No files modified.**
-
-**You:** Fix findings in a **later** write session (`bootstrap-continue` or `refinement`), not in the review chat.
+> You: Fix findings in a **later** write session (`refinement` or `bootstrap-continue`), not in this chat.
 
 ---
 
-### Day-to-day — Evolve · Sync (`maintenance`)
+## Dialog 3 — Architect: question on the graph
 
-**You:** `checkout maintenance` → new chat → paste `git diff`.
+**New chat — `architecture-work-query`:**
 
-**Agent:**
+> You: Question: How does order-service trigger notification after successful payment?
 
-> [[ANCHOR:CHANGE_CLASSIFICATION]] API — orders endpoint  
-> [[ANCHOR:CHANGED_DOCS]] arc42/building-blocks.md, interfaces/exports.md  
-> [[ANCHOR:INTERFACE_IMPACT]] yes  
-> [[ANCHOR:LINK_CHECK]] pass
-
-**You:** Merge when code and docs align (team policy).
+> Agent: Traverses `entry-point.md` → `interfaces/imports.md` → payment exports. Writes `work/2026-06-03-order-notification-trace.md`; registers WRK-004 in `blueprint.md`.
 
 ---
 
-### Day-to-day — Architect · Clarify (`architecture-work-query`)
-
-**You:** `checkout architecture-work-query` → new chat:
-
-> Question: How does order-service trigger notification after successful payment?
-
-**Agent:** Traverses graph; writes `work/2026-06-03-order-notification-trace.md`; registers WRK-004 in `blueprint.md`.
-
----
-
-### Occasional — Evolve · Refine (`refinement`)
-
-**You:** `checkout refinement` → new chat:
-
-> Goal: Extend arc42/runtime.md with retry and timeout for payment calls. Scope: order-service only.
-
-Same **role** as `bootstrap-continue`; different **workflow** text (explicit scope).
-
----
-
-### After maintenance — Verify · Evaluate (`review-maintenance`)
-
-New chat; agent cross-checks only docs touched by last maintenance against the diff — report-only.
-
----
-
-## Part 3 — Timeline
-
-```text
-Weeks 1–n (bootstrap)
-  Human setup → bootstrap-init → bootstrap-continue (×n, compaction → new chat)
-  → review-milestone (fresh chat) → fix findings in write sessions
-
-Ongoing
-  PR → maintenance (+ optional review-maintenance)
-  Questions → Architect · Clarify / Evaluate
-  Milestones → Verify · Evaluate
-```
-
-| Situation | Track · Activity | Workflow ID | New chat? |
-|-----------|------------------|-------------|-----------|
-| First docs | Build · Init | `bootstrap-init` | Yes |
-| Continue arc42 | Build · Continue | `bootstrap-continue` | Yes (recommended) |
-| After code change | Evolve · Sync | `maintenance` | Yes |
-| Architecture question | Architect · Clarify | `architecture-work-query` | Yes |
-| Verify | Verify · Evaluate | `review-*` | **Required** |
-
----
-
-## Part 4 — What you actually say
+## Rules of thumb
 
 | Do | Don’t |
 |----|-------|
-| `checkout <workflow>` before the chat | Repeat the full core prompt |
-| Paste **diff** for maintenance | Dictate entire arc42 in chat |
-| **Fresh chat** for review | “Please fix findings” in review chat |
-| Check **blueprint.md** after session | Memorize every `[SA:*]` section in roles |
+| New chat per workflow | Verify in the same chat as write/sync |
+| Paste git range or use MCP for maintenance | Paste entire repo into chat |
+| Check `blueprint.md` after every session | Memorize every role section |
 
-**One line:** You choose the **workflow**; the agent loads **core** + **role** from rules and paths.
+Extended workflows and dialog-mode interviews: [reference/extended-workflows.md](./reference/extended-workflows.md).
 
----
-
-## Further reading
-
-| Document | Content |
-|----------|---------|
-| [Guide](./guide.md) | Full procedure |
-| [Gen AI challenges](./gen-ai-challenges.md) | LLM limits and governance |
-| [Architects article](./article/blueprint-pattern-for-architects.md) | Principles and comparison |
+Further reading: [guide.md](./guide.md) · [gen-ai-challenges.md](./gen-ai-challenges.md)

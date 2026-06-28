@@ -2,7 +2,9 @@
 
 **How to document software architecture that humans and AI agents can traverse deterministically.**
 
-The Architecture Graph Method (AGM) is not another documentation tool. It is a **method** for co-locating architectural knowledge with source code — structured as a Markdown link graph, maintained by AI agents, versioned in Git, and aligned with arc42 and the C4 Model. *(Formerly known as Blueprint Pattern.)*
+The Architecture Graph Method (AGM) is not another documentation tool. It is a **method** for co-locating architectural knowledge with source code — structured as a Markdown link graph, maintained by AI agents, versioned in Git, and aligned with arc42 and the C4 Model.
+
+> *The method was developed in the [blueprint-pattern](https://github.com/abx-git/blueprint-pattern) repository (legacy name).*
 
 This article explains the method for software architects: the problem it solves, the principles behind it, the workflow you operate, and where the boundaries are.
 
@@ -391,11 +393,11 @@ This is not a finished product. Real-world case studies will refine the prompts,
 
 ## 9. Getting started
 
-1. Read the [sample application](../examples/sample-app/) to see the pattern in action
-2. Copy the [system prompt](../../prompts/core/system-prompt.md) into your AI assistant
-3. Run: *"Bootstrap AGM documentation for this application"*
+1. Read [docs/quickstart.md](../quickstart.md) (~10 min)
+2. Explore the [sample application](../examples/sample-app/)
+3. Run [bp-install.sh](../../scripts/bp-install.sh) or `agm install` at your app repo root
 4. Add the [CI link checker](../../.github/workflows/blueprint-pattern-integrity.yml) to your repository
-5. Share your experience via a [case study issue](../../.github/ISSUE_TEMPLATE/case-study.md)
+5. Share your experience via a [case study](../case-studies.md) or [issue](../../.github/ISSUE_TEMPLATE/case-study.md)
 
 The underlying insight — that a traversable Markdown link network can serve as a deterministic, infrastructure-free alternative to RAG for bounded, structured knowledge domains — applies beyond software architecture. But for architects today, the immediate win is simple: **architecture documentation that agents can actually use.**
 

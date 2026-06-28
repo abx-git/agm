@@ -1,66 +1,75 @@
 # Architecture Graph Method (AGM)
 
-> Living architecture documentation as a traversable Markdown graph — orchestrated via `blueprint.md`. For AI agents and humans, versioned with your code.
+> **Architecture documentation is the API of AI conversation.**
 
-**Repository:** [github.com/abx-git/blueprint-pattern](https://github.com/abx-git/blueprint-pattern) *(formerly Blueprint Pattern)*
+AGM is a repo-local Markdown link graph, orchestrated by `blueprint.md`, maintained by agents via MCP. Living architecture docs — traversable by humans and AI, versioned with your code.
 
-Compile architecture into linked Markdown in `docs/architecture/`, navigate by explicit links, maintain through a **four-phase lifecycle** with agent session prompts.
+**Start here:** **[docs/quickstart.md](./docs/quickstart.md)** — the only mandatory read (~10 min).
+
+Repository: [github.com/abx-git/blueprint-pattern](https://github.com/abx-git/blueprint-pattern) *(legacy repo name; method is AGM)*
 
 ---
 
-## Start here
+## Golden path
 
-| Document | Purpose |
-|----------|---------|
-| **[Assistant](https://abx-git.github.io/blueprint-pattern.github.io/)** | **Start here** — generate install script, adopt, copy workflow prompts |
-| **[Install script](./scripts/bp-install.sh)** | Prompts + scaffold via HTTPS (no git clone) |
-| **[Adoption prompt](./prompts/adopt-standalone.md)** | After install — first agent chat (or Assistant Build → Adopt) |
-| **[Guide](./docs/guide.md)** | Lifecycle, core files, full procedure |
+| Step | Action |
+|------|--------|
+| Install | [Assistant UI](https://abx-git.github.io/blueprint-pattern.github.io/) → `bp-install.sh` |
+| Adopt | One chat → `bootstrap-adopt` |
+| Continue | `bootstrap-continue` — next chapter |
+| Maintain | `maintenance-diff-range` — sync on git diff |
+| Review | Fresh chat → `review-maintenance` |
 
-```bash
-./scripts/open-assistant.sh   # local UI at http://localhost:8765
+Default: copy session prompt from Assistant into a new chat. Optional: MCP `agm_trigger_workflow` (same prompts) — [agm/README.md](./agm/README.md).
+
+---
+
+## Core insight
+
+Agents fail on cross-cutting architecture (hallucinate or exhaust context). AGM **compiles** knowledge into linked Markdown and **traverses** it deterministically — not similarity search.
+
+```text
+Dump loop          →    Doc-driven context
+────────────────        ────────────────────
+Paste repo/history      always-on.md + blueprint.md
+RAG / wiki search       Links from entry-point.md
+Same chat review        Fresh Verify chat
 ```
 
-Optional: [Typical dialog](./docs/typical-dialog.md) · [Gen AI challenges](./docs/gen-ai-challenges.md) · [Sample app](./docs/examples/sample-app/)
+---
+
+## Your app (`docs/architecture/`)
+
+| File | Purpose |
+|------|---------|
+| `context/always-on.md` | App identity, stack, source map — every session |
+| `blueprint.md` | Construction plan, phase status, WRK register |
+| `entry-point.md` | Agent navigation — links only |
+| `index.md` + `log.md` | OKF per-folder index + change log |
+| `interfaces/` | `exports.md` · `imports.md` — cross-service contracts |
+
+Templates: [docs/templates/architecture/](./docs/templates/architecture/) · Agent rules: [prompts/core/system-prompt.md](./prompts/core/system-prompt.md)
 
 ---
 
-## Graph lifecycle (four stages)
+## Tracks
 
-| Stage | Track | What | Lead file |
-|-------|-------|------|-----------|
-| **1 · Build** | Build | Create doc graph iteratively | `blueprint.md` — construction plan |
-| **2 · Evolve** | Evolve | Refine sections, sync with `git diff` | `entry-point.md` + template chapters |
-| **3 · Architect** | Architect | Technical clarify, design, evaluate | `work/` + WRK (Track: architecture) |
-| **4 · Domain** | Domain | DDD: context map, aggregates, language | `domain/` + `work/` + WRK (Track: domain) |
-
-**Verify** (`review-*`) runs in a fresh chat after write/sync sessions. Workflow vocabulary: **Track · Activity · Mode** — see [Guide](./docs/guide.md).
+**Build** · **Evolve** · **Architect** · **Domain** · **Verify** — one chat = one session = one workflow.
 
 ---
 
-## Core files (your application)
+## Further reading
 
-```
-docs/architecture/
-├── context/always-on.md   ← session context (every chat)
-├── blueprint.md           ← construction plan + progress + WRK + session log
-├── entry-point.md         ← human entry, navigation, source links
-├── interfaces/            ← exports.md, imports.md
-├── domain/                ← context map, subdomains, events, contexts/ (DDD)
-├── work/                  ← architecture + domain work, review reports
-└── arc42/                 ← or c4-light/, adr-first/, lean-service/
-```
+| Document | Audience |
+|----------|----------|
+| [docs/guide.md](./docs/guide.md) | Practitioners — full procedure |
+| [docs/ROADMAP.md](./docs/ROADMAP.md) | Consolidation progress |
+| [docs/gen-ai-challenges.md](./docs/gen-ai-challenges.md) | Leads — governance |
+| [docs/case-studies.md](./docs/case-studies.md) | Real-world examples |
+| [docs/examples/sample-app/](./docs/examples/sample-app/) | Multi-service example |
 
-Templates: [docs/templates/architecture/](./docs/templates/architecture/). Core agent rules: [prompts/core/system-prompt.md](./prompts/core/system-prompt.md).
+Local Assistant UI: `./scripts/open-assistant.sh` → http://localhost:8765
 
 ---
 
-## In one sentence
-
-Agents excel at single files but fail on cross-cutting architecture; AGM **compiles** knowledge into a repo graph, **builds** it phase by phase, **evolves** it with maintenance, and **works** from it for architecture and **domain (DDD)** tasks. The **Blueprint** (`blueprint.md`) is the construction plan — the method is the graph.
-
----
-
-## License
-
-[MIT](./LICENSE) · [Contributions](./CONTRIBUTING.md)
+[MIT](./LICENSE) · [Contributing](./CONTRIBUTING.md)

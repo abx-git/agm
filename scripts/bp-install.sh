@@ -23,7 +23,7 @@ Options:
   --template NAME   arc42 | c4-light | adr-first | lean-service | custom
   --project NAME    Application / project label (metadata only)
   --ai-tool NAME    cursor | claude | copilot | generic
-  --focus IDS       Comma-separated doc focus (see prompts/reference/doc-extensions.md)
+  --focus IDS       Comma-separated doc focus (see docs/reference/doc-extensions.md)
   --bp-ref REF      Git ref on abx-git/blueprint-pattern (default: main)
   -h, --help        Show this help
 
@@ -105,11 +105,11 @@ SHARED=(
 
 PROMPTS=(
   "prompts/core/system-prompt.md|prompts/core/system-prompt.md"
-  "prompts/reference/adopt-procedure.md|prompts/reference/adopt-procedure.md"
-  "prompts/reference/blueprint-format.md|prompts/reference/blueprint-format.md"
-  "prompts/reference/doc-extensions.md|prompts/reference/doc-extensions.md"
-  "prompts/reference/ddd-guardrails.md|prompts/reference/ddd-guardrails.md"
-  "prompts/reference/ddd-work-report-formats.md|prompts/reference/ddd-work-report-formats.md"
+  "docs/reference/adopt-procedure.md|prompts/reference/adopt-procedure.md"
+  "docs/reference/blueprint-format.md|prompts/reference/blueprint-format.md"
+  "docs/reference/doc-extensions.md|prompts/reference/doc-extensions.md"
+  "docs/reference/ddd-guardrails.md|prompts/reference/ddd-guardrails.md"
+  "docs/reference/ddd-work-report-formats.md|prompts/reference/ddd-work-report-formats.md"
 )
 
 WORKFLOWS=(

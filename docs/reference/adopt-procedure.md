@@ -64,7 +64,7 @@ Session prompts: paste from Assistant UI or read `prompts/workflows/<id>.md` ins
 
 ## Appendix A — Core prompt (installed to `prompts/core/system-prompt.md`)
 
-See [system-prompt.md](../core/system-prompt.md) in the pattern repository. The install script copies it; do not duplicate in the adoption chat unless the file is missing.
+See [system-prompt.md](../../prompts/core/system-prompt.md) in the pattern repository. The install script copies it; do not duplicate in the adoption chat unless the file is missing.
 
 ## Appendix B — Role prompt shape
 

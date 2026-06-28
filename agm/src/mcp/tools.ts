@@ -2,9 +2,10 @@ import { z } from 'zod';
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { loadConfig } from '../config/load.js';
 import {
-  findPromptsFile,
-  isPromptPackInstalled,
+  findPrivatePromptsFile,
+  getPromptPackTier,
   resolvePromptsDirectories,
+  starterWorkflowIds,
 } from '../config/prompts-path.js';
 import { loadContext } from '../graph/context.js';
 import { getGraphStatus } from '../graph/status.js';
@@ -57,20 +58,22 @@ export function registerAgmTools(server: McpServer): void {
 
   server.tool(
     'agm_prompt_pack_status',
-    'Check whether the private AGM prompt pack is installed (no prompt content returned).',
+    'Check whether an AGM prompt pack is installed (starter or full — no prompt content returned).',
     {},
     async () => {
       const config = loadConfig();
-      const installed = isPromptPackInstalled(config);
-      const file = findPromptsFile(config);
+      const tier = getPromptPackTier(config);
+      const privateFile = findPrivatePromptsFile(config);
       return {
         content: [
           {
             type: 'text',
             text: JSON.stringify(
               {
-                installed,
-                promptsFile: file,
+                installed: tier !== 'none',
+                tier,
+                privatePromptsFile: privateFile,
+                starterWorkflowIds: starterWorkflowIds(),
                 searchedDirectories: resolvePromptsDirectories(config),
               },
               null,

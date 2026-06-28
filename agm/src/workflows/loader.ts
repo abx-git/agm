@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import type { AgmConfig, AnchorDef, Workflow, WorkflowCatalogEntry } from '../types.js';
 import { dataPath } from '../paths.js';
-import { loadPromptMap, PromptPackNotFoundError } from '../config/prompts-path.js';
+import { loadPromptMap, PromptPackNotFoundError, findPrivatePromptsFile } from '../config/prompts-path.js';
 
 let catalogCache: WorkflowCatalogEntry[] | null = null;
 let anchorsCache: AnchorDef[] | null = null;
@@ -34,9 +34,12 @@ export function getWorkflowById(id: string, config: AgmConfig, cwd = process.cwd
   const prompts = loadPromptMap(config, cwd);
   const prompt = prompts[id];
   if (!prompt) {
+    const tier = findPrivatePromptsFile(config, cwd) ? 'full' : 'starter';
     throw new Error(
-      `Workflow "${id}" exists in catalog but has no prompt in the private pack. ` +
-        'Update workflows-prompts.json or run scripts/agm-split-prompts.mjs.'
+      `Workflow "${id}" exists in catalog but has no prompt in the ${tier} pack. ` +
+        (tier === 'starter'
+          ? 'Install the full private prompt pack for extended workflows, or copy the session prompt from the Assistant UI.'
+          : 'Update workflows-prompts.json or run scripts/agm-split-prompts.mjs.')
     );
   }
 

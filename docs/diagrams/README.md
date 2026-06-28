@@ -4,7 +4,7 @@ Mermaid diagrams used in AGM documentation. They render natively on GitHub and i
 
 ## Lifecycle
 
-See [blueprint-pattern-for-architects.md](../article/blueprint-pattern-for-architects.md) for:
+See [AGM for architects](../article/blueprint-pattern-for-architects.md) for:
 
 - Repository link graph (Blueprint → entry-point → imports/exports → source)
 - Cross-service dependency trace (order → payment → notification)

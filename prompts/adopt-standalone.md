@@ -32,4 +32,4 @@ Output [[ANCHOR:CHANGED_FILES]], [[ANCHOR:TEMPLATE_SELECTED]], [[ANCHOR:PHASE_ST
 
 ## Scaffold procedure (include when pasting — or agent reads adopt-procedure.md from repo)
 
-See [prompts/reference/adopt-procedure.md](./reference/adopt-procedure.md) in the pattern repository. The Assistant UI copies prompt + procedure in one block.
+See [prompts/reference/adopt-procedure.md](../docs/reference/adopt-procedure.md) in the pattern repository. The Assistant UI copies prompt + procedure in one block.

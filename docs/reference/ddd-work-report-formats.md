@@ -1,6 +1,6 @@
 # DDD work report formats
 
-Structured output for Domain Work (phase 4). Write to `docs/architecture/work/YYYY-MM-DD-<slug>.md` using [work/_template-domain.md](../../docs/templates/architecture/work/_template-domain.md).
+Structured output for Domain Work (phase 4). Write to `docs/architecture/work/YYYY-MM-DD-<slug>.md` using [work/_template-domain.md](../templates/architecture/work/_template-domain.md).
 
 Register in `blueprint.md` ## Work register with **Track:** `domain`.
 

@@ -9,9 +9,10 @@ import { initGraph } from './graph/init.js';
 import { formatLinkCheck, verifyLinks } from './graph/verify.js';
 import { getGraphStatus } from './graph/status.js';
 import {
-  findPromptsFile,
-  isPromptPackInstalled,
+  findPrivatePromptsFile,
+  getPromptPackTier,
   resolvePromptsDirectories,
+  starterWorkflowIds,
 } from './config/prompts-path.js';
 import { listWorkflowIds, loadWorkflowCatalog } from './workflows/loader.js';
 import type { AgmConfig, TemplateId } from './types.js';
@@ -20,9 +21,34 @@ const program = new Command();
 
 program.name('agm').description('Architecture Graph Method — local CLI').version('0.1.0');
 
+const BP_INSTALL_URL =
+  'https://raw.githubusercontent.com/abx-git/blueprint-pattern/main/scripts/bp-install.sh';
+
+program
+  .command('install')
+  .description('Print bp-install.sh command for golden-path setup (full scaffold)')
+  .option('--project <name>', 'Application name', 'My Application')
+  .option('--template <id>', 'arc42 | lean-service | c4-light | adr-first | custom', 'arc42')
+  .option('--doc-root <path>', 'Documentation root', 'docs/architecture/')
+  .option('--ai-tool <name>', 'cursor | claude | copilot | generic', 'cursor')
+  .action((opts) => {
+    const docRoot = normDocRoot(opts.docRoot);
+    const args = [
+      `--project "${opts.project}"`,
+      `--doc-root "${docRoot}"`,
+      `--template "${opts.template}"`,
+      `--ai-tool "${opts.aiTool}"`,
+    ].join(' ');
+    console.log('AGM golden-path install — run at your application repository root:\n');
+    console.log(`curl -fsSL ${BP_INSTALL_URL} | bash -s -- ${args}`);
+    console.log('\nOr use the Assistant UI → Build → Install.');
+    console.log('\nagm init creates only 3 core graph files — use install for prompts + templates.');
+    console.log('Docs: docs/reference/install.md');
+  });
+
 program
   .command('init')
-  .description('Bootstrap always-on.md, blueprint.md, and entry-point.md')
+  .description('Bootstrap 3 core files only (always-on, blueprint, entry-point). For full setup use: agm install')
   .option('-y, --yes', 'Skip prompts and use defaults')
   .option('-f, --force', 'Overwrite existing core files')
   .option('--app-name <name>', 'Application name')
@@ -128,7 +154,8 @@ program
       console.log('Skipped (already exist):');
       for (const f of result.skipped) console.log(`  ${f}`);
     }
-    console.log('\nNext: register the AGM MCP server in Cursor (see agm/README.md).');
+    console.log('\nNext: run `agm install` or bp-install.sh for full scaffold, then bootstrap-adopt.');
+    console.log('MCP: see agm/README.md');
   });
 
 program
@@ -186,23 +213,28 @@ workflowsCmd
     }
   });
 
-const promptsCmd = program.command('prompts').description('Private prompt pack');
+const promptsCmd = program.command('prompts').description('Prompt pack (starter + optional full)');
 
 promptsCmd
   .command('status')
-  .description('Check whether workflows-prompts.json is installed')
+  .description('Check prompt pack tier: starter (public) or full (private)')
   .action(() => {
     const config = loadConfig();
-    const installed = isPromptPackInstalled(config);
-    console.log(installed ? 'Prompt pack: installed' : 'Prompt pack: NOT installed');
-    const file = findPromptsFile(config);
-    if (file) console.log(`  File: ${file}`);
-    console.log('  Searched:');
+    const tier = getPromptPackTier(config);
+    if (tier === 'none') {
+      console.log('Prompt pack: NOT installed');
+      process.exit(1);
+    }
+    console.log(`Prompt pack: ${tier}`);
+    if (tier === 'starter') {
+      console.log(`  Starter workflows (${starterWorkflowIds().length}): ${starterWorkflowIds().join(', ')}`);
+      console.log('  Install full pack for extended workflows — see agm/prompts-pack/README.md');
+    }
+    const file = findPrivatePromptsFile(config);
+    if (file) console.log(`  Private file: ${file}`);
+    console.log('  Private pack search paths:');
     for (const d of resolvePromptsDirectories(config)) {
       console.log(`    - ${d}`);
-    }
-    if (!installed) {
-      process.exit(1);
     }
   });
 

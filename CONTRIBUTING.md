@@ -19,7 +19,7 @@ Improvements to the system prompt, Blueprint format, or CI templates belong in p
 
 ### Documentation
 
-Fix typos, clarify explanations, or add translations. The main article lives in `docs/article/`.
+Prioritize [docs/quickstart.md](docs/quickstart.md) clarity and [docs/ROADMAP.md](docs/ROADMAP.md) items over new workflow variants. Fix typos, clarify explanations, or add translations. Long-form article: `docs/article/`.
 
 ## Pull request guidelines
 
