@@ -36,6 +36,8 @@ The workflow pushes from **blueprint-pattern** into **agm.github.io** using a Pe
    - Name: `AGM_GHIO_DEPLOY`
    - Value: the token
 
+   > **Migration:** If you still have `BLUEPRINT_PATTERN_GHIO_DEPLOY`, the deploy workflow accepts it as fallback until you rename the secret.
+
 ## 3. Run the deploy workflow
 
 In **abx-git/blueprint-pattern**:

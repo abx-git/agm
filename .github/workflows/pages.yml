@@ -24,12 +24,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Require deploy token
+      - name: Resolve deploy token
+        id: token
         env:
-          TOKEN: ${{ secrets.AGM_GHIO_DEPLOY }}
+          AGM_GHIO_DEPLOY: ${{ secrets.AGM_GHIO_DEPLOY }}
+          BLUEPRINT_PATTERN_GHIO_DEPLOY: ${{ secrets.BLUEPRINT_PATTERN_GHIO_DEPLOY }}
         run: |
-          if [ -z "$TOKEN" ]; then
-            echo "::error::Add repo secret AGM_GHIO_DEPLOY (PAT with repo scope on abx-git/agm.github.io). See docs/assistant/GITHUB-PAGES-SETUP.md"
+          if [ -n "$AGM_GHIO_DEPLOY" ]; then
+            echo "::add-mask::$AGM_GHIO_DEPLOY"
+            echo "value=$AGM_GHIO_DEPLOY" >> "$GITHUB_OUTPUT"
+          elif [ -n "$BLUEPRINT_PATTERN_GHIO_DEPLOY" ]; then
+            echo "::warning::Using deprecated secret BLUEPRINT_PATTERN_GHIO_DEPLOY — rename to AGM_GHIO_DEPLOY when convenient"
+            echo "::add-mask::$BLUEPRINT_PATTERN_GHIO_DEPLOY"
+            echo "value=$BLUEPRINT_PATTERN_GHIO_DEPLOY" >> "$GITHUB_OUTPUT"
+          else
+            echo "::error::Add repo secret AGM_GHIO_DEPLOY (PAT with Contents write on abx-git/agm.github.io). See docs/assistant/GITHUB-PAGES-SETUP.md"
             exit 1
           fi
 
@@ -39,7 +48,7 @@ jobs:
       - name: Deploy to agm.github.io
         uses: peaceiris/actions-gh-pages@v4
         with:
-          personal_token: ${{ secrets.AGM_GHIO_DEPLOY }}
+          personal_token: ${{ steps.token.outputs.value }}
           external_repository: abx-git/agm.github.io
           publish_branch: main
           publish_dir: ./docs/assistant
