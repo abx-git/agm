@@ -1,5 +1,12 @@
 {
-  "ignorePatterns": [],
+  "ignorePatterns": [
+    {
+      "pattern": "^https://abx-git\\.github\\.io/blueprint-pattern"
+    },
+    {
+      "pattern": "^https://github\\.com/abx-git/blueprint-pattern\\.github\\.io"
+    }
+  ],
   "retryOn429": true,
   "retryCount": 3,
   "timeout": "10s",

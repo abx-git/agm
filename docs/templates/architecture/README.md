@@ -20,7 +20,7 @@ Installed into your application by [bp-install.sh](../../../scripts/bp-install.s
 | [prompts/role-*.md](./prompts/) | Operational role prompts |
 | [index.md](./index.md) | OKF progressive disclosure index |
 | [log.md](./log.md) | OKF change tracking log |
-| `blueprint.md` | Construction plan + state (see [blueprint-format](../../../docs/reference/blueprint-format.md)) |
+| `blueprint.md` | Construction plan + state (see [blueprint-format](../../reference/blueprint-format.md)) |
 | `entry-point.md` | Agent graph index: navigation table to all docs and sources (+ optional overview, ## Documentation template) |
 | `interfaces/exports.md` · `imports.md` | Contracts |
 | [work/_template.md](./work/_template.md) · [_template-domain.md](./work/_template-domain.md) · [_template-review.md](./work/_template-review.md) | Architecture + Domain Work + Review |
@@ -54,7 +54,7 @@ Installed into your application by [bp-install.sh](../../../scripts/bp-install.s
 | `domain-glossary` | glossary + domain terms |
 | `domain-model` | [domain/](./domain/) context map, contexts, events |
 
-See [doc-extensions](../../../docs/reference/doc-extensions.md).
+See [doc-extensions](../../reference/doc-extensions.md).
 
 See [Guide](../../guide.md) · [Upgrading § templates](../../guide.md#upgrading).
 

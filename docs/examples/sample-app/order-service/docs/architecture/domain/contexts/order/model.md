@@ -4,9 +4,9 @@
 
 Customer order placement and lifecycle within order-service. Payment execution and notification delivery are **out of scope** (partner contexts).
 
-**Implementation:** order-service — [create_order.ts](../../../../src/create_order.ts), [publish_order_created.ts](../../../../src/publish_order_created.ts)
+**Implementation:** order-service — [create_order.ts](../../../../../src/create_order.ts), [publish_order_created.ts](../../../../../src/publish_order_created.ts)
 
-Links: [context-map.md](../context-map.md) · [language.md](./language.md)
+Links: [context-map.md](../../context-map.md) · [language.md](./language.md)
 
 ## Aggregates
 
@@ -18,7 +18,7 @@ Links: [context-map.md](../context-map.md) · [language.md](./language.md)
 
 | Event | When | Integration? |
 |-------|------|--------------|
-| OrderCreated (EVT-ORD-001) | After successful placement | yes — [exports.md](../../interfaces/exports.md) |
+| OrderCreated (EVT-ORD-001) | After successful placement | yes — [exports.md](../../../interfaces/exports.md) |
 
 ## Open questions
 

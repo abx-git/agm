@@ -18,4 +18,4 @@ Strategic and tactical domain model artefacts. Maintained via **Domain Work** (p
 | [events.md](./events.md) | Domain & integration event catalog |
 | [contexts/](./contexts/) | Per-context model and ubiquitous language |
 
-Reference: [ddd-work-report-formats](../../../docs/reference/ddd-work-report-formats.md) · [ddd-guardrails](../../../docs/reference/ddd-guardrails.md)
+Reference: [ddd-work-report-formats](../../../reference/ddd-work-report-formats.md) · [ddd-guardrails](../../../reference/ddd-guardrails.md)

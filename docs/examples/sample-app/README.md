@@ -27,16 +27,16 @@ This is deterministic graph traversal — no RAG, no guessing.
 1. Open [work/2026-05-10-order-payment-trace.md](./order-service/docs/architecture/work/2026-05-10-order-payment-trace.md) (query example)
 2. Follow links to [analysis](./order-service/docs/architecture/work/2026-05-15-payment-resilience-analysis.md) and [design](./order-service/docs/architecture/work/2026-05-20-payment-circuit-breaker-design.md)
 
-Workflows: [architecture-work-query](../../prompts/workflows/architecture-work-query.md) · [Guide](../../docs/guide.md)
+Workflows: [architecture-work-query](../../../prompts/workflows/architecture-work-query.md) · [Guide](../../guide.md)
 
 ## Try it as an agent
 
-Use the [core system prompt](../../prompts/core/system-prompt.md). Activate a workflow, e.g.:
+Use the [core system prompt](../../../prompts/core/system-prompt.md). Activate a workflow, e.g.:
 
 ```bash
 ./scripts/bp-workflow.sh checkout maintenance
 ```
 
-Or open [maintenance.md](../../prompts/workflows/maintenance.md) and paste the session block.
+Or open [maintenance.md](../../../prompts/workflows/maintenance.md) and paste the session block.
 
-Architecture Work: [architecture-work-query.md](../../prompts/workflows/architecture-work-query.md) — example question: *How does order-service notify the customer after payment?*
+Architecture Work: [architecture-work-query.md](../../../prompts/workflows/architecture-work-query.md) — example question: *How does order-service notify the customer after payment?*

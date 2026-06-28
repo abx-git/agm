@@ -329,7 +329,7 @@ Interface contracts are AGM's answer to the question every architect hears: *"Wh
 Published when a charge succeeds.
 
 - **Schema:** `PaymentCompleted { orderId, amount, currency, transactionId }`
-- **Source:** [charge_payment.ts](../../src/charge_payment.ts)
+- **Source:** [charge_payment.ts](../examples/sample-app/payment-service/src/charge_payment.ts)
 ```
 
 ### imports.md (consumer)
@@ -337,7 +337,7 @@ Published when a charge succeeds.
 ```markdown
 ## Consumes from payment-service
 
-- [EVT-PAY-001: PaymentCompleted](../../../payment-service/docs/architecture/interfaces/exports.md#evt-pay-001-paymentcompleted)
+- [EVT-PAY-001: PaymentCompleted](../examples/sample-app/payment-service/docs/architecture/interfaces/exports.md#evt-pay-001-paymentcompleted)
 ```
 
 An agent asked *"what happens after payment completes?"* follows: order-service `imports.md` → payment-service `exports.md` → `charge_payment.ts`. Deterministic. Verifiable.

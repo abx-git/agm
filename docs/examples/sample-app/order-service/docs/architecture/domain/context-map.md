@@ -1,6 +1,6 @@
 # Context map — order-service ecosystem
 
-Strategic view of bounded contexts in the [sample ecosystem](../../../../../ecosystem-index.md).
+Strategic view of bounded contexts in the [sample ecosystem](../../../../ecosystem-index.md).
 
 ## Bounded contexts
 

@@ -18,4 +18,4 @@ sequenceDiagram
 | Step | File |
 |------|------|
 | Handle event, send notification | [send_notification.ts](../../../src/send_notification.ts) |
-| Event publisher (upstream) | [publish_order_created.ts](../../../order-service/src/publish_order_created.ts) |
+| Event publisher (upstream) | [publish_order_created.ts](../../../../order-service/src/publish_order_created.ts) |

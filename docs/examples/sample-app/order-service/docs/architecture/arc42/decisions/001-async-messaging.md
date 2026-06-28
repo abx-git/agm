@@ -25,4 +25,4 @@ Use asynchronous messaging (EVT-ORD-001 on message bus) to trigger notification-
 ## Related
 
 - [runtime.md](../runtime.md)
-- [notification-service exports](../../../../notification-service/docs/architecture/interfaces/exports.md)
+- [notification-service exports](../../../../../notification-service/docs/architecture/interfaces/exports.md)

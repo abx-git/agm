@@ -130,7 +130,7 @@ Selected template: arc42
 Rationale: <why arc42 fits this system>
 ```
 
-Replace role prompts from [templates/architecture/prompts/](../templates/architecture/prompts/). Adopt the [core prompt](../prompts/core/system-prompt.md).
+Replace role prompts from [templates/architecture/prompts/](templates/architecture/prompts). Adopt the [core prompt](../prompts/core/system-prompt.md).
 
 **Lighter template:** See [reference/advanced-templates.md](./reference/advanced-templates.md) for `c4-light`, `adr-first`, `lean-service`, `custom` migration steps.
 
