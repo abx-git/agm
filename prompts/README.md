@@ -14,7 +14,7 @@ Procedure: **[docs/guide.md](../docs/guide.md)** · **[docs/typical-dialog.md](.
 | Path | Purpose |
 |------|---------|
 | [../scripts/bp-install.sh](../scripts/bp-install.sh) | **Build phase prep** — install prompts + scaffold (HTTPS, no git clone) |
-| [adopt-standalone.md](./adopt-standalone.md) | **Build phase adopt** — after install; or use [Assistant UI](https://abx-git.github.io/blueprint-pattern.github.io/) |
+| [adopt-standalone.md](./adopt-standalone.md) | **Build phase adopt** — after install; or use [Assistant UI](https://abx-git.github.io/agm.github.io/) |
 | [core/system-prompt.md](./core/system-prompt.md) | IDE rules (installed by `bp-install.sh`) |
 | [reference/adopt-procedure.md](./reference/adopt-procedure.md) | Agent adoption reference |
 | [reference/maintenance-pipeline.md](./reference/maintenance-pipeline.md) | CI: render maintenance prompt with DIFF_FROM / DIFF_TO |

@@ -4,7 +4,7 @@ Paste into your AI assistant rules (Cursor, Claude Code, Copilot). Behavior only
 
 **Role prompts (per operation):** [docs/templates/architecture/prompts/](../../docs/templates/architecture/prompts/) → copy to `docs/architecture/prompts/` in your app.
 
-**Session prompts (per workflow):** paste from [Assistant UI](https://abx-git.github.io/blueprint-pattern.github.io/) or [prompts/workflows/](../workflows/) ([Guide](../../docs/guide.md)).
+**Session prompts (per workflow):** paste from [Assistant UI](https://abx-git.github.io/agm.github.io/) or [prompts/workflows/](../workflows/) ([Guide](../../docs/guide.md)).
 
 ---
 

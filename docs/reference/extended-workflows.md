@@ -1,6 +1,6 @@
 # Extended workflow catalog
 
-Practitioner lookup for workflows beyond the [golden path](../quickstart.md). Copy session prompts from the [Assistant UI](https://abx-git.github.io/blueprint-pattern.github.io/) or `prompts/workflows/<id>.md`.
+Practitioner lookup for workflows beyond the [golden path](../quickstart.md). Copy session prompts from the [Assistant UI](https://abx-git.github.io/agm.github.io/) or `prompts/workflows/<id>.md`.
 
 **MCP:** golden-path workflows ship in the public starter pack; extended workflows require the full private prompt pack ([agm/prompts-pack/README.md](../../agm/prompts-pack/README.md)).
 

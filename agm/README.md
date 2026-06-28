@@ -2,7 +2,7 @@
 
 Local CLI and MCP server for the [Architecture Graph Method](https://github.com/abx-git/blueprint-pattern).
 
-**Default onboarding:** copy session prompts from the [Assistant UI](https://abx-git.github.io/blueprint-pattern.github.io/) or `prompts/workflows/` into a new chat — see [docs/quickstart.md](../docs/quickstart.md).
+**Default onboarding:** copy session prompts from the [Assistant UI](https://abx-git.github.io/agm.github.io/) or `prompts/workflows/` into a new chat — see [docs/quickstart.md](../docs/quickstart.md).
 
 **Optional (IDE-native):** MCP `agm_trigger_workflow` loads the same prompt pack without copy-paste. Requires a private prompt pack (or future minimal public starter pack — see [docs/ROADMAP.md](../docs/ROADMAP.md)).
 

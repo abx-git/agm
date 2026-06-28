@@ -1,6 +1,6 @@
 # Adoption procedure (agent reference)
 
-Bundled into the standalone adoption prompt. **Preparation:** human runs the install script from the [Assistant UI](https://abx-git.github.io/blueprint-pattern.github.io/) (Build → Install). **Adoption session:** agent executes Phase B–C only.
+Bundled into the standalone adoption prompt. **Preparation:** human runs the install script from the [Assistant UI](https://abx-git.github.io/agm.github.io/) (Build → Install). **Adoption session:** agent executes Phase B–C only.
 
 ## Phase 0 — Install (human, before first chat)
 

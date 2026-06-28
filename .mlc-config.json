@@ -1,10 +1,10 @@
 {
   "ignorePatterns": [
     {
-      "pattern": "^https://abx-git\\.github\\.io/blueprint-pattern"
+      "pattern": "^https://abx-git\\.github\\.io/agm"
     },
     {
-      "pattern": "^https://github\\.com/abx-git/blueprint-pattern\\.github\\.io"
+      "pattern": "^https://github\\.com/abx-git/agm\\.github\\.io"
     }
   ],
   "retryOn429": true,

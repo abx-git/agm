@@ -1,7 +1,7 @@
 name: Deploy Blueprint Assistant (GitHub Pages)
 
-# Publishes docs/assistant/ to https://github.com/abx-git/blueprint-pattern.github.io
-# Live URL: https://abx-git.github.io/blueprint-pattern.github.io/
+# Publishes docs/assistant/ to https://github.com/abx-git/agm.github.io
+# Live URL: https://abx-git.github.io/agm.github.io/
 
 on:
   push:
@@ -15,7 +15,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: deploy-blueprint-pattern-github-io
+  group: deploy-agm-github-io
   cancel-in-progress: true
 
 jobs:
@@ -26,21 +26,21 @@ jobs:
 
       - name: Require deploy token
         env:
-          TOKEN: ${{ secrets.BLUEPRINT_PATTERN_GHIO_DEPLOY }}
+          TOKEN: ${{ secrets.AGM_GHIO_DEPLOY }}
         run: |
           if [ -z "$TOKEN" ]; then
-            echo "::error::Add repo secret BLUEPRINT_PATTERN_GHIO_DEPLOY (PAT with repo scope on abx-git/blueprint-pattern.github.io). See docs/assistant/GITHUB-PAGES-SETUP.md"
+            echo "::error::Add repo secret AGM_GHIO_DEPLOY (PAT with repo scope on abx-git/agm.github.io). See docs/assistant/GITHUB-PAGES-SETUP.md"
             exit 1
           fi
 
       - name: Sync workflow prompts into assistant data
         run: python3 scripts/sync-assistant-data.py
 
-      - name: Deploy to blueprint-pattern.github.io
+      - name: Deploy to agm.github.io
         uses: peaceiris/actions-gh-pages@v4
         with:
-          personal_token: ${{ secrets.BLUEPRINT_PATTERN_GHIO_DEPLOY }}
-          external_repository: abx-git/blueprint-pattern.github.io
+          personal_token: ${{ secrets.AGM_GHIO_DEPLOY }}
+          external_repository: abx-git/agm.github.io
           publish_branch: main
           publish_dir: ./docs/assistant
           keep_files: true

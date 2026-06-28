@@ -13,7 +13,7 @@ Two entry points — different scope. **Golden path adopters use `bp-install.sh`
 
 Run at your **application repository root** (where `.git` lives).
 
-**Assistant UI (recommended):** [Build → Install](https://abx-git.github.io/blueprint-pattern.github.io/) — generates a script for your OS, template, and doc root.
+**Assistant UI (recommended):** [Build → Install](https://abx-git.github.io/agm.github.io/) — generates a script for your OS, template, and doc root.
 
 **One-liner:**
 

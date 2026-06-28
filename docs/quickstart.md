@@ -14,7 +14,7 @@ One onboarding path — everything else is advanced.
 
 | Step | What you do | Workflow |
 |------|-------------|----------|
-| **Install** | Run generated script at your app repo root | [Assistant → Build → Install](https://abx-git.github.io/blueprint-pattern.github.io/) → `bp-install.sh` |
+| **Install** | Run generated script at your app repo root | [Assistant → Build → Install](https://abx-git.github.io/agm.github.io/) → `bp-install.sh` |
 | **Adopt** | New chat — first evidence-based section | `bootstrap-adopt` |
 | **Continue** | New chat — next chapter from construction plan | `bootstrap-continue` |
 | **Maintain** | New chat — sync docs with code | `maintenance-diff-range` |

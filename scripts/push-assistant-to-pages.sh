@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Push docs/assistant/ to the pages remote (blueprint-pattern.github.io main).
+# Push docs/assistant/ to the pages remote (agm.github.io main).
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -10,7 +10,7 @@ BRANCH="${BP_PAGES_BRANCH:-main}"
 
 if ! git remote get-url "$REMOTE" >/dev/null 2>&1; then
   echo "Remote '$REMOTE' missing. Add it:" >&2
-  echo "  git remote add pages https://github.com/abx-git/blueprint-pattern.github.io.git" >&2
+  echo "  git remote add pages https://github.com/abx-git/agm.github.io.git" >&2
   exit 1
 fi
 
@@ -28,4 +28,4 @@ echo "Pushing to ${REMOTE} ${BRANCH} (contents of docs/assistant/ at repo root)â
 # Pages repo history is unrelated to subtree splits; --force-with-lease is safe for deploy-only main.
 git push --force-with-lease "$REMOTE" "${SPLIT_BRANCH}:${BRANCH}"
 
-echo "Done. Site: https://abx-git.github.io/blueprint-pattern.github.io/"
+echo "Done. Site: https://abx-git.github.io/agm.github.io/"

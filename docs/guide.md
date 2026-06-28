@@ -4,7 +4,7 @@ Operational reference. **Start with [quickstart.md](./quickstart.md)** (~10 min)
 
 Architecture documentation as a **Markdown link graph** in `docs/architecture/`, maintained with AI agents, versioned in Git.
 
-**Golden path:** Install → Adopt → Continue → Maintain → Review. Copy session prompts from the [Assistant UI](https://abx-git.github.io/blueprint-pattern.github.io/). MCP `agm_trigger_workflow` uses the same prompts — public **starter pack** covers the golden path; extended workflows need the full private pack ([agm/README.md](../agm/README.md)).
+**Golden path:** Install → Adopt → Continue → Maintain → Review. Copy session prompts from the [Assistant UI](https://abx-git.github.io/agm.github.io/). MCP `agm_trigger_workflow` uses the same prompts — public **starter pack** covers the golden path; extended workflows need the full private pack ([agm/README.md](../agm/README.md)).
 
 ---
 
@@ -26,7 +26,7 @@ Extended catalog (domain DDD, dialog-mode, analysis): [reference/extended-workfl
 
 ## Setup (once)
 
-1. **Install** — [Assistant → Build → Install](https://abx-git.github.io/blueprint-pattern.github.io/) → run `bp-install.sh` at app repo root. Or `agm install` prints the same curl command — see [reference/install.md](./reference/install.md).
+1. **Install** — [Assistant → Build → Install](https://abx-git.github.io/agm.github.io/) → run `bp-install.sh` at app repo root. Or `agm install` prints the same curl command — see [reference/install.md](./reference/install.md).
 2. **Adopt** — copy adoption prompt → new chat. Agent creates `blueprint.md`, `entry-point.md`, `always-on.md`, first section.
 3. **CI** — enable [blueprint-pattern-integrity](./reference/ci-integrity.md) on the app repo.
 

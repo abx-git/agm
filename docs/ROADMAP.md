@@ -51,7 +51,7 @@ Consolidated plan to make blueprint-pattern concise and straightforward. Target 
 
 | Step | User action | Workflow / tool |
 |------|-------------|-----------------|
-| Install | Run `bp-install.sh` once at app repo root | [Assistant UI](https://abx-git.github.io/blueprint-pattern.github.io/) generates script |
+| Install | Run `bp-install.sh` once at app repo root | [Assistant UI](https://abx-git.github.io/agm.github.io/) generates script |
 | Adopt | One new chat | `bootstrap-adopt` |
 | Continue | Next blueprint chapter | `bootstrap-continue` |
 | Maintain | After code change | `maintenance-diff-range` (paste diff = fallback) |

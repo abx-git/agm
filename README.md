@@ -14,7 +14,7 @@ Repository: [github.com/abx-git/blueprint-pattern](https://github.com/abx-git/bl
 
 | Step | Action |
 |------|--------|
-| Install | [Assistant UI](https://abx-git.github.io/blueprint-pattern.github.io/) → `bp-install.sh` |
+| Install | [Assistant UI](https://abx-git.github.io/agm.github.io/) → `bp-install.sh` |
 | Adopt | One chat → `bootstrap-adopt` |
 | Continue | `bootstrap-continue` — next chapter |
 | Maintain | `maintenance-diff-range` — sync on git diff |

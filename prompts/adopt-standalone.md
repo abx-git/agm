@@ -1,6 +1,6 @@
 # AGM — standalone adoption prompt
 
-1. **Install** — [Assistant UI](https://abx-git.github.io/blueprint-pattern.github.io/) Build → configure OS, AI tool, template, doc root → copy and run the generated `bp-install.sh` (no git clone).
+1. **Install** — [Assistant UI](https://abx-git.github.io/agm.github.io/) Build → configure OS, AI tool, template, doc root → copy and run the generated `bp-install.sh` (no git clone).
 2. **Adopt** — copy the adoption prompt below into a new agent chat at your application repository root.
 
 Starts **lifecycle phase 1 · Build**: agent writes `always-on.md`, `blueprint.md` (construction plan), `entry-point.md`, and the first evidence-based section (scaffold already installed).
