@@ -10,11 +10,11 @@ The interactive assistant is **not** served from this repository. It is deployed
 
 ## 1. Enable Pages on the Pages repository
 
-Open **that** repository (not `blueprint-pattern`):
+**Usually automatic:** the deploy workflow calls the GitHub API to enable Pages on `main` / `/` when the PAT has **Administration: Read and write** (fine-grained) or classic **`repo`** scope.
+
+**Manual fallback** if the API step fails (insufficient token rights):
 
 **https://github.com/abx-git/agm.github.io/settings/pages**
-
-Under **Build and deployment**:
 
 | Field | Value |
 |-------|--------|
@@ -22,7 +22,7 @@ Under **Build and deployment**:
 | **Branch** | `main` |
 | **Folder** | `/` (root) |
 
-Save.
+Save, wait 1–2 minutes.
 
 > If you only see **Verified domains**, you are on organization account settings or lack admin rights — use the repo link above.
 
@@ -31,7 +31,7 @@ Save.
 The workflow pushes from **blueprint-pattern** into **agm.github.io** using a Personal Access Token.
 
 1. GitHub → **Settings** → **Developer settings** → **Personal access tokens** (fine-grained or classic).
-2. Create a token with **Contents: Read and write** on repository `abx-git/agm.github.io`.
+2. Create a token with **Contents: Read and write** and **Administration: Read and write** on repository `abx-git/agm.github.io` (classic: `repo` scope).
 3. In **abx-git/blueprint-pattern** → **Settings** → **Secrets and variables** → **Actions** → **New repository secret**:
    - Name: `AGM_GHIO_DEPLOY`
    - Value: the token
@@ -96,7 +96,8 @@ From **blueprint-pattern** repository root:
 | Problem | Fix |
 |---------|-----|
 | Workflow fails: missing secret | Step 2 above |
-| 404 on URL | Pages enabled on **agm.github.io** (step 1), workflow green |
+| 404 on URL | Deploy workflow green; PAT needs **Administration** (or enable Pages manually, step 1) |
+| Pages API step fails (403) | Recreate PAT with **Administration: Read and write** on `agm.github.io` |
 | Wrong repo Settings | Pages config is on **agm.github.io**, not blueprint-pattern |
 | Old secret `BLUEPRINT_PATTERN_GHIO_DEPLOY` | Rename or recreate as **`AGM_GHIO_DEPLOY`** (step 2) |
 | Old repo `blueprint-pattern.github.io` | Deprecated; use **[abx-git/agm.github.io](https://github.com/abx-git/agm.github.io)** |
