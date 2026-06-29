@@ -62,6 +62,8 @@ Same chat writes + reviews      →   Fresh chat for Verify
 
 Three mechanisms: **Documentation API** (typed OKF Markdown the agent traverses) · **MCP transport** (code and docs on demand) · **Session discipline** (`blueprint.md` progress + fresh review chats).
 
+The graph is also the **spec API for implementation**: design WRK items + `interfaces/` guide code sessions; **Maintenance** syncs docs after merge. Distinction from feature-spec tools (e.g. Kiro): [reference/spec-driven-development.md](./reference/spec-driven-development.md).
+
 ---
 
 ## Essential workflows
@@ -121,4 +123,4 @@ Details: [gen-ai-challenges.md](./gen-ai-challenges.md) (leads / governance).
 
 ## Further reading
 
-[guide.md](./guide.md) · [reference/extended-workflows.md](./reference/extended-workflows.md) · [ROADMAP.md](./ROADMAP.md) · [typical-dialog.md](./typical-dialog.md) · [architects article](./article/blueprint-pattern-for-architects.md) · [sample app](./examples/sample-app/) · [MCP/CLI](../agm/README.md)
+[guide.md](./guide.md) · [reference/extended-workflows.md](./reference/extended-workflows.md) · [reference/spec-driven-development.md](./reference/spec-driven-development.md) · [ROADMAP.md](./ROADMAP.md) · [typical-dialog.md](./typical-dialog.md) · [architects article](./article/blueprint-pattern-for-architects.md) · [sample app](./examples/sample-app/) · [MCP/CLI](../agm/README.md)

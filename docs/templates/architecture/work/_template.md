@@ -40,7 +40,7 @@ Relevant architecture graph entries (links only — no duplication):
 
 ## Recommendations
 
-<!-- analysis and design: concrete next steps -->
+<!-- analysis and design: concrete next steps; for type design these often guide implementation agent sessions (see docs/reference/spec-driven-development.md) -->
 
 ## Alternatives considered
 

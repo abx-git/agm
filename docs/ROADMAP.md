@@ -28,6 +28,7 @@ Consolidated plan to make blueprint-pattern concise and straightforward. Target 
 | **P2** | Trim [gen-ai-challenges.md](./gen-ai-challenges.md) to summary + link | done | Detail in [gen-ai-governance.md](./reference/gen-ai-governance.md) |
 | **P2** | Trim [typical-dialog.md](./typical-dialog.md) to 2–3 dialogs | done | 3 golden-path dialogs |
 | **P2** | Add [case-studies.md](./case-studies.md) | done | Sample app + contribution stubs |
+| **P2** | Add [spec-driven-development.md](./reference/spec-driven-development.md) | done | AGM vs feature-centric SDD boundary |
 | **P3** | Deprecate legacy workflow IDs in Assistant UI labels | done | Intent labels; IDs internal to prompts |
 | **P3** | Assistant UI: golden path tab order; Advanced collapsed | done | Build · Evolve · Verify · Advanced |
 | **P3** | Unify `agm init` and `bp-install.sh` scaffold output | done | [reference/install.md](./reference/install.md) + `agm install` |

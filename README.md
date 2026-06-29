@@ -65,6 +65,7 @@ Templates: [docs/templates/architecture/](./docs/templates/architecture/) · Age
 | [docs/guide.md](./docs/guide.md) | Practitioners — full procedure |
 | [docs/ROADMAP.md](./docs/ROADMAP.md) | Consolidation progress |
 | [docs/gen-ai-challenges.md](./docs/gen-ai-challenges.md) | Leads — governance |
+| [docs/reference/spec-driven-development.md](./docs/reference/spec-driven-development.md) | AGM vs feature SDD (Kiro, …) |
 | [docs/case-studies.md](./docs/case-studies.md) | Real-world examples |
 | [docs/examples/sample-app/](./docs/examples/sample-app/) | Multi-service example |
 

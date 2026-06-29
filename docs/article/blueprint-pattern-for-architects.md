@@ -300,6 +300,8 @@ MCP integration is optional; the Markdown graph works without it.
 
 **Human review:** Work items start as `draft`; architects set `reviewed` or `superseded` after review.
 
+**Implementation:** Design work items often include a **Recommendations** section (target files, behaviour). Teams use the graph + WRK as the spec for agent implementation sessions, then run **Maintenance** on the resulting `git diff`. That path is graph-centric spec-driven development — see [spec-driven-development.md](../reference/spec-driven-development.md).
+
 See the [sample work items](../examples/sample-app/order-service/docs/architecture/work/) for examples.
 
 ---
@@ -310,7 +312,7 @@ See the [sample work items](../examples/sample-app/order-service/docs/architectu
 |------|----------------|
 | **Lead architect** | Prioritize Blueprint phases; review Architecture Work outputs; approve ADRs |
 | **Development team** | Include AGM documentation updates in PRs that change architecture |
-| **AI agent** | Bootstrap, Refinement, Maintenance, Architecture Work; referential integrity checks |
+| **AI agent** | Bootstrap, Refinement, Maintenance, Architecture Work; code changes when guided by WRK/graph; referential integrity checks |
 | **DevOps / platform** | CI link checker; optional MCP server deployment |
 
 AGM amplifies architect capacity — it does not replace architectural judgment. The agent writes; you review and decide.
@@ -359,6 +361,25 @@ AGM shares the RAG-free, Markdown-first philosophy of **Karpathy's LLM Wiki**, b
 | Interface contracts | Yes | No | No | No |
 | Agent tooling (MCP) | Yes | No | Varies | No |
 | Cross-session state | Blueprint file | Manual | No | No |
+
+### Spec-driven development (feature specs)
+
+Tools such as [Kiro specs](https://kiro.dev/docs/specs/) implement **feature-centric** spec-driven development: per-feature `requirements.md` → `design.md` → `tasks.md` → task execution.
+
+AGM is **graph-centric** spec-driven development: the **system-wide** link graph (`docs/architecture/`) is the spec API for agent sessions — including implementation guided by `work/` items and interface contracts. It does not ship a per-feature `tasks.md` layer or built-in task executor.
+
+| | AGM (graph-centric SDD) | Feature SDD (e.g. Kiro) |
+|---|---|---|
+| Spec location | Distributed graph + `work/WRK-NNN` | `.kiro/specs/<feature>/` |
+| Scope | System, cross-service, long-lived | Single feature or bugfix |
+| Requirements form | Context, goals, traceability (no mandatory EARS) | User stories, EARS, acceptance criteria |
+| Tasks | Recommendations in `work/`; informal agent sessions | Formal `tasks.md`, parallel waves |
+| After merge | `maintenance-diff-range` syncs graph (required habit) | Spec may archive; steering persists |
+| Validation | `LINK_CHECK`, Verify workflows | Requirements analysis, property-based tests |
+
+**Boundary:** Use AGM for **architecture truth and cross-cutting change**; use feature SDD for **scoped delivery pipelines** with formal task breakdown. Many teams implement via AGM (design WRK → code → maintenance); that is consistent with the thesis *architecture documentation is the API of AI conversation* — not a separate mode.
+
+Full comparison: [reference/spec-driven-development.md](../reference/spec-driven-development.md).
 
 AGM deliberately builds on **existing standards** — arc42 for structure, C4 for diagrams, ADRs for decisions — rather than inventing a parallel notation. arc42 and C4 are **recommended defaults**, not requirements; teams may adapt or replace them, but they are a proven basis for structured architecture documentation.
 

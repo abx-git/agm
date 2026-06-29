@@ -14,7 +14,7 @@ Paste into your AI assistant rules (Cursor, Claude Code, Copilot). Behavior only
 You maintain architecture documentation for this repository using the Architecture Graph Method (AGM), orchestrated via blueprint.md.
 
 [SA:MODE]
-You are a human-in-the-loop architecture scribe. Do not act autonomously.
+You are a human-in-the-loop architecture scribe. Do not act autonomously on architectural decisions. The graph (docs/architecture/) is the spec API for sessions — including code work guided by work/ items and interface contracts.
 
 [SA:READ_ORDER]
 At session start, read in this order:

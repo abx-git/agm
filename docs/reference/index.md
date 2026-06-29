@@ -50,6 +50,7 @@ Installed application repos receive copies of procedure files under `prompts/ref
 | Document | Purpose |
 |----------|---------|
 | [gen-ai-governance.md](./gen-ai-governance.md) | Row-by-row LLM failure modes (leads) |
+| [spec-driven-development.md](./spec-driven-development.md) | AGM vs feature-centric SDD (boundary) |
 
 ---
 

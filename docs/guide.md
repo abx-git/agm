@@ -148,6 +148,7 @@ Replace role prompts from [templates/architecture/prompts/](templates/architectu
 | [ROADMAP.md](./ROADMAP.md) | Consolidation progress |
 | [typical-dialog.md](./typical-dialog.md) | Sample sessions |
 | [gen-ai-challenges.md](./gen-ai-challenges.md) | Governance summary (leads) |
+| [reference/spec-driven-development.md](./reference/spec-driven-development.md) | AGM vs feature SDD |
 | [case-studies.md](./case-studies.md) | Real-world applications |
 | [article/blueprint-pattern-for-architects.md](./article/blueprint-pattern-for-architects.md) | Principles |
 | [examples/sample-app/](./examples/sample-app/) | Multi-service example |
