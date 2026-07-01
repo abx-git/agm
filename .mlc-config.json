@@ -8,7 +8,7 @@
     }
   ],
   "retryOn429": true,
-  "retryCount": 3,
-  "timeout": "10s",
-  "aliveStatusCodes": [200, 206]
+  "retryCount": 5,
+  "timeout": "15s",
+  "aliveStatusCodes": [200, 206, 301, 302, 307, 308]
 }

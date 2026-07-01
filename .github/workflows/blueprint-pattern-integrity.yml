@@ -19,11 +19,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Check Markdown links in architecture docs
-        uses: gaurav-nelson/github-action-markdown-link-check@v1
+
+      - uses: actions/setup-node@v4
         with:
-          folder-path: docs
-          config-file: .mlc-config.json
+          node-version: '24'
+
+      - name: Check Markdown links in docs
+        run: find docs -name '*.md' -print0 | xargs -0 npx --yes markdown-link-check -c .mlc-config.json
 
   okf-frontmatter:
     runs-on: ubuntu-latest
