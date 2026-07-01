@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "agm": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["agm/dist/mcp-server.js"]
+    }
+  }
+}

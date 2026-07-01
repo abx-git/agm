@@ -1,0 +1,7 @@
+{
+  "appName": "blueprint-pattern",
+  "template": "arc42",
+  "docRoot": "docs/examples/sample-app/order-service/docs/architecture/",
+  "stack": "AGM method repository — sample app for MCP dev",
+  "promptsPath": "agm/prompts-pack"
+}
