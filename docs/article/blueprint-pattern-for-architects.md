@@ -4,7 +4,7 @@
 
 The Architecture Graph Method (AGM) is not another documentation tool. It is a **method** for co-locating architectural knowledge with source code — structured as a Markdown link graph, maintained by AI agents, versioned in Git, and aligned with arc42 and the C4 Model.
 
-> *The method was developed in the **blueprint-pattern** repository (legacy name; maintainer-private). Public MCP: `@agm/cli`.*
+> *The method is developed in the [blueprint-pattern](https://github.com/abx-git/blueprint-pattern) repository (legacy name). MCP install: `@agm/cli`.*
 
 This article explains the method for software architects: the problem it solves, the principles behind it, the workflow you operate, and where the boundaries are.
 

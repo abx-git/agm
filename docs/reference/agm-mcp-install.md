@@ -9,7 +9,7 @@ timestamp: ""
 
 # Install AGM MCP server
 
-Public package **`@agm/cli`** — MCP server + CLI. Session prompts ship **LLMLingua-2 compressed** ([Microsoft LLMLingua-2](https://huggingface.co/spaces/microsoft/llmlingua-2)); plaintext procedure stays in the private pattern repo.
+Public package **`@agm/cli`** — MCP server + CLI. Session prompts ship **LLMLingua-2 compressed** ([Microsoft LLMLingua-2](https://huggingface.co/spaces/microsoft/llmlingua-2)); full plaintext workflows live in the [blueprint-pattern](https://github.com/abx-git/blueprint-pattern) repo — npm publishes compressed golden path only.
 
 ## Cursor / Claude Desktop
 
