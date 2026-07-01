@@ -6,7 +6,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/abx-git/agm.git"
+    "url": "git+https://github.com/abx-git/agm.git"
   },
   "homepage": "https://github.com/abx-git/agm#readme",
   "bugs": {
@@ -21,8 +21,8 @@
     "llmlingua"
   ],
   "bin": {
-    "agm": "./dist/cli.js",
-    "agm-mcp": "./dist/mcp-server.js"
+    "agm": "dist/cli.js",
+    "agm-mcp": "dist/mcp-server.js"
   },
   "files": [
     "dist",
