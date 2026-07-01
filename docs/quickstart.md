@@ -4,7 +4,7 @@
 
 **AGM in one sentence:** A repo-local Markdown link graph, orchestrated by `blueprint.md`, maintained by agents via MCP.
 
-*(Repository [blueprint-pattern](https://github.com/abx-git/blueprint-pattern) — legacy name for the same method.)*
+*(Maintainer repository **blueprint-pattern** — legacy name; public install via `@agm/cli`.)*
 
 ---
 
@@ -97,7 +97,7 @@ Agents output semantic anchors before stopping (session checklist):
 
 **Compaction:** new chat after long sessions (≥2 phases, ≥15 files, or ≥30 turns); resume from `blueprint.md` session log.
 
-**CI:** enable [`blueprint-pattern-integrity`](https://github.com/abx-git/blueprint-pattern/blob/main/.github/workflows/blueprint-pattern-integrity.yml) on your app repo — broken links fail the PR.
+**CI:** copy [blueprint-pattern-integrity.yml](../.github/workflows/blueprint-pattern-integrity.yml) into your app repo — broken links fail the PR.
 
 ---
 

@@ -82,7 +82,7 @@ Not a separate shipped workflow — the composed habit many teams use:
 4. **Sync** — Same PR (or follow-up): `maintenance-diff-range` updates arc42, interfaces, building blocks.
 5. **Verify** — Fresh chat: `review-maintenance` (report-only).
 
-Example design with implementation recommendations: [payment circuit breaker WRK](../../examples/sample-app/order-service/docs/architecture/work/2026-05-20-payment-circuit-breaker-design.md).
+Example design with implementation recommendations: [payment circuit breaker WRK](../examples/sample-app/order-service/docs/architecture/work/2026-05-20-payment-circuit-breaker-design.md).
 
 ---
 
