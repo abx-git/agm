@@ -66,6 +66,7 @@ Templates: [docs/templates/architecture/](./docs/templates/architecture/) · Age
 | [docs/ROADMAP.md](./docs/ROADMAP.md) | Consolidation progress |
 | [docs/gen-ai-challenges.md](./docs/gen-ai-challenges.md) | Leads — governance |
 | [docs/reference/spec-driven-development.md](./docs/reference/spec-driven-development.md) | AGM vs feature SDD (Kiro, …) |
+| [docs/reference/agm-validator.md](./docs/reference/agm-validator.md) | Commercial enforcement engine (hook, CI, MCP) |
 | [docs/case-studies.md](./docs/case-studies.md) | Real-world examples |
 | [docs/examples/sample-app/](./docs/examples/sample-app/) | Multi-service example |
 
