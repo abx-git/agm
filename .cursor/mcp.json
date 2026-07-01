@@ -2,8 +2,8 @@
   "mcpServers": {
     "agm": {
       "type": "stdio",
-      "command": "node",
-      "args": ["agm/dist/mcp-server.js"]
+      "command": "npx",
+      "args": ["-y", "@abx-hh/agm-cli", "agm-mcp"]
     }
   }
 }
