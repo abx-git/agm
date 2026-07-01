@@ -1,0 +1,41 @@
+AGM-Validator — Proprietary Software License
+
+Copyright (c) 2026 Andreas Bergmann. All rights reserved.
+
+This software and associated documentation files (the "Software") in the
+`agm-validator/` directory constitute proprietary commercial software.
+Distribution of compiled binaries is permitted only under a separate
+license agreement with the copyright holder.
+
+## Granted rights (binary license holders)
+
+If you have obtained a valid license from the copyright holder, you may:
+
+1. Install and run the compiled `agm-validator` binary on licensed machines.
+2. Integrate the binary into Git hooks and CI pipelines within licensed repositories.
+3. Register the MCP server entry in your IDE configuration.
+
+## Restrictions
+
+Without explicit written permission you may not:
+
+1. Redistribute source code from this component.
+2. Reverse engineer, decompile, or disassemble the binary except where
+   applicable law expressly permits.
+3. Remove or alter license notices bundled with the binary.
+4. Sublicense the Software as a competing validation engine.
+
+## Relationship to the Architecture Graph Method (AGM)
+
+The Architecture Graph Method — Markdown graph structure, templates,
+workflows, and documentation in the parent repository — remains available
+under the MIT License. This proprietary license applies only to the
+`agm-validator` enforcement engine (parser heuristics, rule set, and
+compiled artifacts).
+
+## No warranty
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND. See your
+license agreement for support terms.
+
+For licensing inquiries: contact the copyright holder.
