@@ -12,6 +12,7 @@ import {
 import { loadContext } from '../graph/context.js';
 import { getGraphStatus } from '../graph/status.js';
 import { formatLinkCheck, verifyLinks } from '../graph/verify.js';
+import { installScaffold } from '../graph/scaffold.js';
 import { registerReviewVerdict, registerWorkItem } from '../graph/work-item.js';
 import { listWorkflowIds, loadWorkflowCatalog } from '../workflows/loader.js';
 import { toPublicTriggerResult, triggerWorkflow } from '../workflows/trigger.js';
@@ -184,6 +185,50 @@ export function registerAgmTools(server: McpServer): void {
           {
             type: 'text',
             text: JSON.stringify({ mode: 'work_item', ...result, anchor: '[[ANCHOR:WORK_ITEM]]' }, null, 2),
+          },
+        ],
+      };
+    }
+  );
+
+  server.tool(
+    'agm_scaffold',
+    'Install AGM file scaffold from npm bundle (system-prompt, role prompts, template stubs). Required before bootstrap-adopt when not using bp-install.sh.',
+    {
+      project: z.string().optional().describe('Application name'),
+      template: z
+        .enum(['arc42', 'lean-service', 'c4-light', 'adr-first', 'custom'])
+        .optional()
+        .describe('Documentation template'),
+      docRoot: z.string().optional().describe('Documentation root path'),
+      aiTool: z.enum(['cursor', 'claude', 'copilot', 'generic']).optional(),
+      force: z.boolean().optional().describe('Overwrite existing files'),
+    },
+    async ({ project, template, docRoot, aiTool, force }) => {
+      const config = loadConfig();
+      const result = installScaffold({
+        project: project ?? config.appName,
+        template: (template ?? config.template) as import('../types.js').TemplateId,
+        docRoot: docRoot ?? config.docRoot,
+        aiTool: aiTool ?? 'cursor',
+        force: Boolean(force),
+      });
+      return {
+        content: [
+          {
+            type: 'text',
+            text: JSON.stringify(
+              {
+                docRoot: result.docRoot,
+                template: result.template,
+                createdCount: result.created.length,
+                skippedCount: result.skipped.length,
+                created: result.created.slice(0, 30),
+                next: 'Call agm_trigger_workflow with workflowId bootstrap-adopt in a new chat.',
+              },
+              null,
+              2
+            ),
           },
         ],
       };

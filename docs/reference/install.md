@@ -1,15 +1,28 @@
-# Install: `bp-install.sh` vs `agm init`
+# Install: `agm scaffold` vs `bp-install.sh` vs `agm init`
 
-Two entry points — different scope. **Golden path adopters use `bp-install.sh` only.**
+**MCP-only golden path:** `agm scaffold` → MCP `bootstrap-adopt`. No GitHub curl required.
 
 | Tool | Scope | When |
 |------|-------|------|
-| **`bp-install.sh`** | Full scaffold: prompts, workflows, templates, domain/, IDE rules | **First-time setup** — golden path |
-| **`agm init`** | Three core files only: `always-on.md`, `blueprint.md`, `entry-point.md` + `.agm/config.json` | MCP-only bootstrap on an **existing** repo; re-init core files |
+| **`agm scaffold`** | Full scaffold from npm bundle: prompts, role files, template stubs | **MCP-only first-time setup** — no GitHub |
+| **`bp-install.sh`** | Same scaffold via HTTPS from blueprint-pattern | When monorepo is public / Assistant UI |
+| **`agm init`** | Three core files only: `always-on.md`, `blueprint.md`, `entry-point.md` + `.agm/config.json` | Re-init core files only — run `agm scaffold` if prompts missing |
 
 ---
 
-## Golden path — `bp-install.sh`
+## Golden path — MCP-only (`agm scaffold`)
+
+At your **application repository root**:
+
+```bash
+npx @abx-hh/agm-cli scaffold --project "my-app" --template arc42 --ai-tool cursor
+```
+
+Or MCP tool **`agm_scaffold`**. Then new chat → **`agm_trigger_workflow`** with `bootstrap-adopt`.
+
+---
+
+## Golden path — Assistant UI (`bp-install.sh`)
 
 Run at your **application repository root** (where `.git` lives).
 

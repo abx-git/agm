@@ -20,7 +20,13 @@ Installable **MCP server** and CLI for the Architecture Graph Method (AGM).
 }
 ```
 
-Or merge [mcp-install.json](./mcp-install.json). Open your **application repo** (with `.agm/config.json` from `agm init` or `bp-install.sh`).
+Or merge [mcp-install.json](./mcp-install.json). In your **application repo**, run once:
+
+```bash
+npx @abx-hh/agm-cli scaffold --project "my-app" --template arc42
+```
+
+Then MCP `agm_trigger_workflow` or `bootstrap-adopt`.
 
 ### npm global (optional)
 
@@ -36,7 +42,8 @@ agm --help
 |-----------------------------|-----------------------------------|
 | `workflows-catalog.json` — IDs, roles, steps | Plaintext `workflows-starter-prompts.json` |
 | `workflows-prompts-compressed.json` — **LLMLingua-2** golden path | Full catalog prompts (compress or plaintext) |
-| Graph CLI: `init`, `verify`, `status` | `docs/`, procedure reference, role prompts |
+| `scaffold/` — install bundle (system-prompt, roles, templates) | Full plaintext workflow catalog |
+| Graph CLI: `init`, `scaffold`, `verify`, `status` | Maintainer `docs/`, compress scripts |
 
 Compression uses [Microsoft LLMLingua-2](https://huggingface.co/spaces/microsoft/llmlingua-2). Compressed prompts are sent **directly to the LLM** — not human-readable procedure docs.
 
@@ -48,7 +55,8 @@ Compression uses [Microsoft LLMLingua-2](https://huggingface.co/spaces/microsoft
 ## CLI quick reference
 
 ```bash
-agm install          # print bp-install.sh curl one-liner
+agm scaffold         # install prompts + template stubs from npm (MCP-only)
+agm install          # print bp-install.sh curl one-liner (legacy)
 agm init             # three core files + .agm/config.json
 agm verify           # link check → [[ANCHOR:LINK_CHECK]]
 agm workflows list   # catalog metadata only
@@ -59,6 +67,7 @@ agm prompts status   # starter | full, compressed | plaintext
 
 | Tool | Prompt pack |
 |------|-------------|
+| `agm_scaffold` | — |
 | `agm_get_graph_status` | — |
 | `agm_load_context` | — |
 | `agm_verify_links` | — |

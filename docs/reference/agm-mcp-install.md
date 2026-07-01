@@ -26,7 +26,14 @@ Public package **`@abx-hh/agm-cli`** — MCP server + CLI. Session prompts ship 
 
 ## Prerequisites
 
-1. **Application repository** with AGM docs (`agm init` or `bp-install.sh`)
+1. **Application repository** — run scaffold once at repo root:
+
+```bash
+npx @abx-hh/agm-cli scaffold --project "my-app" --template arc42 --ai-tool cursor
+```
+
+Or MCP tool `agm_scaffold` (same bundle — no GitHub curl).
+
 2. Node.js 20+
 
 ## Verify

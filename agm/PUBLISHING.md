@@ -7,7 +7,7 @@ Ship to users via **public npm** and/or a **public GitHub mirror** `abx-git/agm`
 
 | Artifact | Visibility | Contents |
 |----------|------------|----------|
-| `@abx-hh/agm-cli` on npm | **Public** | MCP server, CLI, `workflows-catalog.json`, **LLMLingua-2 compressed** golden-path prompts |
+| `@abx-hh/agm-cli` on npm | **Public** | MCP, CLI, catalog, compressed prompts, **`scaffold/` install bundle** |
 | `blueprint-pattern` monorepo | **Private** | Plaintext prompts, full procedure docs, `workflows-starter-prompts.json`, split scripts |
 | Full prompt pack | **Licensed / private channel** | `workflows-prompts-compressed.json` or plaintext JSON |
 
@@ -21,8 +21,8 @@ From the private monorepo root:
 # 1. Regenerate catalog + plaintext starter (private git only)
 node scripts/agm-split-prompts.mjs
 
-# 2. Compress golden path (and full pack if workflows-prompts.json exists)
-cd agm && npm install && npm run compress-prompts
+# 2. Refresh scaffold bundle + compress golden path
+cd agm && npm run build-scaffold && npm run compress-prompts
 
 # 3. Build TypeScript
 npm run build

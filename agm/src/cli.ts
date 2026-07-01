@@ -6,6 +6,7 @@ import { dirname } from 'node:path';
 import { loadConfig, configFilePath, normDocRoot, docRootAbs } from './config/load.js';
 import { join } from 'node:path';
 import { initGraph } from './graph/init.js';
+import { installScaffold } from './graph/scaffold.js';
 import { formatLinkCheck, verifyLinks } from './graph/verify.js';
 import { getGraphStatus } from './graph/status.js';
 import {
@@ -27,8 +28,37 @@ const BP_INSTALL_URL =
   'https://raw.githubusercontent.com/abx-git/blueprint-pattern/main/scripts/bp-install.sh';
 
 program
+  .command('scaffold')
+  .description('Install AGM scaffold from npm bundle (MCP-only — no GitHub curl)')
+  .option('--project <name>', 'Application name', 'My Application')
+  .option('--template <id>', 'arc42 | lean-service | c4-light | adr-first | custom', 'arc42')
+  .option('--doc-root <path>', 'Documentation root', 'docs/architecture/')
+  .option('--ai-tool <name>', 'cursor | claude | copilot | generic', 'cursor')
+  .option('-f, --force', 'Overwrite existing scaffold files')
+  .action((opts) => {
+    const result = installScaffold({
+      project: opts.project,
+      template: opts.template as TemplateId,
+      docRoot: normDocRoot(opts.docRoot),
+      aiTool: opts.aiTool,
+      force: Boolean(opts.force),
+    });
+    console.log(`AGM scaffold installed (${result.template}) → ${result.docRoot}`);
+    if (result.created.length) {
+      console.log(`Created ${result.created.length} file(s):`);
+      for (const f of result.created.slice(0, 20)) console.log(`  ${f}`);
+      if (result.created.length > 20) console.log(`  … and ${result.created.length - 20} more`);
+    }
+    if (result.skipped.length) {
+      console.log(`Skipped ${result.skipped.length} existing file(s) (use --force to overwrite)`);
+    }
+    console.log('\nNext: new chat → MCP agm_trigger_workflow bootstrap-adopt (or Assistant UI Adopt prompt).');
+    console.log('Do not re-run scaffold if blueprint.md already exists from adoption.');
+  });
+
+program
   .command('install')
-  .description('Print bp-install.sh command for golden-path setup (full scaffold)')
+  .description('Print bp-install.sh curl command (legacy) or use: agm scaffold')
   .option('--project <name>', 'Application name', 'My Application')
   .option('--template <id>', 'arc42 | lean-service | c4-light | adr-first | custom', 'arc42')
   .option('--doc-root <path>', 'Documentation root', 'docs/architecture/')
@@ -43,8 +73,8 @@ program
     ].join(' ');
     console.log('AGM golden-path install — run at your application repository root:\n');
     console.log(`curl -fsSL ${BP_INSTALL_URL} | bash -s -- ${args}`);
-    console.log('\nOr use the Assistant UI → Build → Install.');
-    console.log('\nagm init creates only 3 core graph files — use install for prompts + templates.');
+    console.log('\nPrefer MCP-only: npx @abx-hh/agm-cli scaffold');
+    console.log('\nagm init creates only 3 core graph files — use scaffold for prompts + templates.');
     console.log('Docs: docs/reference/install.md');
   });
 
@@ -156,7 +186,7 @@ program
       console.log('Skipped (already exist):');
       for (const f of result.skipped) console.log(`  ${f}`);
     }
-    console.log('\nNext: run `agm install` or bp-install.sh for full scaffold, then bootstrap-adopt.');
+    console.log('\nNext: run `agm scaffold` for full scaffold, then bootstrap-adopt via MCP.');
     console.log('MCP: see agm/README.md');
   });
 

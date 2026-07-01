@@ -1,6 +1,6 @@
 {
   "name": "@abx-hh/agm-cli",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Architecture Graph Method — installable MCP server and CLI (LLMLingua-2 compressed prompts)",
   "type": "module",
   "license": "MIT",
@@ -29,15 +29,18 @@
     "data/workflows-catalog.json",
     "data/workflows-prompts-compressed.json",
     "data/anchors.json",
+    "scaffold",
     "templates",
     "mcp-install.json",
     "README.md"
   ],
   "scripts": {
     "build": "tsc",
+    "build-scaffold": "node ../scripts/agm-build-scaffold.mjs",
     "dev": "tsc --watch",
     "start:mcp": "node dist/mcp-server.js",
     "compress-prompts": "node ../scripts/agm-compress-prompts.mjs",
+    "prepublishOnly": "npm run build-scaffold && npm run build",
     "prepare": "npm run build"
   },
   "engines": {
