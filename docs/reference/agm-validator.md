@@ -2,7 +2,7 @@
 
 Public integration surface for the **AGM-Validator** commercial enforcement engine.
 The method (Markdown graph, templates, workflows) stays open; the validator ships as a
-compiled binary with a proprietary license — see [agm-validator/LICENSE](../../agm-validator/LICENSE).
+compiled binary with a proprietary license — see [agm-validator/LICENSE](https://github.com/abx-git/blueprint-pattern/blob/main/agm-validator/LICENSE).
 
 ## What it does
 
