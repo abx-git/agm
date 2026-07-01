@@ -11,6 +11,8 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
     defaults:
       run:
         working-directory: agm
@@ -21,6 +23,13 @@ jobs:
         with:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org'
+
+      - name: Verify npm token
+        if: ${{ !inputs.dry_run }}
+        run: |
+          test -n "$NODE_AUTH_TOKEN" || (echo "::error::NPM_TOKEN secret is missing" && exit 1)
+          npm whoami
+          echo "Token OK. Publish requires a Granular Access Token with 'Bypass two-factor authentication (2FA)' enabled."
 
       - name: Install and build
         run: |
@@ -34,6 +43,4 @@ jobs:
 
       - name: Publish to npm
         if: ${{ !inputs.dry_run }}
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm publish --access public

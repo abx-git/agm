@@ -43,9 +43,19 @@ npm publish --access public
 
 Requires npm org `@agm` (create at npmjs.com) or publish as unscoped `agm-cli`.
 
-### CI (optional)
+### CI (GitHub Actions)
 
-`.github/workflows/publish-agm-npm.yml` — manual `workflow_dispatch` with `NPM_TOKEN` secret.
+`.github/workflows/publish-agm-npm.yml` — manual `workflow_dispatch` with `dry_run: false`.
+
+**`NPM_TOKEN` must bypass 2FA** — otherwise CI fails with `EOTP`:
+
+1. [npmjs.com](https://www.npmjs.com/) → **Access Tokens** → **Generate New Token** → **Granular Access Token**
+2. **Packages and scopes:** `@agm` — **Read and write**
+3. Enable **Bypass two-factor authentication (2FA)** (required for automation)
+4. Copy token → GitHub repo **Settings → Secrets → Actions** → `NPM_TOKEN`
+5. **Actions → Publish @agm/cli to npm** → `dry_run: false` → Run workflow
+
+Do not use a token that only works with `npm login` + `--otp`; OTP cannot be supplied in CI.
 
 ## Public GitHub mirror (`abx-git/agm`)
 
