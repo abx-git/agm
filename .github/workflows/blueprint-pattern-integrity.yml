@@ -6,12 +6,14 @@ on:
       - '**.md'
       - '.mlc-config.json'
       - 'scripts/check-okf-frontmatter.py'
+      - 'scripts/check-doc-links.py'
       - '.github/workflows/blueprint-pattern-integrity.yml'
   pull_request:
     paths:
       - '**.md'
       - '.mlc-config.json'
       - 'scripts/check-okf-frontmatter.py'
+      - 'scripts/check-doc-links.py'
       - '.github/workflows/blueprint-pattern-integrity.yml'
 
 jobs:
@@ -25,7 +27,7 @@ jobs:
           node-version: '24'
 
       - name: Check Markdown links in docs
-        run: find docs -name '*.md' -print0 | xargs -0 npx --yes markdown-link-check -c .mlc-config.json
+        run: python3 scripts/check-doc-links.py
 
   okf-frontmatter:
     runs-on: ubuntu-latest
