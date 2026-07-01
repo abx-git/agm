@@ -3,6 +3,8 @@ import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { loadConfig } from '../config/load.js';
 import {
   findPrivatePromptsFile,
+  findPrivateCompressedPromptsFile,
+  getPromptPackFormat,
   getPromptPackTier,
   resolvePromptsDirectories,
   starterWorkflowIds,
@@ -64,6 +66,7 @@ export function registerAgmTools(server: McpServer): void {
       const config = loadConfig();
       const tier = getPromptPackTier(config);
       const privateFile = findPrivatePromptsFile(config);
+      const privateCompressed = findPrivateCompressedPromptsFile(config);
       return {
         content: [
           {
@@ -72,7 +75,9 @@ export function registerAgmTools(server: McpServer): void {
               {
                 installed: tier !== 'none',
                 tier,
+                format: getPromptPackFormat(config),
                 privatePromptsFile: privateFile,
+                privateCompressedFile: privateCompressed,
                 starterWorkflowIds: starterWorkflowIds(),
                 searchedDirectories: resolvePromptsDirectories(config),
               },
@@ -87,7 +92,7 @@ export function registerAgmTools(server: McpServer): void {
 
   server.tool(
     'agm_trigger_workflow',
-    'Trigger an AGM workflow by ID. Requires private prompt pack. Returns public metadata plus agent-only instruction in a separate block.',
+    'Trigger an AGM workflow by ID. Returns public metadata plus LLM-only instruction (LLMLingua-2 compressed for golden path).',
     {
       workflowId: z
         .string()

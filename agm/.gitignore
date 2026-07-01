@@ -3,3 +3,4 @@ dist/
 
 # Private prompt bodies — generate locally; distribute via private channel only
 prompts-pack/workflows-prompts.json
+prompts-pack/workflows-prompts-compressed.json

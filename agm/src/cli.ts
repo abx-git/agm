@@ -10,6 +10,8 @@ import { formatLinkCheck, verifyLinks } from './graph/verify.js';
 import { getGraphStatus } from './graph/status.js';
 import {
   findPrivatePromptsFile,
+  findPrivateCompressedPromptsFile,
+  getPromptPackFormat,
   getPromptPackTier,
   resolvePromptsDirectories,
   starterWorkflowIds,
@@ -225,13 +227,16 @@ promptsCmd
       console.log('Prompt pack: NOT installed');
       process.exit(1);
     }
-    console.log(`Prompt pack: ${tier}`);
+    console.log(`Prompt pack: ${tier} (${getPromptPackFormat(config)})`);
     if (tier === 'starter') {
       console.log(`  Starter workflows (${starterWorkflowIds().length}): ${starterWorkflowIds().join(', ')}`);
-      console.log('  Install full pack for extended workflows — see agm/prompts-pack/README.md');
+      console.log('  Public npm ships LLMLingua-2 compressed prompts only.');
+      console.log('  Install full private pack for extended workflows — see agm/prompts-pack/README.md');
     }
     const file = findPrivatePromptsFile(config);
-    if (file) console.log(`  Private file: ${file}`);
+    const compressed = findPrivateCompressedPromptsFile(config);
+    if (file) console.log(`  Private plaintext: ${file}`);
+    if (compressed) console.log(`  Private compressed: ${compressed}`);
     console.log('  Private pack search paths:');
     for (const d of resolvePromptsDirectories(config)) {
       console.log(`    - ${d}`);

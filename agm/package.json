@@ -1,8 +1,25 @@
 {
   "name": "@agm/cli",
-  "version": "0.1.0",
-  "description": "Architecture Graph Method — local CLI and MCP server",
+  "version": "0.2.0",
+  "description": "Architecture Graph Method — installable MCP server and CLI (LLMLingua-2 compressed prompts)",
   "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/abx-git/agm.git"
+  },
+  "homepage": "https://github.com/abx-git/agm#readme",
+  "bugs": {
+    "url": "https://github.com/abx-git/agm/issues"
+  },
+  "keywords": [
+    "agm",
+    "architecture",
+    "mcp",
+    "model-context-protocol",
+    "cursor",
+    "llmlingua"
+  ],
   "bin": {
     "agm": "./dist/cli.js",
     "agm-mcp": "./dist/mcp-server.js"
@@ -10,14 +27,17 @@
   "files": [
     "dist",
     "data/workflows-catalog.json",
-    "data/workflows-starter-prompts.json",
+    "data/workflows-prompts-compressed.json",
     "data/anchors.json",
-    "templates"
+    "templates",
+    "mcp-install.json",
+    "README.md"
   ],
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
     "start:mcp": "node dist/mcp-server.js",
+    "compress-prompts": "node ../scripts/agm-compress-prompts.mjs",
     "prepare": "npm run build"
   },
   "engines": {
@@ -30,7 +50,12 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@axiomantic/llmlingua-2": "^0.1.1",
+    "@huggingface/transformers": "^3.5.2",
     "@types/node": "^22.15.3",
     "typescript": "^5.8.3"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

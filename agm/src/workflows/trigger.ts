@@ -2,6 +2,8 @@ import type { AgmConfig, WorkflowTriggerParams } from '../types.js';
 import { personalizeWorkflowPrompt } from '../substitution/personalize.js';
 import { fetchGitDiff } from '../graph/git-diff.js';
 import { getWorkflowById } from './loader.js';
+import { getPromptPackFormat } from '../config/prompts-path.js';
+import { wrapCompressedInstruction } from '../prompts/compressed-pack.js';
 
 /** Metadata returned to MCP clients — no prompt body. */
 export interface TriggerResultPublic {
@@ -80,6 +82,10 @@ export function triggerWorkflow(
   }
 
   let instruction = personalizeWorkflowPrompt(workflow, config, inputValues);
+
+  if (getPromptPackFormat(config, cwd) === 'compressed') {
+    instruction = wrapCompressedInstruction(workflow.id, instruction);
+  }
 
   if (gitDiffIncluded && inputValues.gitDiff) {
     instruction += `\n\n## Git diff (fetched locally)\n\n\`\`\`diff\n${inputValues.gitDiff}\n\`\`\``;

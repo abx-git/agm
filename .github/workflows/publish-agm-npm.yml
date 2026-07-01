@@ -1,0 +1,39 @@
+name: Publish @agm/cli to npm
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'npm publish --dry-run only'
+        type: boolean
+        default: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: agm
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install and build
+        run: |
+          npm ci
+          test -f data/workflows-prompts-compressed.json || (echo "Run scripts/agm-compress-prompts.mjs first" && exit 1)
+          npm run build
+
+      - name: Publish (dry run)
+        if: inputs.dry_run
+        run: npm publish --access public --dry-run
+
+      - name: Publish to npm
+        if: ${{ !inputs.dry_run }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --access public

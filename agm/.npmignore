@@ -1,0 +1,5 @@
+prompts-pack/
+data/workflows-starter-prompts.json
+src/
+tsconfig.json
+node_modules/

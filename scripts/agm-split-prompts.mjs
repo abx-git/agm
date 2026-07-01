@@ -55,3 +55,4 @@ console.log(
   `Starter: ${Object.keys(starterPrompts).length} workflows → ${starterDest}`
 );
 console.log(`Prompts: ${Object.keys(prompts).length} entries → ${promptsDest}`);
+console.log('Run: node scripts/agm-compress-prompts.mjs');

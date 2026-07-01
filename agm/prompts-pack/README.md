@@ -1,41 +1,39 @@
 # AGM Prompt Pack
 
-## Public starter pack (golden path)
+## Public npm (`@agm/cli`)
 
-Shipped in `agm/data/workflows-starter-prompts.json` with `@agm/cli`. Covers MCP golden path without any install step:
+Golden-path prompts ship as **`agm/data/workflows-prompts-compressed.json`** (LLMLingua-2).  
+**No plaintext** in the published package.
 
-`bootstrap-adopt` · `bootstrap-continue` · `refinement` · `maintenance-diff-range` · `review-maintenance` · `review-phase` · `architecture-work-query` · `architecture-work-design`
-
-Regenerate when `docs/assistant/workflows.json` changes:
+Regenerate from the private monorepo:
 
 ```bash
-node scripts/agm-split-prompts.mjs
+node scripts/agm-split-prompts.mjs    # writes plaintext starter (private git)
+node scripts/agm-compress-prompts.mjs   # writes compressed public artifact
 ```
 
 ## Full private pack (extended catalog)
 
-Optional — all 25+ workflow prompt bodies in `workflows-prompts.json`. **Do not publish** to public npm.
-
-### Generate locally (maintainers)
-
-From the pattern repository root:
+All workflow bodies in `workflows-prompts.json` (plaintext, **gitignored**).  
+Compress for distribution:
 
 ```bash
-node scripts/agm-split-prompts.mjs
+node scripts/agm-compress-prompts.mjs   # also writes prompts-pack/workflows-prompts-compressed.json
 ```
 
-### Install location options
+### Install locations (full tier)
 
-The CLI/MCP resolves prompts in this order:
-
-1. Merge **starter** (`agm/data/workflows-starter-prompts.json`) with **private** if found
-2. `promptsPath` in `.agm/config.json` (per project)
-3. Environment variable `AGM_PROMPTS_PATH` (directory containing `workflows-prompts.json`)
-4. `~/.agm/prompts-pack/workflows-prompts.json` (user-global)
-5. `agm/prompts-pack/workflows-prompts.json` (development, gitignored)
+1. Merge with public compressed starter when found
+2. `promptsPath` in `.agm/config.json`
+3. `AGM_PROMPTS_PATH` → directory with `workflows-prompts-compressed.json` or `workflows-prompts.json`
+4. `~/.agm/prompts-pack/`
+5. `agm/prompts-pack/` (development)
 
 Private entries override starter for the same workflow ID.
 
-### Distribute full pack to licensed users
+### Distribute to licensed users
 
-Copy only `workflows-prompts.json` via private channel (internal git, private npm, encrypted archive). Never commit the full pack to a public repository.
+Ship **`workflows-prompts-compressed.json` only** (preferred) via private npm, git, or encrypted archive.  
+Never commit plaintext full pack or starter to a public repository.
+
+See [PUBLISHING.md](../PUBLISHING.md).
