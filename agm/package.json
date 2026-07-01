@@ -1,5 +1,5 @@
 {
-  "name": "@agm/cli",
+  "name": "@abx-hh/agm-cli",
   "version": "0.2.0",
   "description": "Architecture Graph Method — installable MCP server and CLI (LLMLingua-2 compressed prompts)",
   "type": "module",

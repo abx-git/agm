@@ -71,5 +71,5 @@ Cursor config:
 | Open (MIT, parent repo) | Commercial (this component) |
 |-------------------------|----------------------------|
 | Graph structure, templates | Parser heuristics |
-| `@agm/cli` workflows | Rule engine |
+| `@abx-hh/agm-cli` workflows | Rule engine |
 | `agm_verify_links` | Contract / trace / graph enforcement |

@@ -98,12 +98,12 @@ Example agent flow:
 
 | Component | License | Distribution |
 |-----------|---------|--------------|
-| AGM method (`docs/`, templates, `@agm/cli`) | MIT | Public repo, npm |
+| AGM method (`docs/`, templates, `@abx-hh/agm-cli`) | MIT | Public repo, npm |
 | AGM-Validator engine | Proprietary | Compiled binary |
-| `@agm/cli` MCP (workflows, context) | MIT | `agm-mcp` — orchestration |
+| `@abx-hh/agm-cli` MCP (workflows, context) | MIT | `agm-mcp` — orchestration |
 | `agm-validator mcp` | Proprietary | Enforcement tools |
 
-Recommended stack: **open `@agm/cli`** for documentation workflows + **commercial `agm-validator`** for hard gates.
+Recommended stack: **open `@abx-hh/agm-cli`** for documentation workflows + **commercial `agm-validator`** for hard gates.
 
 ## Related
 

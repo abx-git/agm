@@ -1,4 +1,4 @@
-# Publishing `@agm/cli` (public MCP + CLI)
+# Publishing `@abx-hh/agm-cli` (public MCP + CLI)
 
 The **method** (docs, graph structure, catalog metadata) can stay in a private monorepo.  
 Ship to users via **public npm** and/or a **public GitHub mirror** `abx-git/agm`.
@@ -7,7 +7,7 @@ Ship to users via **public npm** and/or a **public GitHub mirror** `abx-git/agm`
 
 | Artifact | Visibility | Contents |
 |----------|------------|----------|
-| `@agm/cli` on npm | **Public** | MCP server, CLI, `workflows-catalog.json`, **LLMLingua-2 compressed** golden-path prompts |
+| `@abx-hh/agm-cli` on npm | **Public** | MCP server, CLI, `workflows-catalog.json`, **LLMLingua-2 compressed** golden-path prompts |
 | `blueprint-pattern` monorepo | **Private** | Plaintext prompts, full procedure docs, `workflows-starter-prompts.json`, split scripts |
 | Full prompt pack | **Licensed / private channel** | `workflows-prompts-compressed.json` or plaintext JSON |
 
@@ -41,7 +41,7 @@ npm login
 npm publish --access public
 ```
 
-Requires npm org `@agm` (create at npmjs.com) or publish as unscoped `agm-cli`.
+Published under npm org **`@abx-hh`** (`abx-hh` on npmjs.com).
 
 ### CI (GitHub Actions)
 
@@ -50,16 +50,16 @@ Requires npm org `@agm` (create at npmjs.com) or publish as unscoped `agm-cli`.
 **`NPM_TOKEN` must bypass 2FA** — otherwise CI fails with `EOTP`:
 
 1. [npmjs.com](https://www.npmjs.com/) → **Access Tokens** → **Generate New Token** → **Granular Access Token**
-2. **Packages and scopes:** `@agm` — **Read and write**
+2. **Packages and scopes:** `@abx-hh` — **Read and write**
 3. Enable **Bypass two-factor authentication (2FA)** (required for automation)
 4. Copy token → GitHub repo **Settings → Secrets → Actions** → `NPM_TOKEN`
-5. **Actions → Publish @agm/cli to npm** → `dry_run: false` → Run workflow
+5. **Actions → Publish @abx-hh/agm-cli to npm** → `dry_run: false` → Run workflow
 
 Do not use a token that only works with `npm login` + `--otp`; OTP cannot be supplied in CI.
 
 ## Public GitHub mirror (`abx-git/agm`)
 
-Users install MCP via `npx @agm/cli agm-mcp`. A slim public repo is optional documentation + issues.
+Users install MCP via `npx @abx-hh/agm-cli agm-mcp`. A slim public repo is optional documentation + issues.
 
 ```bash
 ./scripts/agm-mirror-public.sh   # rsync agm/ → sibling clone abx-git/agm
@@ -80,7 +80,7 @@ Copy from `agm/mcp-install.json`:
   "mcpServers": {
     "agm": {
       "command": "npx",
-      "args": ["-y", "@agm/cli", "agm-mcp"]
+      "args": ["-y", "@abx-hh/agm-cli", "agm-mcp"]
     }
   }
 }

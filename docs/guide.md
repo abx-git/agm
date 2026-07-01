@@ -4,7 +4,7 @@ Operational reference. **Start with [quickstart.md](./quickstart.md)** (~10 min)
 
 Architecture documentation as a **Markdown link graph** in `docs/architecture/`, maintained with AI agents, versioned in Git.
 
-**Golden path:** Install → Adopt → Continue → Maintain → Review. Copy session prompts from the [Assistant UI](https://abx-git.github.io/agm.github.io/). MCP `agm_trigger_workflow` uses **LLMLingua-2 compressed** prompts from `@agm/cli` ([install](./reference/agm-mcp-install.md)) — golden path on npm; extended workflows need the private pack ([agm/README.md](../agm/README.md)).
+**Golden path:** Install → Adopt → Continue → Maintain → Review. Copy session prompts from the [Assistant UI](https://abx-git.github.io/agm.github.io/). MCP `agm_trigger_workflow` uses **LLMLingua-2 compressed** prompts from `@abx-hh/agm-cli` ([install](./reference/agm-mcp-install.md)) — golden path on npm; extended workflows need the private pack ([agm/README.md](../agm/README.md)).
 
 ---
 

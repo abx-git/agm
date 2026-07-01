@@ -2,7 +2,7 @@
 
 Installable **MCP server** and CLI for the Architecture Graph Method (AGM).
 
-- **Users:** `npx @agm/cli agm-mcp` — golden-path workflows via **LLMLingua-2 compressed** prompts (procedure text not shipped in plaintext).
+- **Users:** `npx @abx-hh/agm-cli agm-mcp` — golden-path workflows via **LLMLingua-2 compressed** prompts (procedure text not shipped in plaintext).
 - **Maintainers:** [PUBLISHING.md](./PUBLISHING.md) — private monorepo → public npm / `abx-git/agm`.
 
 **Onboarding without MCP:** [Assistant UI](https://abx-git.github.io/agm.github.io/) or copy-paste from installed `prompts/workflows/` — see [docs/quickstart.md](../docs/quickstart.md) in the pattern repo.
@@ -14,7 +14,7 @@ Installable **MCP server** and CLI for the Architecture Graph Method (AGM).
   "mcpServers": {
     "agm": {
       "command": "npx",
-      "args": ["-y", "@agm/cli", "agm-mcp"]
+      "args": ["-y", "@abx-hh/agm-cli", "agm-mcp"]
     }
   }
 }
@@ -25,14 +25,14 @@ Or merge [mcp-install.json](./mcp-install.json). Open your **application repo** 
 ### npm global (optional)
 
 ```bash
-npm install -g @agm/cli
+npm install -g @abx-hh/agm-cli
 agm-mcp   # stdio MCP server
 agm --help
 ```
 
 ## Public vs private
 
-| Shipped in `@agm/cli` (npm) | Private (your monorepo / license) |
+| Shipped in `@abx-hh/agm-cli` (npm) | Private (your monorepo / license) |
 |-----------------------------|-----------------------------------|
 | `workflows-catalog.json` — IDs, roles, steps | Plaintext `workflows-starter-prompts.json` |
 | `workflows-prompts-compressed.json` — **LLMLingua-2** golden path | Full catalog prompts (compress or plaintext) |

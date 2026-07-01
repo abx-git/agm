@@ -1,4 +1,4 @@
-name: Publish @agm/cli to npm
+name: Publish @abx-hh/agm-cli to npm
 
 on:
   workflow_dispatch:

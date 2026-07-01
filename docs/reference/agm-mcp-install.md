@@ -1,7 +1,7 @@
 ---
 type: reference
 title: "Install AGM MCP server"
-description: "Install @agm/cli as MCP — LLMLingua-2 compressed golden path"
+description: "Install @abx-hh/agm-cli as MCP — LLMLingua-2 compressed golden path"
 resource: "repo://"
 tags: [agm, mcp, install]
 timestamp: ""
@@ -9,7 +9,7 @@ timestamp: ""
 
 # Install AGM MCP server
 
-Public package **`@agm/cli`** — MCP server + CLI. Session prompts ship **LLMLingua-2 compressed** ([Microsoft LLMLingua-2](https://huggingface.co/spaces/microsoft/llmlingua-2)); full plaintext workflows live in the [blueprint-pattern](https://github.com/abx-git/blueprint-pattern) repo — npm publishes compressed golden path only.
+Public package **`@abx-hh/agm-cli`** — MCP server + CLI. Session prompts ship **LLMLingua-2 compressed** ([Microsoft LLMLingua-2](https://huggingface.co/spaces/microsoft/llmlingua-2)); full plaintext workflows live in the [blueprint-pattern](https://github.com/abx-git/blueprint-pattern) repo — npm publishes compressed golden path only.
 
 ## Cursor / Claude Desktop
 
@@ -18,7 +18,7 @@ Public package **`@agm/cli`** — MCP server + CLI. Session prompts ship **LLMLi
   "mcpServers": {
     "agm": {
       "command": "npx",
-      "args": ["-y", "@agm/cli", "agm-mcp"]
+      "args": ["-y", "@abx-hh/agm-cli", "agm-mcp"]
     }
   }
 }
@@ -34,7 +34,7 @@ Public package **`@agm/cli`** — MCP server + CLI. Session prompts ship **LLMLi
 In the app repo:
 
 ```bash
-npx @agm/cli prompts status
+npx @abx-hh/agm-cli prompts status
 # Prompt pack: starter (compressed)
 ```
 

@@ -19,7 +19,7 @@ export type PromptPackFormat = 'compressed' | 'plaintext';
 export class PromptPackNotFoundError extends Error {
   constructor() {
     super(
-      'AGM prompt pack not found. Install @agm/cli (ships LLMLingua-2 compressed golden path) ' +
+      'AGM prompt pack not found. Install @abx-hh/agm-cli (ships LLMLingua-2 compressed golden path) ' +
         'or add a private workflows-prompts.json / workflows-prompts-compressed.json ' +
         '(see agm/prompts-pack/README.md). Set promptsPath in .agm/config.json or AGM_PROMPTS_PATH.'
     );

@@ -1,6 +1,6 @@
 # AGM Prompt Pack
 
-## Public npm (`@agm/cli`)
+## Public npm (`@abx-hh/agm-cli`)
 
 Golden-path prompts ship as **`agm/data/workflows-prompts-compressed.json`** (LLMLingua-2).  
 **No plaintext** in the published package.
