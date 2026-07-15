@@ -24,77 +24,41 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Resolve deploy token
-        id: token
+      - name: Require deploy key
+        env:
+          ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+        run: |
+          if [ -z "${ACTIONS_DEPLOY_KEY:-}" ]; then
+            echo "::error::Add repo secret ACTIONS_DEPLOY_KEY (private SSH key whose public key is a write deploy key on abx-git/agm.github.io). See docs/assistant/GITHUB-PAGES-SETUP.md"
+            exit 1
+          fi
+
+      - name: Ensure GitHub Pages is enabled on agm.github.io
         env:
           AGM_GHIO_DEPLOY: ${{ secrets.AGM_GHIO_DEPLOY }}
           BLUEPRINT_PATTERN_GHIO_DEPLOY: ${{ secrets.BLUEPRINT_PATTERN_GHIO_DEPLOY }}
         run: |
           set -euo pipefail
-          TOKEN=""
-          if [ -n "${AGM_GHIO_DEPLOY:-}" ]; then
-            TOKEN="$AGM_GHIO_DEPLOY"
-          elif [ -n "${BLUEPRINT_PATTERN_GHIO_DEPLOY:-}" ]; then
-            echo "::warning::Using deprecated secret BLUEPRINT_PATTERN_GHIO_DEPLOY — rename to AGM_GHIO_DEPLOY when convenient"
-            TOKEN="$BLUEPRINT_PATTERN_GHIO_DEPLOY"
-          else
-            echo "::error::Add repo secret AGM_GHIO_DEPLOY (PAT with Contents + Administration write on abx-git/agm.github.io). See docs/assistant/GITHUB-PAGES-SETUP.md"
-            exit 1
+          TOKEN="${AGM_GHIO_DEPLOY:-${BLUEPRINT_PATTERN_GHIO_DEPLOY:-}}"
+          if [ -z "$TOKEN" ]; then
+            echo "::notice::No AGM_GHIO_DEPLOY secret — skipping Pages API enable. Ensure Pages is on for agm.github.io (main / /)."
+            exit 0
           fi
           echo "::add-mask::$TOKEN"
-          {
-            echo "value<<EOF"
-            echo "$TOKEN"
-            echo "EOF"
-          } >> "$GITHUB_OUTPUT"
-
-      - name: Verify deploy token can push to agm.github.io
-        env:
-          DEPLOY_TOKEN: ${{ steps.token.outputs.value }}
-        run: |
-          set -euo pipefail
-          HDR=(-H "Authorization: Bearer $DEPLOY_TOKEN" -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28")
-          STATUS=$(curl -s -o /tmp/repo.json -w "%{http_code}" "${HDR[@]}" \
-            "https://api.github.com/repos/abx-git/agm.github.io")
-          if [ "$STATUS" = "401" ] || [ "$STATUS" = "403" ]; then
-            echo "::error::Deploy token cannot access abx-git/agm.github.io (HTTP $STATUS). Recreate PAT with Contents: Read and write on that repo; if the org uses SAML SSO, authorize the token. See docs/assistant/GITHUB-PAGES-SETUP.md"
-            cat /tmp/repo.json
-            exit 1
-          fi
-          if [ "$STATUS" != "200" ]; then
-            echo "::error::Unexpected repo API status $STATUS"
-            cat /tmp/repo.json
-            exit 1
-          fi
-          PUSH=$(python3 -c "import json; print(json.load(open('/tmp/repo.json')).get('permissions',{}).get('push', False))")
-          if [ "$PUSH" != "True" ]; then
-            echo "::error::Token can read agm.github.io but not push. Fine-grained PAT needs Contents: Read and write (Administration alone is not enough for git push)."
-            cat /tmp/repo.json
-            exit 1
-          fi
-          # Git HTTPS preflight — same failure mode as peaceiris (exit 128)
-          if ! git ls-remote "https://x-access-token:${DEPLOY_TOKEN}@github.com/abx-git/agm.github.io.git" HEAD >/tmp/ls-remote.txt 2>/tmp/ls-remote.err; then
-            echo "::error::git ls-remote failed (typical cause of peaceiris exit 128). Fix PAT scopes / SSO authorization."
-            cat /tmp/ls-remote.err
-            exit 1
-          fi
-          echo "Token OK for API push + git HTTPS."
-          cat /tmp/ls-remote.txt
-
-      - name: Ensure GitHub Pages is enabled on agm.github.io
-        env:
-          DEPLOY_TOKEN: ${{ steps.token.outputs.value }}
-        run: |
-          set -euo pipefail
           API="https://api.github.com/repos/abx-git/agm.github.io/pages"
           STATUS=$(curl -s -o /tmp/pages.json -w "%{http_code}" \
-            -H "Authorization: Bearer $DEPLOY_TOKEN" \
+            -H "Authorization: Bearer $TOKEN" \
             -H "Accept: application/vnd.github+json" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
             "$API")
           if [ "$STATUS" = "200" ]; then
             echo "GitHub Pages already enabled."
             cat /tmp/pages.json
+            exit 0
+          fi
+          if [ "$STATUS" = "401" ] || [ "$STATUS" = "403" ]; then
+            echo "::warning::Pages API auth failed (HTTP $STATUS). Deploy continues via deploy key; enable Pages manually if needed."
+            cat /tmp/pages.json || true
             exit 0
           fi
           if [ "$STATUS" != "404" ]; then
@@ -104,7 +68,7 @@ jobs:
           fi
           echo "Enabling GitHub Pages (branch main, /)…"
           curl -fsSL -X POST \
-            -H "Authorization: Bearer $DEPLOY_TOKEN" \
+            -H "Authorization: Bearer $TOKEN" \
             -H "Accept: application/vnd.github+json" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
             "$API" \
@@ -117,7 +81,7 @@ jobs:
       - name: Deploy to agm.github.io
         uses: peaceiris/actions-gh-pages@v4
         with:
-          personal_token: ${{ steps.token.outputs.value }}
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           external_repository: abx-git/agm.github.io
           publish_branch: main
           publish_dir: ./docs/assistant
