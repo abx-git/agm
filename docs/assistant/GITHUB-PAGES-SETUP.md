@@ -28,28 +28,65 @@ Save, wait 1–2 minutes.
 
 ### Generate a key pair (once)
 
+Use **RSA 4096** (compatible with the deploy path in CI):
+
 ```bash
-ssh-keygen -t ed25519 -C "agm-ci-deploy" -f agm-pages-deploy -N ""
+cd /tmp
+ssh-keygen -t rsa -b 4096 -C "agm-ci-deploy" -f agm-pages-deploy -N ""
+ls -l agm-pages-deploy agm-pages-deploy.pub
 ```
 
-Creates `agm-pages-deploy` (private) and `agm-pages-deploy.pub` (public). Do **not** commit either file.
+| File | Looks like | Where it goes |
+|------|-------------|---------------|
+| `agm-pages-deploy.pub` | **One line** starting with `ssh-rsa AAAA…` | Deploy key on **agm.github.io** |
+| `agm-pages-deploy` | Many lines `-----BEGIN … PRIVATE KEY-----` | Secret `ACTIONS_DEPLOY_KEY` on **agm** |
 
-### Public key → **agm.github.io**
+Do **not** commit either file.
+
+### Public key → **agm.github.io** (not agm)
+
+Show what to paste (must be exactly one line):
+
+```bash
+cat /tmp/agm-pages-deploy.pub
+# must start with: ssh-rsa
+# must NOT start with: -----BEGIN
+```
 
 1. Open **https://github.com/abx-git/agm.github.io/settings/keys**
-2. **Add deploy key**
+2. Remove any older CI deploy keys that no longer match
+3. **Add deploy key**
    - Title: `agm CI deploy`
-   - Key: contents of `agm-pages-deploy.pub`
+   - Key: paste the **single line** from `cat …pub` above (`ssh-rsa AAAA… agm-ci-deploy`)
    - Enable **Allow write access**
-3. Add key
+4. Add key
 
-### Private key → **agm** secret
+If GitHub says *“Key is invalid. You must supply a key in OpenSSH public key format”*, you pasted the **private** key (`BEGIN PRIVATE KEY`) or only part of the `.pub` line. Use only `agm-pages-deploy.pub`.
 
-1. Open **abx-git/agm** → **Settings** → **Secrets and variables** → **Actions**
-2. **New repository secret**
-   - Name: `ACTIONS_DEPLOY_KEY`
-   - Value: full contents of `agm-pages-deploy` (including `-----BEGIN … KEY-----` / `END` lines)
-3. Delete the local key files when done: `rm -f agm-pages-deploy agm-pages-deploy.pub`
+### Private key → **agm** secret (preserving newlines)
+
+Prefer the CLI so newlines survive (GitHub UI paste often breaks the key → `Permission denied (publickey)`):
+
+```bash
+# from a machine with gh auth to abx-git/agm:
+gh secret set ACTIONS_DEPLOY_KEY --repo abx-git/agm < /tmp/agm-pages-deploy
+```
+
+Or in the UI: **abx-git/agm** → Settings → Secrets → Actions → `ACTIONS_DEPLOY_KEY` = full private key file including `BEGIN`/`END` lines (the file **without** `.pub`).
+
+Then (only after both sides are saved):
+
+```bash
+rm -f /tmp/agm-pages-deploy /tmp/agm-pages-deploy.pub
+```
+
+### Verify fingerprints match
+
+```bash
+ssh-keygen -lf /tmp/agm-pages-deploy.pub   # before deleting; or from .pub still on disk
+```
+
+The workflow prints the fingerprint derived from the secret — it must match the Deploy Key fingerprint shown on **agm.github.io** → Settings → Deploy keys.
 
 ## 3. Run the deploy workflow
 
@@ -122,10 +159,11 @@ From **agm** repository root:
 
 | Problem | Fix |
 |---------|-----|
-| Missing `ACTIONS_DEPLOY_KEY` | Step 2 — add private key secret on **agm** |
-| 403 / denied to `abx-git` | Stop using org PAT for push; use deploy key (step 2) |
+| Missing `ACTIONS_DEPLOY_KEY` | Step 2 — set private key secret on **agm** |
+| `Permission denied (publickey)` | Key pair mismatch or broken newlines — regenerate RSA key, public on **agm.github.io**, set secret with `gh secret set … < file` |
+| Fingerprint in CI log ≠ Deploy key UI | Wrong public key on Pages repo, or secret is a different private key |
+| 403 / denied to `abx-git` | That was the old PAT path; use deploy key only for push |
 | Deploy key exists but push fails | Public key must have **Allow write access** on **agm.github.io** |
 | 404 on live URL | Enable Pages manually (step 1); wait 1–2 minutes after green deploy |
-| Wrong repo Settings | Deploy key + Pages config are on **agm.github.io**; secret is on **agm** |
-| Old PAT secrets only | Add `ACTIONS_DEPLOY_KEY`; PAT alone is no longer enough for CI push |
-| Old repo `agm.github.io` | Deprecated; use **[abx-git/agm.github.io](https://github.com/abx-git/agm.github.io)** |
+| Wrong repo Settings | Deploy key + Pages = **agm.github.io**; secret = **agm** |
+| Old PAT secrets only | PAT alone cannot replace `ACTIONS_DEPLOY_KEY` for CI push |

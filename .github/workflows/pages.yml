@@ -24,14 +24,63 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Require deploy key
+      - name: Prepare deploy key + SSH preflight
+        id: ssh
         env:
           ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
         run: |
+          set -euo pipefail
           if [ -z "${ACTIONS_DEPLOY_KEY:-}" ]; then
-            echo "::error::Add repo secret ACTIONS_DEPLOY_KEY (private SSH key whose public key is a write deploy key on abx-git/agm.github.io). See docs/assistant/GITHUB-PAGES-SETUP.md"
+            echo "::error::Missing secret ACTIONS_DEPLOY_KEY on abx-git/agm. See docs/assistant/GITHUB-PAGES-SETUP.md"
             exit 1
           fi
+
+          python3 <<'PY'
+          import os
+          from pathlib import Path
+
+          raw = os.environ["ACTIONS_DEPLOY_KEY"].strip()
+          # GitHub UI / some tools store real newlines as the two-char sequence \n
+          if "BEGIN" in raw and raw.count("\n") < 3 and "\\n" in raw:
+              raw = raw.replace("\\n", "\n")
+          raw = raw.replace("\r\n", "\n").replace("\r", "\n").strip() + "\n"
+          if "BEGIN" not in raw or "PRIVATE KEY" not in raw:
+              raise SystemExit(
+                  "::error::ACTIONS_DEPLOY_KEY does not look like a private key "
+                  "(expected -----BEGIN … PRIVATE KEY-----). You pasted the .pub file, or the secret is truncated."
+              )
+          path = Path(os.environ["RUNNER_TEMP"]) / "agm_pages_deploy_key"
+          path.write_text(raw)
+          path.chmod(0o600)
+          print(f"Wrote deploy key ({path.stat().st_size} bytes)")
+          PY
+
+          KEY="${RUNNER_TEMP}/agm_pages_deploy_key"
+          echo "DEPLOY_KEY_PATH=$KEY" >> "$GITHUB_ENV"
+
+          echo "Public key derived from secret (must match Deploy Key on agm.github.io):"
+          ssh-keygen -y -f "$KEY" | tee "${RUNNER_TEMP}/agm_pages_deploy_key.pub"
+          echo "Fingerprint:"
+          ssh-keygen -lf "${RUNNER_TEMP}/agm_pages_deploy_key.pub"
+
+          eval "$(ssh-agent -s)"
+          ssh-add "$KEY"
+          mkdir -p ~/.ssh
+          ssh-keyscan -t rsa,ed25519 github.com >> ~/.ssh/known_hosts 2>/dev/null
+
+          set +e
+          SSH_OUT=$(ssh -o BatchMode=yes -o StrictHostKeyChecking=yes -T git@github.com 2>&1)
+          SSH_RC=$?
+          set -e
+          echo "$SSH_OUT"
+          # GitHub returns exit 1 even on success ("successfully authenticated")
+          if ! echo "$SSH_OUT" | grep -qi "successfully authenticated"; then
+            echo "::error::SSH to github.com failed (publickey). Recreate key pair; public key → Deploy keys on abx-git/agm.github.io (Allow write access); private key → ACTIONS_DEPLOY_KEY on agm via: gh secret set ACTIONS_DEPLOY_KEY < private-key-file"
+            exit 1
+          fi
+
+          git ls-remote git@github.com:abx-git/agm.github.io.git HEAD
+          echo "SSH preflight OK."
 
       - name: Ensure GitHub Pages is enabled on agm.github.io
         env:
@@ -41,7 +90,7 @@ jobs:
           set -euo pipefail
           TOKEN="${AGM_GHIO_DEPLOY:-${BLUEPRINT_PATTERN_GHIO_DEPLOY:-}}"
           if [ -z "$TOKEN" ]; then
-            echo "::notice::No AGM_GHIO_DEPLOY secret — skipping Pages API enable. Ensure Pages is on for agm.github.io (main / /)."
+            echo "::notice::No AGM_GHIO_DEPLOY — skipping Pages API. Ensure Pages is on (main / /)."
             exit 0
           fi
           echo "::add-mask::$TOKEN"
@@ -57,7 +106,7 @@ jobs:
             exit 0
           fi
           if [ "$STATUS" = "401" ] || [ "$STATUS" = "403" ]; then
-            echo "::warning::Pages API auth failed (HTTP $STATUS). Deploy continues via deploy key; enable Pages manually if needed."
+            echo "::warning::Pages API auth failed (HTTP $STATUS). Enable Pages manually if needed."
             cat /tmp/pages.json || true
             exit 0
           fi
@@ -66,7 +115,6 @@ jobs:
             cat /tmp/pages.json
             exit 1
           fi
-          echo "Enabling GitHub Pages (branch main, /)…"
           curl -fsSL -X POST \
             -H "Authorization: Bearer $TOKEN" \
             -H "Accept: application/vnd.github+json" \
@@ -78,12 +126,34 @@ jobs:
       - name: Sync workflow prompts into assistant data
         run: python3 scripts/sync-assistant-data.py
 
-      - name: Deploy to agm.github.io
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-          external_repository: abx-git/agm.github.io
-          publish_branch: main
-          publish_dir: ./docs/assistant
-          keep_files: true
-          commit_message: 'Deploy Blueprint Assistant from agm@'
+      - name: Deploy docs/assistant to agm.github.io
+        run: |
+          set -euo pipefail
+          KEY="${DEPLOY_KEY_PATH}"
+          eval "$(ssh-agent -s)"
+          ssh-add "$KEY"
+          export GIT_SSH_COMMAND="ssh -i $KEY -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes"
+
+          SITE="${RUNNER_TEMP}/agm.github.io"
+          rm -rf "$SITE"
+          git clone --depth 1 git@github.com:abx-git/agm.github.io.git "$SITE"
+
+          # keep_files=true: copy over, do not delete unrelated files in the Pages repo
+          rsync -a \
+            --exclude '.git' \
+            --exclude '.github' \
+            docs/assistant/ "$SITE/"
+
+          touch "$SITE/.nojekyll"
+
+          cd "$SITE"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No content changes — nothing to push."
+            exit 0
+          fi
+          git commit -m "Deploy Blueprint Assistant from agm@${GITHUB_SHA:0:7}"
+          git push origin main
+          echo "Deployed. https://abx-git.github.io/agm.github.io/"
