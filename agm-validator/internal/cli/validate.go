@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/abx-git/blueprint-pattern/agm-validator/internal/report"
-	"github.com/abx-git/blueprint-pattern/agm-validator/internal/validate"
+	"github.com/abx-git/agm/agm-validator/internal/report"
+	"github.com/abx-git/agm/agm-validator/internal/validate"
 )
 
 func runValidate(args []string) error {

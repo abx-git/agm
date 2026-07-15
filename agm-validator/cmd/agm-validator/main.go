@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/abx-git/blueprint-pattern/agm-validator/internal/cli"
+	"github.com/abx-git/agm/agm-validator/internal/cli"
 )
 
 func main() {

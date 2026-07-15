@@ -12,10 +12,10 @@ From the application repository root, install the scaffold **before** the first 
 npx @abx-hh/agm-cli scaffold --project "Order Service" --template arc42 --ai-tool cursor
 ```
 
-**Assistant UI / curl (requires public blueprint-pattern raw GitHub):**
+**Assistant UI / curl (requires public agm raw GitHub):**
 
 ```bash
-./bp-install.sh --project "Order Service" --doc-root docs/architecture/ --template arc42 --ai-tool cursor
+./agm-install.sh --project "Order Service" --doc-root docs/architecture/ --template arc42 --ai-tool cursor
 ```
 
 Both install:
@@ -75,4 +75,4 @@ See [system-prompt.md](../../prompts/core/system-prompt.md) in the pattern repos
 
 ## Appendix B — Role prompt shape
 
-Each `${docRoot}/prompts/role-*.md` file uses: `[SA:ROLE]`, `[SA:INPUTS]`, `[SA:STEPS]`, `[SA:QUALITY_GATES]`, `[SA:OUTPUT_CONTRACT]`, `[SA:STOP]`. Installed from `docs/templates/architecture/prompts/` by `bp-install.sh`.
+Each `${docRoot}/prompts/role-*.md` file uses: `[SA:ROLE]`, `[SA:INPUTS]`, `[SA:STEPS]`, `[SA:QUALITY_GATES]`, `[SA:OUTPUT_CONTRACT]`, `[SA:STOP]`. Installed from `docs/templates/architecture/prompts/` by `agm-install.sh`.

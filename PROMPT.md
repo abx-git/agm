@@ -16,4 +16,4 @@ Architecture artifacts follow OKF metadata conventions:
 - `index.md` and `log.md` at each structure level support progressive disclosure and change tracking.
 - Relative Markdown links remain the knowledge graph.
 
-Core invariants: [prompts/core/system-prompt.md](./prompts/core/system-prompt.md) · Cursor rules: [.cursor/rules/blueprint-pattern.mdc](./.cursor/rules/blueprint-pattern.mdc)
+Core invariants: [prompts/core/system-prompt.md](./prompts/core/system-prompt.md) · Cursor rules: [.cursor/rules/agm.mdc](./.cursor/rules/agm.mdc)

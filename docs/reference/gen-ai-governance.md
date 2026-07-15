@@ -54,7 +54,7 @@ Most tooling lets you open a blank chat. Without a task boundary, the model defa
 
 | Problem | Pattern response | Status | Org. | Organizational measures |
 |---------|------------------|--------|------|-------------------------|
-| **Forgotten session start** | `ACTIVE.md`; `bp-workflow.sh checkout` | Mitigated | Yes | Ticket checklist; commit ACTIVE on shared tasks |
+| **Forgotten session start** | `ACTIVE.md`; `agm-workflow.sh checkout` | Mitigated | Yes | Ticket checklist; commit ACTIVE on shared tasks |
 | **Mixed write + review** | Review workflows report-only; `role-review.md` STOP | Mitigated | Yes | Separate review ticket type; no “fix findings” in review chat |
 | **Wrong operation** | Distinct workflow IDs per operation | Mitigated | Yes | Ticket labels and training on quick start table |
 | **Parallel agents** | Documented sequential sessions per Blueprint | Awareness | Yes | One doc agent per app; branch per doc effort |
@@ -127,7 +127,7 @@ Mechanical checks catch **broken links** early. They do not catch **wrong archit
 | **CI does not validate truth** | Link check only by default | Awareness | No* | Fund audits and spec drift jobs (*contain*) |
 | **Tool-specific behavior** | Tool mapping in base context setup | Partial | Partial | Standardize primary agent tool per team where possible |
 | **Model version drift** | Version-agnostic Markdown process | Awareness | No | Regression playbook after provider upgrade |
-| **Vendor pattern repo stale** | Submodule / vendor copy of pattern | Awareness | Partial | Quarterly pin review of blueprint-pattern version |
+| **Vendor pattern repo stale** | Submodule / vendor copy of pattern | Awareness | Partial | Quarterly pin review of agm version |
 | **Secrets in prompts** | Not addressed in pattern | Awareness | Yes | DLP policy; redacted diffs for maintenance |
 
 **In practice — CI:** Enabling link check is Org. **Yes** and high leverage. Expecting CI to replace architects is Org. **No** — add human and semantic tooling on top.
@@ -198,7 +198,7 @@ These items belong in risk registers and executive briefings, not in sales claim
 | Mechanism | Primary problems targeted | Org. dependency |
 |-----------|---------------------------|-----------------|
 | `always-on.md` | Cold start, forgotten session context | Owner maintains it when the system changes |
-| Roles + workflows | Wrong behavior mix, scope creep | `bp-workflow.sh checkout` per session |
+| Roles + workflows | Wrong behavior mix, scope creep | `agm-workflow.sh checkout` per session |
 | Compaction | Context rot, long sessions | New chat when thresholds hit |
 | Review (fresh chat) | Self-review bias, unchecked claims | Review scheduled like code review |
 | `ops/` | Ops knowledge trapped in chat / tickets | Incident process writes to `ops/` |

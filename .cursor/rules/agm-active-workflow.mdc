@@ -4,4 +4,4 @@ alwaysApply: false
 ---
 
 Select a workflow: see [docs/guide.md](../../docs/guide.md).
-Run `./scripts/bp-workflow.sh checkout <id>`.
+Run `./scripts/agm-workflow.sh checkout <id>`.

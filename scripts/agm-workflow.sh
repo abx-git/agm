@@ -5,7 +5,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 WORKFLOWS_DIR="$ROOT/prompts/workflows"
 ACTIVE_FILE="$WORKFLOWS_DIR/ACTIVE.md"
-RULES_FILE="$ROOT/.cursor/rules/blueprint-active-workflow.mdc"
+RULES_FILE="$ROOT/.cursor/rules/agm-active-workflow.mdc"
 
 list_workflows() {
   find "$WORKFLOWS_DIR" -maxdepth 1 -name '*.md' -type f \
@@ -20,7 +20,7 @@ Usage: $(basename "$0") <command> [workflow-id]
 
 Commands:
   list              List workflow IDs
-  checkout <id>     Set ACTIVE.md and blueprint-active-workflow.mdc
+  checkout <id>     Set ACTIVE.md and agm-active-workflow.mdc
   show              Print active workflow id (if detectable)
   clear             Reset to stub ACTIVE (no workflow)
 
@@ -50,7 +50,7 @@ alwaysApply: true
 Follow the session prompt in [prompts/workflows/ACTIVE.md](../../prompts/workflows/ACTIVE.md).
 
 Core behavior: [prompts/core/system-prompt.md](../../prompts/core/system-prompt.md)  
-Governance: [blueprint-context.mdc](./blueprint-context.mdc)
+Governance: [agm-context.mdc](./agm-context.mdc)
 
 Do not switch workflow mid-session unless the human requests it.
 EOF
@@ -76,7 +76,7 @@ write_active_from_workflow() {
   cat >"$ACTIVE_FILE" <<EOF
 # Active workflow: ${id}
 
-> Set by \`scripts/bp-workflow.sh checkout ${id}\`. Source: [${id}.md](./${id}.md)
+> Set by \`scripts/agm-workflow.sh checkout ${id}\`. Source: [${id}.md](./${id}.md)
 
 \`\`\`
 ${body}
@@ -95,7 +95,7 @@ clear_active() {
 
 No workflow is active.
 
-Run: `./scripts/bp-workflow.sh checkout <workflow-id>`
+Run: `./scripts/agm-workflow.sh checkout <workflow-id>`
 EOF
 
   cat >"$RULES_FILE" <<'EOF'
@@ -105,7 +105,7 @@ alwaysApply: false
 ---
 
 Select a workflow: see [docs/guide.md](../../docs/guide.md).
-Run `./scripts/bp-workflow.sh checkout <id>`.
+Run `./scripts/agm-workflow.sh checkout <id>`.
 EOF
 
   echo "Cleared active workflow."

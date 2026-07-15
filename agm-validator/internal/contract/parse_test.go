@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/abx-git/blueprint-pattern/agm-validator/internal/git"
+	"github.com/abx-git/agm/agm-validator/internal/git"
 )
 
 func TestParseExportsFile_SectionFormat(t *testing.T) {

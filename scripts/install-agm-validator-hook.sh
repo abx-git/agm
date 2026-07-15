@@ -21,7 +21,7 @@ VALIDATOR_ABS="$(command -v "$VALIDATOR")"
 
 cat >"$HOOK" <<EOF
 #!/bin/sh
-# Installed by blueprint-pattern/scripts/install-agm-validator-hook.sh
+# Installed by agm/scripts/install-agm-validator-hook.sh
 exec "$VALIDATOR_ABS" validate --repo "\$(git rev-parse --show-toplevel)" --staged
 EOF
 

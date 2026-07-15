@@ -2,7 +2,7 @@
 
 Public integration surface for the **AGM-Validator** commercial enforcement engine.
 The method (Markdown graph, templates, workflows) stays open; the validator ships as a
-compiled binary with a proprietary license — see [agm-validator/LICENSE](https://github.com/abx-git/blueprint-pattern/blob/main/agm-validator/LICENSE).
+compiled binary with a proprietary license — see [agm-validator/LICENSE](https://github.com/abx-git/agm/blob/main/agm-validator/LICENSE).
 
 ## What it does
 
@@ -28,7 +28,7 @@ Development build (maintainers with Go 1.22+):
 
 ```bash
 cd agm-validator
-go build -ldflags "-X github.com/abx-git/blueprint-pattern/agm-validator/internal/cli.Version=0.1.0" \
+go build -ldflags "-X github.com/abx-git/agm/agm-validator/internal/cli.Version=0.1.0" \
   -o agm-validator ./cmd/agm-validator
 ```
 

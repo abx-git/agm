@@ -4,7 +4,7 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 DIR="$ROOT/docs/assistant"
-PORT="${BP_ASSISTANT_PORT:-8765}"
+PORT="${AGM_ASSISTANT_PORT:-8765}"
 
 if ! command -v python3 >/dev/null 2>&1; then
   echo "python3 is required to serve docs/assistant (browser blocks file:// fetch)." >&2

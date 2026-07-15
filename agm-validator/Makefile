@@ -1,5 +1,5 @@
 VERSION ?= 0.1.0
-MODULE  := github.com/abx-git/blueprint-pattern/agm-validator/internal/cli
+MODULE  := github.com/abx-git/agm/agm-validator/internal/cli
 LDFLAGS := -s -w -X $(MODULE).Version=$(VERSION)
 OUT     := dist
 BINARY  := agm-validator

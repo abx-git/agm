@@ -28,15 +28,15 @@ jobs:
         id: token
         env:
           AGM_GHIO_DEPLOY: ${{ secrets.AGM_GHIO_DEPLOY }}
-          BLUEPRINT_PATTERN_GHIO_DEPLOY: ${{ secrets.BLUEPRINT_PATTERN_GHIO_DEPLOY }}
+          AGM_GHIO_DEPLOY: ${{ secrets.AGM_GHIO_DEPLOY }}
         run: |
           if [ -n "$AGM_GHIO_DEPLOY" ]; then
             echo "::add-mask::$AGM_GHIO_DEPLOY"
             echo "value=$AGM_GHIO_DEPLOY" >> "$GITHUB_OUTPUT"
-          elif [ -n "$BLUEPRINT_PATTERN_GHIO_DEPLOY" ]; then
-            echo "::warning::Using deprecated secret BLUEPRINT_PATTERN_GHIO_DEPLOY — rename to AGM_GHIO_DEPLOY when convenient"
-            echo "::add-mask::$BLUEPRINT_PATTERN_GHIO_DEPLOY"
-            echo "value=$BLUEPRINT_PATTERN_GHIO_DEPLOY" >> "$GITHUB_OUTPUT"
+          elif [ -n "$AGM_GHIO_DEPLOY" ]; then
+            echo "::warning::Using deprecated secret AGM_GHIO_DEPLOY — rename to AGM_GHIO_DEPLOY when convenient"
+            echo "::add-mask::$AGM_GHIO_DEPLOY"
+            echo "value=$AGM_GHIO_DEPLOY" >> "$GITHUB_OUTPUT"
           else
             echo "::error::Add repo secret AGM_GHIO_DEPLOY (PAT with Contents + Administration write on abx-git/agm.github.io). See docs/assistant/GITHUB-PAGES-SETUP.md"
             exit 1
@@ -83,4 +83,4 @@ jobs:
           publish_branch: main
           publish_dir: ./docs/assistant
           keep_files: true
-          commit_message: 'Deploy Blueprint Assistant from blueprint-pattern@'
+          commit_message: 'Deploy Blueprint Assistant from agm@'

@@ -1,6 +1,6 @@
 # AGM-Validator (proprietary)
 
-Deterministic architecture enforcement for the [Architecture Graph Method](https://github.com/abx-git/blueprint-pattern).
+Deterministic architecture enforcement for the [Architecture Graph Method](https://github.com/abx-git/agm).
 **Commercial component** — see [LICENSE](./LICENSE). Public integration guide: [docs/reference/agm-validator.md](../docs/reference/agm-validator.md).
 
 ## One binary, two modes

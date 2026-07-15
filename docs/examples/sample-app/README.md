@@ -34,7 +34,7 @@ Workflows: [architecture-work-query](../../../prompts/workflows/architecture-wor
 Use the [core system prompt](../../../prompts/core/system-prompt.md). Activate a workflow, e.g.:
 
 ```bash
-./scripts/bp-workflow.sh checkout maintenance
+./scripts/agm-workflow.sh checkout maintenance
 ```
 
 Or open [maintenance.md](../../../prompts/workflows/maintenance.md) and paste the session block.

@@ -3,7 +3,9 @@ import { join, resolve } from 'node:path';
 import type { AgmConfig, TemplateId } from '../types.js';
 
 const CONFIG_FILE = '.agm/config.json';
-const META_FILE = '.bp-install-meta';
+const META_FILE = '.agm-install-meta';
+/** @deprecated Pre-rename install marker; still detected for existing app repos. */
+const LEGACY_META_FILE = '.bp-install-meta';
 
 export function normDocRoot(raw: string): string {
   let r = String(raw || 'docs/architecture/').trim();
@@ -45,10 +47,18 @@ function parseMeta(content: string): Partial<AgmConfig> {
   return out;
 }
 
+function resolveMetaPath(root: string): string | null {
+  const primary = join(root, META_FILE);
+  if (existsSync(primary)) return primary;
+  const legacy = join(root, LEGACY_META_FILE);
+  if (existsSync(legacy)) return legacy;
+  return null;
+}
+
 export function findProjectRoot(startDir = process.cwd()): string {
   let dir = resolve(startDir);
   for (;;) {
-    if (existsSync(join(dir, CONFIG_FILE)) || existsSync(join(dir, META_FILE))) {
+    if (existsSync(join(dir, CONFIG_FILE)) || resolveMetaPath(dir)) {
       return dir;
     }
     const parent = resolve(dir, '..');
@@ -66,8 +76,8 @@ export function loadConfig(cwd = process.cwd()): AgmConfig {
     return { ...raw, docRoot: normDocRoot(raw.docRoot) };
   }
 
-  const metaPath = join(root, META_FILE);
-  if (existsSync(metaPath)) {
+  const metaPath = resolveMetaPath(root);
+  if (metaPath) {
     const meta = parseMeta(readFileSync(metaPath, 'utf8'));
     return {
       appName: meta.appName || 'My Application',

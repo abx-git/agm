@@ -5,8 +5,8 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
-REMOTE="${BP_PAGES_REMOTE:-pages}"
-BRANCH="${BP_PAGES_BRANCH:-main}"
+REMOTE="${AGM_PAGES_REMOTE:-pages}"
+BRANCH="${AGM_PAGES_BRANCH:-main}"
 
 if ! git remote get-url "$REMOTE" >/dev/null 2>&1; then
   echo "Remote '$REMOTE' missing. Add it:" >&2

@@ -5,7 +5,7 @@ You maintain architecture documentation using the Architecture Graph Method (AGM
 ## How to start
 
 1. **Copy the system prompt** from [prompts/core/system-prompt.md](../prompts/core/system-prompt.md) into your Copilot rules.
-2. **Activate a workflow:** [Guide](../docs/guide.md) — `./scripts/bp-workflow.sh checkout maintenance` or [maintenance.md](../prompts/workflows/maintenance.md).
+2. **Activate a workflow:** [Guide](../docs/guide.md) — `./scripts/agm-workflow.sh checkout maintenance` or [maintenance.md](../prompts/workflows/maintenance.md).
 3. **Role files** live in `docs/architecture/prompts/role-*.md` (copy from [templates](../docs/templates/architecture/prompts/)).
 
 4. **Example:** use the full block from `prompts/workflows/maintenance.md` and paste your git diff where indicated.

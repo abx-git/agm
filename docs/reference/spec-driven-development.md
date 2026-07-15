@@ -31,7 +31,7 @@ Both can drive implementation. They differ in **where the spec lives**, **how ta
 |--------|------------------|-----|
 | [README](../../README.md), [quickstart](../quickstart.md) | Build graph, sync on `git diff`, Verify | Implementation path not on golden path |
 | [system-prompt](../../prompts/core/system-prompt.md) | “Architecture scribe”, maintain documentation | “Scribe” ≠ “docs only”; graph is the spec API |
-| [Architect article §5–7](../article/blueprint-pattern-for-architects.md) | Agent writes docs; human decides | Design WRK → code → maintenance is valid but implicit |
+| [Architect article §5–7](../article/agm-for-architects.md) | Agent writes docs; human decides | Design WRK → code → maintenance is valid but implicit |
 | [gen-ai-challenges](../gen-ai-challenges.md) | Session discipline, graph integrity | “Spec vs code” mentioned for CI, not SDD comparison |
 
 This reference closes that gap. Adopters who implement via AGM should treat **`work/` + graph** as their spec layer, not a separate tool.
@@ -151,7 +151,7 @@ Example design with implementation recommendations: [payment circuit breaker WRK
 | Document | Purpose |
 |----------|---------|
 | [quickstart.md](../quickstart.md) | Golden path + human responsibilities |
-| [article/blueprint-pattern-for-architects.md §7](../article/blueprint-pattern-for-architects.md) | Comparison with RAG and related approaches |
+| [article/agm-for-architects.md §7](../article/agm-for-architects.md) | Comparison with RAG and related approaches |
 | [extended-workflows.md](./extended-workflows.md) | `architecture-work-*` catalog |
 | [blueprint-format.md](./blueprint-format.md) | WRK register schema |
 | [maintenance-pipeline.md](./maintenance-pipeline.md) | Post-implementation sync |

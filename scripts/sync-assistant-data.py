@@ -49,7 +49,7 @@ def parse_steps(prompt: str) -> list[str]:
         return steps
 
     body: list[str] = []
-    skip_prefixes = ("AGM", "Blueprint Pattern", "Workflow:", "Role:", "Output ")
+    skip_prefixes = ("AGM", "Architecture Graph Method", "Workflow:", "Role:", "Output ")
     for line in prompt.splitlines():
         stripped = line.strip()
         if not stripped:

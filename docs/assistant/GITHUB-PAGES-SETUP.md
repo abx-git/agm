@@ -26,21 +26,21 @@ Save, wait 1–2 minutes.
 
 > If you only see **Verified domains**, you are on organization account settings or lack admin rights — use the repo link above.
 
-## 2. Add deploy secret on blueprint-pattern (this repo)
+## 2. Add deploy secret on agm (this repo)
 
-The workflow pushes from **blueprint-pattern** into **agm.github.io** using a Personal Access Token.
+The workflow pushes from **agm** into **agm.github.io** using a Personal Access Token.
 
 1. GitHub → **Settings** → **Developer settings** → **Personal access tokens** (fine-grained or classic).
 2. Create a token with **Contents: Read and write** and **Administration: Read and write** on repository `abx-git/agm.github.io` (classic: `repo` scope).
-3. In **abx-git/blueprint-pattern** → **Settings** → **Secrets and variables** → **Actions** → **New repository secret**:
+3. In **abx-git/agm** → **Settings** → **Secrets and variables** → **Actions** → **New repository secret**:
    - Name: `AGM_GHIO_DEPLOY`
    - Value: the token
 
-   > **Migration:** If you still have `BLUEPRINT_PATTERN_GHIO_DEPLOY`, the deploy workflow accepts it as fallback until you rename the secret.
+   > **Migration:** If you still have `AGM_GHIO_DEPLOY`, the deploy workflow accepts it as fallback until you rename the secret.
 
 ## 3. Run the deploy workflow
 
-In **abx-git/blueprint-pattern**:
+In **abx-git/agm**:
 
 **Actions** → **Deploy Blueprint Assistant (GitHub Pages)** → **Run workflow** (branch `main`).
 
@@ -56,10 +56,10 @@ This clone should have **two** remotes:
 
 | Remote | Repository |
 |--------|------------|
-| `origin` | `abx-git/blueprint-pattern` (source, CI, docs) |
+| `origin` | `abx-git/agm` (source, CI, docs) |
 | `pages` | `abx-git/agm.github.io` (GitHub Pages site) |
 
-One-time setup from **blueprint-pattern** root:
+One-time setup from **agm** root:
 
 ```bash
 git remote add pages https://github.com/abx-git/agm.github.io.git
@@ -85,7 +85,7 @@ This syncs `workflows.json`, splits `docs/assistant/` with `git subtree`, and pu
 
 ## Local preview (no token needed)
 
-From **blueprint-pattern** repository root:
+From **agm** repository root:
 
 ```bash
 ./scripts/open-assistant.sh
@@ -98,6 +98,6 @@ From **blueprint-pattern** repository root:
 | Workflow fails: missing secret | Step 2 above |
 | 404 on URL | Deploy workflow green; PAT needs **Administration** (or enable Pages manually, step 1) |
 | Pages API step fails (403) | Recreate PAT with **Administration: Read and write** on `agm.github.io` |
-| Wrong repo Settings | Pages config is on **agm.github.io**, not blueprint-pattern |
-| Old secret `BLUEPRINT_PATTERN_GHIO_DEPLOY` | Rename or recreate as **`AGM_GHIO_DEPLOY`** (step 2) |
-| Old repo `blueprint-pattern.github.io` | Deprecated; use **[abx-git/agm.github.io](https://github.com/abx-git/agm.github.io)** |
+| Wrong repo Settings | Pages config is on **agm.github.io**, not agm |
+| Old secret `AGM_GHIO_DEPLOY` | Rename or recreate as **`AGM_GHIO_DEPLOY`** (step 2) |
+| Old repo `agm.github.io` | Deprecated; use **[abx-git/agm.github.io](https://github.com/abx-git/agm.github.io)** |

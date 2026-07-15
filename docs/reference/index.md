@@ -2,7 +2,7 @@
 
 Lookup docs for practitioners and agents. **Adopters:** start with [quickstart.md](../quickstart.md).
 
-Installed application repos receive copies of procedure files under `prompts/reference/` (from here via `bp-install.sh`).
+Installed application repos receive copies of procedure files under `prompts/reference/` (from here via `agm-install.sh`).
 
 ---
 
@@ -10,7 +10,7 @@ Installed application repos receive copies of procedure files under `prompts/ref
 
 | Document | Purpose |
 |----------|---------|
-| [install.md](./install.md) | `bp-install.sh` vs `agm init` |
+| [install.md](./install.md) | `agm-install.sh` vs `agm init` |
 | [agm-mcp-install.md](./agm-mcp-install.md) | Public MCP server (`npx @abx-hh/agm-cli`) |
 | [adopt-procedure.md](./adopt-procedure.md) | Adoption phases A–C (agent) |
 | [base-context-setup.md](./base-context-setup.md) | IDE rules and install layout |

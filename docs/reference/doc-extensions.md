@@ -1,6 +1,6 @@
 # Architecture documentation areas
 
-Human-selectable categories for **architecture content** in the Assistant (multi-select). IDs pass as `DOC_FOCUS` to `bp-install.sh` and into adoption / Evolve prompts.
+Human-selectable categories for **architecture content** in the Assistant (multi-select). IDs pass as `DOC_FOCUS` to `agm-install.sh` and into adoption / Evolve prompts.
 
 ## Agent-maintained graph (never selectable)
 

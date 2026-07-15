@@ -1,7 +1,7 @@
 package cli
 
 import (
-	"github.com/abx-git/blueprint-pattern/agm-validator/internal/mcp"
+	"github.com/abx-git/agm/agm-validator/internal/mcp"
 )
 
 func runMCP(args []string) error {

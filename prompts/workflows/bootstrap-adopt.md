@@ -16,7 +16,7 @@ AGM — Build · Adopt
 Workflow: bootstrap-adopt
 Role: bootstrap
 
-Adopt the Architecture Graph Method (AGM) into this application repository. The human has run `agm scaffold` or `bp-install.sh`. Execute Phase B–C in prompts/reference/adopt-procedure.md only.
+Adopt the Architecture Graph Method (AGM) into this application repository. The human has run `agm scaffold` or `agm-install.sh`. Execute Phase B–C in prompts/reference/adopt-procedure.md only.
 
 Prerequisites: application repository open in the IDE; install script completed; human available for a short interview.
 

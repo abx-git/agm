@@ -8,7 +8,7 @@ Ship to users via **public npm** and/or a **public GitHub mirror** `abx-git/agm`
 | Artifact | Visibility | Contents |
 |----------|------------|----------|
 | `@abx-hh/agm-cli` on npm | **Public** | MCP, CLI, catalog, compressed prompts, **`scaffold/` install bundle** |
-| `blueprint-pattern` monorepo | **Private** | Plaintext prompts, full procedure docs, `workflows-starter-prompts.json`, split scripts |
+| `agm` monorepo | **Private** | Plaintext prompts, full procedure docs, `workflows-starter-prompts.json`, split scripts |
 | Full prompt pack | **Licensed / private channel** | `workflows-prompts-compressed.json` or plaintext JSON |
 
 Plaintext session prompts are **never** published. Agents receive [LLMLingua-2](https://huggingface.co/spaces/microsoft/llmlingua-2) compressed instructions that models parse directly.
@@ -86,7 +86,7 @@ Copy from `agm/mcp-install.json`:
 }
 ```
 
-Open an **application repository** with `.agm/config.json` (from `agm init` or `bp-install.sh`).
+Open an **application repository** with `.agm/config.json` (from `agm init` or `agm-install.sh`).
 
 ## Full catalog for licensed users
 

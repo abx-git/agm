@@ -6,9 +6,9 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/abx-git/blueprint-pattern/agm-validator/internal/contract"
-	"github.com/abx-git/blueprint-pattern/agm-validator/internal/git"
-	"github.com/abx-git/blueprint-pattern/agm-validator/internal/report"
+	"github.com/abx-git/agm/agm-validator/internal/contract"
+	"github.com/abx-git/agm/agm-validator/internal/git"
+	"github.com/abx-git/agm/agm-validator/internal/report"
 )
 
 const DefaultArchRoot = "docs/architecture"

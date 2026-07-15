@@ -13,7 +13,7 @@ Refs are passed through to `git diff` / MCP unchanged. Use full SHAs in CI when 
 
 ## Render prompt (shell)
 
-From the application repository root after `bp-install.sh`:
+From the application repository root after `agm-install.sh`:
 
 ```bash
 DIFF_FROM="${DIFF_FROM:-origin/main}"
@@ -23,10 +23,10 @@ DIFF_TO="${DIFF_TO:-HEAD}"
   --from "$DIFF_FROM" \
   --to "$DIFF_TO" \
   --doc-root docs/architecture/ \
-  > /tmp/bp-maintenance-prompt.txt
+  > /tmp/agm-maintenance-prompt.txt
 ```
 
-Feed `/tmp/bp-maintenance-prompt.txt` to your agent step (Cursor CLI, API, or manual chat).
+Feed `/tmp/agm-maintenance-prompt.txt` to your agent step (Cursor CLI, API, or manual chat).
 
 ## GitHub Actions (example)
 
@@ -41,9 +41,9 @@ jobs:
 
       - name: Install AGM prompts
         run: |
-          curl -fsSL https://raw.githubusercontent.com/abx-git/blueprint-pattern/main/scripts/bp-install.sh -o /tmp/bp-install.sh
-          chmod +x /tmp/bp-install.sh
-          /tmp/bp-install.sh --project "${{ github.repository }}" --template arc42 --ai-tool generic
+          curl -fsSL https://raw.githubusercontent.com/abx-git/agm/main/scripts/agm-install.sh -o /tmp/agm-install.sh
+          chmod +x /tmp/agm-install.sh
+          /tmp/agm-install.sh --project "${{ github.repository }}" --template arc42 --ai-tool generic
 
       - name: Render maintenance prompt
         env:
