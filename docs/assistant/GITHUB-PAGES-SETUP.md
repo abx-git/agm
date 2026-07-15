@@ -36,7 +36,7 @@ The workflow pushes from **agm** into **agm.github.io** using a Personal Access 
    - Name: `AGM_GHIO_DEPLOY`
    - Value: the token
 
-   > **Migration:** If you still have `AGM_GHIO_DEPLOY`, the deploy workflow accepts it as fallback until you rename the secret.
+   > **Migration:** If you still have `BLUEPRINT_PATTERN_GHIO_DEPLOY`, the deploy workflow accepts it as fallback until you rename the secret to `AGM_GHIO_DEPLOY`.
 
 ## 3. Run the deploy workflow
 
@@ -99,5 +99,5 @@ From **agm** repository root:
 | 404 on URL | Deploy workflow green; PAT needs **Administration** (or enable Pages manually, step 1) |
 | Pages API step fails (403) | Recreate PAT with **Administration: Read and write** on `agm.github.io` |
 | Wrong repo Settings | Pages config is on **agm.github.io**, not agm |
-| Old secret `AGM_GHIO_DEPLOY` | Rename or recreate as **`AGM_GHIO_DEPLOY`** (step 2) |
+| Old secret `BLUEPRINT_PATTERN_GHIO_DEPLOY` | Rename or recreate as **`AGM_GHIO_DEPLOY`** (step 2) |
 | Old repo `agm.github.io` | Deprecated; use **[abx-git/agm.github.io](https://github.com/abx-git/agm.github.io)** |
