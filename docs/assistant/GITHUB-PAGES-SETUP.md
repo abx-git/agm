@@ -31,8 +31,11 @@ Save, wait 1–2 minutes.
 The workflow pushes from **agm** into **agm.github.io** using a Personal Access Token.
 
 1. GitHub → **Settings** → **Developer settings** → **Personal access tokens** (fine-grained or classic).
-2. Create a token with **Contents: Read and write** and **Administration: Read and write** on repository `abx-git/agm.github.io` (classic: `repo` scope).
-3. In **abx-git/agm** → **Settings** → **Secrets and variables** → **Actions** → **New repository secret**:
+2. Create a token for repository `abx-git/agm.github.io`:
+   - **Fine-grained:** **Contents: Read and write** (required for git push) **and** **Administration: Read and write** (Pages API). Metadata: Read is automatic.
+   - **Classic:** scope `repo`.
+3. If `abx-git` uses SAML SSO: open the token → **Configure SSO** → **Authorize** for the org (otherwise git fails with exit 128).
+4. In **abx-git/agm** → **Settings** → **Secrets and variables** → **Actions** → **New repository secret**:
    - Name: `AGM_GHIO_DEPLOY`
    - Value: the token
 
@@ -96,6 +99,8 @@ From **agm** repository root:
 | Problem | Fix |
 |---------|-----|
 | Workflow fails: missing secret | Step 2 above |
+| 401 Bad credentials | Secret empty/wrong — recreate PAT and update `AGM_GHIO_DEPLOY` |
+| git exit 128 / cannot push | PAT lacks **Contents: Write**, or SSO not authorized (step 2–3) |
 | 404 on URL | Deploy workflow green; PAT needs **Administration** (or enable Pages manually, step 1) |
 | Pages API step fails (403) | Recreate PAT with **Administration: Read and write** on `agm.github.io` |
 | Wrong repo Settings | Pages config is on **agm.github.io**, not agm |
