@@ -4,7 +4,7 @@
 
 The Architecture Graph Method (AGM) is not another documentation tool. It is a **method** for co-locating architectural knowledge with source code — structured as a Markdown link graph, maintained by AI agents, versioned in Git, and aligned with arc42 and the C4 Model.
 
-> *The method is developed in the [blueprint-pattern](https://github.com/abx-git/blueprint-pattern) repository (legacy name). MCP install: `@abx-hh/agm-cli`.*
+> *The method is developed in the [agm](https://github.com/abx-git/agm) repository. MCP install: `@abx-hh/agm-cli`.*
 
 This article explains the method for software architects: the problem it solves, the principles behind it, the workflow you operate, and where the boundaries are.
 
@@ -185,7 +185,7 @@ Findings appear inline under `### ⚠ Architecture notes` and are summarized in 
 
 Before any output, the agent verifies that all Markdown backlinks resolve to existing paths. Broken links are surfaced explicitly — never silently omitted. On `git diff` updates, renamed or deleted files trigger path corrections across referencing files.
 
-Mechanical enforcement via CI (Markdown link checker) catches what agents miss. This repository includes a ready-to-use workflow at [`.github/workflows/blueprint-pattern-integrity.yml`](../../.github/workflows/blueprint-pattern-integrity.yml).
+Mechanical enforcement via CI (Markdown link checker) catches what agents miss. This repository includes a ready-to-use workflow at [`.github/workflows/agm-integrity.yml`](../../.github/workflows/agm-integrity.yml).
 
 ---
 
@@ -198,7 +198,7 @@ Mechanical enforcement via CI (Markdown link checker) catches what agents miss. 
 **Prerequisites:**
 
 1. Copy the [system prompt](../../prompts/core/system-prompt.md) into your AI assistant:
-   - Cursor → `.cursor/rules/blueprint-pattern.mdc`
+   - Cursor → `.cursor/rules/agm.mdc`
    - Claude Code → `CLAUDE.md`
    - GitHub Copilot → `.github/copilot-instructions.md`
 
@@ -416,8 +416,8 @@ This is not a finished product. Real-world case studies will refine the prompts,
 
 1. Read [docs/quickstart.md](../quickstart.md) (~10 min)
 2. Explore the [sample application](../examples/sample-app/)
-3. Run [bp-install.sh](../../scripts/bp-install.sh) or `agm install` at your app repo root
-4. Add the [CI link checker](../../.github/workflows/blueprint-pattern-integrity.yml) to your repository
+3. Run [agm-install.sh](../../scripts/agm-install.sh) or `agm install` at your app repo root
+4. Add the [CI link checker](../../.github/workflows/agm-integrity.yml) to your repository
 5. Share your experience via a [case study](../case-studies.md) or [issue](../../.github/ISSUE_TEMPLATE/case-study.md)
 
 The underlying insight — that a traversable Markdown link network can serve as a deterministic, infrastructure-free alternative to RAG for bounded, structured knowledge domains — applies beyond software architecture. But for architects today, the immediate win is simple: **architecture documentation that agents can actually use.**
