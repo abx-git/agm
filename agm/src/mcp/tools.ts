@@ -193,7 +193,7 @@ export function registerAgmTools(server: McpServer): void {
 
   server.tool(
     'agm_scaffold',
-    'Install AGM file scaffold from npm bundle (system-prompt, role prompts, template stubs). Required before bootstrap-adopt when not using bp-install.sh.',
+    'Install AGM golden-path scaffold from npm bundle. Optional --domain/--full packs. Required before bootstrap-adopt when not using agm-install.sh.',
     {
       project: z.string().optional().describe('Application name'),
       template: z
@@ -202,15 +202,19 @@ export function registerAgmTools(server: McpServer): void {
         .describe('Documentation template'),
       docRoot: z.string().optional().describe('Documentation root path'),
       aiTool: z.enum(['cursor', 'claude', 'copilot', 'generic']).optional(),
+      domain: z.boolean().optional().describe('Also install Domain/DDD pack'),
+      full: z.boolean().optional().describe('Install Architect + Domain packs'),
       force: z.boolean().optional().describe('Overwrite existing files'),
     },
-    async ({ project, template, docRoot, aiTool, force }) => {
+    async ({ project, template, docRoot, aiTool, domain, full, force }) => {
       const config = loadConfig();
       const result = installScaffold({
         project: project ?? config.appName,
         template: (template ?? config.template) as import('../types.js').TemplateId,
         docRoot: docRoot ?? config.docRoot,
         aiTool: aiTool ?? 'cursor',
+        domain: Boolean(domain || full),
+        full: Boolean(full),
         force: Boolean(force),
       });
       return {
@@ -221,6 +225,7 @@ export function registerAgmTools(server: McpServer): void {
               {
                 docRoot: result.docRoot,
                 template: result.template,
+                pack: full ? 'full' : domain ? 'domain' : 'golden',
                 createdCount: result.created.length,
                 skippedCount: result.skipped.length,
                 created: result.created.slice(0, 30),

@@ -13,7 +13,7 @@
   <main class="app">
     <header class="head">
       <h1>Architecture Graph Method (AGM)</h1>
-      <p class="tagline">Living architecture graph in your repo — orchestrated via <code>blueprint.md</code>. <a href="https://github.com/abx-git/blueprint-pattern/blob/main/docs/quickstart.md">Quickstart</a> (~10 min).</p>
+      <p class="tagline">Living architecture graph in your repo — orchestrated via <code>blueprint.md</code>. <a href="https://github.com/abx-git/agm/blob/main/docs/quickstart.md">Quickstart</a> (~10 min).</p>
     </header>
 
     <details class="glossary" open>
@@ -57,7 +57,7 @@
       </nav>
 
       <section id="phase-build" class="phase active" role="tabpanel">
-        <p class="phase-intro"><strong>Build:</strong> install once, adopt in one chat, continue chapter by chapter. See <a href="https://github.com/abx-git/blueprint-pattern/blob/main/docs/quickstart.md">quickstart</a>.</p>
+        <p class="phase-intro"><strong>Build:</strong> install once, adopt in one chat, continue chapter by chapter. See <a href="https://github.com/abx-git/agm/blob/main/docs/quickstart.md">quickstart</a>.</p>
 
         <div class="setup-shared">
           <label class="field">
@@ -116,15 +116,19 @@
                   </select>
                 </label>
               </div>
+              <label class="field field--checkbox" style="margin-top:0.75rem">
+                <input type="checkbox" name="installPack" value="full" />
+                <span>Include Architect + Domain packs (<code>--full</code>) — only if you need Advanced workflows immediately</span>
+              </label>
             </div>
             <div class="install-hint" role="note">
               <p class="install-hint-title">Where to run the script</p>
               <p>Run it in the <strong>root of your application repository</strong> — the project you document (where your source code and <code>.git</code> live).</p>
-              <p class="install-hint-not">Not in the blueprint-pattern repository. Not from the Assistant URL folder.</p>
+              <p class="install-hint-not">Not in the agm repository. Not from the Assistant URL folder.</p>
               <ol class="install-hint-steps">
                 <li><code>cd /path/to/your-app</code> (repo root)</li>
-                <li>Copy script → save as <code>bp-install-run.sh</code></li>
-                <li><code>chmod +x bp-install-run.sh && ./bp-install-run.sh</code> (macOS/Linux) or follow the Windows note in the script</li>
+                <li>Copy script → save as <code>agm-install-run.sh</code></li>
+                <li><code>chmod +x agm-install-run.sh && ./agm-install-run.sh</code> (macOS/Linux) or follow the Windows note in the script</li>
               </ol>
               <p class="install-hint-foot">After success you should see <code>prompts/</code> and your documentation root (e.g. <code>docs/architecture/</code>) in that repo.</p>
             </div>
@@ -254,14 +258,10 @@
       </section>
 
       <section id="phase-advanced" class="phase" role="tabpanel" hidden>
-        <p class="phase-intro"><strong>Advanced:</strong> architecture and domain (DDD) work on an established graph — not part of the golden path.</p>
+        <p class="phase-intro"><strong>Advanced:</strong> architecture and domain (DDD) work on an established graph — not Day-1. Install with <code>--full</code> (or re-run install) for role files and Domain scaffold. Public MCP starter covers golden path only.</p>
 
         <h2 class="advanced-track-title">Architecture</h2>
         <div class="modes" id="work-grid"></div>
-        <details class="advanced-workflows">
-          <summary>More architecture options</summary>
-          <div class="modes" id="work-advanced-grid"></div>
-        </details>
         <div id="work-panel" class="mode-panel" hidden>
           <div id="work-dialog-hint" class="dialog-hint" hidden>
             <strong>Dialog mode:</strong> paste the prompt into a <strong>new Cursor Chat</strong> (not Agent/Composer).
@@ -279,36 +279,38 @@
           <p class="mode-note" id="work-note" hidden></p>
         </div>
 
-        <h2 class="advanced-track-title">Domain (DDD)</h2>
-        <p class="phase-intro phase-intro--compact">Strategic and tactical domain modeling — updates <code>domain/</code> and <code>work/</code>.</p>
-        <div class="modes" id="domain-grid"></div>
-        <div id="domain-panel" class="mode-panel" hidden>
-          <div id="domain-dialog-hint" class="dialog-hint" hidden>
-            <strong>Event storm:</strong> paste into a <strong>new Cursor Chat</strong>. One question per reply until "end interview".
+        <details class="advanced-workflows" id="domain-pack-details">
+          <summary>Domain (DDD) pack</summary>
+          <p class="phase-intro phase-intro--compact">Strategic and tactical domain modeling — updates <code>domain/</code> and <code>work/</code>. Needs install <code>--domain</code> or <code>--full</code>.</p>
+          <div class="modes" id="domain-grid"></div>
+          <div id="domain-panel" class="mode-panel" hidden>
+            <div id="domain-dialog-hint" class="dialog-hint" hidden>
+              <strong>Event storm:</strong> paste into a <strong>new Cursor Chat</strong>. One question per reply until "end interview".
+            </div>
+            <p class="mode-label" id="domain-label"></p>
+            <div id="domain-inputs" class="workflow-inputs" hidden></div>
+            <details class="prompt-preview">
+              <summary>Preview prompt</summary>
+              <pre id="domain-prompt-preview" class="preview-box preview-box--short" aria-live="polite"></pre>
+            </details>
+            <div class="cmd-row">
+              <button type="button" class="btn primary mode-copy" data-panel="domain">Copy prompt</button>
+            </div>
+            <p class="mode-note" id="domain-note" hidden></p>
           </div>
-          <p class="mode-label" id="domain-label"></p>
-          <div id="domain-inputs" class="workflow-inputs" hidden></div>
-          <details class="prompt-preview">
-            <summary>Preview prompt</summary>
-            <pre id="domain-prompt-preview" class="preview-box preview-box--short" aria-live="polite"></pre>
-          </details>
-          <div class="cmd-row">
-            <button type="button" class="btn primary mode-copy" data-panel="domain">Copy prompt</button>
-          </div>
-          <p class="mode-note" id="domain-note" hidden></p>
-        </div>
+        </details>
       </section>
     </form>
 
     <footer class="foot">
-      <span class="deploy-id">Lifecycle · v38</span>
-      · <a href="https://github.com/abx-git/blueprint-pattern/blob/main/docs/quickstart.md">Quickstart</a>
-      · <a href="https://github.com/abx-git/blueprint-pattern/blob/main/docs/guide.md">Guide</a>
-      · <a href="https://github.com/abx-git/blueprint-pattern">Repository</a>
+      <span class="deploy-id">Lifecycle · v39</span>
+      · <a href="https://github.com/abx-git/agm/blob/main/docs/quickstart.md">Quickstart</a>
+      · <a href="https://github.com/abx-git/agm/blob/main/docs/guide.md">Guide</a>
+      · <a href="https://github.com/abx-git/agm">Repository</a>
     </footer>
   </main>
 
   <div id="toast" class="toast" hidden>Copied</div>
-  <script src="app.js?v=38" type="module"></script>
+  <script src="app.js?v=39" type="module"></script>
 </body>
 </html>

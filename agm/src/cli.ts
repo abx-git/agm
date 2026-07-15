@@ -24,8 +24,8 @@ const program = new Command();
 
 program.name('agm').description('Architecture Graph Method — local CLI').version('0.1.0');
 
-const BP_INSTALL_URL =
-  'https://raw.githubusercontent.com/abx-git/blueprint-pattern/main/scripts/bp-install.sh';
+const AGM_INSTALL_URL =
+  'https://raw.githubusercontent.com/abx-git/agm/main/scripts/agm-install.sh';
 
 program
   .command('scaffold')
@@ -34,6 +34,8 @@ program
   .option('--template <id>', 'arc42 | lean-service | c4-light | adr-first | custom', 'arc42')
   .option('--doc-root <path>', 'Documentation root', 'docs/architecture/')
   .option('--ai-tool <name>', 'cursor | claude | copilot | generic', 'cursor')
+  .option('--domain', 'Also install Domain/DDD pack')
+  .option('--full', 'Install Architect + Domain packs (Assistant Advanced)')
   .option('-f, --force', 'Overwrite existing scaffold files')
   .action((opts) => {
     const result = installScaffold({
@@ -41,6 +43,8 @@ program
       template: opts.template as TemplateId,
       docRoot: normDocRoot(opts.docRoot),
       aiTool: opts.aiTool,
+      domain: Boolean(opts.domain || opts.full),
+      full: Boolean(opts.full),
       force: Boolean(opts.force),
     });
     console.log(`AGM scaffold installed (${result.template}) → ${result.docRoot}`);
@@ -54,11 +58,14 @@ program
     }
     console.log('\nNext: new chat → MCP agm_trigger_workflow bootstrap-adopt (or Assistant UI Adopt prompt).');
     console.log('Do not re-run scaffold if blueprint.md already exists from adoption.');
+    if (!opts.full) {
+      console.log('Tip: agm scaffold --domain or --full for Architect/Domain packs.');
+    }
   });
 
 program
   .command('install')
-  .description('Print bp-install.sh curl command (legacy) or use: agm scaffold')
+  .description('Print agm-install.sh curl command (or use: agm scaffold)')
   .option('--project <name>', 'Application name', 'My Application')
   .option('--template <id>', 'arc42 | lean-service | c4-light | adr-first | custom', 'arc42')
   .option('--doc-root <path>', 'Documentation root', 'docs/architecture/')
@@ -72,7 +79,8 @@ program
       `--ai-tool "${opts.aiTool}"`,
     ].join(' ');
     console.log('AGM golden-path install — run at your application repository root:\n');
-    console.log(`curl -fsSL ${BP_INSTALL_URL} | bash -s -- ${args}`);
+    console.log(`curl -fsSL ${AGM_INSTALL_URL} | bash -s -- ${args}`);
+    console.log('\nAdd --full or --domain for Architect/Domain packs.');
     console.log('\nPrefer MCP-only: npx @abx-hh/agm-cli scaffold');
     console.log('\nagm init creates only 3 core graph files — use scaffold for prompts + templates.');
     console.log('Docs: docs/reference/install.md');

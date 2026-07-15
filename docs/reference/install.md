@@ -1,80 +1,70 @@
-# Install: `agm scaffold` vs `bp-install.sh` vs `agm init`
+# Install
 
-**MCP-only golden path:** `agm scaffold` → MCP `bootstrap-adopt`. No GitHub curl required.
+**Canonical Day-1 path:** [Assistant UI → Build → Install](https://abx-git.github.io/agm.github.io/) → run the generated `agm-install.sh` at your **application repo root**.
 
-| Tool | Scope | When |
-|------|-------|------|
-| **`agm scaffold`** | Full scaffold from npm bundle: prompts, role files, template stubs | **MCP-only first-time setup** — no GitHub |
-| **`bp-install.sh`** | Same scaffold via HTTPS from blueprint-pattern | When monorepo is public / Assistant UI |
-| **`agm init`** | Three core files only: `always-on.md`, `blueprint.md`, `entry-point.md` + `.agm/config.json` | Re-init core files only — run `agm scaffold` if prompts missing |
+Default install = **golden path** (6 workflows + core roles). Architect/Domain packs are opt-in.
 
----
-
-## Golden path — MCP-only (`agm scaffold`)
-
-At your **application repository root**:
-
-```bash
-npx @abx-hh/agm-cli scaffold --project "my-app" --template arc42 --ai-tool cursor
-```
-
-Or MCP tool **`agm_scaffold`**. Then new chat → **`agm_trigger_workflow`** with `bootstrap-adopt`.
+| Pack | Flag | What you get |
+|------|------|--------------|
+| **golden** (default) | — | 6 workflows + bootstrap/maintenance/review roles |
+| **domain** | `--domain` | + Domain/DDD scaffold, domain workflows, DDD refs |
+| **full** | `--full` | + all Architect workflows + Domain pack |
 
 ---
 
-## Golden path — Assistant UI (`bp-install.sh`)
-
-Run at your **application repository root** (where `.git` lives).
-
-**Assistant UI (recommended):** [Build → Install](https://abx-git.github.io/agm.github.io/) — generates a script for your OS, template, and doc root.
-
-**One-liner:**
+## Primary — Assistant UI (`agm-install.sh`)
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/abx-git/blueprint-pattern/main/scripts/bp-install.sh | bash -s -- \
+curl -fsSL https://raw.githubusercontent.com/abx-git/agm/main/scripts/agm-install.sh | bash -s -- \
   --project "my-app" --template arc42 --ai-tool cursor
 ```
 
-**CLI helper (prints the same command):**
+With Advanced packs:
 
 ```bash
-agm install --project "my-app" --template arc42
+curl -fsSL https://raw.githubusercontent.com/abx-git/agm/main/scripts/agm-install.sh | bash -s -- \
+  --project "my-app" --template arc42 --ai-tool cursor --full
 ```
 
-After install: copy **Adopt** prompt → new chat (`bootstrap-adopt`). The agent creates evidence-based content; install does **not** pre-fill `blueprint.md` construction plan beyond stubs.
+After install: copy **Adopt** → new chat (`bootstrap-adopt`).
 
 ---
 
-## Minimal — `agm init`
+## Alias — MCP / npm (`agm scaffold`)
 
-For developers who already have prompts/workflows (or use MCP only) and need the three orchestration files:
+Same golden-path scaffold from the npm bundle (no GitHub curl):
 
 ```bash
-cd my-app
+npx @abx-hh/agm-cli scaffold --project "my-app" --template arc42 --ai-tool cursor
+# optional: --domain | --full
+```
+
+Or MCP tool **`agm_scaffold`**. Then `agm_trigger_workflow` with `bootstrap-adopt`.
+
+---
+
+## Power-user only
+
+| Tool | Role |
+|------|------|
+| **`agm install`** | Prints the curl one-liner — does not install |
+| **`agm init`** | Three core files only (`always-on`, `blueprint`, `entry-point`) — repair / MCP-only core; not Day-1 |
+
+```bash
 agm init -y --app-name "my-app" --template arc42 --stack "TypeScript/Node"
 ```
 
-Creates:
-
-- `<doc-root>/context/always-on.md`
-- `<doc-root>/blueprint.md` (phase table skeleton)
-- `<doc-root>/entry-point.md`
-- `.agm/config.json`
-
-Does **not** install: `prompts/workflows/`, template chapter stubs, `domain/`, role prompts, CI rules.
-
-**Next after `agm init`:** run `bp-install.sh` if you need the full scaffold, or paste `bootstrap-adopt` if prompts are already present.
+Does **not** install: golden workflows, template chapters, Domain pack. Prefer `agm-install.sh` or `agm scaffold` for first setup.
 
 ---
 
-## Aligning outputs
+## Prefer one path per repo
 
-Both tools write compatible `blueprint.md`, `entry-point.md`, and `always-on.md` shapes. Prefer **one path per repo**:
+1. `agm-install.sh` → adopt → continue (typical / Assistant UI)
+2. `agm scaffold` → MCP adopt (no GitHub)
+3. `agm init` only to repair the three core files
 
-1. `bp-install.sh` → adopt → continue (typical)
-2. `agm init` → `bp-install.sh` only if prompts missing (install skips existing files where noted)
-
-Do not run `agm init --force` after a full adopt without backup — it overwrites core files only, not template chapters.
+Do not run `agm init --force` after a full adopt without backup.
 
 ---
 
@@ -82,4 +72,5 @@ Do not run `agm init --force` after a full adopt without backup — it overwrite
 
 - [quickstart.md](../quickstart.md)
 - [adopt-procedure.md](./adopt-procedure.md)
+- [extended-workflows.md](./extended-workflows.md)
 - [agm/README.md](../../agm/README.md)

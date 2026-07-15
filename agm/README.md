@@ -24,9 +24,10 @@ Or merge [mcp-install.json](./mcp-install.json). In your **application repo**, r
 
 ```bash
 npx @abx-hh/agm-cli scaffold --project "my-app" --template arc42
+# optional Advanced packs: --domain | --full
 ```
 
-Then MCP `agm_trigger_workflow` or `bootstrap-adopt`.
+Default scaffold = golden path. Public MCP starter = **6** compressed workflows (adopt / continue / refine / sync / two reviews).
 
 ### npm global (optional)
 
@@ -55,8 +56,8 @@ Compression uses [Microsoft LLMLingua-2](https://huggingface.co/spaces/microsoft
 ## CLI quick reference
 
 ```bash
-agm scaffold         # install prompts + template stubs from npm (MCP-only)
-agm install          # print bp-install.sh curl one-liner (legacy)
+agm scaffold         # golden-path scaffold from npm (add --domain | --full)
+agm install          # print agm-install.sh curl one-liner
 agm init             # three core files + .agm/config.json
 agm verify           # link check → [[ANCHOR:LINK_CHECK]]
 agm workflows list   # catalog metadata only

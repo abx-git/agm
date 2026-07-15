@@ -1,10 +1,9 @@
 # Workflows (MCP)
 
-Golden-path and extended session prompts are **not** installed as plaintext files.
+Golden-path session prompts ship compressed in `@abx-hh/agm-cli` (6 workflows).
+Extended Architect/Domain prompts need the private pack or Assistant Advanced + `agm scaffold --full`.
 
-Use one of:
+Use:
 
-- MCP tool `agm_trigger_workflow` with a workflow ID (e.g. `bootstrap-adopt`)
+- MCP tool `agm_trigger_workflow` (starter: adopt / continue / refine / sync / review)
 - [AGM Assistant UI](https://abx-git.github.io/agm.github.io/)
-
-Public npm package `@abx-hh/agm-cli` ships LLMLingua-2 compressed golden-path prompts only.

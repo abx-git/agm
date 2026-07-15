@@ -4,7 +4,7 @@
 
 **AGM in one sentence:** A repo-local Markdown link graph, orchestrated by `blueprint.md`, maintained by agents via MCP.
 
-*(Source: [blueprint-pattern](https://github.com/abx-git/blueprint-pattern) on GitHub — legacy repo name; method is AGM.)*
+*(Source: [github.com/abx-git/agm](https://github.com/abx-git/agm).)*
 
 ---
 
@@ -14,7 +14,7 @@ One onboarding path — everything else is advanced.
 
 | Step | What you do | Workflow |
 |------|-------------|----------|
-| **Install** | Run generated script at your app repo root | [Assistant → Build → Install](https://abx-git.github.io/agm.github.io/) → `bp-install.sh` |
+| **Install** | Run generated script at your app repo root | [Assistant → Build → Install](https://abx-git.github.io/agm.github.io/) → `agm-install.sh` |
 | **Adopt** | New chat — first evidence-based section | `bootstrap-adopt` |
 | **Continue** | New chat — next chapter from construction plan | `bootstrap-continue` |
 | **Maintain** | New chat — sync docs with code | `maintenance-diff-range` |
@@ -22,12 +22,14 @@ One onboarding path — everything else is advanced.
 
 Copy the session prompt from the Assistant UI (or `prompts/workflows/<id>.md`) into a new chat. **Default:** copy-paste. **Optional:** MCP `agm_trigger_workflow` — golden path works with the public starter pack ([agm/README.md](../agm/README.md)).
 
-**Install vs `agm init`:** use `bp-install.sh` (or `agm install`) for the full scaffold; `agm init` creates only three core files — [reference/install.md](./reference/install.md).
+**Install vs `agm init`:** use `agm-install.sh` (or `agm install`) for the full scaffold; `agm init` creates only three core files — [reference/install.md](./reference/install.md).
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/abx-git/blueprint-pattern/main/scripts/bp-install.sh | bash -s -- \
+curl -fsSL https://raw.githubusercontent.com/abx-git/agm/main/scripts/agm-install.sh | bash -s -- \
   --project "my-app" --template arc42
 ```
+
+Default install = golden path (6 workflows). Add `--full` for Architect + Domain packs. Details: [reference/install.md](./reference/install.md).
 
 Templates at adopt time: **`arc42`** (multi-module, default) or **`lean-service`** (single service). Others → [guide.md](./guide.md) advanced section.
 
@@ -66,7 +68,7 @@ The graph is also the **spec API for implementation**: design WRK items + `inter
 
 ---
 
-## Essential workflows
+## Essential workflows (6)
 
 | When | Workflow | Fresh chat? | You get |
 |------|----------|-------------|---------|
@@ -74,10 +76,10 @@ The graph is also the **spec API for implementation**: design WRK items + `inter
 | Next chapter | `bootstrap-continue` | Yes | One more template section |
 | Deepen a section | `refinement` | Yes | Richer view for one file |
 | Code changed | `maintenance-diff-range` | Yes | Doc sync from git range |
-| Architecture Q / design | `architecture-work-query` / `architecture-work-design` | Yes | `work/YYYY-MM-DD-<slug>.md` + WRK |
-| After sync or milestone | `review-maintenance` / `review-phase` | **Required** | Report in `work/`, no edits |
+| After sync | `review-maintenance` | **Required** | Report in `work/`, no edits |
+| After a phase | `review-phase` | **Required** | Report in `work/`, no edits |
 
-Extended catalog (domain DDD, event storm, sustainable analysis, …): [guide.md § Workflows](./guide.md).
+Public MCP starter ships these six only. Architect/Domain (query, design, DDD, …): Assistant **Advanced** after a graph exists — install with `--full` / `--domain`. Catalog: [reference/extended-workflows.md](./reference/extended-workflows.md).
 
 ---
 
@@ -97,7 +99,7 @@ Agents output semantic anchors before stopping (session checklist):
 
 **Compaction:** new chat after long sessions (≥2 phases, ≥15 files, or ≥30 turns); resume from `blueprint.md` session log.
 
-**CI:** enable [`blueprint-pattern-integrity`](https://github.com/abx-git/blueprint-pattern/blob/main/.github/workflows/blueprint-pattern-integrity.yml) on your app repo — broken links fail the PR.
+**CI:** enable [`agm-integrity`](https://github.com/abx-git/agm/blob/main/.github/workflows/agm-integrity.yml) on your app repo — broken links fail the PR.
 
 ---
 
@@ -123,4 +125,4 @@ Details: [gen-ai-challenges.md](./gen-ai-challenges.md) (leads / governance).
 
 ## Further reading
 
-[guide.md](./guide.md) · [reference/extended-workflows.md](./reference/extended-workflows.md) · [reference/spec-driven-development.md](./reference/spec-driven-development.md) · [ROADMAP.md](./ROADMAP.md) · [typical-dialog.md](./typical-dialog.md) · [architects article](./article/blueprint-pattern-for-architects.md) · [sample app](./examples/sample-app/) · [MCP/CLI](../agm/README.md)
+[guide.md](./guide.md) · [reference/extended-workflows.md](./reference/extended-workflows.md) · [reference/spec-driven-development.md](./reference/spec-driven-development.md) · [ROADMAP.md](./ROADMAP.md) · [typical-dialog.md](./typical-dialog.md) · [architects article](./article/agm-for-architects.md) · [sample app](./examples/sample-app/) · [MCP/CLI](../agm/README.md)

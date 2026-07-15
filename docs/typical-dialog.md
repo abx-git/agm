@@ -1,6 +1,6 @@
 # Typical dialogs (golden path)
 
-Three sample **human ↔ agent** sessions after [install](../scripts/bp-install.sh). Not mandatory wording — patterns only.
+Three sample **human ↔ agent** sessions after [install](../scripts/agm-install.sh). Not mandatory wording — patterns only.
 
 **Procedure:** [quickstart.md](./quickstart.md) · **Sample app:** [examples/sample-app](./examples/sample-app/)
 
@@ -11,7 +11,7 @@ Three sample **human ↔ agent** sessions after [install](../scripts/bp-install.
 | Layer | Where | Purpose |
 |-------|-------|---------|
 | **Core** | IDE rules + `prompts/core/system-prompt.md` | Behavior every session |
-| **Session** | Assistant UI → copy into chat | This chat’s task (Track + workflow) |
+| **Session** | Assistant UI → copy into chat | This chat’s task |
 | **Role** | `<doc-root>/prompts/role-*.md` | Step-by-step procedure |
 
 Knowledge the agent reads (not pasted): `always-on.md`, `blueprint.md`, `entry-point.md`.
@@ -56,9 +56,11 @@ Knowledge the agent reads (not pasted): `always-on.md`, `blueprint.md`, `entry-p
 
 ---
 
-## Dialog 3 — Architect: question on the graph
+## Dialog 3 — Advanced: question on the graph
 
-**New chat — `architecture-work-query`:**
+Requires an established graph and Advanced install (`--full` / `--domain`) for role files. Not Day-1.
+
+**New chat — `architecture-work-query` (Assistant → Advanced):**
 
 > You: Question: How does order-service trigger notification after successful payment?
 

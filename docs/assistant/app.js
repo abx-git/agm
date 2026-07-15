@@ -1,8 +1,8 @@
 const ASSET_BASE = new URL('./', import.meta.url);
 const ASSISTANT_VERSION = new URL(import.meta.url).searchParams.get('v') || '0';
-const STORAGE_KEY = 'bp-adopt-params';
-const BP_INSTALL_URL =
-  'https://raw.githubusercontent.com/abx-git/blueprint-pattern/main/scripts/bp-install.sh';
+const STORAGE_KEY = 'agm-adopt-params';
+const AGM_INSTALL_URL =
+  'https://raw.githubusercontent.com/abx-git/agm/main/scripts/agm-install.sh';
 
 const EVOLVE_MODES_GOLDEN = [
   {
@@ -32,12 +32,18 @@ const DIALOG_WORKFLOW_IDS = new Set([
   'domain-work-event-storm',
 ]);
 
-const ARCHITECTURE_WORK_MODES_GOLDEN = [
-  { id: 'architecture-work-query', intent: 'Answer a question', note: 'Traverse the graph; write a work report.' },
-  { id: 'architecture-work-design', intent: 'Propose a design', note: 'Structure or cross-cutting change — set goal and constraints.' },
-];
-
-const ARCHITECTURE_WORK_MODES_ADVANCED = [
+/** All Architect workflows live under Advanced (not public starter / Day-1). */
+const ARCHITECTURE_WORK_MODES = [
+  {
+    id: 'architecture-work-query',
+    intent: 'Answer a question',
+    note: 'Traverse the graph; write a work report. Needs graph + install --full/--domain for role files.',
+  },
+  {
+    id: 'architecture-work-design',
+    intent: 'Propose a design',
+    note: 'Structure or cross-cutting change — set goal and constraints.',
+  },
   {
     id: 'architecture-work-interrogate',
     intent: 'Explore (dialog)',
@@ -58,8 +64,6 @@ const ARCHITECTURE_WORK_MODES_ADVANCED = [
   },
   { id: 'architecture-work-continue', intent: 'Resume open work', note: 'Continue WRK entries in blueprint.md (architecture track).' },
 ];
-
-const ARCHITECTURE_WORK_MODES = [...ARCHITECTURE_WORK_MODES_GOLDEN, ...ARCHITECTURE_WORK_MODES_ADVANCED];
 
 const DOMAIN_WORK_MODES = [
   {
@@ -590,6 +594,8 @@ function setDocFocusChecked(form, value, checked) {
 function readForm(form) {
   const data = new FormData(form);
   const template = String(data.get('template') || 'arc42');
+  const packEl = form.elements.namedItem('installPack');
+  const installPack = packEl && packEl.checked ? 'full' : 'golden';
   return {
     os: String(data.get('os') || 'macos'),
     aiTool: String(data.get('aiTool') || 'cursor'),
@@ -603,6 +609,7 @@ function readForm(form) {
     externalSystems: String(data.get('externalSystems') || '').trim(),
     docFocus: readDocFocus(form),
     docFocusDetail: String(data.get('docFocusDetail') || '').trim(),
+    installPack,
   };
 }
 
@@ -802,7 +809,7 @@ function buildParameterBlock(params) {
     `- Application: ${params.appName}`,
     `- Documentation template: ${template}`,
     `- Documentation root: ${docRoot}`,
-    `- Install: bp-install.sh completed (prompts + scaffold present)`,
+    `- Install: agm-install.sh completed (prompts + scaffold present)`,
   ];
   if (params.purpose) lines.push(`- Purpose / domain: ${params.purpose}`);
   if (params.stack) lines.push(`- Stack: ${params.stack}`);
@@ -853,6 +860,7 @@ function buildInstallScript(params) {
   const project = params.appName || 'My Application';
   const aiTool = params.aiTool;
   const os = params.os;
+  const installPack = params.installPack || 'golden';
 
   if (os === 'windows') {
     return buildInstallScriptWindows({
@@ -861,14 +869,18 @@ function buildInstallScript(params) {
       project,
       aiTool,
       docFocus: params.docFocus || [],
+      installPack,
     });
   }
 
+  const packFlag =
+    installPack === 'full' ? ' \\\n  --full' : installPack === 'domain' ? ' \\\n  --domain' : '';
+
   const lines = [
     '#!/usr/bin/env bash',
-    '# AGM - generated install script',
+    '# AGM - generated install script (golden path by default)',
     '# Run from your application repository root. No git clone required.',
-    '# Save as bp-install-run.sh then: chmod +x bp-install-run.sh && ./bp-install-run.sh',
+    '# Save as agm-install-run.sh then: chmod +x agm-install-run.sh && ./agm-install-run.sh',
     'set -euo pipefail',
     '',
     bashAssign('PROJECT', project),
@@ -877,17 +889,17 @@ function buildInstallScript(params) {
     bashAssign('AI_TOOL', aiTool),
     bashAssign('DOC_FOCUS', (params.docFocus || []).join(',')),
     '',
-    'INSTALLER="$(mktemp -t bp-install.XXXXXX.sh)"',
+    'INSTALLER="$(mktemp -t agm-install.XXXXXX.sh)"',
     'cleanup_installer() { rm -f -- "${INSTALLER:-}"; }',
     'trap cleanup_installer EXIT',
-    `curl -fsSL "${BP_INSTALL_URL}" -o "$INSTALLER"`,
+    `curl -fsSL "${AGM_INSTALL_URL}" -o "$INSTALLER"`,
     'chmod +x "$INSTALLER"',
     '"$INSTALLER" \\',
     '  --project "$PROJECT" \\',
     '  --doc-root "$DOC_ROOT" \\',
     '  --template "$TEMPLATE" \\',
     '  --ai-tool "$AI_TOOL" \\',
-    '  --focus "$DOC_FOCUS"',
+    `  --focus "$DOC_FOCUS"${packFlag}`,
     '',
     'echo "Install finished. Open Assistant UI -> Build -> Adopt."',
     '',
@@ -895,9 +907,11 @@ function buildInstallScript(params) {
   return lines.join('\n');
 }
 
-function buildInstallScriptWindows({ docRoot, template, project, aiTool, docFocus }) {
+function buildInstallScriptWindows({ docRoot, template, project, aiTool, docFocus, installPack }) {
   const q = (s) => `"${String(s).replace(/"/g, '""')}"`;
   const focus = (docFocus || []).join(',');
+  const packArgs =
+    installPack === 'full' ? ' `\n  --full' : installPack === 'domain' ? ' `\n  --domain' : '';
   return [
     '# AGM — generated install script (Windows)',
     '# Run in PowerShell from your application repository root.',
@@ -910,8 +924,8 @@ function buildInstallScriptWindows({ docRoot, template, project, aiTool, docFocu
     `$AiTool = ${q(aiTool)}`,
     `$DocFocus = ${q(focus)}`,
     '',
-    '$Installer = Join-Path $env:TEMP ("bp-install-" + [guid]::NewGuid().ToString("n") + ".sh")',
-    `curl.exe -fsSL ${q(BP_INSTALL_URL)} -o $Installer`,
+    '$Installer = Join-Path $env:TEMP ("agm-install-" + [guid]::NewGuid().ToString("n") + ".sh")',
+    `curl.exe -fsSL ${q(AGM_INSTALL_URL)} -o $Installer`,
     'if (-not $?) { throw "Download failed. Use Git Bash and the macOS/Linux script from the Assistant UI." }',
     '',
     '# Git Bash (adjust path if needed)',
@@ -926,7 +940,7 @@ function buildInstallScriptWindows({ docRoot, template, project, aiTool, docFocu
     '  --doc-root $DocRoot `',
     '  --template $Template `',
     '  --ai-tool $AiTool `',
-    '  --focus $DocFocus',
+    `  --focus $DocFocus${packArgs}`,
     'Remove-Item -Force $Installer -ErrorAction SilentlyContinue',
     '',
     'Write-Host "Install finished. Open Assistant UI → Build → Adopt."',
@@ -1243,6 +1257,8 @@ function applyParams(form, params) {
   form.querySelectorAll('input[name="docFocus"]').forEach((cb) => {
     cb.checked = focus.has(cb.value);
   });
+  const packEl = form.elements.namedItem('installPack');
+  if (packEl) packEl.checked = params.installPack === 'full';
   const detailEl = form.elements.namedItem('docFocusDetail');
   if (detailEl && params.docFocusDetail != null) detailEl.value = params.docFocusDetail;
   toggleCustomField(form);
@@ -1676,16 +1692,7 @@ async function main() {
     'evolve-label',
     'evolve-note'
   );
-  initModeGrid(workflows, 'work', ARCHITECTURE_WORK_MODES_GOLDEN, 'work-grid', 'work-panel', 'work-label', 'work-note');
-  initModeGrid(
-    workflows,
-    'work',
-    ARCHITECTURE_WORK_MODES_ADVANCED,
-    'work-advanced-grid',
-    'work-panel',
-    'work-label',
-    'work-note'
-  );
+  initModeGrid(workflows, 'work', ARCHITECTURE_WORK_MODES, 'work-grid', 'work-panel', 'work-label', 'work-note');
   initModeGrid(workflows, 'domain', DOMAIN_WORK_MODES, 'domain-grid', 'domain-panel', 'domain-label', 'domain-note');
   initModeGrid(workflows, 'review', REVIEW_MODES_GOLDEN, 'review-grid', 'review-panel', 'review-label', 'review-note');
   initModeGrid(

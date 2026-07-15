@@ -1,10 +1,14 @@
 # Extended workflow catalog
 
-Practitioner lookup for workflows beyond the [golden path](../quickstart.md). Copy session prompts from the [Assistant UI](https://abx-git.github.io/agm.github.io/) or `prompts/workflows/<id>.md`.
+**Advanced / opt-in** — beyond the [golden path](../quickstart.md) (6 workflows).
 
-**MCP:** golden-path workflows ship in the public starter pack; extended workflows require the full private prompt pack ([agm/prompts-pack/README.md](../../agm/prompts-pack/README.md)).
+Copy session prompts from Assistant **Advanced** or `prompts/workflows/<id>.md`.
 
-Legacy workflow IDs are internal — pick intent in the Assistant UI; the system maps to the ID below.
+**Install:** `agm-install.sh --full` (or `--domain`) / `agm scaffold --full`. Default install does **not** ship these.
+
+**MCP:** public starter = golden 6 only; extended prompts need the private pack ([agm/prompts-pack/README.md](../../agm/prompts-pack/README.md)).
+
+Legacy workflow IDs are internal — pick intent in the Assistant UI.
 
 ---
 
@@ -96,4 +100,4 @@ Session prompts use **Track · Activity** headers. **Activity** (Clarify, Design
 | Domain | `role-domain-work.md` | `domain-work-*` |
 | Verify | `role-review.md` | `review-*` |
 
-Optional Cursor integration (this repo only): `./scripts/bp-workflow.sh checkout <id>` writes `ACTIVE.md`.
+Optional Cursor integration (this repo only): `./scripts/agm-workflow.sh checkout <id>` writes `ACTIVE.md`.

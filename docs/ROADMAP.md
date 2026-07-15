@@ -1,6 +1,6 @@
 # AGM documentation roadmap
 
-Consolidated plan to make blueprint-pattern concise and straightforward. Target one-liner for adopters:
+Consolidated plan to make agm concise and straightforward. Target one-liner for adopters:
 
 > AGM keeps architecture in a linked Markdown graph in my repo; I install once, adopt in one chat, continue chapter by chapter, sync on git diff, and verify in a fresh chat — the agent reads `always-on.md` and `blueprint.md`, traverses from `entry-point.md`, and pulls code through MCP when needed.
 
@@ -19,7 +19,8 @@ Consolidated plan to make blueprint-pattern concise and straightforward. Target 
 | **P0** | Declare golden path; resolve MCP vs copy-paste | done | Default: copy prompt; MCP optional |
 | **P1** | Cut user-facing workflow list to 6 essentials | done | Guide + Assistant UI + extended-workflows.md |
 | **P1** | Add “documentation as API” thesis to README | done | |
-| **P1** | Ship minimal public prompt pack for MCP golden path | done | `agm/data/workflows-starter-prompts.json` (8 workflows) |
+| **P1** | Ship minimal public prompt pack for MCP golden path | done | `agm/data/workflows-starter-prompts.json` (**6** workflows) |
+| **P1** | Trial: demote Architect/Domain (1A) + starter-6 (query/design out of public pack) | done | Default install golden; `--domain`/`--full`; Advanced UI |
 | **P2** | Trim [guide.md](./guide.md) to ~150 lines (operational reference) | done | ~131 lines |
 | **P2** | Merge/split long docs per budget | done | gen-ai, typical-dialog trimmed |
 | **P2** | Move `prompts/reference/*` → `docs/reference/` | done | Installed apps still use `prompts/reference/` |
@@ -31,8 +32,8 @@ Consolidated plan to make blueprint-pattern concise and straightforward. Target 
 | **P2** | Add [spec-driven-development.md](./reference/spec-driven-development.md) | done | AGM vs feature-centric SDD boundary |
 | **P3** | Deprecate legacy workflow IDs in Assistant UI labels | done | Intent labels; IDs internal to prompts |
 | **P3** | Assistant UI: golden path tab order; Advanced collapsed | done | Build · Evolve · Verify · Advanced |
-| **P3** | Unify `agm init` and `bp-install.sh` scaffold output | done | [reference/install.md](./reference/install.md) + `agm install` |
-| **P3** | Retire “Blueprint Pattern” except legacy footnote | done | Article, quickstart, README |
+| **P3** | Unify `agm init` and `agm-install.sh` scaffold output | done | [reference/install.md](./reference/install.md) + `agm install` |
+| **P3** | Retire “Blueprint Pattern”; rename repo/scripts to AGM | done | Repo `abx-git/agm`, `agm-install.sh` / `agm-workflow.sh`, Cursor rules `agm*.mdc` |
 
 ---
 
@@ -52,13 +53,13 @@ Consolidated plan to make blueprint-pattern concise and straightforward. Target 
 
 | Step | User action | Workflow / tool |
 |------|-------------|-----------------|
-| Install | Run `bp-install.sh` once at app repo root | [Assistant UI](https://abx-git.github.io/agm.github.io/) generates script |
+| Install | Run `agm-install.sh` once at app repo root (default = golden) | [Assistant UI](https://abx-git.github.io/agm.github.io/) generates script |
 | Adopt | One new chat | `bootstrap-adopt` |
 | Continue | Next blueprint chapter | `bootstrap-continue` |
 | Maintain | After code change | `maintenance-diff-range` (paste diff = fallback) |
 | Review | Fresh chat after write/sync | `review-maintenance` or `review-phase` |
 
-**Advanced (not in quickstart):** MCP `agm_trigger_workflow` · `ACTIVE.md` / `bp-workflow.sh` · domain DDD workflows · dialog-mode interrogate workflows.
+**Advanced (not Day-1):** Architect/Domain → Assistant Advanced + install `--full` / `--domain` · MCP private pack · `ACTIVE.md` / `agm-workflow.sh`.
 
 ---
 
@@ -69,10 +70,10 @@ Consolidated plan to make blueprint-pattern concise and straightforward. Target 
 | **Graph** | Linked Markdown in `docs/architecture/` |
 | **Blueprint** | `blueprint.md` — construction plan, progress, WRK register |
 | **Entry** | `entry-point.md` — agent navigation (links only) |
-| **Track** | Build · Evolve · Architect · Domain · Verify |
 | **Session** | One chat = one workflow |
+| **Review** | Fresh-chat Verify — report only |
 
-Demote **Activity** and **Mode** to workflow metadata / Assistant UI labels only. Legacy workflow IDs stay internal.
+UI tabs (Build / Evolve / Verify / Advanced) are labels only. Demote **Track**, **Activity**, and **Mode** to workflow metadata. Legacy workflow IDs stay internal.
 
 ---
 
@@ -84,10 +85,10 @@ Demote **Activity** and **Mode** to workflow metadata / Assistant UI labels only
 | Next doc chapter | `bootstrap-continue` | Yes |
 | Deepen one section | `refinement` | Yes |
 | Code changed | `maintenance-diff-range` | Yes |
-| Architecture question / design | `architecture-work-query` / `architecture-work-design` | Yes |
-| Check quality | `review-maintenance` (after sync) · `review-phase` (milestone) | **Required** |
+| After sync | `review-maintenance` | **Required** |
+| Phase check | `review-phase` | **Required** |
 
-Remaining 20 workflows → extended catalog (domain DDD, sustainable analysis, event storm, etc.).
+`architecture-work-query` / `architecture-work-design` and Domain/DDD → Advanced / `--full` (not public starter). Remaining workflows → [extended-workflows.md](./reference/extended-workflows.md).
 
 ---
 
@@ -104,9 +105,9 @@ Remaining 20 workflows → extended catalog (domain DDD, sustainable analysis, e
 
 | Item | Target |
 |------|--------|
-| CLI entry | `agm install` prints `bp-install.sh`; `agm init` = 3 files only |
+| CLI entry | `agm install` prints `agm-install.sh`; `agm init` = 3 files only |
 | MCP in public docs | `agm_load_context`, `agm_get_graph_status`, `agm_trigger_workflow`, `agm_verify_links` only |
-| CI | One sentence in quickstart: enable `blueprint-pattern-integrity` workflow |
+| CI | One sentence in quickstart: enable `agm-integrity` workflow |
 
 ---
 

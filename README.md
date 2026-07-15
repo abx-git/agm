@@ -6,7 +6,7 @@ AGM is a repo-local Markdown link graph, orchestrated by `blueprint.md`, maintai
 
 **Start here:** **[docs/quickstart.md](./docs/quickstart.md)** — the only mandatory read (~10 min).
 
-Repository: [github.com/abx-git/blueprint-pattern](https://github.com/abx-git/blueprint-pattern) *(legacy repo name; method is AGM)*
+Repository: [github.com/abx-git/agm](https://github.com/abx-git/agm)
 
 ---
 
@@ -14,13 +14,13 @@ Repository: [github.com/abx-git/blueprint-pattern](https://github.com/abx-git/bl
 
 | Step | Action |
 |------|--------|
-| Install | [Assistant UI](https://abx-git.github.io/agm.github.io/) → `bp-install.sh` |
+| Install | [Assistant UI](https://abx-git.github.io/agm.github.io/) → `agm-install.sh` |
 | Adopt | One chat → `bootstrap-adopt` |
 | Continue | `bootstrap-continue` — next chapter |
 | Maintain | `maintenance-diff-range` — sync on git diff |
 | Review | Fresh chat → `review-maintenance` |
 
-Default: copy session prompt from Assistant into a new chat. Optional: MCP `agm_trigger_workflow` (same prompts) — [agm/README.md](./agm/README.md).
+Default: copy session prompt from Assistant into a new chat. Optional: MCP `agm_trigger_workflow` (same golden prompts) — [agm/README.md](./agm/README.md).
 
 ---
 
@@ -52,9 +52,11 @@ Templates: [docs/templates/architecture/](./docs/templates/architecture/) · Age
 
 ---
 
-## Tracks
+## Day-1 vs Advanced
 
-**Build** · **Evolve** · **Architect** · **Domain** · **Verify** — one chat = one session = one workflow.
+**Day-1:** Build · Evolve · Verify — six golden workflows.
+
+**Advanced** (after a graph exists; install `--full`): Architect and Domain intents — see [docs/reference/extended-workflows.md](./docs/reference/extended-workflows.md).
 
 ---
 

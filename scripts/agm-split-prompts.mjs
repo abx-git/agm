@@ -23,8 +23,6 @@ const STARTER_WORKFLOW_IDS = new Set([
   'maintenance-diff-range',
   'review-maintenance',
   'review-phase',
-  'architecture-work-query',
-  'architecture-work-design',
 ]);
 
 const workflows = JSON.parse(readFileSync(source, 'utf8'));

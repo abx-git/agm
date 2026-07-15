@@ -8,7 +8,7 @@ Architecture documentation as a **Markdown link graph** in `docs/architecture/`,
 
 ---
 
-## Essential workflows
+## Essential workflows (6)
 
 | Intent | Workflow | Fresh chat? |
 |--------|----------|-------------|
@@ -16,19 +16,18 @@ Architecture documentation as a **Markdown link graph** in `docs/architecture/`,
 | Next doc chapter | `bootstrap-continue` | Yes |
 | Deepen one section | `refinement` | Yes |
 | Code changed | `maintenance-diff-range` | Yes |
-| Architecture question / design | `architecture-work-query` / `architecture-work-design` | Yes |
 | After sync | `review-maintenance` | **Required** |
-| Milestone check | `review-phase` | **Required** |
+| Milestone / phase check | `review-phase` | **Required** |
 
-Extended catalog (domain DDD, dialog-mode, analysis): [reference/extended-workflows.md](./reference/extended-workflows.md).
+Architect/Domain and other Advanced intents: [reference/extended-workflows.md](./reference/extended-workflows.md) (opt-in install `--full` / `--domain`).
 
 ---
 
 ## Setup (once)
 
-1. **Install** — [Assistant → Build → Install](https://abx-git.github.io/agm.github.io/) → run `bp-install.sh` at app repo root. Or `agm install` prints the same curl command — see [reference/install.md](./reference/install.md).
+1. **Install** — [Assistant → Build → Install](https://abx-git.github.io/agm.github.io/) → run `agm-install.sh` at app repo root (default = golden path). See [reference/install.md](./reference/install.md).
 2. **Adopt** — copy adoption prompt → new chat. Agent creates `blueprint.md`, `entry-point.md`, `always-on.md`, first section.
-3. **CI** — enable [blueprint-pattern-integrity](./reference/ci-integrity.md) on the app repo.
+3. **CI** — enable [agm-integrity](./reference/ci-integrity.md) on the app repo.
 
 **Templates at adopt:** `arc42` (multi-module, default) · `lean-service` (single service). Record choice in `entry-point.md`. Advanced: [reference/advanced-templates.md](./reference/advanced-templates.md).
 
@@ -63,11 +62,11 @@ docs/architecture/
 
 ---
 
-## Tracks
+## Assistant UI labels
 
-**Build** · **Evolve** · **Architect** · **Domain** · **Verify** — one chat = one session.
+Tabs **Build** · **Evolve** · **Verify** plus collapsed **Advanced** are UI organization only — not a doctrine to memorize. One chat = one session = one workflow.
 
-Graph maturity: Build → Evolve → Architect/Domain work. Verify runs in a **fresh chat** after write/sync (report-only).
+After a graph exists, Advanced holds Architect and Domain (DDD) intents. Install those packs with `--full` or `--domain` (see [install.md](./reference/install.md)).
 
 ---
 
@@ -76,12 +75,12 @@ Graph maturity: Build → Evolve → Architect/Domain work. Verify runs in a **f
 | Term | Meaning |
 |------|---------|
 | **Graph** | Linked Markdown under `docs/architecture/` |
-| **`blueprint.md`** | Construction plan — not architecture body text |
-| **`entry-point.md`** | Agent link map — no phase status |
-| **Track** | Build, Evolve, Architect, Domain, Verify |
+| **Blueprint** | `blueprint.md` — construction plan, progress, WRK |
+| **Entry** | `entry-point.md` — agent link map, no phase status |
+| **Session** | One chat = one workflow |
+| **Review** | Fresh-chat Verify — report only |
 | **Core prompt** | [prompts/core/system-prompt.md](../prompts/core/system-prompt.md) |
-| **Session prompt** | Per-chat task from Assistant or `prompts/workflows/` |
-| **AGM** | The method. *blueprint-pattern* = legacy repo name |
+| **AGM** | Architecture Graph Method — method and [repository](https://github.com/abx-git/agm) |
 
 ---
 
@@ -150,5 +149,5 @@ Replace role prompts from [templates/architecture/prompts/](templates/architectu
 | [gen-ai-challenges.md](./gen-ai-challenges.md) | Governance summary (leads) |
 | [reference/spec-driven-development.md](./reference/spec-driven-development.md) | AGM vs feature SDD |
 | [case-studies.md](./case-studies.md) | Real-world applications |
-| [article/blueprint-pattern-for-architects.md](./article/blueprint-pattern-for-architects.md) | Principles |
+| [article/agm-for-architects.md](./article/agm-for-architects.md) | Principles |
 | [examples/sample-app/](./examples/sample-app/) | Multi-service example |

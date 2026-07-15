@@ -10,6 +10,10 @@ export interface ScaffoldOptions {
   docRoot: string;
   aiTool: 'cursor' | 'claude' | 'copilot' | 'generic';
   docFocus?: string;
+  /** Install Domain/DDD optional pack */
+  domain?: boolean;
+  /** Install Architect + Domain packs (Assistant Advanced) */
+  full?: boolean;
   force?: boolean;
   cwd?: string;
 }
@@ -50,8 +54,8 @@ function copyTree(fromDir: string, toDir: string, force: boolean, created: strin
 
 function writeCursorRules(docRootRule: string, project: string, cwd: string, created: string[]): void {
   mkdirSync(join(cwd, '.cursor', 'rules'), { recursive: true });
-  const pattern = join(cwd, '.cursor/rules/blueprint-pattern.mdc');
-  const context = join(cwd, '.cursor/rules/blueprint-context.mdc');
+  const pattern = join(cwd, '.cursor/rules/agm.mdc');
+  const context = join(cwd, '.cursor/rules/agm-context.mdc');
   writeFileSync(
     pattern,
     `---
@@ -160,6 +164,37 @@ export function installScaffold(options: ScaffoldOptions): ScaffoldResult {
   copyTree(scaffoldPath('prompts'), join(cwd, 'prompts'), force, created, skipped, cwd);
   copyTree(scaffoldPath('doc-root'), docRootAbs, force, created, skipped, cwd);
 
+  const wantDomain = Boolean(options.domain || options.full);
+  const wantArchitect = Boolean(options.full || options.domain);
+  if (wantArchitect) {
+    copyTree(
+      scaffoldPath('optional', 'architect', 'doc-root'),
+      docRootAbs,
+      force,
+      created,
+      skipped,
+      cwd
+    );
+  }
+  if (wantDomain) {
+    copyTree(
+      scaffoldPath('optional', 'domain', 'doc-root'),
+      docRootAbs,
+      force,
+      created,
+      skipped,
+      cwd
+    );
+    copyTree(
+      scaffoldPath('optional', 'domain', 'prompts'),
+      join(cwd, 'prompts'),
+      force,
+      created,
+      skipped,
+      cwd
+    );
+  }
+
   const templateDir = scaffoldPath('templates', options.template);
   if (options.template === 'custom') {
     mkdirSync(join(docRootAbs, 'custom'), { recursive: true });
@@ -173,7 +208,7 @@ export function installScaffold(options: ScaffoldOptions): ScaffoldResult {
   const docRootRule = docRoot.replace(/\/$/, '');
   writeAiToolRules(options.aiTool, options.project, docRootRule, cwd, created);
 
-  const metaPath = join(cwd, '.bp-install-meta');
+  const metaPath = join(cwd, '.agm-install-meta');
   if (!existsSync(metaPath) || force) {
     writeFileSync(
       metaPath,
@@ -183,6 +218,7 @@ export function installScaffold(options: ScaffoldOptions): ScaffoldResult {
         `template=${options.template}`,
         `ai_tool=${options.aiTool}`,
         `doc_focus=${options.docFocus ?? ''}`,
+        `pack=${options.full ? 'full' : options.domain ? 'domain' : 'golden'}`,
         `installed=${new Date().toISOString()}`,
         `source=agm-scaffold`,
       ].join('\n') + '\n'
