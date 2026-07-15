@@ -17,6 +17,12 @@ Live: https://abx-git.github.io/agm.github.io/
 
 Opens `http://localhost:8765` (requires Python 3).
 
+## Guided UX (v40+)
+
+- **Start here** strip — 5-step golden path with contextual banner (no prior AGM knowledge required).
+- **Session mode** — **Copy prompt** (default) or **MCP in IDE** (`agm_trigger_workflow`).
+- **MCP panel** — IDE-specific config path, copyable `mcp.json`, verify steps, MCP install/adopt/session requests.
+
 ## Tabs
 
 | Tab | What | Workflows |
