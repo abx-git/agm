@@ -33,7 +33,7 @@ docs/architecture/
 ├── context/          ← this file
 ├── prompts/          ← role-*.md
 ├── interfaces/
-├── work/
+├── work/             ← reports (optional: symlink outside Git — see work-location.md)
 ├── domain/           ← DDD: context map, contexts/, events
 └── <template>/       ← arc42 | c4-light | adr-first | lean-service
 ```

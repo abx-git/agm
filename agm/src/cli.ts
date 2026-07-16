@@ -8,6 +8,7 @@ import { join } from 'node:path';
 import { initGraph } from './graph/init.js';
 import { installScaffold } from './graph/scaffold.js';
 import { upgradeAgm } from './graph/upgrade.js';
+import { linkExternalWorkDir } from './graph/work-link.js';
 import { formatLinkCheck, verifyLinks } from './graph/verify.js';
 import { getGraphStatus } from './graph/status.js';
 import {
@@ -36,6 +37,7 @@ program
   .option('--project <name>', 'Application name', 'My Application')
   .option('--template <id>', 'arc42 | lean-service | c4-light | adr-first | custom', 'arc42')
   .option('--doc-root <path>', 'Documentation root', 'docs/architecture/')
+  .option('--work-dir <path>', 'Store work/ outside Git (symlink)')
   .option('--ai-tool <name>', 'cursor | claude | copilot | generic', 'cursor')
   .option('--domain', 'Also install Domain/DDD pack')
   .option('--full', 'Install Architect + Domain packs (Assistant Advanced)')
@@ -45,12 +47,16 @@ program
       project: opts.project,
       template: opts.template as TemplateId,
       docRoot: normDocRoot(opts.docRoot),
+      workDir: opts.workDir,
       aiTool: opts.aiTool,
       domain: Boolean(opts.domain || opts.full),
       full: Boolean(opts.full),
       force: Boolean(opts.force),
     });
     console.log(`AGM scaffold installed (${result.template}) → ${result.docRoot}`);
+    if (result.workDir) {
+      console.log(`External work: ${result.docRoot}work/ → ${result.workDir}`);
+    }
     if (result.created.length) {
       console.log(`Created ${result.created.length} file(s):`);
       for (const f of result.created.slice(0, 20)) console.log(`  ${f}`);
@@ -63,6 +69,9 @@ program
     console.log('Do not re-run scaffold if blueprint.md already exists from adoption.');
     if (!opts.full) {
       console.log('Tip: agm scaffold --domain or --full for Architect/Domain packs.');
+    }
+    if (!opts.workDir) {
+      console.log('Tip: --work-dir $HOME/agm-work/<app>/work keeps drafts outside Git.');
     }
   });
 
@@ -106,6 +115,7 @@ program
   .option('--project <name>', 'Application name', 'My Application')
   .option('--template <id>', 'arc42 | lean-service | c4-light | adr-first | custom', 'arc42')
   .option('--doc-root <path>', 'Documentation root', 'docs/architecture/')
+  .option('--work-dir <path>', 'Store work/ outside Git (symlink)')
   .option('--ai-tool <name>', 'cursor | claude | copilot | generic', 'cursor')
   .action((opts) => {
     const docRoot = normDocRoot(opts.docRoot);
@@ -114,14 +124,34 @@ program
       `--doc-root "${docRoot}"`,
       `--template "${opts.template}"`,
       `--ai-tool "${opts.aiTool}"`,
-    ].join(' ');
+    ];
+    if (opts.workDir) args.push(`--work-dir "${opts.workDir}"`);
     console.log('AGM golden-path install — run at your application repository root:\n');
-    console.log(`curl -fsSL ${AGM_INSTALL_URL} | bash -s -- ${args}`);
+    console.log(`curl -fsSL ${AGM_INSTALL_URL} | bash -s -- ${args.join(' ')}`);
     console.log('\nAdd --full or --domain for Architect/Domain packs.');
+    console.log('Add --work-dir $HOME/agm-work/<app>/work to keep drafts outside Git.');
     console.log('\nPrefer MCP-only: npx @abx-hh/agm-cli scaffold');
     console.log('Already installed? npx @abx-hh/agm-cli upgrade');
     console.log('\nagm init creates only 3 core graph files — use scaffold for prompts + templates.');
-    console.log('Docs: docs/reference/install.md');
+    console.log('Docs: docs/reference/install.md · docs/reference/external-work.md');
+  });
+
+program
+  .command('work-link')
+  .description('Point <doc-root>/work at a directory outside Git (per-developer local drafts)')
+  .requiredOption('--work-dir <path>', 'External work directory')
+  .option('--doc-root <path>', 'Documentation root (default: from config / docs/architecture/)')
+  .option('-f, --force', 'Replace an existing symlink that points elsewhere')
+  .action((opts) => {
+    const config = loadConfig();
+    const result = linkExternalWorkDir({
+      docRoot: opts.docRoot || config.docRoot,
+      workDir: opts.workDir,
+      force: Boolean(opts.force),
+    });
+    console.log(`Linked ${result.linkPath} → ${result.workDirAbs}`);
+    console.log(`Pointer: ${result.locationFile}`);
+    if (result.gitignoreUpdated) console.log('Updated .gitignore');
   });
 
 program

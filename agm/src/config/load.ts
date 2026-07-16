@@ -34,6 +34,9 @@ function parseMeta(content: string): Partial<AgmConfig> {
       case 'doc_root':
         out.docRoot = normDocRoot(value);
         break;
+      case 'work_dir':
+        out.workDir = value;
+        break;
       case 'template':
         out.template = value as TemplateId;
         break;
@@ -70,10 +73,19 @@ export function findProjectRoot(startDir = process.cwd()): string {
 export function loadConfig(cwd = process.cwd()): AgmConfig {
   const root = findProjectRoot(cwd);
   const configPath = join(root, CONFIG_FILE);
+  const workDirFile = join(root, '.agm', 'work-dir');
+
+  const localWorkDir = existsSync(workDirFile)
+    ? readFileSync(workDirFile, 'utf8').trim() || undefined
+    : undefined;
 
   if (existsSync(configPath)) {
     const raw = JSON.parse(readFileSync(configPath, 'utf8')) as AgmConfig;
-    return { ...raw, docRoot: normDocRoot(raw.docRoot) };
+    return {
+      ...raw,
+      docRoot: normDocRoot(raw.docRoot),
+      workDir: raw.workDir || localWorkDir,
+    };
   }
 
   const metaPath = resolveMetaPath(root);
@@ -83,6 +95,7 @@ export function loadConfig(cwd = process.cwd()): AgmConfig {
       appName: meta.appName || 'My Application',
       template: (meta.template as TemplateId) || 'arc42',
       docRoot: normDocRoot(meta.docRoot || 'docs/architecture/'),
+      workDir: meta.workDir || localWorkDir,
       stack: '',
       docFocus: meta.docFocus || [],
     };
@@ -92,6 +105,7 @@ export function loadConfig(cwd = process.cwd()): AgmConfig {
     appName: 'My Application',
     template: 'arc42',
     docRoot: normDocRoot('docs/architecture/'),
+    workDir: localWorkDir,
     stack: '',
   };
 }

@@ -24,6 +24,8 @@ Both install:
 - `${docRoot}/` scaffold: context, role prompts, work templates, interfaces stubs, template folder
 - AI tool rules (Cursor `.cursor/rules/`, `CLAUDE.md`, `.github/copilot-instructions.md`, or `AGENTS.md`)
 
+Optional `--work-dir`: symlink `${docRoot}/work` to a path **outside** the Git repo so drafts stay local — [external-work.md](./external-work.md).
+
 Do **not** create `blueprint.md` or `entry-point.md` in the install script — the adoption session owns those.
 
 ## Phase A — Verify scaffold (agent)

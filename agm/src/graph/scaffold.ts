@@ -4,6 +4,7 @@ import type { TemplateId } from '../types.js';
 import { normDocRoot } from '../config/load.js';
 import { packageRoot } from '../paths.js';
 import { writeAiToolRulesFromScaffold } from './scaffold-wiring.js';
+import { linkExternalWorkDir } from './work-link.js';
 
 export interface ScaffoldOptions {
   project: string;
@@ -11,6 +12,8 @@ export interface ScaffoldOptions {
   docRoot: string;
   aiTool: 'cursor' | 'claude' | 'copilot' | 'generic';
   docFocus?: string;
+  /** Absolute or relative path — work/ becomes a symlink outside Git */
+  workDir?: string;
   /** Install Domain/DDD optional pack */
   domain?: boolean;
   /** Install Architect + Domain packs (Assistant Advanced) */
@@ -24,6 +27,7 @@ export interface ScaffoldResult {
   template: TemplateId;
   created: string[];
   skipped: string[];
+  workDir?: string;
 }
 
 function scaffoldPath(...segments: string[]): string {
@@ -122,25 +126,37 @@ export function installScaffold(options: ScaffoldOptions): ScaffoldResult {
   const docRootRule = docRoot.replace(/\/$/, '');
   writeAiToolRules(options.aiTool, options.project, docRootRule, cwd, created);
 
+  let linkedWorkDir: string | undefined;
+  if (options.workDir) {
+    const linked = linkExternalWorkDir({
+      cwd,
+      docRoot,
+      workDir: options.workDir,
+      force: force,
+    });
+    linkedWorkDir = linked.workDirAbs;
+    created.push(linked.linkPath, linked.locationFile);
+    if (linked.gitignoreUpdated) created.push('.gitignore');
+  }
+
   const metaPath = join(cwd, '.agm-install-meta');
   if (!existsSync(metaPath) || force) {
-    writeFileSync(
-      metaPath,
-      [
-        `project=${options.project}`,
-        `doc_root=${docRoot}`,
-        `template=${options.template}`,
-        `ai_tool=${options.aiTool}`,
-        `doc_focus=${options.docFocus ?? ''}`,
-        `pack=${options.full ? 'full' : options.domain ? 'domain' : 'golden'}`,
-        `installed=${new Date().toISOString()}`,
-        `source=agm-scaffold`,
-      ].join('\n') + '\n'
-    );
+    const lines = [
+      `project=${options.project}`,
+      `doc_root=${docRoot}`,
+      `template=${options.template}`,
+      `ai_tool=${options.aiTool}`,
+      `doc_focus=${options.docFocus ?? ''}`,
+      `pack=${options.full ? 'full' : options.domain ? 'domain' : 'golden'}`,
+      `installed=${new Date().toISOString()}`,
+      `source=agm-scaffold`,
+    ];
+    if (linkedWorkDir) lines.push(`work_dir=${linkedWorkDir}`);
+    writeFileSync(metaPath, lines.join('\n') + '\n');
     created.push(relative(cwd, metaPath));
   } else {
     skipped.push(relative(cwd, metaPath));
   }
 
-  return { docRoot, template: options.template, created, skipped };
+  return { docRoot, template: options.template, created, skipped, workDir: linkedWorkDir };
 }

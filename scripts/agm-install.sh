@@ -10,6 +10,7 @@ TEMPLATE="arc42"
 PROJECT="My Application"
 AI_TOOL="cursor"
 DOC_FOCUS=""
+WORK_DIR=""
 INSTALL_DOMAIN=0
 INSTALL_FULL=0
 
@@ -25,6 +26,7 @@ Architect/Domain packs are opt-in.
 
 Options:
   --doc-root PATH   Documentation root (default: docs/architecture/)
+  --work-dir PATH   Store work/ outside Git (symlink <doc-root>/work → PATH)
   --template NAME   arc42 | c4-light | adr-first | lean-service | custom
   --project NAME    Application / project label (metadata only)
   --ai-tool NAME    cursor | claude | copilot | generic
@@ -35,7 +37,9 @@ Options:
   -h, --help        Show this help
 
 Environment overrides: DOC_ROOT, TEMPLATE, PROJECT, AI_TOOL, DOC_FOCUS, AGM_REF,
-  AGM_INSTALL_DOMAIN=1, AGM_INSTALL_FULL=1
+  WORK_DIR, AGM_INSTALL_DOMAIN=1, AGM_INSTALL_FULL=1
+
+External work: docs/reference/external-work.md
 EOF
 }
 
@@ -54,6 +58,7 @@ norm_doc_root() {
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --doc-root) DOC_ROOT="$2"; shift 2 ;;
+    --work-dir) WORK_DIR="$2"; shift 2 ;;
     --template) TEMPLATE="$2"; shift 2 ;;
     --project) PROJECT="$2"; shift 2 ;;
     --ai-tool) AI_TOOL="$2"; shift 2 ;;
@@ -65,6 +70,8 @@ while [[ $# -gt 0 ]]; do
     *) echo "Unknown option: $1" >&2; usage >&2; exit 1 ;;
   esac
 done
+
+WORK_DIR="${WORK_DIR:-${AGM_WORK_DIR:-}}"
 
 if [[ "${AGM_INSTALL_FULL:-}" == "1" ]]; then
   INSTALL_FULL=1
@@ -101,6 +108,7 @@ fi
 echo "AGM install"
 echo "  Project:   ${PROJECT}"
 echo "  Doc root:  ${DOC_ROOT}"
+echo "  Work dir:  ${WORK_DIR:-(in-repo ${DOC_ROOT}work/)}"
 echo "  Template:  ${TEMPLATE}"
 echo "  AI tool:   ${AI_TOOL}"
 echo "  Doc focus: ${DOC_FOCUS:-(none)}"
@@ -132,6 +140,7 @@ PROMPTS=(
   "docs/reference/blueprint-format.md|prompts/reference/blueprint-format.md"
   "docs/reference/doc-extensions.md|prompts/reference/doc-extensions.md"
   "docs/reference/content-ingest.md|prompts/reference/content-ingest.md"
+  "docs/reference/external-work.md|prompts/reference/external-work.md"
 )
 
 # Golden path — default install
@@ -399,6 +408,33 @@ case "$AI_TOOL" in
   generic|*) write_generic ;;
 esac
 
+# Optional: move work/ outside the Git repo (symlink keeps agent paths stable)
+if [[ -n "$WORK_DIR" ]]; then
+  echo "Linking external work directory…"
+  SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" 2>/dev/null && pwd || true)"
+  if [[ -n "$SCRIPT_DIR" && -f "$SCRIPT_DIR/agm-work-link.sh" ]]; then
+    bash "$SCRIPT_DIR/agm-work-link.sh" --doc-root "$DOC_ROOT" --work-dir "$WORK_DIR" --force
+  else
+    LINK_HELPER="$(mktemp -t agm-work-link.XXXXXX.sh)"
+    cleanup_link_helper() { rm -f -- "${LINK_HELPER:-}"; }
+    trap cleanup_link_helper EXIT
+    if ! curl -fsSL "${AGM_REPO}/scripts/agm-work-link.sh" -o "$LINK_HELPER"; then
+      echo "Failed to download agm-work-link.sh — install completed without external work link." >&2
+    else
+      chmod +x "$LINK_HELPER"
+      "$LINK_HELPER" --doc-root "$DOC_ROOT" --work-dir "$WORK_DIR" --force
+    fi
+    trap - EXIT
+    cleanup_link_helper
+  fi
+fi
+
+WORK_META_LINE=""
+if [[ -n "$WORK_DIR" ]] && [[ -f .agm-install-meta ]]; then
+  wd="$(grep -E '^work_dir=' .agm-install-meta 2>/dev/null | tail -1 | cut -d= -f2- || true)"
+  [[ -n "$wd" ]] && WORK_META_LINE="work_dir=${wd}"
+fi
+
 cat > .agm-install-meta <<EOF
 project=${PROJECT}
 doc_root=${DOC_ROOT}
@@ -408,6 +444,7 @@ doc_focus=${DOC_FOCUS}
 pack=${PACK}
 installed=$(date -u +%Y-%m-%dT%H:%MZ)
 agm_ref=${AGM_REF}
+${WORK_META_LINE}
 EOF
 
 echo
@@ -415,6 +452,12 @@ echo "Done. Next:"
 echo "  1. Open AGM Assistant → Build → Adopt (copy session prompt)."
 echo "  2. New chat in this repo — agent creates blueprint.md, entry-point.md, first section."
 echo "  3. Do not re-run install if ${DOC_ROOT}blueprint.md already exists — use agm-upgrade.sh instead."
+if [[ -n "$WORK_DIR" ]]; then
+  echo "  Work reports: ${DOC_ROOT}work/ → external (see ${DOC_ROOT}work-location.md)."
+fi
 if [[ "$INSTALL_FULL" -eq 0 ]]; then
   echo "  Tip: re-run with --domain or --full for Architect/Domain packs (Assistant Advanced)."
+  if [[ -z "$WORK_DIR" ]]; then
+    echo "  Tip: --work-dir \$HOME/agm-work/<app>/work keeps drafts outside Git."
+  fi
 fi

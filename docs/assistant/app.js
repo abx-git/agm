@@ -75,6 +75,7 @@ function buildMcpScaffoldRequest(params) {
   };
   if (params.installPack === 'full') args.full = true;
   else if (params.installPack === 'domain') args.domain = true;
+  if (params.workDir) args.workDir = params.workDir;
 
   return [
     'AGM — install scaffold via MCP (run in your application repo)',
@@ -84,7 +85,9 @@ function buildMcpScaffoldRequest(params) {
     mcpToolJson('agm_scaffold', args),
     '',
     'Or say in natural language:',
-    `"Call agm_scaffold for project ${args.project}, template ${args.template}, docRoot ${args.docRoot}."`,
+    `"Call agm_scaffold for project ${args.project}, template ${args.template}, docRoot ${args.docRoot}${
+      params.workDir ? `, workDir ${params.workDir}` : ''
+    }."`,
     '',
     'After success, run Step 2 (Adopt) — agm_trigger_workflow bootstrap-adopt.',
   ].join('\n');
@@ -961,6 +964,7 @@ function readForm(form) {
     docFocus: readDocFocus(form),
     docFocusDetail: String(data.get('docFocusDetail') || '').trim(),
     installPack,
+    workDir: String(data.get('workDir') || '').trim(),
     sessionMode: readSessionMode(form),
   };
 }
@@ -1245,6 +1249,7 @@ function buildInstallScript(params) {
   const aiTool = params.aiTool;
   const os = params.os;
   const installPack = params.installPack || 'golden';
+  const workDir = String(params.workDir || '').trim();
 
   if (os === 'windows') {
     return buildInstallScriptWindows({
@@ -1254,11 +1259,13 @@ function buildInstallScript(params) {
       aiTool,
       docFocus: params.docFocus || [],
       installPack,
+      workDir,
     });
   }
 
   const packFlag =
     installPack === 'full' ? ' \\\n  --full' : installPack === 'domain' ? ' \\\n  --domain' : '';
+  const workFlag = workDir ? ` \\\n  --work-dir "$WORK_DIR"` : '';
 
   const lines = [
     '#!/usr/bin/env bash',
@@ -1272,6 +1279,9 @@ function buildInstallScript(params) {
     bashAssign('TEMPLATE', template),
     bashAssign('AI_TOOL', aiTool),
     bashAssign('DOC_FOCUS', (params.docFocus || []).join(',')),
+  ];
+  if (workDir) lines.push(bashAssign('WORK_DIR', workDir));
+  lines.push(
     '',
     'INSTALLER="$(mktemp -t agm-install.XXXXXX.sh)"',
     'cleanup_installer() { rm -f -- "${INSTALLER:-}"; }',
@@ -1283,20 +1293,21 @@ function buildInstallScript(params) {
     '  --doc-root "$DOC_ROOT" \\',
     '  --template "$TEMPLATE" \\',
     '  --ai-tool "$AI_TOOL" \\',
-    `  --focus "$DOC_FOCUS"${packFlag}`,
+    `  --focus "$DOC_FOCUS"${packFlag}${workFlag}`,
     '',
     'echo "Install finished. Open Assistant UI -> Build -> Adopt."',
-    '',
-  ];
+    ''
+  );
   return lines.join('\n');
 }
 
-function buildInstallScriptWindows({ docRoot, template, project, aiTool, docFocus, installPack }) {
+function buildInstallScriptWindows({ docRoot, template, project, aiTool, docFocus, installPack, workDir }) {
   const q = (s) => `"${String(s).replace(/"/g, '""')}"`;
   const focus = (docFocus || []).join(',');
   const packArgs =
     installPack === 'full' ? ' `\n  --full' : installPack === 'domain' ? ' `\n  --domain' : '';
-  return [
+  const workArgs = workDir ? ` `\n  --work-dir $WorkDir` : '';
+  const lines = [
     '# AGM — generated install script (Windows)',
     '# Run in PowerShell from your application repository root.',
     '# Requires: curl.exe (Windows 10+) or run under Git Bash with the bash script instead.',
@@ -1307,6 +1318,9 @@ function buildInstallScriptWindows({ docRoot, template, project, aiTool, docFocu
     `$Template = ${q(template)}`,
     `$AiTool = ${q(aiTool)}`,
     `$DocFocus = ${q(focus)}`,
+  ];
+  if (workDir) lines.push(`$WorkDir = ${q(workDir)}`);
+  lines.push(
     '',
     '$Installer = Join-Path $env:TEMP ("agm-install-" + [guid]::NewGuid().ToString("n") + ".sh")',
     `curl.exe -fsSL ${q(AGM_INSTALL_URL)} -o $Installer`,
@@ -1324,12 +1338,13 @@ function buildInstallScriptWindows({ docRoot, template, project, aiTool, docFocu
     '  --doc-root $DocRoot `',
     '  --template $Template `',
     '  --ai-tool $AiTool `',
-    `  --focus $DocFocus${packArgs}`,
+    `  --focus $DocFocus${packArgs}${workArgs}`,
     'Remove-Item -Force $Installer -ErrorAction SilentlyContinue',
     '',
     'Write-Host "Install finished. Open Assistant UI → Build → Adopt."',
-    '',
-  ].join('\n');
+    ''
+  );
+  return lines.join('\n');
 }
 
 function readSustainableFocus(container) {

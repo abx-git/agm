@@ -35,6 +35,7 @@ const PROMPTS = [
   ['docs/reference/blueprint-format.md', 'prompts/reference/blueprint-format.md'],
   ['docs/reference/doc-extensions.md', 'prompts/reference/doc-extensions.md'],
   ['docs/reference/content-ingest.md', 'prompts/reference/content-ingest.md'],
+  ['docs/reference/external-work.md', 'prompts/reference/external-work.md'],
 ];
 
 const OPTIONAL_ARCHITECT = [

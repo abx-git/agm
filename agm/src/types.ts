@@ -5,6 +5,8 @@ export interface AgmConfig {
   template: TemplateId;
   customTemplate?: string;
   docRoot: string;
+  /** Absolute path for external work/ (symlink target outside Git). */
+  workDir?: string;
   stack: string;
   purpose?: string;
   sourceRoot?: string;

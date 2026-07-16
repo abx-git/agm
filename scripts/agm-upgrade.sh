@@ -167,7 +167,7 @@ elif [[ "$INSTALL_DOMAIN" -eq 1 ]]; then
 fi
 
 PROMPTS_REF=(
-  adopt-procedure.md blueprint-format.md doc-extensions.md content-ingest.md
+  adopt-procedure.md blueprint-format.md doc-extensions.md content-ingest.md external-work.md
 )
 
 ROLE_FILES=(

@@ -202,17 +202,22 @@ export function registerAgmTools(server: McpServer): void {
         .optional()
         .describe('Documentation template'),
       docRoot: z.string().optional().describe('Documentation root path'),
+      workDir: z
+        .string()
+        .optional()
+        .describe('External work directory (symlink <doc-root>/work outside Git)'),
       aiTool: z.enum(['cursor', 'claude', 'copilot', 'generic']).optional(),
       domain: z.boolean().optional().describe('Also install Domain/DDD pack'),
       full: z.boolean().optional().describe('Install Architect + Domain packs'),
       force: z.boolean().optional().describe('Overwrite existing files'),
     },
-    async ({ project, template, docRoot, aiTool, domain, full, force }) => {
+    async ({ project, template, docRoot, workDir, aiTool, domain, full, force }) => {
       const config = loadConfig();
       const result = installScaffold({
         project: project ?? config.appName,
         template: (template ?? config.template) as import('../types.js').TemplateId,
         docRoot: docRoot ?? config.docRoot,
+        workDir: workDir ?? config.workDir,
         aiTool: aiTool ?? 'cursor',
         domain: Boolean(domain || full),
         full: Boolean(full),
@@ -226,6 +231,7 @@ export function registerAgmTools(server: McpServer): void {
               {
                 docRoot: result.docRoot,
                 template: result.template,
+                workDir: result.workDir,
                 pack: full ? 'full' : domain ? 'domain' : 'golden',
                 createdCount: result.created.length,
                 skippedCount: result.skipped.length,

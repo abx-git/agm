@@ -252,6 +252,9 @@ export function personalizeWorkflowPrompt(
   prompt = applyWorkflowInputs(prompt, workflow.id, values);
 
   const docRoot = normDocRoot(config.docRoot);
+  const workNote = config.workDir
+    ? `- External work directory: ${config.workDir} (symlink ${docRoot}work/ — outside Git)`
+    : `- Work directory: ${docRoot}work/ (in-repo; use --work-dir / agm work-link for local-only drafts)`;
   const isDialog = DIALOG_WORKFLOW_IDS.has(workflow.id);
   const focusNote =
     config.docFocus && config.docFocus.length > 0
@@ -268,6 +271,7 @@ export function personalizeWorkflowPrompt(
     `- Documentation template: ${template}`,
     `- Documentation root: ${docRoot}`,
     `- Template folder: ${docRoot}${template}/`,
+    workNote,
     focusNote,
     '- Core rules: prompts/core/system-prompt.md (installed)',
     roleLine,

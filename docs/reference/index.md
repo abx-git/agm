@@ -17,6 +17,7 @@ Installed application repos receive copies of procedure files under `prompts/ref
 | [doc-extensions.md](./doc-extensions.md) | Documentation area checkboxes (Assistant UI) |
 | [content-ingest.md](./content-ingest.md) | Paste imports (Confluence, specs, use cases) |
 | [upgrade.md](./upgrade.md) | Refresh workflows/prompts without touching docs |
+| [external-work.md](./external-work.md) | Keep `work/` outside Git (per-developer drafts) |
 | [advanced-templates.md](./advanced-templates.md) | `c4-light`, `adr-first`, `custom` |
 
 ---

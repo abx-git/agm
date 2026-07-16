@@ -26,6 +26,16 @@ curl -fsSL https://raw.githubusercontent.com/abx-git/agm/main/scripts/agm-instal
   --project "my-app" --template arc42 --ai-tool cursor --full
 ```
 
+**Optional — work outside Git** (local drafts per developer):
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/abx-git/agm/main/scripts/agm-install.sh | bash -s -- \
+  --project "my-app" --template arc42 --ai-tool cursor \
+  --work-dir "$HOME/agm-work/my-app/work"
+```
+
+See [external-work.md](./external-work.md). Existing installs: `scripts/agm-work-link.sh` or `npx @abx-hh/agm-cli work-link --work-dir …`.
+
 After install: copy **Adopt** → new chat (`bootstrap-adopt`).
 
 ---
@@ -37,6 +47,7 @@ Same golden-path scaffold from the npm bundle (no GitHub curl):
 ```bash
 npx @abx-hh/agm-cli scaffold --project "my-app" --template arc42 --ai-tool cursor
 # optional: --domain | --full
+# optional: --work-dir "$HOME/agm-work/my-app/work"
 ```
 
 Or MCP tool **`agm_scaffold`**. Then `agm_trigger_workflow` with `bootstrap-adopt`.

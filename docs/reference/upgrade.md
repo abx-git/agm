@@ -24,9 +24,11 @@ Use this when a new workflow appears (e.g. `content-ingest`), reference procedur
 | `blueprint.md`, `entry-point.md` | Orchestration graph |
 | `context/always-on.md`, `on-demand.md` | Session identity |
 | `<template>/` (arc42, lean-service, …) | Your documented architecture |
-| `work/*` (except `_template*.md`) | Work reports |
+| `work/*` (except `_template*.md`) | Work reports (in-repo or external symlink target) |
 | `interfaces/`, `ops/`, `domain/` | Content |
 | `index.md`, `log.md` | OKF indexes and change logs |
+
+When `work/` is a symlink ([external-work.md](./external-work.md)), upgrade writes missing templates into the **external** directory and leaves the symlink alone.
 
 ## Added only if missing (default)
 

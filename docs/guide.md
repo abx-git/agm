@@ -56,12 +56,15 @@ docs/architecture/
 ├── index.md + log.md      ← OKF per-folder index + change log
 ├── interfaces/            ← exports.md, imports.md
 ├── work/                  ← YYYY-MM-DD-<slug>.md + WRK-NNN in blueprint.md
+│                            (optional: symlink outside Git — see external-work)
 ├── sources/               ← pasted imports (Confluence, specs) with provenance
 ├── use-cases/             ← distilled scenarios (optional)
 └── arc42/                 ← or lean-service/, etc.
 ```
 
 **Rule:** `entry-point.md` = agent navigation. `index.md` = OKF structure. Never conflate them.
+
+**Local drafts:** To keep work reports off Git (per developer), install with `--work-dir` or run [external-work.md](./reference/external-work.md) / `agm work-link`. Agents still write to `work/`; only the storage location changes.
 
 ---
 
