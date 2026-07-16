@@ -7,7 +7,7 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
   <title>Architecture Graph Method (AGM)</title>
-  <link rel="stylesheet" href="app.css?v=41" />
+  <link rel="stylesheet" href="app.css?v=42" />
 </head>
 <body>
   <main class="app">
@@ -212,6 +212,15 @@
             <div id="install-mcp-hint" class="step-action-hint" hidden></div>
             <button type="button" class="btn primary btn-install" id="copy-install">Copy install script</button>
             <button type="button" class="btn btn-install-mcp" id="copy-install-mcp" hidden>Copy MCP install request</button>
+            <details class="upgrade-block">
+              <summary>Already installed? Upgrade AGM (keeps your docs)</summary>
+              <p class="field-hint">Refreshes <code>prompts/workflows/</code>, reference docs, and role files — never <code>blueprint.md</code>, template chapters, or <code>work/</code>. Adds <code>sources/</code> if missing.</p>
+              <details class="prompt-preview">
+                <summary>Generated upgrade script</summary>
+                <pre id="upgrade-script-preview" class="preview-box install-box" aria-live="polite"></pre>
+              </details>
+              <button type="button" class="btn" id="copy-upgrade">Copy upgrade script</button>
+            </details>
           </li>
 
           <li class="step step-hero" id="doc-areas-step">
@@ -386,7 +395,7 @@
     </form>
 
     <footer class="foot">
-      <span class="deploy-id">Lifecycle · v41</span>
+      <span class="deploy-id">Lifecycle · v42</span>
       · <a href="https://github.com/abx-git/agm/blob/main/docs/quickstart.md">Quickstart</a>
       · <a href="https://github.com/abx-git/agm/blob/main/docs/guide.md">Guide</a>
       · <a href="https://github.com/abx-git/agm">Repository</a>
@@ -394,6 +403,6 @@
   </main>
 
   <div id="toast" class="toast" hidden>Copied</div>
-  <script src="app.js?v=41" type="module"></script>
+  <script src="app.js?v=42" type="module"></script>
 </body>
 </html>

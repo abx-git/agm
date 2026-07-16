@@ -7,6 +7,7 @@ import { loadConfig, configFilePath, normDocRoot, docRootAbs } from './config/lo
 import { join } from 'node:path';
 import { initGraph } from './graph/init.js';
 import { installScaffold } from './graph/scaffold.js';
+import { upgradeAgm } from './graph/upgrade.js';
 import { formatLinkCheck, verifyLinks } from './graph/verify.js';
 import { getGraphStatus } from './graph/status.js';
 import {
@@ -26,6 +27,8 @@ program.name('agm').description('Architecture Graph Method — local CLI').versi
 
 const AGM_INSTALL_URL =
   'https://raw.githubusercontent.com/abx-git/agm/main/scripts/agm-install.sh';
+const AGM_UPGRADE_URL =
+  'https://raw.githubusercontent.com/abx-git/agm/main/scripts/agm-upgrade.sh';
 
 program
   .command('scaffold')
@@ -64,6 +67,40 @@ program
   });
 
 program
+  .command('upgrade')
+  .description('Refresh AGM platform files (workflows, prompts, roles) without touching architecture docs')
+  .option('--doc-root <path>', 'Documentation root (default: from .agm-install-meta)')
+  .option('--ai-tool <name>', 'cursor | claude | copilot | generic')
+  .option('--project <name>', 'Application name')
+  .option('--domain', 'Include Domain pack workflows and roles')
+  .option('--full', 'Include Architect + Domain packs')
+  .option('--no-add-missing', 'Do not scaffold missing folders (sources/, use-cases/, …)')
+  .action((opts) => {
+    const result = upgradeAgm({
+      docRoot: opts.docRoot,
+      aiTool: opts.aiTool,
+      project: opts.project,
+      domain: Boolean(opts.domain || opts.full),
+      full: Boolean(opts.full),
+      addMissing: opts.addMissing !== false,
+    });
+    console.log(`AGM upgraded (pack: ${result.pack}) → ${result.docRoot}`);
+    console.log(`\n${result.preservedNote}`);
+    if (result.updated.length) {
+      console.log(`\nUpdated ${result.updated.length} file(s):`);
+      for (const f of result.updated.slice(0, 25)) console.log(`  ${f}`);
+      if (result.updated.length > 25) console.log(`  … and ${result.updated.length - 25} more`);
+    }
+    if (result.added.length) {
+      console.log(`\nAdded ${result.added.length} missing scaffold file(s):`);
+      for (const f of result.added) console.log(`  ${f}`);
+    }
+    console.log('\nNext: use new workflows from Assistant UI or prompts/workflows/.');
+    console.log('Optional: bootstrap-continue to link new folders in entry-point.md.');
+    console.log('MCP: update @abx-hh/agm-cli for compressed starter prompts.');
+  });
+
+program
   .command('install')
   .description('Print agm-install.sh curl command (or use: agm scaffold)')
   .option('--project <name>', 'Application name', 'My Application')
@@ -82,6 +119,7 @@ program
     console.log(`curl -fsSL ${AGM_INSTALL_URL} | bash -s -- ${args}`);
     console.log('\nAdd --full or --domain for Architect/Domain packs.');
     console.log('\nPrefer MCP-only: npx @abx-hh/agm-cli scaffold');
+    console.log('Already installed? npx @abx-hh/agm-cli upgrade');
     console.log('\nagm init creates only 3 core graph files — use scaffold for prompts + templates.');
     console.log('Docs: docs/reference/install.md');
   });

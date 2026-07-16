@@ -8,7 +8,7 @@
  *   optional/domain/    — Domain/DDD pack (--domain / --full)
  *   optional/architect/ — Architect role + domain work template sibling bits
  */
-import { cpSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -176,6 +176,13 @@ for (const [template, files] of Object.entries(TEMPLATES)) {
 }
 
 mkdirSync(join(OUT, 'prompts', 'workflows'), { recursive: true });
+const wfSrc = join(ROOT, 'prompts', 'workflows');
+if (existsSync(wfSrc)) {
+  for (const name of readdirSync(wfSrc)) {
+    if (!name.endsWith('.md') || name === 'ACTIVE.md') continue;
+    copyIntoScaffold(join('prompts', 'workflows', name), join('prompts', 'workflows', name));
+  }
+}
 writeFileSync(
   join(OUT, 'prompts', 'workflows', 'README.md'),
   `# Workflows (MCP)

@@ -68,6 +68,17 @@ Do not run `agm init --force` after a full adopt without backup.
 
 ---
 
+## Upgrade (existing installation)
+
+Refresh workflows and prompts **without** overwriting architecture docs: [upgrade.md](./upgrade.md)
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/abx-git/agm/main/scripts/agm-upgrade.sh | bash
+# or: npx @abx-hh/agm-cli upgrade
+```
+
+---
+
 ## See also
 
 - [quickstart.md](../quickstart.md)

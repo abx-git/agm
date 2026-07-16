@@ -13,6 +13,7 @@ import { loadContext } from '../graph/context.js';
 import { getGraphStatus } from '../graph/status.js';
 import { formatLinkCheck, verifyLinks } from '../graph/verify.js';
 import { installScaffold } from '../graph/scaffold.js';
+import { upgradeAgm } from '../graph/upgrade.js';
 import { registerReviewVerdict, registerWorkItem } from '../graph/work-item.js';
 import { listWorkflowIds, loadWorkflowCatalog } from '../workflows/loader.js';
 import { toPublicTriggerResult, triggerWorkflow } from '../workflows/trigger.js';
@@ -230,6 +231,50 @@ export function registerAgmTools(server: McpServer): void {
                 skippedCount: result.skipped.length,
                 created: result.created.slice(0, 30),
                 next: 'Call agm_trigger_workflow with workflowId bootstrap-adopt in a new chat.',
+              },
+              null,
+              2
+            ),
+          },
+        ],
+      };
+    }
+  );
+
+  server.tool(
+    'agm_upgrade',
+    'Refresh AGM platform files (workflows, prompts, role files) without overwriting architecture documentation content.',
+    {
+      docRoot: z.string().optional().describe('Documentation root path'),
+      aiTool: z.enum(['cursor', 'claude', 'copilot', 'generic']).optional(),
+      domain: z.boolean().optional().describe('Include Domain pack'),
+      full: z.boolean().optional().describe('Include Architect + Domain packs'),
+      addMissing: z.boolean().optional().describe('Scaffold missing folders (sources/, use-cases/) — default true'),
+    },
+    async ({ docRoot, aiTool, domain, full, addMissing }) => {
+      const config = loadConfig();
+      const result = upgradeAgm({
+        docRoot: docRoot ?? config.docRoot,
+        aiTool: aiTool ?? 'cursor',
+        project: config.appName,
+        domain: Boolean(domain || full),
+        full: Boolean(full),
+        addMissing: addMissing !== false,
+      });
+      return {
+        content: [
+          {
+            type: 'text',
+            text: JSON.stringify(
+              {
+                docRoot: result.docRoot,
+                pack: result.pack,
+                updatedCount: result.updated.length,
+                addedCount: result.added.length,
+                updated: result.updated.slice(0, 40),
+                added: result.added,
+                preserved: result.preservedNote,
+                next: 'Use new workflows (e.g. content-ingest). Optional: bootstrap-continue to link sources/ in entry-point.md.',
               },
               null,
               2

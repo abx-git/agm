@@ -1,0 +1,30 @@
+# Workflow: architecture-work-design
+
+| Field | Value |
+|-------|-------|
+| **Track** | Architect |
+| **Activity** | Design |
+| **Mode** | Direct |
+| **When** | Architecture design proposal |
+| **Role** | `architecture-work` |
+| **Prerequisite** | Bootstrap phase 0 `[x] done` |
+
+## Session prompt
+
+```
+AGM — Architect · Design
+Workflow: architecture-work-design
+Role: architecture-work
+
+Goal: <e.g. add circuit breaker between order-service and payment-service>
+Constraints: <optional: latency, no new infra, etc.>
+
+Instructions:
+1. Read blueprint.md and relevant work/ items and <template> sections.
+2. Write design to docs/architecture/work/YYYY-MM-DD-<slug>.md (type: design):
+   Context, Design (with Mermaid), Alternatives, Impact, Traceability.
+3. If the design implies a decision, draft ADR in <template>/decisions/ and cross-link.
+4. Register in blueprint.md (WRK-NNN). Verify links.
+
+Output [[ANCHOR:WORK_ITEM]], [[ANCHOR:TRACEABILITY_COVERAGE]], [[ANCHOR:ADR_IMPACT]], [[ANCHOR:LINK_CHECK]] before stop.
+```

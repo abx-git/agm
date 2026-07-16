@@ -3,6 +3,8 @@ const ASSISTANT_VERSION = new URL(import.meta.url).searchParams.get('v') || '0';
 const STORAGE_KEY = 'agm-adopt-params';
 const AGM_INSTALL_URL =
   'https://raw.githubusercontent.com/abx-git/agm/main/scripts/agm-install.sh';
+const AGM_UPGRADE_URL =
+  'https://raw.githubusercontent.com/abx-git/agm/main/scripts/agm-upgrade.sh';
 
 /** Where to merge MCP config — varies by IDE. */
 const MCP_CONFIG_PATHS = {
@@ -1204,6 +1206,38 @@ function bashAssign(name, value) {
   return `${name}="${escaped}"`;
 }
 
+function buildUpgradeScript(params) {
+  const docRoot = normDocRoot(params.docRoot);
+  const aiTool = params.aiTool || 'cursor';
+  const installPack = params.installPack || 'golden';
+  const packFlag =
+    installPack === 'full' ? ' \\\n  --full' : installPack === 'domain' ? ' \\\n  --domain' : '';
+
+  const lines = [
+    '#!/usr/bin/env bash',
+    '# AGM - generated upgrade script (platform only — preserves architecture docs)',
+    '# Run from your application repository root.',
+    '# Save as agm-upgrade-run.sh then: chmod +x agm-upgrade-run.sh && ./agm-upgrade-run.sh',
+    'set -euo pipefail',
+    '',
+    bashAssign('DOC_ROOT', docRoot),
+    bashAssign('AI_TOOL', aiTool),
+    '',
+    'UPGRADER="$(mktemp -t agm-upgrade.XXXXXX.sh)"',
+    'cleanup_upgrader() { rm -f -- "${UPGRADER:-}"; }',
+    'trap cleanup_upgrader EXIT',
+    `curl -fsSL "${AGM_UPGRADE_URL}" -o "$UPGRADER"`,
+    'chmod +x "$UPGRADER"',
+    '"$UPGRADER" \\',
+    '  --doc-root "$DOC_ROOT" \\',
+    `  --ai-tool "$AI_TOOL"${packFlag}`,
+    '',
+    'echo "Upgrade finished. New workflows are in prompts/workflows/ — docs unchanged."',
+    '',
+  ];
+  return lines.join('\n');
+}
+
 function buildInstallScript(params) {
   const docRoot = normDocRoot(params.docRoot);
   const template = resolvedTemplate(params);
@@ -1659,6 +1693,8 @@ function onDocFocusChange(form) {
   refreshMcpStepHints(form);
   const pre = document.getElementById('install-script-preview');
   if (pre) pre.textContent = buildInstallScript(readForm(form));
+  const upPre = document.getElementById('upgrade-script-preview');
+  if (upPre) upPre.textContent = buildUpgradeScript(readForm(form));
   const params = readForm(form);
   if (panelState.evolve?.id === 'refinement' || panelState.evolve?.id === 'content-ingest') {
     updatePromptPreview('evolve', panelState.evolve.id, params);
@@ -1729,12 +1765,19 @@ function initSetupForm(adoptBase) {
     refreshOpenWorkflowPanels();
   });
   const installPreview = document.getElementById('install-script-preview');
+  const upgradePreview = document.getElementById('upgrade-script-preview');
   const adoptPreview = document.getElementById('prompt-preview');
 
   function refreshInstallPreview() {
     if (!installPreview) return;
     const params = readForm(form);
     installPreview.textContent = buildInstallScript(params);
+  }
+
+  function refreshUpgradePreview() {
+    if (!upgradePreview) return;
+    const params = readForm(form);
+    upgradePreview.textContent = buildUpgradeScript(params);
   }
 
   function refreshAdoptPreview() {
@@ -1769,6 +1812,7 @@ function initSetupForm(adoptBase) {
   });
   form.addEventListener('input', (e) => {
     refreshInstallPreview();
+    refreshUpgradePreview();
     refreshAdoptPreview();
     refreshTemplateBadge();
     const n = e.target?.name;
@@ -1779,6 +1823,7 @@ function initSetupForm(adoptBase) {
     }
   });
   refreshInstallPreview();
+  refreshUpgradePreview();
   refreshAdoptPreview();
   refreshTemplateBadge();
 
@@ -1788,6 +1833,14 @@ function initSetupForm(adoptBase) {
     saveParams(params);
     copy(buildInstallScript(params));
     setJourneyHighlight('install');
+  });
+
+  document.getElementById('copy-upgrade')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    const params = readForm(form);
+    saveParams(params);
+    copy(buildUpgradeScript(params));
+    showToast('Upgrade script copied');
   });
 
   document.getElementById('copy-install-mcp')?.addEventListener('click', (e) => {

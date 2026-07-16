@@ -131,12 +131,13 @@ PROMPTS=(
   "docs/reference/adopt-procedure.md|prompts/reference/adopt-procedure.md"
   "docs/reference/blueprint-format.md|prompts/reference/blueprint-format.md"
   "docs/reference/doc-extensions.md|prompts/reference/doc-extensions.md"
+  "docs/reference/content-ingest.md|prompts/reference/content-ingest.md"
 )
 
 # Golden path — default install
 WORKFLOWS=(
   bootstrap-adopt bootstrap-continue
-  refinement maintenance-diff-range
+  refinement content-ingest maintenance-diff-range
   review-maintenance review-phase
 )
 
@@ -413,7 +414,7 @@ echo
 echo "Done. Next:"
 echo "  1. Open AGM Assistant → Build → Adopt (copy session prompt)."
 echo "  2. New chat in this repo — agent creates blueprint.md, entry-point.md, first section."
-echo "  3. Do not re-run install if ${DOC_ROOT}blueprint.md already exists."
+echo "  3. Do not re-run install if ${DOC_ROOT}blueprint.md already exists — use agm-upgrade.sh instead."
 if [[ "$INSTALL_FULL" -eq 0 ]]; then
   echo "  Tip: re-run with --domain or --full for Architect/Domain packs (Assistant Advanced)."
 fi

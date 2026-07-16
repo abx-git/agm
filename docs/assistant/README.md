@@ -27,7 +27,7 @@ Opens `http://localhost:8765` (requires Python 3).
 
 | Tab | What | Workflows |
 |-----|------|-----------|
-| **Build** | Install + adopt + continue | `agm-install.sh` (default golden; optional `--full`), `bootstrap-adopt`, `bootstrap-continue` |
+| **Build** | Install, upgrade, adopt, continue | `agm-install.sh`, `agm-upgrade.sh`, `bootstrap-adopt`, `bootstrap-continue` |
 | **Evolve** | Sync, import, or deepen | `maintenance-diff-range`, `content-ingest`, `refinement` (+ paste-diff under More) |
 | **Verify** | Report-only, fresh chat | `review-maintenance`, `review-phase` (+ milestone under More) |
 | **Advanced** | After a graph exists | `architecture-work-*`, Domain pack under collapsed details |

@@ -119,6 +119,17 @@ Day to day: (1) core prompt in IDE rules, (2) content in `docs/architecture/`, (
 
 ## Upgrading
 
+### AGM platform (workflows, prompts) — safe
+
+When a new AGM release adds workflows or updates procedures, **do not re-run install**. Use [upgrade.md](./reference/upgrade.md):
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/abx-git/agm/main/scripts/agm-upgrade.sh | bash
+# or: npx @abx-hh/agm-cli upgrade
+```
+
+Architecture content (`blueprint.md`, template chapters, `work/`, …) is preserved.
+
 ### Arc42-only wording → optional templates
 
 No breaking change for existing arc42 adopters.
