@@ -40,7 +40,11 @@ When content areas change, the agent updates entry-point links and blueprint row
 | `domain-glossary` | Domain language & glossary | Glossary sections in template |
 | `domain-model` | DDD strategic & tactical model | `domain/` (context map, contexts/, events) |
 | `ecosystem` | Multi-service landscape | `ecosystem-index.md`, partner links |
+| `external-sources` | External reference imports | `sources/` (Confluence, wikis, specs — provenance) |
+| `use-cases` | Use cases & scenarios | `use-cases/`, introduction / runtime links |
 
 Removed: `onboarding` (was entry-point — graph duty, not a content area).
+
+**Content ingest:** workflow `content-ingest` (Evolve) — paste material in the Assistant UI; procedure in [content-ingest.md](./content-ingest.md).
 
 Comma-separated: `implementation,interfaces,operations`

@@ -18,6 +18,7 @@ One onboarding path — everything else is advanced.
 | **Adopt** | New chat — first evidence-based section | `bootstrap-adopt` |
 | **Continue** | New chat — next chapter from construction plan | `bootstrap-continue` |
 | **Maintain** | New chat — sync docs with code | `maintenance-diff-range` |
+| **Import** | New chat — paste Confluence, specs, use cases | `content-ingest` |
 | **Review** | **Fresh chat** — report only, never same chat as write | `review-maintenance` |
 
 Copy the session prompt from the Assistant UI (or `prompts/workflows/<id>.md`) into a new chat. **Default:** copy-paste. **Optional:** MCP `agm_trigger_workflow` — golden path works with the public starter pack ([agm/README.md](../agm/README.md)).
@@ -29,7 +30,7 @@ curl -fsSL https://raw.githubusercontent.com/abx-git/agm/main/scripts/agm-instal
   --project "my-app" --template arc42
 ```
 
-Default install = golden path (6 workflows). Add `--full` for Architect + Domain packs. Details: [reference/install.md](./reference/install.md).
+Default install = golden path (7 workflows). Add `--full` for Architect + Domain packs. Details: [reference/install.md](./reference/install.md).
 
 Templates at adopt time: **`arc42`** (multi-module, default) or **`lean-service`** (single service). Others → [guide.md](./guide.md) advanced section.
 

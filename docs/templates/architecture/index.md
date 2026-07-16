@@ -21,6 +21,8 @@ Progressive disclosure entry point. Link to sections by maturity — start with 
 | Context | [context/always-on.md](./context/always-on.md) | — |
 | Interfaces | [interfaces/exports.md](./interfaces/exports.md) · [imports.md](./interfaces/imports.md) | — |
 | Work register | [work/](./work/) | — |
+| External sources | [sources/](./sources/index.md) | — |
+| Use cases | [use-cases/](./use-cases/index.md) | — |
 
 ## Sub-indexes
 

@@ -1,6 +1,6 @@
 # Extended workflow catalog
 
-**Advanced / opt-in** — beyond the [golden path](../quickstart.md) (6 workflows).
+**Advanced / opt-in** — beyond the [golden path](../quickstart.md) (7 workflows).
 
 Copy session prompts from Assistant **Advanced** or `prompts/workflows/<id>.md`.
 
@@ -28,8 +28,9 @@ Adoption alternative: [adopt-standalone](../../prompts/adopt-standalone.md)
 | Intent | Workflow ID | Fresh chat |
 |--------|-------------|------------|
 | Sync after code change (paste diff) | `maintenance` | Yes |
+| Import pasted external content | `content-ingest` | Yes |
 
-Pipeline reference: [maintenance-pipeline](./maintenance-pipeline.md)
+Procedure: [content-ingest.md](./content-ingest.md) · Pipeline reference: [maintenance-pipeline](./maintenance-pipeline.md)
 
 ---
 

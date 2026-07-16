@@ -286,7 +286,7 @@
     ],
     "steps": [
       "If <doc-root>/blueprint.md already exists, stop and tell the human to paste the bootstrap-continue session prompt in a new chat instead.",
-      "Verify Phase A in prompts/reference/adopt-procedure.md: role-bootstrap.md and prompts/core/system-prompt.md must exist. If missing, stop — ask the human to run the install script (no git clone).",
+      "Verify Phase A in prompts/reference/adopt-procedure.md: role-bootstrap.md and prompts/core/system-prompt.md must exist. If missing, stop — ask the human to run `agm scaffold` or the install script (no git clone).",
       "If an **Adoption parameters** block is present (with **File roles**), create always-on.md, blueprint.md, and entry-point.md as separate files under <doc-root>; interview only for missing facts.",
       "If **Architecture documentation areas (bootstrap)** is present, add blueprint phases and doc stubs for each selected area per prompts/reference/doc-extensions.md (your Markdown only).",
       "Bootstrap: follow <doc-root>/prompts/role-bootstrap.md — construction plan in blueprint.md, navigation in entry-point.md, first evidence-based template section.",
@@ -343,6 +343,44 @@
       "Read prompts/core/system-prompt.md rules. Create docs/architecture/ structure from the chosen template."
     ],
     "placeholders": []
+  },
+  {
+    "id": "content-ingest",
+    "track": "Evolve",
+    "activity": "Import",
+    "mode": "Direct",
+    "role": "bootstrap",
+    "group": "Evolve",
+    "when": "Incorporate pasted external material (Confluence, Markdown, specs, use cases, internal notes) into the architecture graph",
+    "prerequisite": "",
+    "freshChat": false,
+    "freshNote": "Optional",
+    "anchors": [
+      "CHANGED_FILES",
+      "INGEST_SUMMARY",
+      "LINK_CHECK",
+      "OPEN_QUESTIONS"
+    ],
+    "steps": [
+      "Read <doc-root>context/always-on.md → <doc-root>blueprint.md → <doc-root>prompts/role-bootstrap.md → prompts/reference/content-ingest.md.",
+      "Redact secrets, credentials, and PII from pasted content before writing files; ask the human if confidentiality is unclear.",
+      "Create <doc-root>sources/ if missing (index.md, log.md). Persist the import in <doc-root>sources/YYYY-MM-DD-<slug>.md (type: source-ingest) with provenance frontmatter; update sources/index.md and sources/log.md.",
+      "Extract structured facts into scoped architecture sections — e.g. use-cases/, <template>/introduction.md, context.md, glossary, interfaces/imports.md, constraints, context/on-demand.md, domain/ when installed. Link every extracted claim back to the source-ingest file.",
+      "When paste describes scenarios, create or update <doc-root>use-cases/<slug>.md (type: use-case) with source link.",
+      "Cross-check code via always-on.md source map when claims imply implementation; record conflicts as open assumptions.",
+      "Update entry-point.md links and blueprint.md session log; adjust relevant blueprint phase rows when new areas are populated.",
+      "If **Architecture documentation areas (evolve)** is present, prioritize those areas when placing extracted content."
+    ],
+    "placeholders": [
+      "doc-root",
+      "goal",
+      "pasted-content",
+      "scope",
+      "slug",
+      "source-label",
+      "source-type",
+      "template"
+    ]
   },
   {
     "id": "domain-work-context-map",

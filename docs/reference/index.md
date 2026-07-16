@@ -15,6 +15,7 @@ Installed application repos receive copies of procedure files under `prompts/ref
 | [adopt-procedure.md](./adopt-procedure.md) | Adoption phases A–C (agent) |
 | [base-context-setup.md](./base-context-setup.md) | IDE rules and install layout |
 | [doc-extensions.md](./doc-extensions.md) | Documentation area checkboxes (Assistant UI) |
+| [content-ingest.md](./content-ingest.md) | Paste imports (Confluence, specs, use cases) |
 | [advanced-templates.md](./advanced-templates.md) | `c4-light`, `adr-first`, `custom` |
 
 ---

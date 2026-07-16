@@ -20,7 +20,7 @@ Usage: agm-install.sh [options]
 Install AGM files into the current repository via HTTPS (raw GitHub).
 No git clone of agm required.
 
-Default installs the golden path only (6 workflows + core roles).
+Default installs the golden path only (7 workflows + core roles).
 Architect/Domain packs are opt-in.
 
 Options:
@@ -275,6 +275,22 @@ install_focus_extensions() {
       echo "  → ${dest} (ecosystem stub)"
       printf '# Ecosystem index\n\n<!-- Partner services: link to partner entry-point.md and exports.md -->\n\n| Service | Entry | Exports |\n|---------|-------|--------|\n| — | — | — |\n' > "$dest"
     fi
+  fi
+  if focus_has external-sources; then
+    echo "Installing sources/ (external-sources focus)…"
+    for f in index.md log.md _template.md; do
+      dest="${DOC_ROOT}sources/${f}"
+      echo "  → ${dest}"
+      fetch "docs/templates/architecture/sources/${f}" "$dest"
+    done
+  fi
+  if focus_has use-cases; then
+    echo "Installing use-cases/ (use-cases focus)…"
+    for f in index.md _template.md; do
+      dest="${DOC_ROOT}use-cases/${f}"
+      echo "  → ${dest}"
+      fetch "docs/templates/architecture/use-cases/${f}" "$dest"
+    done
   fi
 }
 

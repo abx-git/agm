@@ -82,6 +82,14 @@ export const WORKFLOW_INPUTS: Record<string, WorkflowInputField[]> = {
     { name: 'goal', label: 'What should improve?', required: true },
     { name: 'sessionFocusDetail', label: 'Focus detail (optional)', required: false },
   ],
+  'content-ingest': [
+    { name: 'sourceLabel', label: 'Source label', required: true },
+    { name: 'sourceType', label: 'Source type', required: true },
+    { name: 'goal', label: 'What should be incorporated?', required: true },
+    { name: 'slug', label: 'Ingest file slug', required: true },
+    { name: 'sessionFocusDetail', label: 'Scope detail (optional)', required: false },
+    { name: 'pastedContent', label: 'Pasted content', required: true, multiline: true },
+  ],
   maintenance: [{ name: 'gitDiff', label: 'Git diff or PR summary', required: true, multiline: true }],
   'maintenance-diff-range': [
     { name: 'diffFrom', label: 'Start ref (DIFF_FROM)', required: true },
@@ -96,4 +104,9 @@ export const DIALOG_WORKFLOW_IDS = new Set([
   'domain-work-event-storm',
 ]);
 
-export const EVOLVE_WORKFLOW_IDS = new Set(['refinement', 'maintenance', 'maintenance-diff-range']);
+export const EVOLVE_WORKFLOW_IDS = new Set([
+  'refinement',
+  'maintenance',
+  'maintenance-diff-range',
+  'content-ingest',
+]);

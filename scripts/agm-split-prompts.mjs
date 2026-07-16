@@ -20,6 +20,7 @@ const STARTER_WORKFLOW_IDS = new Set([
   'bootstrap-adopt',
   'bootstrap-continue',
   'refinement',
+  'content-ingest',
   'maintenance-diff-range',
   'review-maintenance',
   'review-phase',

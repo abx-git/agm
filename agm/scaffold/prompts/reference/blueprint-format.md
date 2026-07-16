@@ -32,6 +32,8 @@ Rationale: <!-- recorded at bootstrap; also in entry-point.md -->
 | 11    | Risks and Technical Debt   | arc42/risks.md                     | [ ] open       | —            |
 | 12    | Glossary                   | arc42/glossary.md                  | [ ] open       | —            |
 | 13    | Operational Knowledge      | ops/                               | [ ] open       | —            |
+| 13a   | External sources           | sources/                           | [ ] open       | —            |
+| 13b   | Use cases                  | use-cases/                         | [ ] open       | —            |
 | 14    | Domain — Context map       | domain/context-map.md              | [ ] open       | —            |
 | 15    | Domain — Subdomains        | domain/subdomains.md               | [ ] open       | —            |
 | 16    | Domain — Event catalog     | domain/events.md                   | [ ] open       | —            |

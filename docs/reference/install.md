@@ -2,11 +2,11 @@
 
 **Canonical Day-1 path:** [Assistant UI → Build → Install](https://abx-git.github.io/agm.github.io/) → run the generated `agm-install.sh` at your **application repo root**.
 
-Default install = **golden path** (6 workflows + core roles). Architect/Domain packs are opt-in.
+Default install = **golden path** (7 workflows + core roles). Architect/Domain packs are opt-in.
 
 | Pack | Flag | What you get |
 |------|------|--------------|
-| **golden** (default) | — | 6 workflows + bootstrap/maintenance/review roles |
+| **golden** (default) | — | 7 workflows + bootstrap/maintenance/review roles |
 | **domain** | `--domain` | + Domain/DDD scaffold, domain workflows, DDD refs |
 | **full** | `--full` | + all Architect workflows + Domain pack |
 

@@ -53,6 +53,9 @@ function applyWorkflowInputs(
     'e.g. add circuit breaker between order-service and payment-service': values.goal as string,
     'optional: latency, no new infra, etc.': values.constraints as string,
     'paste git diff or PR diff summary': values.gitDiff as string,
+    'pasted-content': values.pastedContent as string,
+    'source-label': values.sourceLabel as string,
+    'source-type': values.sourceType as string,
     goal: values.goal as string,
     scope: values.scope as string,
     slug: values.slug as string,
@@ -70,7 +73,7 @@ function applyWorkflowInputs(
     if (val == null || val === '') continue;
     const escaped = placeholder.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     out = out.replace(new RegExp(`<${escaped}>`, 'g'), String(val));
-    if (placeholder.includes('e.g.') || placeholder === 'paste git diff or PR diff summary') {
+    if (placeholder.includes('e.g.') || placeholder === 'paste git diff or PR diff summary' || placeholder === 'pasted-content') {
       out = out.replace(placeholder, String(val));
     }
   }
@@ -87,6 +90,13 @@ function applyWorkflowInputs(
     out = out.replace(
       /Git diff:\n<paste git diff or PR diff summary>/,
       `Git diff:\n${values.gitDiff}`
+    );
+  }
+  if (values.pastedContent) {
+    out = out.replace(/<pasted-content>/g, String(values.pastedContent));
+    out = out.replace(
+      /Pasted content:\n<pasted-content>/,
+      `Pasted content:\n${values.pastedContent}`
     );
   }
   if (values.diffFrom) {
@@ -201,6 +211,23 @@ function applyWorkflowInputs(
       'Next open row in blueprint.md (agent picks content section from construction plan)';
     out = out.replace(/Scope: <scope>[^\n]*/i, `Scope: ${scopeText}`);
     out = out.replace(/<scope>/g, scopeText);
+  }
+
+  if (workflowId === 'content-ingest') {
+    const scopeText =
+      (values.sessionFocusDetail as string)?.trim() ||
+      'All relevant architecture content areas implied by the pasted material and goal';
+    out = out.replace(/Scope: <scope>[^\n]*/i, `Scope: ${scopeText}`);
+    out = out.replace(/<scope>/g, scopeText);
+    if (values.sourceLabel) {
+      out = out.replace(/Source label: <source-label>/, `Source label: ${values.sourceLabel}`);
+    }
+    if (values.sourceType) {
+      out = out.replace(/Source type: <source-type>/, `Source type: ${values.sourceType}`);
+    }
+    if (values.goal) {
+      out = out.replace(/Goal: <goal>/, `Goal: ${values.goal}`);
+    }
   }
 
   return out;

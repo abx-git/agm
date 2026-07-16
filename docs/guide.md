@@ -8,13 +8,14 @@ Architecture documentation as a **Markdown link graph** in `docs/architecture/`,
 
 ---
 
-## Essential workflows (6)
+## Essential workflows (7)
 
 | Intent | Workflow | Fresh chat? |
 |--------|----------|-------------|
 | First-time setup | `bootstrap-adopt` | Yes |
 | Next doc chapter | `bootstrap-continue` | Yes |
 | Deepen one section | `refinement` | Yes |
+| Import pasted content | `content-ingest` | Yes |
 | Code changed | `maintenance-diff-range` | Yes |
 | After sync | `review-maintenance` | **Required** |
 | Milestone / phase check | `review-phase` | **Required** |
@@ -55,6 +56,8 @@ docs/architecture/
 ├── index.md + log.md      ← OKF per-folder index + change log
 ├── interfaces/            ← exports.md, imports.md
 ├── work/                  ← YYYY-MM-DD-<slug>.md + WRK-NNN in blueprint.md
+├── sources/               ← pasted imports (Confluence, specs) with provenance
+├── use-cases/             ← distilled scenarios (optional)
 └── arc42/                 ← or lean-service/, etc.
 ```
 

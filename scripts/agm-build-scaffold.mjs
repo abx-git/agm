@@ -34,6 +34,7 @@ const PROMPTS = [
   ['docs/reference/adopt-procedure.md', 'prompts/reference/adopt-procedure.md'],
   ['docs/reference/blueprint-format.md', 'prompts/reference/blueprint-format.md'],
   ['docs/reference/doc-extensions.md', 'prompts/reference/doc-extensions.md'],
+  ['docs/reference/content-ingest.md', 'prompts/reference/content-ingest.md'],
 ];
 
 const OPTIONAL_ARCHITECT = [
@@ -70,6 +71,17 @@ const OPS = [
   'docs/templates/architecture/ops/environments.md',
   'docs/templates/architecture/ops/troubleshooting.md',
   'docs/templates/architecture/ops/runbooks/_template.md',
+];
+
+const SOURCES = [
+  'docs/templates/architecture/sources/index.md',
+  'docs/templates/architecture/sources/log.md',
+  'docs/templates/architecture/sources/_template.md',
+];
+
+const USE_CASES = [
+  'docs/templates/architecture/use-cases/index.md',
+  'docs/templates/architecture/use-cases/_template.md',
 ];
 
 const TEMPLATES = {
@@ -145,6 +157,16 @@ for (const src of OPS) {
   copyIntoScaffold(src, join('doc-root', 'ops', base));
 }
 
+for (const src of SOURCES) {
+  const base = src.replace('docs/templates/architecture/sources/', '');
+  copyIntoScaffold(src, join('doc-root', 'sources', base));
+}
+
+for (const src of USE_CASES) {
+  const base = src.replace('docs/templates/architecture/use-cases/', '');
+  copyIntoScaffold(src, join('doc-root', 'use-cases', base));
+}
+
 for (const [template, files] of Object.entries(TEMPLATES)) {
   for (const src of files) {
     const prefix = `docs/templates/architecture/${template}/`;
@@ -158,12 +180,12 @@ writeFileSync(
   join(OUT, 'prompts', 'workflows', 'README.md'),
   `# Workflows (MCP)
 
-Golden-path session prompts ship compressed in \`@abx-hh/agm-cli\` (6 workflows).
+Golden-path session prompts ship compressed in \`@abx-hh/agm-cli\` (7 workflows).
 Extended Architect/Domain prompts need the private pack or Assistant Advanced + \`agm scaffold --full\`.
 
 Use:
 
-- MCP tool \`agm_trigger_workflow\` (starter: adopt / continue / refine / sync / review)
+- MCP tool \`agm_trigger_workflow\` (starter: adopt / continue / refine / import / sync / review)
 - [AGM Assistant UI](https://abx-git.github.io/agm.github.io/)
 `
 );

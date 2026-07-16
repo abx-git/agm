@@ -27,7 +27,7 @@ npx @abx-hh/agm-cli scaffold --project "my-app" --template arc42
 # optional Advanced packs: --domain | --full
 ```
 
-Default scaffold = golden path. Public MCP starter = **6** compressed workflows (adopt / continue / refine / sync / two reviews).
+Default scaffold = golden path. Public MCP starter = **7** compressed workflows (adopt / continue / refine / import / sync / two reviews).
 
 ### npm global (optional)
 
