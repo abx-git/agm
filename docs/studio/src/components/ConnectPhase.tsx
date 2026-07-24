@@ -20,8 +20,8 @@ export function ConnectPhase() {
     <div className="phase-panel connect-phase">
       <h2>Connect your project</h2>
       <p className="lead">
-        Name the application, pick a documentation template, then bind the local folder where the
-        architecture graph lives (or will be created) — typically <code>docs/architecture</code>.
+        Name the application, pick a template, then choose the local architecture folder (the one
+        that will hold <code>blueprint.md</code> and friends).
       </p>
 
       <div className="form-grid">
@@ -63,15 +63,6 @@ export function ConnectPhase() {
         )}
 
         <label className="field">
-          <span>Documentation root (relative to repo)</span>
-          <input
-            type="text"
-            value={project.docRoot}
-            onChange={(e) => setProject({ docRoot: e.target.value })}
-          />
-        </label>
-
-        <label className="field">
           <span>AI chat (for Run prompts)</span>
           <select value={project.aiTool} onChange={(e) => setProject({ aiTool: e.target.value })}>
             <option value="cursor">Cursor</option>
@@ -106,7 +97,7 @@ export function ConnectPhase() {
         <h3>Architecture folder</h3>
         <p className="hint">
           {supportsDirectoryPicker()
-            ? 'Allow edit access so Studio can install the starter and save spikes in this folder.'
+            ? 'Pick the folder on disk (often named architecture). Allow edit access so Studio can write the starter and spikes here.'
             : 'This browser cannot grant write access. Use Chrome, Edge, or Brave.'}
         </p>
         <button
@@ -133,6 +124,24 @@ export function ConnectPhase() {
             Detected install status: <strong>{installStatus}</strong>
           </p>
         )}
+
+        <details className="connect-advanced">
+          <summary>Advanced: path inside the Git repo</summary>
+          <p className="hint">
+            Studio already has the folder above. This value is only for Run prompts — so the AI
+            chat (working from the repo root) knows the relative path. Change it if your docs are
+            not under <code>docs/architecture/</code>.
+          </p>
+          <label className="field">
+            <span>Relative path from repo root</span>
+            <input
+              type="text"
+              value={project.docRoot}
+              onChange={(e) => setProject({ docRoot: e.target.value })}
+              placeholder="docs/architecture/"
+            />
+          </label>
+        </details>
       </div>
 
       <div className="phase-actions">
