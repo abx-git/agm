@@ -131,7 +131,7 @@ function afterOpen(
 }
 
 export const useStudioStore = create<StudioState>((set, get) => ({
-  phase: 'start',
+  phase: 'about',
   project: loadProjectParams(),
   folderHandle: null,
   folderLabel: null,
@@ -289,7 +289,7 @@ export const useStudioStore = create<StudioState>((set, get) => ({
       searchHits: [],
       typeFilter: '',
       browsePanel: 'doc',
-      phase: 'start',
+      phase: 'about',
       error: null,
     })
   },

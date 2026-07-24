@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useStudioStore } from './store/studio-store'
 import { ProjectBar, JourneyRail } from './components/ProjectBar'
+import { WhatIsAgmPhase } from './components/WhatIsAgmPhase'
 import { StarterPhase } from './components/StarterPhase'
 import { ConnectPhase } from './components/ConnectPhase'
 import { InstallPhase } from './components/InstallPhase'
@@ -19,12 +20,12 @@ export default function App() {
     void tryRestoreFolder()
   }, [tryRestoreFolder])
 
-  const showRail = phase !== 'start'
+  const introPhase = phase === 'about' || phase === 'start'
 
   return (
-    <div className={`studio${phase === 'start' ? ' studio--starter' : ''}`}>
+    <div className={`studio${introPhase ? ' studio--starter' : ''}`}>
       <ProjectBar />
-      {showRail && <JourneyRail />}
+      {!introPhase && <JourneyRail />}
       {error && (
         <div className="studio-error" role="alert">
           {error}
@@ -36,8 +37,9 @@ export default function App() {
         </div>
       )}
       <div
-        className={`studio-body${phase === 'review' || phase === 'spike' ? ' studio-body--wide' : ''}${phase === 'start' ? ' studio-body--starter' : ''}`}
+        className={`studio-body${phase === 'review' || phase === 'spike' ? ' studio-body--wide' : ''}${introPhase ? ' studio-body--starter' : ''}`}
       >
+        {phase === 'about' && <WhatIsAgmPhase />}
         {phase === 'start' && <StarterPhase />}
         {phase === 'connect' && <ConnectPhase />}
         {phase === 'install' && <InstallPhase />}

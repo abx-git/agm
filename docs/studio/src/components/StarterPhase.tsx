@@ -22,6 +22,9 @@ export function StarterPhase() {
           >
             {folderLabel ? 'Continue journey' : 'Get started'}
           </button>
+          <button type="button" className="btn" onClick={() => setPhase('about')}>
+            What is AGM?
+          </button>
           {folderLabel && (
             <button type="button" className="btn" onClick={() => setPhase('connect')}>
               Project settings
@@ -121,6 +124,9 @@ export function StarterPhase() {
       </section>
 
       <div className="starter-cta starter-cta--footer">
+        <button type="button" className="btn" onClick={() => setPhase('about')}>
+          What is AGM?
+        </button>
         <button
           type="button"
           className="btn primary"

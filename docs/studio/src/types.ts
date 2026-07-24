@@ -1,4 +1,4 @@
-export type JourneyPhase = 'start' | 'connect' | 'install' | 'run' | 'spike' | 'review'
+export type JourneyPhase = 'about' | 'start' | 'connect' | 'install' | 'run' | 'spike' | 'review'
 
 export type InstallStatus = 'unknown' | 'missing' | 'ready' | 'partial'
 

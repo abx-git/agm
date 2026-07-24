@@ -59,10 +59,14 @@ export function ProjectBar() {
 
   return (
     <header className="project-bar">
-      <button type="button" className="studio-brand studio-brand-btn" onClick={() => setPhase('start')}>
+      <button type="button" className="studio-brand studio-brand-btn" onClick={() => setPhase('about')}>
         <strong>AGM Studio</strong>
         <span className="studio-tag">
-          {phase === 'start' ? 'how it works' : 'connect · install · run · spike · review'}
+          {phase === 'about'
+            ? 'what is AGM'
+            : phase === 'start'
+              ? 'how it works'
+              : 'connect · install · run · spike · review'}
         </span>
       </button>
       <div className="project-meta">
@@ -79,7 +83,7 @@ export function ProjectBar() {
         )}
       </div>
       <div className="studio-actions">
-        {phase !== 'start' && (
+        {phase !== 'start' && phase !== 'about' && (
           <button
             type="button"
             className="btn"
@@ -89,7 +93,7 @@ export function ProjectBar() {
             {opening ? 'Opening…' : folderLabel ? 'Change folder' : 'Choose folder'}
           </button>
         )}
-        {folderLabel && phase !== 'start' && (
+        {folderLabel && phase !== 'start' && phase !== 'about' && (
           <button type="button" className="btn" disabled={opening} onClick={() => refreshIndex()}>
             Refresh
           </button>

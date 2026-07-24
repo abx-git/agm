@@ -8,6 +8,7 @@ Live: https://abx-git.github.io/agm.github.io/
 
 | Step | What you do |
 |------|-------------|
+| **About** | What AGM is (method, not the Studio UI alone) |
 | **Start** | What you need + URL-only cockpit loop |
 | **1. Connect** | Project name, template, bind local architecture folder (write) |
 | **2. Install** | Write Day-1 starter into the bound folder (browser only) |
@@ -15,7 +16,7 @@ Live: https://abx-git.github.io/agm.github.io/
 | **4. Spike** | Create/open spike folders (`SPK-*`): notes, Mermaid, E2 boards |
 | **5. Review** | Browse full graph: tree, search, Markdown, Mermaid, link graph, boards |
 
-Click the **AGM Studio** brand anytime to return to the starter explanation.
+Click the **AGM Studio** brand anytime to return to **What is AGM**. From there, open **How Studio works**.
 
 ## Spikes
 
