@@ -26,7 +26,7 @@ Architect/Domain packs are opt-in.
 
 Options:
   --doc-root PATH   Documentation root (default: docs/architecture/)
-  --work-dir PATH   Store work/ outside Git (symlink <doc-root>/work → PATH)
+  --work-dir PATH   Store spikes/ outside Git (symlink <doc-root>/spikes → PATH; legacy work/ also supported)
   --template NAME   arc42 | c4-light | adr-first | lean-service | custom
   --project NAME    Application / project label (metadata only)
   --ai-tool NAME    cursor | claude | copilot | generic
@@ -128,6 +128,10 @@ SHARED=(
   "docs/templates/architecture/prompts/role-bootstrap.md|${DOC_ROOT}prompts/role-bootstrap.md"
   "docs/templates/architecture/prompts/role-maintenance.md|${DOC_ROOT}prompts/role-maintenance.md"
   "docs/templates/architecture/prompts/role-review.md|${DOC_ROOT}prompts/role-review.md"
+  "docs/templates/architecture/spikes/README.md|${DOC_ROOT}spikes/README.md"
+  "docs/templates/architecture/spikes/_template/index.md|${DOC_ROOT}spikes/_template/index.md"
+  "docs/templates/architecture/spikes/_template/notes.md|${DOC_ROOT}spikes/_template/notes.md"
+  "docs/templates/architecture/spikes/_template/boards/README.md|${DOC_ROOT}spikes/_template/boards/README.md"
   "docs/templates/architecture/work/_template.md|${DOC_ROOT}work/_template.md"
   "docs/templates/architecture/work/_template-review.md|${DOC_ROOT}work/_template-review.md"
   "docs/templates/architecture/interfaces/exports.md|${DOC_ROOT}interfaces/exports.md"
@@ -449,15 +453,15 @@ EOF
 
 echo
 echo "Done. Next:"
-echo "  1. Open AGM Assistant → Build → Adopt (copy session prompt)."
-echo "  2. New chat in this repo — agent creates blueprint.md, entry-point.md, first section."
-echo "  3. Do not re-run install if ${DOC_ROOT}blueprint.md already exists — use agm-upgrade.sh instead."
+echo "  1. Open AGM Studio → Run → Adopt (copy session prompt), or paste Adopt from Studio/Assistant."
+echo "  2. New chat in this repo — agent fills blueprint.md, entry-point.md, first section under ${DOC_ROOT}."
+echo "  3. Do not re-run install if ${DOC_ROOT}blueprint.md is already filled — use agm-upgrade.sh instead."
 if [[ -n "$WORK_DIR" ]]; then
-  echo "  Work reports: ${DOC_ROOT}work/ → external (see ${DOC_ROOT}work-location.md)."
+  echo "  Spikes/work: external dir linked (see ${DOC_ROOT}work-location.md)."
 fi
 if [[ "$INSTALL_FULL" -eq 0 ]]; then
-  echo "  Tip: re-run with --domain or --full for Architect/Domain packs (Assistant Advanced)."
+  echo "  Tip: re-run with --domain or --full for Architect/Domain packs."
   if [[ -z "$WORK_DIR" ]]; then
-    echo "  Tip: --work-dir \$HOME/agm-work/<app>/work keeps drafts outside Git."
+    echo "  Tip: --work-dir \$HOME/agm-work/<app>/spikes keeps drafts outside Git."
   fi
 fi

@@ -16,7 +16,7 @@ AGM — Domain · Continue
 Workflow: domain-work-continue
 Role: domain-work
 
-Read <doc-root>blueprint.md ## Work register.
+Read <doc-root>blueprint.md ## Spike register.
 Pick the next item with Track: domain and status draft, or continue the domain task the human names.
 Update domain/ graph files and work item before stopping.
 

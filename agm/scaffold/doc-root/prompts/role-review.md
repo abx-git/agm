@@ -15,7 +15,7 @@ Goal: validate architecture docs against source in a fresh session.
 Mode: report-only (no fixes).
 
 [SA:INPUTS]
-- docs/architecture/blueprint.md
+- <doc-root>/blueprint.md
 - target docs or phase to review
 - source files referenced by reviewed docs
 
@@ -24,7 +24,7 @@ Mode: report-only (no fixes).
 2) Verify factual correctness against source.
 3) Verify interfaces consistency (exports/imports).
 4) Verify link integrity in reviewed files.
-5) Write report to docs/architecture/spikes/YYYY-MM-DD-review-<slug>/notes.md (create spike folder from spikes/_template/).
+5) Write report to <doc-root>/spikes/YYYY-MM-DD-review-<slug>/notes.md (create spike folder from spikes/_template/).
 6) Update blueprint sections Reviews + Guardrail findings.
 
 [SA:SEVERITY]

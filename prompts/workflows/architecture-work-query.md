@@ -19,10 +19,10 @@ Role: architecture-work
 Question: <your question here>
 
 Instructions:
-1. Read docs/architecture/blueprint.md, entry-point.md, and prompts/role-architecture-work.md.
+1. Read <doc-root>/blueprint.md, entry-point.md, and prompts/role-architecture-work.md.
 2. Traverse the Markdown link graph only; follow imports/exports, <template>/, and ops links.
 3. Do not scan raw source unless a link leads there.
-4. Write the answer to docs/architecture/spikes/YYYY-MM-DD-<slug>/notes.md using spikes/_template/ (type: question).
+4. Write the answer to <doc-root>/spikes/YYYY-MM-DD-<slug>/notes.md using spikes/_template/ (type: question).
 5. Register the spike in blueprint.md ## Spike register (next SPK-NNN, Track: architecture).
 6. Verify all links resolve.
 

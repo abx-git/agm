@@ -15,7 +15,7 @@ OUT = ROOT / "docs" / "assistant" / "workflows.json"
 STUDIO_PUBLIC = ROOT / "docs" / "studio" / "public"
 STUDIO_ASSISTANT = STUDIO_PUBLIC / "assistant"
 ADOPT_SRC = ROOT / "prompts" / "adopt-standalone.md"
-ADOPT_PROC = ROOT / "prompts" / "reference" / "adopt-procedure.md"
+ADOPT_PROC = ROOT / "docs" / "reference" / "adopt-procedure.md"
 ADOPT_OUT = ROOT / "docs" / "assistant" / "adopt-prompt.txt"
 
 ROLE_TRACK_FALLBACK = {

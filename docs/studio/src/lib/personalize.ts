@@ -23,9 +23,12 @@ export function substituteTemplate(text: string, templateId: string): string {
 
 export function substituteDocRoot(text: string, docRoot: string): string {
   const norm = normDocRoot(docRoot)
+  const noSlash = norm.replace(/\/$/, '')
   return String(text)
-    .replace(/<doc-root>/g, norm)
     .replace(/docs\/architecture\//g, norm)
+    .replace(/docs\/architecture(?![/\w])/g, noSlash)
+    .replace(/<doc-root>\//g, norm)
+    .replace(/<doc-root>/g, noSlash)
 }
 
 function buildAgentGraphDutiesBlock(docRoot: string): string {
@@ -57,6 +60,10 @@ function buildParameterBlock(params: ProjectParams): string {
   if (params.purpose) lines.push(`- Purpose: ${params.purpose}`)
   if (params.stack) lines.push(`- Stack: ${params.stack}`)
   if (params.sourceRoot) lines.push(`- Source root: ${params.sourceRoot}`)
+  lines.push('')
+  lines.push(
+    `Resolve every architecture file under Documentation root (${docRoot}). Do not use a different docs path unless the human explicitly changes it.`,
+  )
   lines.push('')
   return lines.join('\n')
 }

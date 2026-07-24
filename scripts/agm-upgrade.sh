@@ -220,6 +220,10 @@ if [[ "$ADD_MISSING" -eq 1 ]]; then
   fetch_if_missing "docs/templates/architecture/use-cases/_template.md" "${DOC_ROOT}use-cases/_template.md"
   fetch_if_missing "docs/templates/architecture/work/_template.md" "${DOC_ROOT}work/_template.md"
   fetch_if_missing "docs/templates/architecture/work/_template-review.md" "${DOC_ROOT}work/_template-review.md"
+  fetch_if_missing "docs/templates/architecture/spikes/README.md" "${DOC_ROOT}spikes/README.md"
+  fetch_if_missing "docs/templates/architecture/spikes/_template/index.md" "${DOC_ROOT}spikes/_template/index.md"
+  fetch_if_missing "docs/templates/architecture/spikes/_template/notes.md" "${DOC_ROOT}spikes/_template/notes.md"
+  fetch_if_missing "docs/templates/architecture/spikes/_template/boards/README.md" "${DOC_ROOT}spikes/_template/boards/README.md"
   if [[ "$INSTALL_DOMAIN" -eq 1 ]]; then
     fetch_if_missing "docs/templates/architecture/work/_template-domain.md" "${DOC_ROOT}work/_template-domain.md"
     for f in README.md context-map.md subdomains.md events.md contexts/_template/model.md contexts/_template/language.md; do

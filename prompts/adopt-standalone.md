@@ -1,9 +1,10 @@
 # AGM — standalone adoption prompt
 
-1. **Install** — [Assistant UI](https://abx-git.github.io/agm.github.io/) Build → configure OS, AI tool, template, doc root → copy and run the generated `agm-install.sh` (no git clone).
-2. **Adopt** — copy the adoption prompt below into a new agent chat at your application repository root.
+1. **Install** — Prefer [AGM Studio](https://abx-git.github.io/agm.github.io/): Connect your architecture folder → Install → **Write starter into folder**.  
+   Alternative (CLI): `agm scaffold` / `agm-install.sh` with `--doc-root` matching your documentation path.
+2. **Adopt** — copy the adoption prompt below into a **new** agent chat at your **application repository root** (so paths like `<doc-root>…` resolve correctly).
 
-Starts **lifecycle phase 1 · Build**: agent writes `always-on.md`, `blueprint.md` (construction plan), `entry-point.md`, and the first evidence-based section (scaffold already installed).
+Starts **lifecycle phase 1 · Build**: agent fills `always-on.md`, `blueprint.md`, `entry-point.md`, and the first evidence-based section (scaffold already present).
 
 ---
 
@@ -14,16 +15,21 @@ AGM — Adopt (standalone session).
 Workflow: bootstrap-adopt
 Role: bootstrap
 
-Adopt the Architecture Graph Method (AGM) into this application repository. The human has already run `agm-install.sh`. Execute Phase B–C in prompts/reference/adopt-procedure.md (bundled below).
+Adopt the Architecture Graph Method (AGM) into this application repository.
+The human installed the scaffold via AGM Studio (browser write) or `agm scaffold` / `agm-install.sh`.
+Execute Phase B–C in the bundled adopt-procedure (or prompts/reference/adopt-procedure.md).
 
-Prerequisites: install script completed; application repository open in the IDE; human available for a short interview.
+Prerequisites: application repository open in the IDE; scaffold present under the documentation root below; human available for a short interview.
+
+Use the **Documentation root** from Project parameters (or <doc-root>) for every architecture path — do not assume docs/architecture/ if a different root was configured.
 
 Instructions:
-1. If docs/architecture/blueprint.md already exists, stop and tell the human to paste the bootstrap-continue session prompt in a new chat instead.
-2. Verify Phase A in adopt-procedure.md: docs/architecture/prompts/role-bootstrap.md and prompts/core/system-prompt.md must exist. If missing, stop — ask the human to run the install script.
-3. If an **Adoption parameters** block is present (with **File roles**), create always-on.md, blueprint.md, and entry-point.md as separate files; interview only for missing facts.
-4. Bootstrap: follow docs/architecture/prompts/role-bootstrap.md — construction plan in blueprint.md, navigation in entry-point.md, first evidence-based template section.
-5. Verify relative links. Append a session log entry to blueprint.md.
+1. If <doc-root>/blueprint.md already exists, stop and tell the human to paste the bootstrap-continue session prompt in a new chat instead.
+2. Verify Phase A: <doc-root>/prompts/role-bootstrap.md and prompts/core/system-prompt.md must exist. If missing, stop — ask the human to finish Install in AGM Studio (or run `agm scaffold` / install script) with the same documentation root.
+3. If an **Adoption parameters** / **Project parameters** block is present (with file roles or Documentation root), create always-on.md, blueprint.md, and entry-point.md as separate files under <doc-root>; interview only for missing facts.
+4. Bootstrap: follow <doc-root>/prompts/role-bootstrap.md — construction plan in <doc-root>/blueprint.md, navigation in <doc-root>/entry-point.md, first evidence-based template section under <doc-root>.
+5. Ensure <doc-root>/spikes/ exists (README + _template/ if missing). Prefer spikes for explorations, not flat work/ files.
+6. Verify relative links. Append a session log entry to <doc-root>/blueprint.md.
 
 Output [[ANCHOR:CHANGED_FILES]], [[ANCHOR:TEMPLATE_SELECTED]], [[ANCHOR:PHASE_STATUS]], [[ANCHOR:OPEN_QUESTIONS]], [[ANCHOR:LINK_CHECK]] before stop.
 ```
@@ -32,4 +38,4 @@ Output [[ANCHOR:CHANGED_FILES]], [[ANCHOR:TEMPLATE_SELECTED]], [[ANCHOR:PHASE_ST
 
 ## Scaffold procedure (include when pasting — or agent reads adopt-procedure.md from repo)
 
-See [prompts/reference/adopt-procedure.md](../docs/reference/adopt-procedure.md) in the pattern repository. The Assistant UI copies prompt + procedure in one block.
+See [docs/reference/adopt-procedure.md](../docs/reference/adopt-procedure.md). AGM Studio / Assistant sync should bundle prompt + procedure in one block.
