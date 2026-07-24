@@ -252,7 +252,19 @@ flowchart LR
   return {
     [`${folder}/index.md`]: index,
     [`${folder}/notes.md`]: notes,
-    [`${folder}/boards/README.md`]: `# Boards\n\nE2 \`*.storm.json\` boards for this spike.\n`,
+    [`${folder}/boards/README.md`]: `---
+type: architecture-index
+title: "Spike boards"
+description: "E2 .storm.json boards for this spike"
+resource: "repo://"
+tags: [architecture, spike, board]
+timestamp: "${ts}"
+---
+
+# Boards
+
+E2 \`*.storm.json\` boards for this spike.
+`,
   }
 }
 

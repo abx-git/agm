@@ -125,23 +125,21 @@ export function ConnectPhase() {
           </p>
         )}
 
-        <details className="connect-advanced">
-          <summary>Advanced: path inside the Git repo</summary>
-          <p className="hint">
-            Studio already has the folder above. This value is only for Run prompts — so the AI
-            chat (working from the repo root) knows the relative path. Change it if your docs are
-            not under <code>docs/architecture/</code>.
-          </p>
-          <label className="field">
-            <span>Relative path from repo root</span>
-            <input
-              type="text"
-              value={project.docRoot}
-              onChange={(e) => setProject({ docRoot: e.target.value })}
-              placeholder="docs/architecture/"
-            />
-          </label>
-        </details>
+        <label className="field connect-doc-root">
+          <span>Path in the Git repo (for AI prompts)</span>
+          <input
+            type="text"
+            value={project.docRoot}
+            onChange={(e) => setProject({ docRoot: e.target.value })}
+            placeholder="docs/architecture/"
+            required
+          />
+          <span className="hint">
+            Choosing the folder above does not set this. Enter the relative path from the
+            repository root (e.g. <code>docs/architecture/</code> or <code>docs/arch/</code>).
+            Run prompts use this value everywhere.
+          </span>
+        </label>
       </div>
 
       <div className="phase-actions">

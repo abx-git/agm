@@ -833,25 +833,16 @@ code {
   font-size: 1rem;
 }
 
-.connect-advanced {
+.connect-doc-root {
   margin-top: 1rem;
-  padding-top: 0.75rem;
+  padding-top: 0.85rem;
   border-top: 1px solid var(--line);
+  max-width: 28rem;
 }
 
-.connect-advanced summary {
-  cursor: pointer;
-  color: var(--muted);
-  font-size: 0.88rem;
-  margin-bottom: 0.5rem;
-}
-
-.connect-advanced[open] summary {
-  margin-bottom: 0.65rem;
-}
-
-.connect-advanced .field {
-  max-width: 22rem;
+.connect-doc-root .hint {
+  display: block;
+  margin-top: 0.35rem;
 }
 
 .hint {

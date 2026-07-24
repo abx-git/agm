@@ -21,7 +21,7 @@ Execute Phase B–C in the bundled adopt-procedure (or prompts/reference/adopt-p
 
 Prerequisites: application repository open in the IDE; scaffold present under the documentation root below; human available for a short interview.
 
-Use the **Documentation root** from Project parameters (or <doc-root>) for every architecture path — do not assume docs/architecture/ if a different root was configured.
+Use the **Documentation root** from Project parameters for every architecture path — never hardcode another docs folder.
 
 Instructions:
 1. If <doc-root>/blueprint.md already exists, stop and tell the human to paste the bootstrap-continue session prompt in a new chat instead.
