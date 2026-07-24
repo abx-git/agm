@@ -13,7 +13,6 @@
 
 ```
 AGM — Domain · Clarify
-Workflow: domain-work-subdomain-classification
 Role: domain-work
 
 Business scope: <product line, platform, or enterprise area>

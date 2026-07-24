@@ -13,7 +13,6 @@
 
 ```
 AGM — Verify · Evaluate
-Workflow: review-phase
 Role: review
 
 Read <doc-root>/context/always-on.md → <doc-root>/blueprint.md → <doc-root>/prompts/role-review.md.

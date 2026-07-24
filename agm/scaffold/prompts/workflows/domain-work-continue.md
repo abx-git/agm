@@ -13,7 +13,6 @@
 
 ```
 AGM — Domain · Continue
-Workflow: domain-work-continue
 Role: domain-work
 
 Read <doc-root>blueprint.md ## Spike register.

@@ -13,7 +13,6 @@
 
 ```
 AGM — Domain · Design
-Workflow: domain-work-design
 Role: domain-work
 
 Goal: <e.g. split Order aggregate, introduce ACL to payment context, model refund policy>

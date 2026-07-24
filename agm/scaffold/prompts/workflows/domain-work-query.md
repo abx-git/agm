@@ -13,7 +13,6 @@
 
 ```
 AGM — Domain · Clarify
-Workflow: domain-work-query
 Role: domain-work
 
 Question: <your domain question here>

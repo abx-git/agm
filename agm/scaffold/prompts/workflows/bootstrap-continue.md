@@ -13,7 +13,6 @@
 
 ```
 AGM — Build · Continue
-Workflow: bootstrap-continue
 Role: bootstrap
 
 Follow the AGM core prompt and <doc-root>/prompts/role-bootstrap.md.

@@ -14,7 +14,6 @@
 
 ```
 AGM — Architect · Evaluate (dialog)
-Workflow: architecture-work-sustainable-interrogate
 Role: architecture-work
 
 Method: sustainable software architecture

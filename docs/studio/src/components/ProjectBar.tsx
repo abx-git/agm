@@ -71,7 +71,7 @@ export function ProjectBar() {
       </button>
       <div className="project-meta">
         <span className="meta-pill">{project.appName || 'Unnamed project'}</span>
-        <span className="meta-pill">{project.docRoot}</span>
+        <span className="meta-pill">{project.docRoot || 'Doc root pending'}</span>
         {folderLabel ? (
           <span className="meta-pill" title={folderLabel}>
             {folderLabel}
@@ -88,7 +88,11 @@ export function ProjectBar() {
             type="button"
             className="btn"
             disabled={opening}
-            onClick={() => (supportsDirectoryPicker() ? connectFolder() : connectFolderFallback())}
+            onClick={() => {
+              setPhase('connect')
+              if (supportsDirectoryPicker()) void connectFolder()
+              else void connectFolderFallback()
+            }}
           >
             {opening ? 'Opening…' : folderLabel ? 'Change folder' : 'Choose folder'}
           </button>

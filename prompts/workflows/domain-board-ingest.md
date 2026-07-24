@@ -14,7 +14,6 @@
 
 ```
 AGM — Domain · Import board snapshot
-Workflow: domain-board-ingest
 Role: domain-work
 
 Source label: <source-label>

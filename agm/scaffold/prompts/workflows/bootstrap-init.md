@@ -13,7 +13,6 @@
 
 ```
 AGM — Build · Init
-Workflow: bootstrap-init
 Role: bootstrap
 
 Bootstrap AGM documentation for this application.

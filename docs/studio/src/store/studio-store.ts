@@ -9,9 +9,12 @@ import { DEFAULT_PROJECT } from '../types'
 import { buildArchitectureIndex } from '../lib/build-index'
 import { detectInstallStatus } from '../lib/detect-install'
 import {
+  buildDocPromptPath,
+  confirmFolderBinding,
   loadDirectoryHandle,
+  looksLikeGitRepo,
   openArchitectureFolderViaInput,
-  openFolderWithOptionalSubpath,
+  pickDirectory,
   rehydrateFolder,
   supportsDirectoryPicker,
   walkDirectoryHandle,
@@ -60,6 +63,11 @@ interface StudioState {
   project: ProjectParams
   folderHandle: FileSystemDirectoryHandle | null
   folderLabel: string | null
+  /** Step 1 of connect: folder chosen, not yet confirmed */
+  pendingBaseHandle: FileSystemDirectoryHandle | null
+  pendingBaseName: string | null
+  pendingCanWrite: boolean
+  pendingSubpath: string
   canWrite: boolean
   installStatus: InstallStatus
   index: ArchitectureIndex | null
@@ -86,7 +94,12 @@ interface StudioState {
   showToast: (msg: string) => void
   clearToast: () => void
 
+  /** @deprecated use pickBaseFolder + confirmConnect */
   connectFolder: () => Promise<void>
+  pickBaseFolder: () => Promise<void>
+  confirmConnect: (subpath: string, docRoot: string) => Promise<void>
+  clearPendingBase: () => void
+  suggestDocRootForPending: (subpath: string) => Promise<string>
   connectFolderFallback: () => Promise<void>
   tryRestoreFolder: () => Promise<void>
   refreshIndex: (opts?: { keepPhase?: boolean }) => Promise<void>
@@ -144,6 +157,10 @@ export const useStudioStore = create<StudioState>((set, get) => ({
   project: loadProjectParams(),
   folderHandle: null,
   folderLabel: null,
+  pendingBaseHandle: null,
+  pendingBaseName: null,
+  pendingCanWrite: false,
+  pendingSubpath: '',
   canWrite: false,
   installStatus: 'unknown',
   index: null,
@@ -196,34 +213,87 @@ export const useStudioStore = create<StudioState>((set, get) => ({
   clearToast: () => set({ toast: null }),
 
   connectFolder: async () => {
+    await get().pickBaseFolder()
+  },
+
+  pickBaseFolder: async () => {
     set({ opening: true, error: null })
     try {
       if (!supportsDirectoryPicker()) {
         await get().connectFolderFallback()
         return
       }
-      const subpath = get().project.docRoot
-      const result = await openFolderWithOptionalSubpath({
-        mode: 'readwrite',
-        subpath,
-      })
-      if (!result) {
+      const picked = await pickDirectory({ mode: 'readwrite' })
+      if (!picked) {
         set({ opening: false })
         return
       }
-      get().setProject({ docRoot: result.docRoot })
-      afterOpen(set, get, result.label, result.files, result.handle, result.canWrite)
-      get().showToast(
-        subpath?.trim()
-          ? `Bound · prompts use ${result.docRoot}`
-          : `Bound ${result.baseName} · prompts use ${result.docRoot}`,
-      )
+      const isRepo = await looksLikeGitRepo(picked.handle)
+      const defaultSub = isRepo ? 'docs/architecture' : ''
+      const suggested = await buildDocPromptPath(picked.handle, defaultSub)
+      set({
+        pendingBaseHandle: picked.handle,
+        pendingBaseName: picked.handle.name,
+        pendingCanWrite: picked.canWrite,
+        pendingSubpath: defaultSub,
+        opening: false,
+        error: null,
+        phase: 'connect',
+      })
+      get().setProject({ docRoot: suggested })
+      get().showToast(`Selected “${picked.handle.name}” — set subfolder if needed, then confirm`)
     } catch (err) {
       set({
         opening: false,
         error: err instanceof Error ? err.message : 'Failed to open folder',
       })
     }
+  },
+
+  suggestDocRootForPending: async (subpath) => {
+    const base = get().pendingBaseHandle
+    if (!base) return ''
+    return buildDocPromptPath(base, subpath)
+  },
+
+  confirmConnect: async (subpath, docRoot) => {
+    const base = get().pendingBaseHandle
+    if (!base) {
+      set({ error: 'Choose a folder first.' })
+      return
+    }
+    set({ opening: true, error: null })
+    try {
+      const result = await confirmFolderBinding({
+        base,
+        canWrite: get().pendingCanWrite,
+        subpath,
+        docRoot,
+      })
+      get().setProject({ docRoot: result.docRoot })
+      set({
+        pendingBaseHandle: null,
+        pendingBaseName: null,
+        pendingCanWrite: false,
+        pendingSubpath: '',
+      })
+      afterOpen(set, get, result.label, result.files, result.handle, result.canWrite)
+      get().showToast(`Confirmed · prompts use ${result.docRoot}`)
+    } catch (err) {
+      set({
+        opening: false,
+        error: err instanceof Error ? err.message : 'Failed to bind folder',
+      })
+    }
+  },
+
+  clearPendingBase: () => {
+    set({
+      pendingBaseHandle: null,
+      pendingBaseName: null,
+      pendingCanWrite: false,
+      pendingSubpath: '',
+    })
   },
 
   connectFolderFallback: async () => {
@@ -234,7 +304,10 @@ export const useStudioStore = create<StudioState>((set, get) => ({
         set({ opening: false })
         return
       }
+      const docRoot = `${result.label}/`
+      get().setProject({ docRoot })
       afterOpen(set, get, result.label, result.files, null, false)
+      get().showToast(`Opened read-only · prompts use ${docRoot}`)
     } catch (err) {
       set({
         opening: false,
@@ -299,6 +372,10 @@ export const useStudioStore = create<StudioState>((set, get) => ({
     set({
       folderHandle: null,
       folderLabel: null,
+      pendingBaseHandle: null,
+      pendingBaseName: null,
+      pendingCanWrite: false,
+      pendingSubpath: '',
       canWrite: false,
       installStatus: 'unknown',
       index: null,

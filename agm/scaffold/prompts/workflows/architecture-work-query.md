@@ -13,7 +13,6 @@
 
 ```
 AGM — Architect · Clarify
-Workflow: architecture-work-query
 Role: architecture-work
 
 Question: <your question here>

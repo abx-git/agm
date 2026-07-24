@@ -14,7 +14,6 @@
 
 ```
 AGM — Architect · Evaluate (sustainable)
-Workflow: architecture-work-sustainable-analysis
 Role: architecture-work
 
 Method: sustainable software architecture

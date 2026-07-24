@@ -14,7 +14,6 @@
 
 ```
 AGM — Architect · Clarify (dialog)
-Workflow: architecture-work-interrogate
 Role: architecture-work
 
 Goal / question: <your question here>

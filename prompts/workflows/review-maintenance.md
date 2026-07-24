@@ -13,7 +13,6 @@
 
 ```
 AGM — Verify · Evaluate (post-sync)
-Workflow: review-maintenance
 Role: review
 
 Review AGM documentation for this application.

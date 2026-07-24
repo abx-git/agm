@@ -285,7 +285,7 @@
       "TEMPLATE_SELECTED"
     ],
     "steps": [
-      "If <doc-root>/blueprint.md already exists, stop and tell the human to paste the bootstrap-continue session prompt in a new chat instead.",
+      "If <doc-root>/blueprint.md already exists, stop and tell the human to paste the Continue session prompt (Build · Continue) from AGM Studio Run in a new chat instead.",
       "Verify Phase A in prompts/reference/adopt-procedure.md: role-bootstrap.md and prompts/core/system-prompt.md must exist. If missing, stop — ask the human to run `agm scaffold` or the install script (no git clone).",
       "If an **Adoption parameters** block is present (with **File roles**), create always-on.md, blueprint.md, and entry-point.md as separate files under <doc-root>; interview only for missing facts.",
       "If **Architecture documentation areas (bootstrap)** is present, add blueprint phases and doc stubs for each selected area per prompts/reference/doc-extensions.md (your Markdown only).",

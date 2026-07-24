@@ -13,7 +13,6 @@
 
 ```
 AGM — Architect · Evaluate
-Workflow: architecture-work-analysis
 Role: architecture-work
 
 Topic: <e.g. payment integration resilience>

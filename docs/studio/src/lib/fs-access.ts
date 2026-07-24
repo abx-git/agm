@@ -140,68 +140,112 @@ export async function getDirectoryAtPath(
   return cur
 }
 
+export async function looksLikeGitRepo(dir: FileSystemDirectoryHandle): Promise<boolean> {
+  try {
+    await dir.getDirectoryHandle('.git')
+    return true
+  } catch {
+    try {
+      await dir.getFileHandle('.git')
+      return true
+    } catch {
+      return false
+    }
+  }
+}
+
+export function normalizeRelPath(raw: string): string {
+  return String(raw || '')
+    .trim()
+    .replace(/\\/g, '/')
+    .replace(/^\/+|\/+$/g, '')
+}
+
 /**
- * 1) Pick a folder.
- * 2) Optional subdirectory under it (same string = prompt doc path).
- * Empty subdirectory → the picked folder is the documentation root; prompt path stays as given
- * (caller should pass the relative path they want in prompts, or the folder name).
+ * Path used in prompts + under the selected folder on disk.
+ * - Selected folder is a Git repo → path is the optional subfolder (relative to that repo).
+ * - Otherwise → selected folder name + optional subfolder (e.g. docs + architecture → docs/architecture/).
  */
-export async function openFolderWithOptionalSubpath(opts: {
+export async function buildDocPromptPath(
+  base: FileSystemDirectoryHandle,
+  subpath: string,
+): Promise<string> {
+  const sub = normalizeRelPath(subpath)
+  const isRepo = await looksLikeGitRepo(base)
+  if (isRepo) {
+    if (sub) return `${sub}/`
+    // Docs live at the repo root (unusual) — prompts use ./ as the documentation root marker
+    return './'
+  }
+  if (sub) return `${base.name}/${sub}/`
+  return `${base.name}/`
+}
+
+/** Pick a folder only (step 1). Does not index or persist yet. */
+export async function pickDirectory(opts?: {
   mode?: 'read' | 'readwrite'
-  /** Relative subdirectory under the picked folder; also used as documentation path in prompts. */
-  subpath?: string
-}): Promise<{
-  handle: FileSystemDirectoryHandle
-  label: string
-  files: FileMap
-  canWrite: boolean
-  /** Normalized path for prompts (trailing slash). */
-  docRoot: string
-  baseName: string
-} | null> {
+}): Promise<{ handle: FileSystemDirectoryHandle; canWrite: boolean } | null> {
   if (!supportsDirectoryPicker() || typeof window.showDirectoryPicker !== 'function') {
     return null
   }
   const mode = opts?.mode ?? 'readwrite'
   try {
-    const base = await window.showDirectoryPicker({ mode })
-    const canWrite = mode === 'readwrite' ? await queryWriteAccess(base) : false
-    const raw = String(opts?.subpath ?? '')
-      .trim()
-      .replace(/\\/g, '/')
-      .replace(/^\/+|\/+$/g, '')
-
-    let docs: FileSystemDirectoryHandle = base
-    let docRoot: string
-    let label: string
-
-    if (raw) {
-      docRoot = `${raw}/`
-      try {
-        docs = await getDirectoryAtPath(base, raw, { create: false })
-      } catch {
-        if (!canWrite) {
-          throw new Error(
-            `Subfolder "${raw}" not found under ${base.name}. Check the path or allow write access to create it.`,
-          )
-        }
-        docs = await getDirectoryAtPath(base, raw, { create: true })
-      }
-      label = `${base.name}/${raw}`
-    } else {
-      // Picked folder is the documentation root; prompts use its name as a relative path.
-      docRoot = `${base.name}/`
-      label = base.name
-    }
-
-    const files: FileMap = new Map()
-    await walkDirectoryHandle(docs, '', files)
-    await saveDirectoryHandle(docs)
-    return { handle: docs, label, files, canWrite, docRoot, baseName: base.name }
+    const handle = await window.showDirectoryPicker({ mode })
+    const canWrite = mode === 'readwrite' ? await queryWriteAccess(handle) : false
+    return { handle, canWrite }
   } catch (err) {
     if (err instanceof DOMException && err.name === 'AbortError') return null
     throw err
   }
+}
+
+/** Confirm: resolve optional subpath under base, index, persist docs handle. */
+export async function confirmFolderBinding(opts: {
+  base: FileSystemDirectoryHandle
+  canWrite: boolean
+  /** Subfolder under base (optional). */
+  subpath: string
+  /** Final path for prompts. */
+  docRoot: string
+}): Promise<{
+  handle: FileSystemDirectoryHandle
+  label: string
+  files: FileMap
+  canWrite: boolean
+  docRoot: string
+}> {
+  const docRoot = (opts.docRoot || './').replace(/\\/g, '/').replace(/\/?$/, '/') || './'
+  const isRepo = await looksLikeGitRepo(opts.base)
+  let underBase = normalizeRelPath(opts.subpath)
+  if (!underBase) {
+    const d = normalizeRelPath(docRoot)
+    if (d && d !== '.') {
+      if (isRepo) underBase = d
+      else if (d === opts.base.name) underBase = ''
+      else if (d.startsWith(`${opts.base.name}/`)) underBase = d.slice(opts.base.name.length + 1)
+      else underBase = d
+    }
+  }
+
+  let docs: FileSystemDirectoryHandle = opts.base
+  if (underBase) {
+    try {
+      docs = await getDirectoryAtPath(opts.base, underBase, { create: false })
+    } catch {
+      if (!opts.canWrite) {
+        throw new Error(
+          `Path "${underBase}" not found under ${opts.base.name}. Fix the path or allow write access to create it.`,
+        )
+      }
+      docs = await getDirectoryAtPath(opts.base, underBase, { create: true })
+    }
+  }
+
+  const files: FileMap = new Map()
+  await walkDirectoryHandle(docs, '', files)
+  await saveDirectoryHandle(docs)
+  const label = underBase ? `${opts.base.name}/${underBase}` : opts.base.name
+  return { handle: docs, label, files, canWrite: opts.canWrite, docRoot }
 }
 
 export async function writeTextFile(

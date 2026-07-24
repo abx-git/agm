@@ -13,7 +13,6 @@
 
 ```
 AGM — Architect · Design
-Workflow: architecture-work-design
 Role: architecture-work
 
 Goal: <e.g. add circuit breaker between order-service and payment-service>

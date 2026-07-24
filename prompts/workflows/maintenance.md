@@ -13,7 +13,6 @@
 
 ```
 AGM — Evolve · Sync
-Workflow: maintenance
 Role: maintenance
 
 Read <doc-root>/context/always-on.md → <doc-root>/blueprint.md → <doc-root>/prompts/role-maintenance.md.

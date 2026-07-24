@@ -13,7 +13,6 @@
 
 ```
 AGM — Evolve · Sync (git range)
-Workflow: maintenance-diff-range
 Role: maintenance
 
 ## Diff range (substitute before run — pipeline: env DIFF_FROM / DIFF_TO)

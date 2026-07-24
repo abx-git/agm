@@ -12,7 +12,6 @@
 
 ```
 AGM — Architect · Continue
-Workflow: architecture-work-continue
 Role: architecture-work
 
 Read <doc-root>/blueprint.md ## Spike register (or legacy ## Work register / ## Architecture work).

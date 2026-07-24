@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { useStudioStore } from '../store/studio-store'
 import { supportsDirectoryPicker } from '../lib/fs-access'
 
@@ -6,22 +7,42 @@ export function ConnectPhase() {
   const setProject = useStudioStore((s) => s.setProject)
   const setPhase = useStudioStore((s) => s.setPhase)
   const folderLabel = useStudioStore((s) => s.folderLabel)
-  const connectFolder = useStudioStore((s) => s.connectFolder)
+  const pendingBaseName = useStudioStore((s) => s.pendingBaseName)
+  const pendingSubpath = useStudioStore((s) => s.pendingSubpath)
+  const pickBaseFolder = useStudioStore((s) => s.pickBaseFolder)
+  const confirmConnect = useStudioStore((s) => s.confirmConnect)
+  const clearPendingBase = useStudioStore((s) => s.clearPendingBase)
+  const suggestDocRootForPending = useStudioStore((s) => s.suggestDocRootForPending)
   const connectFolderFallback = useStudioStore((s) => s.connectFolderFallback)
   const opening = useStudioStore((s) => s.opening)
   const installStatus = useStudioStore((s) => s.installStatus)
+
+  const [subpath, setSubpath] = useState('')
+
+  useEffect(() => {
+    if (pendingBaseName) setSubpath(pendingSubpath)
+  }, [pendingBaseName, pendingSubpath])
+
+  const onSubpathChange = async (value: string) => {
+    setSubpath(value)
+    const suggested = await suggestDocRootForPending(value)
+    if (suggested) setProject({ docRoot: suggested })
+  }
 
   const continueNext = () => {
     if (!folderLabel) return
     setPhase(installStatus === 'ready' ? 'run' : 'install')
   }
 
+  const pending = Boolean(pendingBaseName)
+  const confirmed = Boolean(folderLabel) && !pending
+
   return (
     <div className="phase-panel connect-phase">
       <h2>Connect your project</h2>
       <p className="lead">
-        Choose a folder, optionally add a subfolder. That path is where Studio reads/writes docs and
-        what Run prompts use.
+        Choose a folder, optionally add a subfolder, then confirm the resulting documentation path.
+        That path is used for Install, Process, and every Run prompt.
       </p>
 
       <div className="form-grid">
@@ -94,52 +115,101 @@ export function ConnectPhase() {
       </div>
 
       <div className="connect-folder-block">
-        <h3>Folder</h3>
+        <h3>Documentation folder</h3>
         <ol className="connect-steps">
-          <li>Choose a folder (e.g. the repo root, or the docs folder itself).</li>
-          <li>
-            Optional: enter a subfolder under it. That path is used in prompts and as the docs
-            location.
+          <li className={!pending && !confirmed ? 'current' : confirmed || pending ? 'done' : ''}>
+            Choose a directory (repo root, or the docs folder itself).
+          </li>
+          <li className={pending ? 'current' : confirmed ? 'done' : ''}>
+            Optional: add a subfolder under it.
+          </li>
+          <li className={pending ? 'current' : confirmed ? 'done' : ''}>
+            Confirm the resulting path used in prompts.
           </li>
         </ol>
 
-        <label className="field connect-doc-root">
-          <span>Subfolder (optional)</span>
-          <input
-            type="text"
-            value={project.docRoot}
-            onChange={(e) => setProject({ docRoot: e.target.value })}
-            placeholder="docs/architecture/"
-          />
-          <span className="hint">
-            Example: pick the Git repo, set <code>docs/architecture/</code>. Leave empty if the
-            folder you pick <em>is</em> already the documentation root (prompts then use that
-            folder&apos;s name).
-          </span>
-        </label>
-
-        <button
-          type="button"
-          className="btn primary"
-          disabled={opening || !supportsDirectoryPicker()}
-          onClick={() => connectFolder()}
-        >
-          {opening ? 'Opening…' : folderLabel ? `Bound: ${folderLabel}` : 'Choose folder'}
-        </button>
-        {!supportsDirectoryPicker() && (
-          <button
-            type="button"
-            className="btn"
-            disabled={opening}
-            onClick={() => connectFolderFallback()}
-            style={{ marginLeft: '0.5rem' }}
-          >
-            Open read-only (limited)
-          </button>
+        {!pending && (
+          <div className="connect-step-actions">
+            <button
+              type="button"
+              className="btn primary"
+              disabled={opening || !supportsDirectoryPicker()}
+              onClick={() => pickBaseFolder()}
+            >
+              {opening ? 'Opening…' : confirmed ? 'Change folder' : '1. Choose folder'}
+            </button>
+            {!supportsDirectoryPicker() && (
+              <button
+                type="button"
+                className="btn"
+                disabled={opening}
+                onClick={() => connectFolderFallback()}
+              >
+                Open read-only (limited)
+              </button>
+            )}
+          </div>
         )}
-        {folderLabel && (
+
+        {pending && pendingBaseName && (
+          <div className="connect-pending">
+            <p className="status-line">
+              Selected folder: <strong>{pendingBaseName}</strong>
+            </p>
+
+            <label className="field connect-doc-root">
+              <span>2. Subfolder (optional)</span>
+              <input
+                type="text"
+                value={subpath}
+                onChange={(e) => void onSubpathChange(e.target.value)}
+                placeholder="e.g. docs/architecture"
+              />
+              <span className="hint">
+                Relative to <code>{pendingBaseName}</code>. Leave empty if that folder already{' '}
+                <em>is</em> the documentation root.
+              </span>
+            </label>
+
+            <label className="field connect-doc-root">
+              <span>3. Resulting path (used in prompts)</span>
+              <input
+                type="text"
+                value={project.docRoot}
+                onChange={(e) => setProject({ docRoot: e.target.value })}
+                placeholder="docs/architecture/"
+              />
+              <span className="hint">
+                Edit if needed. Install and Run will resolve files under this path.
+              </span>
+            </label>
+
+            <div className="connect-step-actions">
+              <button
+                type="button"
+                className="btn primary"
+                disabled={opening || !project.docRoot.trim()}
+                onClick={() => void confirmConnect(subpath, project.docRoot)}
+              >
+                {opening ? 'Binding…' : 'Confirm path'}
+              </button>
+              <button
+                type="button"
+                className="btn"
+                disabled={opening}
+                onClick={() => clearPendingBase()}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        )}
+
+        {confirmed && (
           <p className="status-line">
-            Prompt path: <strong>{project.docRoot}</strong>
+            Bound: <strong>{folderLabel}</strong>
+            {' · '}
+            Prompts use: <strong>{project.docRoot || './'}</strong>
             {' · '}
             Install: <strong>{installStatus}</strong>
           </p>
@@ -147,7 +217,7 @@ export function ConnectPhase() {
       </div>
 
       <div className="phase-actions">
-        <button type="button" className="btn primary" disabled={!folderLabel} onClick={continueNext}>
+        <button type="button" className="btn primary" disabled={!confirmed} onClick={continueNext}>
           Continue
         </button>
       </div>

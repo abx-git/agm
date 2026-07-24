@@ -16,9 +16,10 @@ export function saveProjectParams(params: ProjectParams): void {
 }
 
 export function normDocRoot(raw: string): string {
-  let r = String(raw || 'docs/architecture/').trim()
-  if (!r) r = 'docs/architecture'
+  let r = String(raw ?? '').trim()
+  if (!r || r === '.') return './'
   r = r.replace(/\/+$/, '')
+  if (r === '.') return './'
   return `${r}/`
 }
 

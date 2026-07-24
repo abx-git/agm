@@ -68,7 +68,7 @@ export const DEFAULT_PROJECT: ProjectParams = {
   appName: '',
   template: 'arc42',
   customTemplate: '',
-  docRoot: 'docs/architecture/',
+  docRoot: '',
   aiTool: 'cursor',
   purpose: '',
   stack: '',

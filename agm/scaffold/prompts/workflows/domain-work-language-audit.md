@@ -13,7 +13,6 @@
 
 ```
 AGM — Domain · Evaluate
-Workflow: domain-work-language-audit
 Role: domain-work
 
 Scope: <bounded context, service, or module paths>

@@ -855,6 +855,27 @@ code {
   margin-bottom: 0.35rem;
 }
 
+.connect-steps li.current {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.connect-steps li.done {
+  color: var(--muted);
+  opacity: 0.85;
+}
+
+.connect-step-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.75rem 0;
+}
+
+.connect-pending {
+  margin-top: 0.5rem;
+}
+
 .hint {
   color: var(--muted);
   font-size: 0.88rem;

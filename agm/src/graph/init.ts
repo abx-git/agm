@@ -178,8 +178,8 @@ function buildBlueprint(config: AgmConfig): string {
     `### ${today} — Session 1`,
     '- Completed: agm init — core graph files created',
     `- Key decisions: template=${template}, docRoot=${config.docRoot}`,
-    '- Next: Run bootstrap-continue or refinement workflow via MCP',
-    `- Resume prompt: "Continue AGM. Workflow: bootstrap-continue. Read ${config.docRoot}blueprint.md."`,
+    '- Next: Continue building via AGM Studio Run → Continue building (or MCP workflow bootstrap-continue)',
+    `- Resume prompt: "Continue AGM (Build · Continue). Read ${config.docRoot}blueprint.md."`,
     '',
   ].join('\n');
 }

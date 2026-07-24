@@ -13,7 +13,6 @@
 
 ```
 AGM — Domain · Design
-Workflow: domain-work-context-map
 Role: domain-work
 
 Scope: <systems, modules, services, or repository paths>

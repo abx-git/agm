@@ -13,7 +13,6 @@
 
 ```
 AGM — Domain · Evaluate
-Workflow: domain-work-tactical-review
 Role: domain-work
 
 Bounded context: <context name>

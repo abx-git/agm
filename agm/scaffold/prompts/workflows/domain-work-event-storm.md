@@ -14,7 +14,6 @@
 
 ```
 AGM — Domain · Clarify (dialog)
-Workflow: domain-work-event-storm
 Role: domain-work
 
 Process / bounded context (optional): <process-or-context>

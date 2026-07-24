@@ -13,7 +13,6 @@
 
 ```
 AGM — Evolve · Import content
-Workflow: content-ingest
 Role: bootstrap
 
 Source label: <source-label>

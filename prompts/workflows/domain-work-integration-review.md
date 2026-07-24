@@ -13,7 +13,6 @@
 
 ```
 AGM — Domain · Evaluate
-Workflow: domain-work-integration-review
 Role: domain-work
 
 Scope: <cross-service integrations, API surface, or named context pair>

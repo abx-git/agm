@@ -121,6 +121,19 @@ function applyWorkflowInputs(
   return out
 }
 
+function workflowSessionTitle(workflow: WorkflowEntry): string {
+  const first = String(workflow.prompt || '')
+    .split('\n')
+    .map((l) => l.trim())
+    .find(Boolean)
+  if (first?.startsWith('AGM')) {
+    return first.replace(/^AGM\s*[—–-]\s*/, '').trim()
+  }
+  const track = workflow.track || 'Session'
+  const activity = workflow.activity || workflow.id
+  return `${track} · ${activity}`
+}
+
 export function personalizeWorkflowPrompt(
   workflow: WorkflowEntry,
   params: ProjectParams,
@@ -129,12 +142,17 @@ export function personalizeWorkflowPrompt(
   let prompt = substituteDocRoot(workflow.prompt, params.docRoot)
   prompt = substituteTemplate(prompt, resolvedTemplate(params))
   prompt = applyWorkflowInputs(prompt, workflow.id, inputValues)
+  // Drop machine ids like "Workflow: bootstrap-continue" from the pasted body
+  prompt = prompt
+    .replace(/^Workflow:\s*\S+\s*$/gim, '')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim()
   const header = [
     buildParameterBlock(params).trimEnd(),
     '',
     buildAgentGraphDutiesBlock(params.docRoot).trimEnd(),
     '',
-    `## Workflow: ${workflow.id}`,
+    `## Session: ${workflowSessionTitle(workflow)}`,
     '',
   ].join('\n')
   return `${header}\n${prompt}`

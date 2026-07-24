@@ -13,7 +13,6 @@
 
 ```
 AGM — Verify · Evaluate (milestone)
-Workflow: review-milestone
 Role: review
 
 Review AGM documentation for this application.

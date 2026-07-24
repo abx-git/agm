@@ -129,9 +129,10 @@ export function RunPhase() {
     <div className="phase-panel run-phase">
       <h2>Run sessions</h2>
       <p className="lead">
-        Studio prepares the session prompt. Open <strong>{tool}</strong> on the same repo, start a{' '}
-        <strong>new chat</strong>, paste, and let the agent write into the bound folder. Then return
-        here to Spike or Review.
+        Studio prepares the session prompt for documentation root{' '}
+        <strong>{project.docRoot || '(set on Connect)'}</strong>. Open <strong>{tool}</strong> on
+        the same repo, start a <strong>new chat</strong>, paste, and let the agent write into the
+        bound folder. Then return here for Process or Review.
         {installStatus !== 'ready' && (
           <>
             {' '}
@@ -144,7 +145,7 @@ export function RunPhase() {
         {(
           [
             ['adopt', 'Adopt'],
-            ['continue', 'Continue'],
+            ['continue', 'Continue building'],
             ['evolve', 'Evolve'],
             ['verify', 'Verify'],
             ['advanced', 'More'],
@@ -186,7 +187,7 @@ export function RunPhase() {
             <pre className="preview-box">{continueText.slice(0, 4000)}</pre>
           </details>
           <button type="button" className="btn primary" onClick={() => copyOut(continueText)}>
-            {copyBtn('continue prompt')}
+            {copyBtn('continue building')}
           </button>
         </div>
       )}

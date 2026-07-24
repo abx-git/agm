@@ -3,6 +3,7 @@ import { useStudioStore } from '../store/studio-store'
 export function InstallPhase() {
   const setPhase = useStudioStore((s) => s.setPhase)
   const folderLabel = useStudioStore((s) => s.folderLabel)
+  const project = useStudioStore((s) => s.project)
   const canWrite = useStudioStore((s) => s.canWrite)
   const installStatus = useStudioStore((s) => s.installStatus)
   const writeStarterScaffold = useStudioStore((s) => s.writeStarterScaffold)
@@ -32,8 +33,9 @@ export function InstallPhase() {
 
       <div className="install-card">
         <p>
-          Writes blueprint, entry-point, always-on context, template stubs, roles, and a spikes
-          template into <code>{folderLabel}</code>.
+          Writes blueprint, entry-point, always-on context, template stubs, roles, and process
+          templates into <code>{folderLabel}</code>. Run prompts will refer to{' '}
+          <code>{project.docRoot || './'}</code>.
         </p>
         {!canWrite && (
           <p className="warn">

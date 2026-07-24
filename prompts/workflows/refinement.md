@@ -13,7 +13,6 @@
 
 ```
 AGM — Evolve · Refine
-Workflow: refinement
 Role: bootstrap
 
 Goal: <goal>
