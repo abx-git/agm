@@ -90,7 +90,7 @@ export function ProjectBar() {
             disabled={opening}
             onClick={() => (supportsDirectoryPicker() ? connectFolder() : connectFolderFallback())}
           >
-            {opening ? 'Opening…' : folderLabel ? 'Change folder' : 'Choose folder'}
+            {opening ? 'Opening…' : folderLabel ? 'Change repo' : 'Choose repo'}
           </button>
         )}
         {folderLabel && phase !== 'start' && phase !== 'about' && (

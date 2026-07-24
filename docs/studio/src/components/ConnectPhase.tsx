@@ -20,8 +20,9 @@ export function ConnectPhase() {
     <div className="phase-panel connect-phase">
       <h2>Connect your project</h2>
       <p className="lead">
-        Name the application, pick a template, then choose the local architecture folder (the one
-        that will hold <code>blueprint.md</code> and friends).
+        Name the application, pick a template, then choose the <strong>Git repository root</strong>.
+        Studio finds (or creates) the documentation folder from the path below and uses that path in
+        Run prompts.
       </p>
 
       <div className="form-grid">
@@ -94,19 +95,35 @@ export function ConnectPhase() {
       </div>
 
       <div className="connect-folder-block">
-        <h3>Architecture folder</h3>
+        <h3>Repository</h3>
         <p className="hint">
           {supportsDirectoryPicker()
-            ? 'Pick the folder on disk (often named architecture). Allow edit access so Studio can write the starter and spikes here.'
+            ? 'Pick the application Git root (the folder that contains .git). Allow edit access. Studio then opens the documentation path below — or creates it if missing.'
             : 'This browser cannot grant write access. Use Chrome, Edge, or Brave.'}
         </p>
+
+        <label className="field connect-doc-root">
+          <span>Documentation path (relative to that repo)</span>
+          <input
+            type="text"
+            value={project.docRoot}
+            onChange={(e) => setProject({ docRoot: e.target.value })}
+            placeholder="docs/architecture/"
+          />
+          <span className="hint">
+            Default candidates if empty when you connect: <code>docs/architecture/</code>,{' '}
+            <code>docs/arch/</code>, <code>architecture/</code>. After connect, this field is set to
+            what Studio found (or created).
+          </span>
+        </label>
+
         <button
           type="button"
           className="btn primary"
           disabled={opening || !supportsDirectoryPicker()}
           onClick={() => connectFolder()}
         >
-          {opening ? 'Opening…' : folderLabel ? `Bound: ${folderLabel}` : 'Choose architecture folder'}
+          {opening ? 'Opening…' : folderLabel ? `Bound: ${folderLabel}` : 'Choose Git repository'}
         </button>
         {!supportsDirectoryPicker() && (
           <button
@@ -116,30 +133,16 @@ export function ConnectPhase() {
             onClick={() => connectFolderFallback()}
             style={{ marginLeft: '0.5rem' }}
           >
-            Open read-only (limited)
+            Open folder read-only (limited)
           </button>
         )}
         {folderLabel && (
           <p className="status-line">
-            Detected install status: <strong>{installStatus}</strong>
+            Docs folder: <strong>{project.docRoot}</strong>
+            {' · '}
+            Install: <strong>{installStatus}</strong>
           </p>
         )}
-
-        <label className="field connect-doc-root">
-          <span>Path in the Git repo (for AI prompts)</span>
-          <input
-            type="text"
-            value={project.docRoot}
-            onChange={(e) => setProject({ docRoot: e.target.value })}
-            placeholder="docs/architecture/"
-            required
-          />
-          <span className="hint">
-            Choosing the folder above does not set this. Enter the relative path from the
-            repository root (e.g. <code>docs/architecture/</code> or <code>docs/arch/</code>).
-            Run prompts use this value everywhere.
-          </span>
-        </label>
       </div>
 
       <div className="phase-actions">

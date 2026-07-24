@@ -124,6 +124,167 @@ export async function ensureDirPath(
   return cur
 }
 
+/** Resolve a relative directory; does not create unless create=true. */
+export async function getDirectoryAtPath(
+  root: FileSystemDirectoryHandle,
+  relativeDir: string,
+  opts?: { create?: boolean },
+): Promise<FileSystemDirectoryHandle> {
+  const create = opts?.create ?? false
+  const parts = relativeDir.replace(/\\/g, '/').split('/').filter((p) => p && p !== '.')
+  let cur = root
+  for (const part of parts) {
+    cur = await cur.getDirectoryHandle(part, { create })
+  }
+  return cur
+}
+
+export async function pathExists(
+  root: FileSystemDirectoryHandle,
+  relativeDir: string,
+): Promise<boolean> {
+  try {
+    await getDirectoryAtPath(root, relativeDir, { create: false })
+    return true
+  } catch {
+    return false
+  }
+}
+
+async function looksLikeGitRepo(dir: FileSystemDirectoryHandle): Promise<boolean> {
+  try {
+    await dir.getDirectoryHandle('.git')
+    return true
+  } catch {
+    try {
+      await dir.getFileHandle('.git')
+      return true
+    } catch {
+      return false
+    }
+  }
+}
+
+async function looksLikeArchRoot(dir: FileSystemDirectoryHandle): Promise<boolean> {
+  for (const name of ['blueprint.md', 'entry-point.md']) {
+    try {
+      await dir.getFileHandle(name)
+      return true
+    } catch {
+      /* continue */
+    }
+  }
+  try {
+    await dir.getDirectoryHandle('context')
+    return true
+  } catch {
+    return false
+  }
+}
+
+const DOC_ROOT_CANDIDATES = [
+  'docs/architecture',
+  'docs/arch',
+  'architecture',
+  'docs/agm',
+  'doc/architecture',
+]
+
+/** Prefer preferred if it exists; else first candidate that exists under the repo. */
+export async function suggestDocRoot(
+  repo: FileSystemDirectoryHandle,
+  preferred?: string,
+): Promise<string | null> {
+  const pref = (preferred || '').replace(/\\/g, '/').replace(/^\/+|\/+$/g, '')
+  if (pref && (await pathExists(repo, pref))) return `${pref}/`
+  for (const c of DOC_ROOT_CANDIDATES) {
+    if (await pathExists(repo, c)) return `${c}/`
+  }
+  return null
+}
+
+/**
+ * Pick the Git/application repository root, resolve documentation folder from docRoot,
+ * and return the architecture directory handle (what Studio indexes/writes).
+ */
+export async function openRepositoryWithDocRoot(opts: {
+  mode?: 'read' | 'readwrite'
+  preferredDocRoot?: string
+}): Promise<{
+  handle: FileSystemDirectoryHandle
+  label: string
+  files: FileMap
+  canWrite: boolean
+  docRoot: string
+  repoName: string
+  pickedArchDirectly: boolean
+  hasGit: boolean
+} | null> {
+  if (!supportsDirectoryPicker() || typeof window.showDirectoryPicker !== 'function') {
+    return null
+  }
+  const mode = opts?.mode ?? 'readwrite'
+  try {
+    const picked = await window.showDirectoryPicker({ mode })
+    const canWrite = mode === 'readwrite' ? await queryWriteAccess(picked) : false
+    const hasGit = await looksLikeGitRepo(picked)
+    const isArch = await looksLikeArchRoot(picked)
+
+    // User selected the architecture folder itself (legacy / shortcut)
+    if (isArch && !hasGit) {
+      const files: FileMap = new Map()
+      await walkDirectoryHandle(picked, '', files)
+      await saveDirectoryHandle(picked)
+      const fallbackRoot = (opts.preferredDocRoot || 'docs/architecture/').replace(/\/?$/, '/')
+      return {
+        handle: picked,
+        label: picked.name,
+        files,
+        canWrite,
+        docRoot: fallbackRoot,
+        repoName: picked.name,
+        pickedArchDirectly: true,
+        hasGit: false,
+      }
+    }
+
+    const suggested =
+      (await suggestDocRoot(picked, opts.preferredDocRoot)) ||
+      (opts.preferredDocRoot || 'docs/architecture/').replace(/\/?$/, '/')
+    const relative = suggested.replace(/\/+$/, '')
+
+    let arch: FileSystemDirectoryHandle
+    try {
+      arch = await getDirectoryAtPath(picked, relative, { create: false })
+    } catch {
+      if (!canWrite) {
+        throw new Error(
+          `Documentation path "${suggested}" not found under ${picked.name}. Adjust the path or allow write access to create it.`,
+        )
+      }
+      arch = await getDirectoryAtPath(picked, relative, { create: true })
+    }
+
+    const files: FileMap = new Map()
+    await walkDirectoryHandle(arch, '', files)
+    await saveDirectoryHandle(arch)
+    return {
+      handle: arch,
+      label: `${picked.name} / ${suggested}`,
+      files,
+      canWrite,
+      docRoot: suggested.endsWith('/') ? suggested : `${suggested}/`,
+      repoName: picked.name,
+      pickedArchDirectly: false,
+      hasGit,
+    }
+  } catch (err) {
+    if (err instanceof DOMException && err.name === 'AbortError') return null
+    throw err
+  }
+}
+
+
 export async function writeTextFile(
   root: FileSystemDirectoryHandle,
   relativePath: string,
