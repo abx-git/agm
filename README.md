@@ -77,4 +77,4 @@ Legacy Assistant-only: `./scripts/open-assistant.sh` → http://localhost:8765
 
 ---
 
-[MIT](./LICENSE) · [Contributing](./CONTRIBUTING.md)
+[MIT](./LICENSE) © Andreas Bergmann, Hamburg, Germany · [Contributing](./CONTRIBUTING.md)

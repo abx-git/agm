@@ -4,6 +4,7 @@
   "description": "Architecture Graph Method — installable MCP server and CLI (LLMLingua-2 compressed prompts)",
   "type": "module",
   "license": "MIT",
+  "author": "Andreas Bergmann, Hamburg, Germany",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/abx-git/agm.git"

@@ -29,3 +29,7 @@ Legacy flat `work/` + `WRK-*` remain readable.
 ```bash
 ./scripts/open-studio.sh
 ```
+
+## License
+
+MIT — © Andreas Bergmann, Hamburg, Germany. You may redistribute with attribution; see the repo [`LICENSE`](../../LICENSE).

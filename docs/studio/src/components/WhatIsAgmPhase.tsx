@@ -81,6 +81,21 @@ export function WhatIsAgmPhase() {
         </p>
       </section>
 
+      <section className="starter-section">
+        <h2>License</h2>
+        <p className="about-prose">
+          AGM (method, Studio, and the materials in this project) is released under the{' '}
+          <strong>MIT License</strong>. You may use, change, and share it — including in commercial
+          work — as long as you keep the copyright notice.
+        </p>
+        <p className="about-prose">
+          Please credit: <strong>Andreas Bergmann, Hamburg, Germany</strong>.
+        </p>
+        <p className="about-prose about-prose--muted">
+          Full text: MIT license in the project repository (<code>LICENSE</code>).
+        </p>
+      </section>
+
       <div className="starter-cta starter-cta--footer">
         <button type="button" className="btn" onClick={() => setPhase('start')}>
           How Studio works
