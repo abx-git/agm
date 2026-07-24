@@ -148,6 +148,26 @@ function applyWorkflowInputs(
     }
   }
 
+  if (workflowId === 'domain-board-ingest') {
+    out = out.replace(/Source label: <source-label>/, `Source label: ${values.sourceLabel || ''}`);
+    out = out.replace(
+      /Goal: <e\.g\. Checkout process → events \+ BC-ORD model>/,
+      `Goal: ${values.goal || ''}`
+    );
+    out = out.replace(
+      /Intent views: <modelingMode list or "all Tier A">/,
+      `Intent views: ${values.intentViews || 'all Tier A'}`
+    );
+    out = out.replace(
+      /Board path or paste: <path-to-\.storm\.json or pasted JSON>/,
+      `Board path or paste: ${values.boardPathOrPaste || values.pastedContent || ''}`
+    );
+    out = out.replace(
+      /Code cross-check: <yes \| no>/,
+      `Code cross-check: ${values.codeCrossCheck === false || values.codeCrossCheck === 'no' ? 'no' : 'yes'}`
+    );
+  }
+
   if (workflowId === 'domain-work-context-map') {
     out = out.replace(
       /Scope: <systems, modules, services, or repository paths>/,

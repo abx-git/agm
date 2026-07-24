@@ -41,18 +41,21 @@ Rationale: <!-- recorded at bootstrap; also in entry-point.md -->
 
 States: `[ ]` open · `[~]` in progress · `[x]` done · `[!]` blocked
 
-## Work register
+## Spike register
 
-| ID | Track | Title | Type | File | Status | Date |
+| ID | Track | Title | Type | Path | Status | Date |
 |----|-------|-------|------|------|--------|------|
 | —  | —     | —     | —    | —    | —      | —    |
 
 **Track:** `architecture` · `domain`  
 **Types (architecture):** `question` · `analysis` · `design`  
 **Types (domain):** `domain-question` · `domain-discovery` · `domain-analysis` · `domain-design`  
-**Status:** `draft` · `reviewed` · `superseded`
+**Status:** `draft` · `reviewed` · `superseded`  
+**Path:** folder under `spikes/YYYY-MM-DD-<slug>/` (not a single file)
 
-Legacy heading `## Architecture work` may be used; prefer **Work register** with Track column for new blueprints.
+Each spike folder typically contains `index.md`, `notes.md`, and `boards/*.storm.json` (E2 boards).
+
+Legacy heading `## Work register` / `## Architecture work` and flat `work/` + `WRK-*` may still appear; prefer **Spike register** and `SPK-*` for new work.
 
 ## Reviews
 

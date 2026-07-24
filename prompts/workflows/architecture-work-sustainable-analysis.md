@@ -63,7 +63,7 @@ Instructions:
 1. Read <doc-root>blueprint.md, traverse from <doc-root>entry-point.md, and read <doc-root>context/always-on.md (source map).
 2. Inspect source under Scope and Source paths — follow links from the graph first; extend to code only where evidence is needed.
 3. If Compare to documented architecture is yes: contrast intended structure (<template> sections, building blocks, interfaces) with observed code structure; record drift explicitly.
-4. Produce docs/architecture/work/YYYY-MM-DD-<slug>.md (type: analysis) using this structure:
+4. Produce docs/architecture/spikes/YYYY-MM-DD-<slug>/notes.md (type: analysis) using this structure:
    - Context & scope
    - Intended vs actual architecture (drift) — skip subsection if compare=no and no docs exist
    - Structural quality (modularity, boundaries, package/module layout)
@@ -78,5 +78,5 @@ Instructions:
 6. Link to existing guardrail findings in blueprint.md; add new guardrail candidates in Recommendations.
 7. Register in <doc-root>blueprint.md (WRK-NNN). Verify relative links.
 
-Output [[ANCHOR:WORK_ITEM]], [[ANCHOR:TRACEABILITY_COVERAGE]], [[ANCHOR:OPEN_QUESTIONS]], [[ANCHOR:LINK_CHECK]] before stop.
+Output [[ANCHOR:SPIKE]] (alias WORK_ITEM), [[ANCHOR:TRACEABILITY_COVERAGE]], [[ANCHOR:OPEN_QUESTIONS]], [[ANCHOR:LINK_CHECK]] before stop.
 ```

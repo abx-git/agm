@@ -61,10 +61,10 @@ PHASE 2 — WRITE
 Start when human writes "end interview", "done", or "write it up".
 
 1. Read <doc-root>blueprint.md, domain/, entry-point.md (background only).
-2. Write <doc-root>work/YYYY-MM-DD-<slug>.md (type: domain-discovery) per report format.
+2. Write <doc-root>spikes/YYYY-MM-DD-<slug>/notes.md (type: domain-discovery) per report format.
 3. Add candidate events to <doc-root>domain/events.md (draft rows) if agreed.
 4. Optionally create <doc-root>domain/contexts/<slug>/model.md draft if one context emerged.
-5. Register WRK in blueprint (Track: domain). Verify links.
+5. Register SPK in blueprint ## Spike register (Track: domain). Verify links.
 
-Output [[ANCHOR:WORK_ITEM]], [[ANCHOR:DDD_GRAPH_UPDATED]], [[ANCHOR:TRACEABILITY_COVERAGE]], [[ANCHOR:OPEN_QUESTIONS]], [[ANCHOR:LINK_CHECK]] before stop.
+Output [[ANCHOR:SPIKE]] (alias WORK_ITEM), [[ANCHOR:DDD_GRAPH_UPDATED]], [[ANCHOR:TRACEABILITY_COVERAGE]], [[ANCHOR:OPEN_QUESTIONS]], [[ANCHOR:LINK_CHECK]] before stop.
 ```

@@ -51,6 +51,7 @@ Procedure: [content-ingest.md](./content-ingest.md) · Pipeline reference: [main
 | Intent | Workflow ID | Mode | Fresh chat |
 |--------|-------------|------|------------|
 | Domain discovery | `domain-work-event-storm` | Dialog | Yes — Cursor **Chat** |
+| Import E2 board snapshot | `domain-board-ingest` | Direct | Recommended |
 | Subdomain investment map | `domain-work-subdomain-classification` | Direct | Yes |
 | Answer domain question | `domain-work-query` | Direct | Yes |
 | Context map | `domain-work-context-map` | Direct | Yes |
@@ -60,7 +61,7 @@ Procedure: [content-ingest.md](./content-ingest.md) · Pipeline reference: [main
 | Ubiquitous language | `domain-work-language-audit` | Direct | Yes |
 | Resume open WRK (domain) | `domain-work-continue` | Direct | Yes |
 
-Reference: [ddd-work-report-formats](./ddd-work-report-formats.md) · [ddd-guardrails](./ddd-guardrails.md)
+Reference: [ddd-work-report-formats](./ddd-work-report-formats.md) · [ddd-guardrails](./ddd-guardrails.md) · [e2-board-projection](./e2-board-projection.md)
 
 ---
 
@@ -85,6 +86,7 @@ Report-only — never in the same chat as the write/sync session.
 | Communicate to stakeholders | `refinement` or `bootstrap-continue` |
 | Monitor implementation / drift | `maintenance-diff-range` or `architecture-work-sustainable-analysis` |
 | Domain discovery | `domain-work-event-storm` |
+| Import E2 board → domain graph | `domain-board-ingest` |
 | Resume unfinished work | `architecture-work-continue` or `domain-work-continue` |
 
 ---
@@ -98,7 +100,7 @@ Session prompts use **Track · Activity** headers. **Activity** (Clarify, Design
 | Build | `role-bootstrap.md` | `bootstrap-*` |
 | Evolve | `role-bootstrap.md` or `role-maintenance.md` | `refinement`, `maintenance*` |
 | Architect | `role-architecture-work.md` | `architecture-work-*` |
-| Domain | `role-domain-work.md` | `domain-work-*` |
+| Domain | `role-domain-work.md` | `domain-work-*`, `domain-board-ingest` |
 | Verify | `role-review.md` | `review-*` |
 
 Optional Cursor integration (this repo only): `./scripts/agm-workflow.sh checkout <id>` writes `ACTIVE.md`.

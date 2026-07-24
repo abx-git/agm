@@ -1,12 +1,13 @@
-name: Deploy Blueprint Assistant (GitHub Pages)
+name: Deploy AGM Review Studio (GitHub Pages)
 
-# Publishes docs/assistant/ to https://github.com/abx-git/agm.github.io
+# Publishes docs/studio/dist to https://github.com/abx-git/agm.github.io
 # Live URL: https://abx-git.github.io/agm.github.io/
 
 on:
   push:
     branches: [main]
     paths:
+      - 'docs/studio/**'
       - 'docs/assistant/**'
       - 'prompts/adopt-standalone.md'
       - 'prompts/workflows/**'
@@ -31,7 +32,7 @@ jobs:
         run: |
           set -euo pipefail
           if [ -z "${ACTIONS_DEPLOY_KEY:-}" ]; then
-            echo "::error::Missing secret ACTIONS_DEPLOY_KEY on abx-git/agm. See docs/assistant/GITHUB-PAGES-SETUP.md"
+            echo "::error::Missing secret ACTIONS_DEPLOY_KEY on abx-git/agm. See docs/studio/GITHUB-PAGES-SETUP.md"
             exit 1
           fi
 
@@ -70,12 +71,10 @@ jobs:
 
           set +e
           SSH_OUT=$(ssh -o BatchMode=yes -o StrictHostKeyChecking=yes -T git@github.com 2>&1)
-          SSH_RC=$?
           set -e
           echo "$SSH_OUT"
-          # GitHub returns exit 1 even on success ("successfully authenticated")
           if ! echo "$SSH_OUT" | grep -qi "successfully authenticated"; then
-            echo "::error::SSH to github.com failed (publickey). Recreate key pair; public key → Deploy keys on abx-git/agm.github.io (Allow write access); private key → ACTIONS_DEPLOY_KEY on agm via: gh secret set ACTIONS_DEPLOY_KEY < private-key-file"
+            echo "::error::SSH to github.com failed (publickey)."
             exit 1
           fi
 
@@ -123,10 +122,23 @@ jobs:
             -d '{"build_type":"legacy","source":{"branch":"main","path":"/"}}'
           echo "GitHub Pages enabled."
 
-      - name: Sync workflow prompts into assistant data
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: docs/studio/package-lock.json
+
+      - name: Sync workflow prompts into assistant + studio data
         run: python3 scripts/sync-assistant-data.py
 
-      - name: Deploy docs/assistant to agm.github.io
+      - name: Build Review Studio
+        run: |
+          set -euo pipefail
+          cd docs/studio
+          npm ci
+          npm run build
+
+      - name: Deploy docs/studio/dist to agm.github.io
         run: |
           set -euo pipefail
           KEY="${DEPLOY_KEY_PATH}"
@@ -138,13 +150,25 @@ jobs:
           rm -rf "$SITE"
           git clone --depth 1 git@github.com:abx-git/agm.github.io.git "$SITE"
 
-          # keep_files=true: copy over, do not delete unrelated files in the Pages repo
-          rsync -a \
-            --exclude '.git' \
-            --exclude '.github' \
-            docs/assistant/ "$SITE/"
+          find "$SITE" -mindepth 1 -maxdepth 1 ! -name '.git' -exec rm -rf {} +
+          rsync -a docs/studio/dist/ "$SITE/"
 
           touch "$SITE/.nojekyll"
+
+          mkdir -p "$SITE/legacy-assistant"
+          cat > "$SITE/legacy-assistant/index.html" <<'HTML'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="utf-8" />
+            <meta http-equiv="refresh" content="0;url=../" />
+            <title>Moved to AGM Review Studio</title>
+          </head>
+          <body>
+            <p>The AGM Assistant is now part of <a href="../">AGM Review Studio</a> (Workflows tab).</p>
+          </body>
+          </html>
+          HTML
 
           cd "$SITE"
           git config user.name "github-actions[bot]"
@@ -154,6 +178,6 @@ jobs:
             echo "No content changes — nothing to push."
             exit 0
           fi
-          git commit -m "Deploy Blueprint Assistant from agm@${GITHUB_SHA:0:7}"
+          git commit -m "Deploy AGM Review Studio from agm@${GITHUB_SHA:0:7}"
           git push origin main
           echo "Deployed. https://abx-git.github.io/agm.github.io/"

@@ -26,9 +26,9 @@ Instructions:
 2. Identify bounded contexts (business capability + ubiquitous language boundary).
 3. Update <doc-root>domain/context-map.md (contexts table + Mermaid map + integration patterns).
 4. Map each context to implementation paths and interfaces/ contracts.
-5. Write <doc-root>work/YYYY-MM-DD-<slug>.md (type: domain-analysis) with findings and recommendations.
+5. Write <doc-root>spikes/YYYY-MM-DD-<slug>/notes.md (type: domain-analysis) with findings and recommendations.
 6. Record matching ddd-guardrails.md IDs in recommendations; propose blueprint guardrail rows.
-7. Register WRK (Track: domain). Verify links.
+7. Register SPK (Track: domain). Verify links.
 
-Output [[ANCHOR:WORK_ITEM]], [[ANCHOR:DDD_GRAPH_UPDATED]], [[ANCHOR:TRACEABILITY_COVERAGE]], [[ANCHOR:OPEN_QUESTIONS]], [[ANCHOR:LINK_CHECK]] before stop.
+Output [[ANCHOR:SPIKE]] (alias WORK_ITEM), [[ANCHOR:DDD_GRAPH_UPDATED]], [[ANCHOR:TRACEABILITY_COVERAGE]], [[ANCHOR:OPEN_QUESTIONS]], [[ANCHOR:LINK_CHECK]] before stop.
 ```

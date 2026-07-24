@@ -25,9 +25,9 @@ Task type: domain-question | domain-discovery | domain-analysis | domain-design
 [SA:STEPS]
 1) Read domain/ and linked architecture docs; traverse entry-point.md before broad source scans.
 2) Distinguish strategic (contexts, subdomains, integration) from tactical (aggregates, language, events).
-3) Write to docs/architecture/work/YYYY-MM-DD-<slug>.md using _template-domain.md; Track: domain.
+3) Write to docs/architecture/spikes/YYYY-MM-DD-<slug>/ (index.md + notes.md) using _template-domain.md; Track: domain.
 4) Update persistent domain/*.md when the session prompt requires it — do not bury model-only facts in work/ alone.
-5) Register WRK-NNN in blueprint.md ## Work register (Track: domain).
+5) Register SPK-NNN in blueprint.md ## Work register (Track: domain).
 6) Propose guardrail rows for ddd-guardrails.md matches; human confirms in blueprint.
 7) Domain-design with strategic impact → ADR draft link.
 

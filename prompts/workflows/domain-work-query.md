@@ -21,8 +21,8 @@ Question: <your domain question here>
 Instructions:
 1. Read blueprint.md, domain/, entry-point.md, prompts/role-domain-work.md.
 2. Traverse Markdown graph; prefer domain/, glossary, interfaces/, contexts/ over raw source.
-3. Write answer to <doc-root>work/YYYY-MM-DD-<slug>.md (type: domain-question) using _template-domain.md.
-4. Register WRK (Track: domain). Verify links.
+3. Write answer to <doc-root>spikes/YYYY-MM-DD-<slug>/notes.md (type: domain-question) using spikes/_template/ (domain types).
+4. Register SPK (Track: domain). Verify links.
 
-Output [[ANCHOR:WORK_ITEM]], [[ANCHOR:TRACEABILITY_COVERAGE]], [[ANCHOR:LINK_CHECK]] before stop.
+Output [[ANCHOR:SPIKE]] (alias WORK_ITEM), [[ANCHOR:TRACEABILITY_COVERAGE]], [[ANCHOR:LINK_CHECK]] before stop.
 ```

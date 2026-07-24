@@ -20,5 +20,5 @@ Read <doc-root>blueprint.md ## Work register.
 Pick the next item with Track: domain and status draft, or continue the domain task the human names.
 Update domain/ graph files and work item before stopping.
 
-Output [[ANCHOR:WORK_ITEM]], [[ANCHOR:DDD_GRAPH_UPDATED]], [[ANCHOR:TRACEABILITY_COVERAGE]], [[ANCHOR:LINK_CHECK]] before stop.
+Output [[ANCHOR:SPIKE]] (alias WORK_ITEM), [[ANCHOR:DDD_GRAPH_UPDATED]], [[ANCHOR:TRACEABILITY_COVERAGE]], [[ANCHOR:LINK_CHECK]] before stop.
 ```

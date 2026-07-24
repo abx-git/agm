@@ -61,7 +61,7 @@ Start Phase 2 when:
 - the human writes "end interview", "done", or "write it up", OR
 - scope, focus, compare flag, and slug are all agreed.
 
-Then apply role-architecture-work.md and write <doc-root>work/YYYY-MM-DD-<slug>.md (type: analysis).
+Then apply role-architecture-work.md and write <doc-root>spikes/YYYY-MM-DD-<slug>/notes.md (type: analysis).
 
 Phase 2 procedure:
 1. Read <doc-root>blueprint.md, traverse from <doc-root>entry-point.md, read <doc-root>context/always-on.md.
@@ -69,9 +69,9 @@ Phase 2 procedure:
 3. Write analysis with sections: Context & scope | Intended vs actual (drift) | Structural quality |
    Layering & dependencies | Coupling & cohesion | Technical debt | Domain & naming |
    Maintainability & changeability | Recommendations | Traceability.
-4. Register WRK-NNN in <doc-root>blueprint.md. Link guardrail findings where relevant.
+4. Register SPK-NNN in <doc-root>blueprint.md. Link guardrail findings where relevant.
 
-Output [[ANCHOR:WORK_ITEM]], [[ANCHOR:TRACEABILITY_COVERAGE]], [[ANCHOR:OPEN_QUESTIONS]], [[ANCHOR:LINK_CHECK]] before stop.
+Output [[ANCHOR:SPIKE]] (alias WORK_ITEM), [[ANCHOR:TRACEABILITY_COVERAGE]], [[ANCHOR:OPEN_QUESTIONS]], [[ANCHOR:LINK_CHECK]] before stop.
 
 In your FIRST reply, confirm dialog mode, show the plan, and ask question 1. Do not start the analysis upfront.
 ```

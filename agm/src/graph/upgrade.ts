@@ -55,6 +55,7 @@ const DOMAIN_WORKFLOWS = [
   'domain-work-design',
   'domain-work-continue',
   'domain-work-event-storm',
+  'domain-board-ingest',
   'domain-work-context-map',
   'domain-work-subdomain-classification',
   'domain-work-integration-review',

@@ -21,7 +21,17 @@ Procedure for workflow **`content-ingest`**. The human pastes Markdown, Confluen
 | `confluence-export` | HTML or storage-format XML | Extract title + body text; note images/macros lost |
 | `plain-text` | Email, chat, notes | Wrap in fenced block; add structure headings if obvious |
 | `spec` | OpenAPI snippet, requirements doc | Tag as spec; route facts to interfaces/ or constraints |
+| `e2-board-snapshot` | E2 `.storm.json` (board-snapshot-v2) | Prefer workflow **`domain-board-ingest`**: store raw JSON + filtered projection; do not dump layout fields into template sections |
 | `other` | PDF paste, slides | Preserve raw; mark extraction confidence in ingest file |
+
+### E2 board snapshots
+
+When the paste or file is an Event Storming Tool export (`format: event-storming-tool`):
+
+1. Prefer **`domain-board-ingest`** over free-form `content-ingest` (structured Projection Manifest + human gate).
+2. Persist raw board as `sources/YYYY-MM-DD-<slug>.storm.json` and a `source-ingest` note with `sourceType: e2-board-snapshot`.
+3. Follow [e2-board-projection.md](./e2-board-projection.md) for substance vs noise, tiers, and AGM target mapping.
+4. If the human insists on `content-ingest` only: still store provenance first; route domain facts via the same mapping table; never write `x`/`y`/`viewport` into architecture docs.
 
 ## File layout
 
@@ -53,7 +63,7 @@ tags: [ingest, <source-type>]
 timestamp: "YYYY-MM-DD"
 provenance:
   sourceLabel: "<human label>"
-  sourceType: markdown | confluence-wiki | confluence-export | plain-text | spec | other
+  sourceType: markdown | confluence-wiki | confluence-export | plain-text | spec | e2-board-snapshot | other
   ingestedAt: "YYYY-MM-DD"
   confidentiality: internal | external | public
   originalUrl: "<optional>"
@@ -77,6 +87,7 @@ Body structure:
 | Constraints, policies | `<template>/constraints.md`, `<template>/quality.md` |
 | Integration contracts | `interfaces/exports.md`, `interfaces/imports.md` |
 | Domain events / boundaries | `domain/events.md`, `domain/context-map.md` (if installed) |
+| E2 board elements (filtered) | See [e2-board-projection.md](./e2-board-projection.md); prefer `domain-board-ingest` |
 | Operational notes | `ops/pitfalls.md`, `ops/runbooks/` |
 
 Update `entry-point.md` with links to new `sources/` and `use-cases/` entries. Append `sources/log.md` and session log in `blueprint.md`.

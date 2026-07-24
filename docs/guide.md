@@ -51,12 +51,13 @@ Alternative: [adopt-standalone](../prompts/adopt-standalone.md) after manual ins
 ```
 docs/architecture/
 ├── context/always-on.md   ← every session: identity, stack, source map
-├── blueprint.md           ← construction plan, [ ]/[~]/[x]/[!], WRK, session log
+├── blueprint.md           ← construction plan, [ ]/[~]/[x]/[!], Spike register, session log
 ├── entry-point.md         ← agent navigation — links only
 ├── index.md + log.md      ← OKF per-folder index + change log
 ├── interfaces/            ← exports.md, imports.md
-├── work/                  ← YYYY-MM-DD-<slug>.md + WRK-NNN in blueprint.md
+├── spikes/                ← SPK-NNN folders: YYYY-MM-DD-<slug>/ (notes + boards)
 │                            (optional: symlink outside Git — see external-work)
+├── work/                  ← legacy flat WRK files (read-compatible; prefer spikes/)
 ├── sources/               ← pasted imports (Confluence, specs) with provenance
 ├── use-cases/             ← distilled scenarios (optional)
 └── arc42/                 ← or lean-service/, etc.
@@ -64,7 +65,7 @@ docs/architecture/
 
 **Rule:** `entry-point.md` = agent navigation. `index.md` = OKF structure. Never conflate them.
 
-**Local drafts:** To keep work reports off Git (per developer), install with `--work-dir` or run [external-work.md](./reference/external-work.md) / `agm work-link`. Agents still write to `work/`; only the storage location changes.
+**Local drafts:** To keep spike drafts off Git (per developer), install with `--work-dir` (symlink target for `spikes/` or legacy `work/`) or run [external-work.md](./reference/external-work.md) / `agm work-link`. Agents write under `spikes/`; only the storage location changes.
 
 ---
 
@@ -81,7 +82,7 @@ After a graph exists, Advanced holds Architect and Domain (DDD) intents. Install
 | Term | Meaning |
 |------|---------|
 | **Graph** | Linked Markdown under `docs/architecture/` |
-| **Blueprint** | `blueprint.md` — construction plan, progress, WRK |
+| **Blueprint** | `blueprint.md` — construction plan, progress, Spike register |
 | **Entry** | `entry-point.md` — agent link map, no phase status |
 | **Session** | One chat = one workflow |
 | **Review** | Fresh-chat Verify — report only |
@@ -97,7 +98,7 @@ After a graph exists, Advanced holds Architect and Domain (DDD) intents. Install
 | Documentation API | Typed OKF Markdown the agent traverses |
 | MCP transport | Code and docs on demand; traverse `interfaces/exports.md` and `imports.md` |
 | Session discipline | `blueprint.md` progress + fresh Verify chats |
-| Semantic anchors | `LINK_CHECK`, `CHANGED_FILES`, `WORK_ITEM`, `VERDICT`, … |
+| Semantic anchors | `LINK_CHECK`, `CHANGED_FILES`, `SPIKE` (alias `WORK_ITEM`), `VERDICT`, … |
 | CI link check | Broken relative links fail PR |
 
 ---
@@ -114,7 +115,7 @@ After a graph exists, Advanced holds Architect and Domain (DDD) intents. Install
 
 ## App layout reference
 
-Architect / Domain work: traverse links first; write `work/YYYY-MM-DD-<slug>.md`; register `WRK-NNN` in `blueprint.md` ## Work register with Track `architecture` or `domain`.
+Architect / Domain spikes: traverse links first; create `spikes/YYYY-MM-DD-<slug>/` (index.md, notes.md, boards/); register `SPK-NNN` in `blueprint.md` ## Spike register with Track `architecture` or `domain`. Legacy flat `work/` + `WRK-*` remain readable.
 
 Day to day: (1) core prompt in IDE rules, (2) content in `docs/architecture/`, (3) session prompt per chat.
 
@@ -131,7 +132,7 @@ curl -fsSL https://raw.githubusercontent.com/abx-git/agm/main/scripts/agm-upgrad
 # or: npx @abx-hh/agm-cli upgrade
 ```
 
-Architecture content (`blueprint.md`, template chapters, `work/`, …) is preserved.
+Architecture content (`blueprint.md`, template chapters, `spikes/`, …) is preserved.
 
 ### Arc42-only wording → optional templates
 

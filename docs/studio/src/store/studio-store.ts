@@ -1,0 +1,385 @@
+import { create } from 'zustand'
+import type {
+  ArchitectureIndex,
+  InstallStatus,
+  JourneyPhase,
+  ProjectParams,
+} from '../types'
+import { DEFAULT_PROJECT } from '../types'
+import { buildArchitectureIndex } from '../lib/build-index'
+import { detectInstallStatus } from '../lib/detect-install'
+import {
+  loadDirectoryHandle,
+  openArchitectureFolder,
+  openArchitectureFolderViaInput,
+  rehydrateFolder,
+  supportsDirectoryPicker,
+  walkDirectoryHandle,
+  writeFileMap,
+  writeTextFile,
+  type FileMap,
+} from '../lib/fs-access'
+import { loadProjectParams, saveProjectParams } from '../lib/project-params'
+import { buildStarterScaffold } from '../lib/scaffold-pack'
+import { createDocSearch, type SearchHit } from '../lib/search'
+import {
+  appendSpikeRegisterRow,
+  buildSpikeFiles,
+  emptyStormBoard,
+  listSpikes,
+  nextSpikeId,
+  slugify,
+  type CreateSpikeInput,
+  type SpikeInfo,
+  type SpikeTrack,
+  type SpikeType,
+} from '../lib/spikes'
+
+function applyIndex(files: FileMap, label: string) {
+  const index = buildArchitectureIndex(label, files)
+  const searchFn = createDocSearch(index.docs)
+  const preferred =
+    [...index.docs.keys()].find((p) => p.endsWith('entry-point.md') || p.endsWith('blueprint.md')) ??
+    [...index.docs.keys()].find((p) => p.endsWith('.md')) ??
+    null
+  const installStatus = detectInstallStatus(files)
+  const spikes = listSpikes(files)
+  return { index, searchFn, preferred, installStatus, spikes }
+}
+
+let searchFn: ((q: string) => SearchHit[]) | null = null
+
+interface StudioState {
+  phase: JourneyPhase
+  project: ProjectParams
+  folderHandle: FileSystemDirectoryHandle | null
+  folderLabel: string | null
+  canWrite: boolean
+  installStatus: InstallStatus
+  index: ArchitectureIndex | null
+  spikes: SpikeInfo[]
+  activeSpikePath: string | null
+  activePath: string | null
+  typeFilter: string
+  searchQuery: string
+  searchHits: SearchHit[]
+  browsePanel: 'doc' | 'graph' | 'board'
+  error: string | null
+  opening: boolean
+  installing: boolean
+  toast: string | null
+
+  setPhase: (phase: JourneyPhase) => void
+  setProject: (patch: Partial<ProjectParams>) => void
+  setActivePath: (path: string | null) => void
+  setActiveSpikePath: (path: string | null) => void
+  setTypeFilter: (type: string) => void
+  setSearchQuery: (q: string) => void
+  setBrowsePanel: (panel: 'doc' | 'graph' | 'board') => void
+  showToast: (msg: string) => void
+  clearToast: () => void
+
+  connectFolder: () => Promise<void>
+  connectFolderFallback: () => Promise<void>
+  tryRestoreFolder: () => Promise<void>
+  refreshIndex: (opts?: { keepPhase?: boolean }) => Promise<void>
+  writeStarterScaffold: () => Promise<void>
+  clearFolder: () => void
+
+  createSpike: (input: {
+    title: string
+    slug?: string
+    track: SpikeTrack
+    type: SpikeType
+  }) => Promise<string | null>
+  saveSpikeFile: (relativePath: string, content: string) => Promise<boolean>
+  createStormBoard: (spikePath: string, name: string, modelingMode?: string) => Promise<string | null>
+}
+
+function afterOpen(
+  set: (partial: Partial<StudioState>) => void,
+  get: () => StudioState,
+  label: string,
+  files: FileMap,
+  handle: FileSystemDirectoryHandle | null,
+  canWrite: boolean,
+  opts?: { keepPhase?: boolean },
+) {
+  const { index, searchFn: sf, preferred, installStatus, spikes } = applyIndex(files, label)
+  searchFn = sf
+  const prevPhase = get().phase
+  const phase: JourneyPhase = opts?.keepPhase
+    ? prevPhase
+    : installStatus === 'ready'
+      ? 'run'
+      : 'install'
+  set({
+    folderHandle: handle,
+    folderLabel: label,
+    canWrite,
+    index,
+    spikes,
+    activePath: preferred,
+    installStatus,
+    searchQuery: '',
+    searchHits: [],
+    browsePanel: 'doc',
+    opening: false,
+    phase,
+    error: null,
+  })
+}
+
+export const useStudioStore = create<StudioState>((set, get) => ({
+  phase: 'start',
+  project: loadProjectParams(),
+  folderHandle: null,
+  folderLabel: null,
+  canWrite: false,
+  installStatus: 'unknown',
+  index: null,
+  spikes: [],
+  activeSpikePath: null,
+  activePath: null,
+  typeFilter: '',
+  searchQuery: '',
+  searchHits: [],
+  browsePanel: 'doc',
+  error: null,
+  opening: false,
+  installing: false,
+  toast: null,
+
+  setPhase: (phase) => set({ phase }),
+
+  setProject: (patch) => {
+    const project = { ...get().project, ...patch }
+    saveProjectParams(project)
+    set({ project })
+  },
+
+  setActivePath: (path) => {
+    const doc = path && get().index ? get().index!.docs.get(path) : null
+    const browsePanel =
+      doc?.kind === 'storm' ? 'board' : get().browsePanel === 'board' ? 'doc' : get().browsePanel
+    set({ activePath: path, browsePanel: path ? browsePanel : get().browsePanel })
+  },
+
+  setActiveSpikePath: (activeSpikePath) => set({ activeSpikePath }),
+
+  setTypeFilter: (typeFilter) => set({ typeFilter }),
+
+  setSearchQuery: (searchQuery) => {
+    const searchHits = searchFn && searchQuery.trim() ? searchFn(searchQuery) : []
+    set({ searchQuery, searchHits })
+  },
+
+  setBrowsePanel: (browsePanel) => set({ browsePanel }),
+
+  showToast: (toast) => {
+    set({ toast })
+    window.setTimeout(() => {
+      if (get().toast === toast) set({ toast: null })
+    }, 2800)
+  },
+
+  clearToast: () => set({ toast: null }),
+
+  connectFolder: async () => {
+    set({ opening: true, error: null })
+    try {
+      if (!supportsDirectoryPicker()) {
+        await get().connectFolderFallback()
+        return
+      }
+      const result = await openArchitectureFolder({ mode: 'readwrite' })
+      if (!result) {
+        set({ opening: false })
+        return
+      }
+      afterOpen(set, get, result.label, result.files, result.handle, result.canWrite)
+    } catch (err) {
+      set({
+        opening: false,
+        error: err instanceof Error ? err.message : 'Failed to open folder',
+      })
+    }
+  },
+
+  connectFolderFallback: async () => {
+    set({ opening: true, error: null })
+    try {
+      const result = await openArchitectureFolderViaInput()
+      if (!result) {
+        set({ opening: false })
+        return
+      }
+      afterOpen(set, get, result.label, result.files, null, false)
+    } catch (err) {
+      set({
+        opening: false,
+        error: err instanceof Error ? err.message : 'Failed to open folder',
+      })
+    }
+  },
+
+  tryRestoreFolder: async () => {
+    const handle = await loadDirectoryHandle()
+    if (!handle) return
+    const hydrated = await rehydrateFolder(handle)
+    if (!hydrated) return
+    afterOpen(set, get, handle.name, hydrated.files, handle, hydrated.canWrite)
+  },
+
+  refreshIndex: async (opts) => {
+    const handle = get().folderHandle
+    if (!handle) {
+      set({ error: 'No folder bound — connect a folder first.' })
+      return
+    }
+    set({ opening: true, error: null })
+    try {
+      const files: FileMap = new Map()
+      await walkDirectoryHandle(handle, '', files)
+      afterOpen(set, get, handle.name, files, handle, get().canWrite, {
+        keepPhase: opts?.keepPhase ?? true,
+      })
+      get().showToast('Folder refreshed')
+    } catch (err) {
+      set({
+        opening: false,
+        error: err instanceof Error ? err.message : 'Refresh failed',
+      })
+    }
+  },
+
+  writeStarterScaffold: async () => {
+    const handle = get().folderHandle
+    if (!handle || !get().canWrite) {
+      set({ error: 'Write access required — reconnect the folder in Chrome/Edge/Brave and allow editing.' })
+      return
+    }
+    set({ installing: true, error: null })
+    try {
+      const files = buildStarterScaffold(get().project)
+      await writeFileMap(handle, files)
+      await get().refreshIndex({ keepPhase: true })
+      set({ installing: false, phase: 'run', installStatus: 'ready' })
+      get().showToast(`Wrote ${Object.keys(files).length} starter files`)
+    } catch (err) {
+      set({
+        installing: false,
+        error: err instanceof Error ? err.message : 'Scaffold write failed',
+      })
+    }
+  },
+
+  clearFolder: () => {
+    searchFn = null
+    set({
+      folderHandle: null,
+      folderLabel: null,
+      canWrite: false,
+      installStatus: 'unknown',
+      index: null,
+      spikes: [],
+      activeSpikePath: null,
+      activePath: null,
+      searchQuery: '',
+      searchHits: [],
+      typeFilter: '',
+      browsePanel: 'doc',
+      phase: 'start',
+      error: null,
+    })
+  },
+
+  createSpike: async ({ title, slug, track, type }) => {
+    const handle = get().folderHandle
+    if (!handle || !get().canWrite) {
+      set({ error: 'Write access required to create a spike.' })
+      return null
+    }
+    try {
+      const filesNow: FileMap = new Map()
+      await walkDirectoryHandle(handle, '', filesNow)
+      const existing = listSpikes(filesNow)
+      const bp =
+        [...filesNow.entries()].find(([p]) => p.endsWith('blueprint.md'))?.[1] ??
+        filesNow.get('blueprint.md')
+      const id = nextSpikeId(bp, existing)
+      const input: CreateSpikeInput = {
+        title,
+        slug: slugify(slug || title),
+        track,
+        type,
+        nextId: id,
+      }
+      const spikeFiles = buildSpikeFiles(input)
+      await writeFileMap(handle, spikeFiles)
+      if (bp) {
+        const bpPath =
+          [...filesNow.keys()].find((p) => p.endsWith('blueprint.md')) || 'blueprint.md'
+        const folder = Object.keys(spikeFiles)[0]!.replace(/\/index\.md$/, '')
+        const updated = appendSpikeRegisterRow(bp, {
+          id,
+          track,
+          title,
+          type,
+          path: folder,
+          status: 'draft',
+          date: new Date().toISOString().slice(0, 10),
+        })
+        await writeTextFile(handle, bpPath, updated)
+      }
+      const folder = Object.keys(spikeFiles)[0]!.replace(/\/index\.md$/, '')
+      await get().refreshIndex({ keepPhase: true })
+      set({ activeSpikePath: folder, phase: 'spike' })
+      get().showToast(`Created ${id}`)
+      return folder
+    } catch (err) {
+      set({ error: err instanceof Error ? err.message : 'Create spike failed' })
+      return null
+    }
+  },
+
+  saveSpikeFile: async (relativePath, content) => {
+    const handle = get().folderHandle
+    if (!handle || !get().canWrite) {
+      set({ error: 'Write access required.' })
+      return false
+    }
+    try {
+      await writeTextFile(handle, relativePath, content)
+      await get().refreshIndex({ keepPhase: true })
+      get().showToast('Saved')
+      return true
+    } catch (err) {
+      set({ error: err instanceof Error ? err.message : 'Save failed' })
+      return false
+    }
+  },
+
+  createStormBoard: async (spikePath, name, modelingMode = 'eventStorming') => {
+    const handle = get().folderHandle
+    if (!handle || !get().canWrite) {
+      set({ error: 'Write access required.' })
+      return null
+    }
+    try {
+      const safe = slugify(name) || 'board'
+      const path = `${spikePath}/boards/${safe}.storm.json`
+      const json = emptyStormBoard(name, modelingMode)
+      await writeTextFile(handle, path, json)
+      await get().refreshIndex({ keepPhase: true })
+      set({ activePath: path, browsePanel: 'board' })
+      get().showToast('Board created')
+      return path
+    } catch (err) {
+      set({ error: err instanceof Error ? err.message : 'Board create failed' })
+      return null
+    }
+  },
+}))
+
+export { DEFAULT_PROJECT }

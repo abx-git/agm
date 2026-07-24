@@ -29,7 +29,7 @@ Instructions:
 4. Map findings to ddd-guardrails.md tactical IDs (DDD-T01–T08).
 5. Propose updates to model.md and events.md where evidence supports.
 6. Write work report (type: domain-analysis).
-7. Register WRK (Track: domain). Verify links.
+7. Register SPK (Track: domain). Verify links.
 
-Output [[ANCHOR:WORK_ITEM]], [[ANCHOR:DDD_GRAPH_UPDATED]], [[ANCHOR:TRACEABILITY_COVERAGE]], [[ANCHOR:OPEN_QUESTIONS]], [[ANCHOR:LINK_CHECK]] before stop.
+Output [[ANCHOR:SPIKE]] (alias WORK_ITEM), [[ANCHOR:DDD_GRAPH_UPDATED]], [[ANCHOR:TRACEABILITY_COVERAGE]], [[ANCHOR:OPEN_QUESTIONS]], [[ANCHOR:LINK_CHECK]] before stop.
 ```

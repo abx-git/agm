@@ -27,7 +27,7 @@ Instructions:
 4. Flag ddd-guardrails.md strategic smells (DDD-S01–S06).
 5. Update context-map.md relationship table if corrections are evidence-based.
 6. Write work report (type: domain-analysis) with prioritized recommendations.
-7. Register WRK (Track: domain). Verify links.
+7. Register SPK (Track: domain). Verify links.
 
-Output [[ANCHOR:WORK_ITEM]], [[ANCHOR:DDD_GRAPH_UPDATED]], [[ANCHOR:TRACEABILITY_COVERAGE]], [[ANCHOR:ADR_IMPACT]], [[ANCHOR:OPEN_QUESTIONS]], [[ANCHOR:LINK_CHECK]] before stop.
+Output [[ANCHOR:SPIKE]] (alias WORK_ITEM), [[ANCHOR:DDD_GRAPH_UPDATED]], [[ANCHOR:TRACEABILITY_COVERAGE]], [[ANCHOR:ADR_IMPACT]], [[ANCHOR:OPEN_QUESTIONS]], [[ANCHOR:LINK_CHECK]] before stop.
 ```

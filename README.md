@@ -14,7 +14,7 @@ Repository: [github.com/abx-git/agm](https://github.com/abx-git/agm)
 
 | Step | Action |
 |------|--------|
-| Install | [Assistant UI](https://abx-git.github.io/agm.github.io/) → `agm-install.sh` |
+| Install | [Review Studio](https://abx-git.github.io/agm.github.io/) → `agm-install.sh` |
 | Adopt | One chat → `bootstrap-adopt` |
 | Continue | `bootstrap-continue` — next chapter |
 | Maintain | `maintenance-diff-range` — sync on git diff |
@@ -72,7 +72,8 @@ Templates: [docs/templates/architecture/](./docs/templates/architecture/) · Age
 | [docs/case-studies.md](./docs/case-studies.md) | Real-world examples |
 | [docs/examples/sample-app/](./docs/examples/sample-app/) | Multi-service example |
 
-Local Assistant UI: `./scripts/open-assistant.sh` → http://localhost:8765
+Local AGM Studio: `./scripts/open-studio.sh` → http://localhost:5173  
+Legacy Assistant-only: `./scripts/open-assistant.sh` → http://localhost:8765
 
 ---
 

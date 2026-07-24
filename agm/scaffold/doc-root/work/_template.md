@@ -7,7 +7,7 @@ tags: [architecture, work-item]
 timestamp: ""
 ---
 
-# WRK-NNN: <Title>
+# WRK-NNN (legacy — prefer spikes/ + SPK-NNN): <Title>
 
 | Field | Value |
 |-------|-------|

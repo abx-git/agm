@@ -28,7 +28,7 @@ Instructions:
 4. Recommend one canonical term per concept per context.
 5. Apply agreed renames to language.md / glossary / on-demand.md only where human confirms in session; otherwise list in report.
 6. Write work report (type: domain-analysis); flag DDD-T05, DDD-T06.
-7. Register WRK (Track: domain). Verify links.
+7. Register SPK (Track: domain). Verify links.
 
-Output [[ANCHOR:WORK_ITEM]], [[ANCHOR:DDD_GRAPH_UPDATED]], [[ANCHOR:TRACEABILITY_COVERAGE]], [[ANCHOR:OPEN_QUESTIONS]], [[ANCHOR:LINK_CHECK]] before stop.
+Output [[ANCHOR:SPIKE]] (alias WORK_ITEM), [[ANCHOR:DDD_GRAPH_UPDATED]], [[ANCHOR:TRACEABILITY_COVERAGE]], [[ANCHOR:OPEN_QUESTIONS]], [[ANCHOR:LINK_CHECK]] before stop.
 ```

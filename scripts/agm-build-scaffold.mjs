@@ -59,6 +59,10 @@ const OPTIONAL_DOMAIN = [
     'docs/reference/ddd-work-report-formats.md',
     'optional/domain/prompts/reference/ddd-work-report-formats.md',
   ],
+  [
+    'docs/reference/e2-board-projection.md',
+    'optional/domain/prompts/reference/e2-board-projection.md',
+  ],
   'docs/templates/architecture/domain/README.md',
   'docs/templates/architecture/domain/context-map.md',
   'docs/templates/architecture/domain/subdomains.md',

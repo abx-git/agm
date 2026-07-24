@@ -540,6 +540,43 @@
     ]
   },
   {
+    "id": "domain-board-ingest",
+    "track": "Domain",
+    "activity": "Import",
+    "mode": "Direct",
+    "role": "domain-work",
+    "group": "Domain",
+    "when": "Project an E2 board snapshot (board-snapshot-v2) into the AGM domain graph",
+    "prerequisite": "Bootstrap phase 0 `[x] done`; `domain/` scaffold installed",
+    "freshChat": false,
+    "freshNote": "Recommended",
+    "anchors": [
+      "DDD_GRAPH_UPDATED",
+      "LINK_CHECK",
+      "OPEN_QUESTIONS",
+      "PROJECTION_MANIFEST",
+      "TRACEABILITY_COVERAGE",
+      "WORK_ITEM"
+    ],
+    "steps": [
+      "Read always-on → blueprint → role-domain-work → e2-board-projection → content-ingest.",
+      "Validate snapshot (format event-storming-tool, version 2); redact secrets.",
+      "Persist sources/YYYY-MM-DD-<slug>.storm.json + source-ingest note (sourceType: e2-board-snapshot).",
+      "Build Projection Manifest (Intent/Tier/Graph/Maturity filters); stop for human gate unless pre-approved.",
+      "Apply approved rows only; write work report; optional code cross-check (code wins).",
+      "Register WRK (Track: domain). Verify links."
+    ],
+    "placeholders": [
+      "doc-root",
+      "goal",
+      "intent-views",
+      "path-to-.storm.json or pasted JSON",
+      "slug",
+      "source-label",
+      "yes | no"
+    ]
+  },
+  {
     "id": "domain-work-integration-review",
     "track": "Domain",
     "activity": "Evaluate",

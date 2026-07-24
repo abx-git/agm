@@ -1,19 +1,21 @@
-# External work directory
+# External spikes directory
 
-Keep Architecture / Domain **work reports** outside the application Git repository so each developer can prepare AGM solutions locally without committing drafts.
+Keep Architecture / Domain **spike drafts** outside the application Git repository so each developer can prepare AGM solutions locally without committing drafts.
 
-The logical path stays `${doc-root}/work/` (relative links, agents, WRK register). Physically, that path is a **symlink** to a per-machine directory outside the repo.
+The logical path stays `${doc-root}/spikes/` (preferred) or legacy `${doc-root}/work/` (relative links, agents, Spike/WRK register). Physically, that path is a **symlink** to a per-machine directory outside the repo.
 
 ---
 
 ## Why
 
-| Concern | With in-repo `work/` | With external `work/` |
-|---------|----------------------|------------------------|
-| Draft analyses / designs | Risk of accidental commit | Stay local until you promote |
+| Concern | With in-repo `spikes/` | With external `spikes/` |
+|---------|------------------------|-------------------------|
+| Draft analyses / designs / boards | Risk of accidental commit | Stay local until you promote |
 | Multi-developer prep | Shared noise in PRs | Each machine has its own scratch space |
-| Agent paths | `work/YYYY-MM-DD-….md` | Unchanged (via symlink) |
-| CI link check | Sees committed work files | Does not see local drafts — promote before merge |
+| Agent paths | `spikes/YYYY-MM-DD-…/` | Unchanged (via symlink) |
+| CI link check | Sees committed spike files | Does not see local drafts — promote before merge |
+
+Legacy flat `work/` is still supported for older graphs.
 
 ---
 
@@ -22,19 +24,24 @@ The logical path stays `${doc-root}/work/` (relative links, agents, WRK register
 ```
 # Application repo (Git)
 docs/architecture/
-├── blueprint.md          ← WRK register (shared)
+├── blueprint.md          ← Spike register (shared)
 ├── entry-point.md
-├── work → /Users/you/agm-work/my-app/work   ← symlink (gitignored)
+├── spikes → /Users/you/agm-work/my-app/spikes   ← symlink (gitignored)
 └── work-location.md      ← tracked pointer for humans/agents
 
 # Outside Git (local)
-~/agm-work/my-app/work/
-├── _template.md
-├── _template-review.md
-└── 2026-07-16-my-draft.md
+~/agm-work/my-app/spikes/
+├── _template/
+└── 2026-07-24-my-draft/
+    ├── index.md
+    ├── notes.md
+    └── boards/
 ```
 
-Agents continue to write `docs/architecture/work/YYYY-MM-DD-<slug>.md`. The OS resolves the symlink.
+Agents write under `docs/architecture/spikes/YYYY-MM-DD-<slug>/`. The OS resolves the symlink.
+
+> **Note:** `--work-dir` install flag historically pointed at `work/`. Prefer linking `spikes/` the same way (or keep both during migration).
+
 
 ---
 

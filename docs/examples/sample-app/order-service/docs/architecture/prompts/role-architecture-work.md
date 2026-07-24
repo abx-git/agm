@@ -14,8 +14,8 @@ Task type: question | analysis | design
 [SA:STEPS]
 1) Traverse docs graph first; avoid broad source scanning.
 2) Collect evidence links for every major claim.
-3) Write result to docs/architecture/work/YYYY-MM-DD-<slug>.md.
-4) Register item in blueprint under WRK-NNN with status.
+3) Write result to docs/architecture/spikes/YYYY-MM-DD-<slug>/ (index.md + notes.md).
+4) Register spike in blueprint ## Spike register under SPK-NNN with status.
 5) If design implies a decision, add ADR draft link.
 
 [SA:QUALITY_GATES]

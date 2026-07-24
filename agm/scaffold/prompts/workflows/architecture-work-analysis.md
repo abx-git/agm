@@ -22,10 +22,10 @@ Focus: <e.g. coupling, failure modes, security, performance>
 
 Instructions:
 1. Read blueprint.md and traverse the graph from entry-point.md.
-2. Produce a structured analysis in docs/architecture/work/YYYY-MM-DD-<slug>.md
+2. Produce a structured analysis in docs/architecture/spikes/YYYY-MM-DD-<slug>/notes.md
    (type: analysis): Context, Findings, Recommendations, Traceability.
 3. Link to existing guardrail findings in blueprint.md if relevant.
-4. Register in blueprint.md (WRK-NNN). Verify links.
+4. Register in blueprint.md (SPK-NNN, ## Spike register). Verify links.
 
-Output [[ANCHOR:WORK_ITEM]], [[ANCHOR:TRACEABILITY_COVERAGE]], [[ANCHOR:LINK_CHECK]] before stop.
+Output [[ANCHOR:SPIKE]] (alias WORK_ITEM), [[ANCHOR:TRACEABILITY_COVERAGE]], [[ANCHOR:LINK_CHECK]] before stop.
 ```

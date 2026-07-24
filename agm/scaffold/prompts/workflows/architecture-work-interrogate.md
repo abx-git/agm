@@ -53,7 +53,7 @@ Start Phase 2 only when:
 - the human writes "end interview", "done", or "write it up", OR
 - all plan items are clarified and the human agrees.
 
-Then apply role-architecture-work.md, write file under <doc-root>work/YYYY-MM-DD-<slug>.md (type: design), WRK entry in <doc-root>blueprint.md, output [[ANCHOR:WORK_ITEM]], [[ANCHOR:TRACEABILITY_COVERAGE]], [[ANCHOR:OPEN_QUESTIONS]], [[ANCHOR:LINK_CHECK]].
+Then apply role-architecture-work.md, write file under <doc-root>spikes/YYYY-MM-DD-<slug>/notes.md (type: design), SPK entry in <doc-root>blueprint.md, output [[ANCHOR:SPIKE]] (alias WORK_ITEM), [[ANCHOR:TRACEABILITY_COVERAGE]], [[ANCHOR:OPEN_QUESTIONS]], [[ANCHOR:LINK_CHECK]].
 
 Phase 1 procedure:
 1. Read <doc-root>blueprint.md and traverse from <doc-root>entry-point.md (silently in the background — do not dump as a wall of text).

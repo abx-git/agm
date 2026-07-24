@@ -1,4 +1,7 @@
-# GitHub Pages — setup
+# GitHub Pages — setup (legacy)
+
+> **Superseded:** Deploy now builds **[AGM Review Studio](../studio/GITHUB-PAGES-SETUP.md)** (`docs/studio/`).  
+> This page remains for deploy-key setup details; CI publishes Studio `dist/`, not `docs/assistant/` alone.
 
 The interactive assistant is **not** served from this repository. It is deployed to:
 

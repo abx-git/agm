@@ -15,7 +15,7 @@ Installed application repos receive copies of procedure files under `prompts/ref
 | [adopt-procedure.md](./adopt-procedure.md) | Adoption phases A–C (agent) |
 | [base-context-setup.md](./base-context-setup.md) | IDE rules and install layout |
 | [doc-extensions.md](./doc-extensions.md) | Documentation area checkboxes (Assistant UI) |
-| [content-ingest.md](./content-ingest.md) | Paste imports (Confluence, specs, use cases) |
+| [content-ingest.md](./content-ingest.md) | Paste imports (Confluence, specs, use cases, E2 boards) |
 | [upgrade.md](./upgrade.md) | Refresh workflows/prompts without touching docs |
 | [external-work.md](./external-work.md) | Keep `work/` outside Git (per-developer drafts) |
 | [advanced-templates.md](./advanced-templates.md) | `c4-light`, `adr-first`, `custom` |
@@ -46,6 +46,7 @@ Installed application repos receive copies of procedure files under `prompts/ref
 |----------|---------|
 | [ddd-work-report-formats.md](./ddd-work-report-formats.md) | Domain work output structure |
 | [ddd-guardrails.md](./ddd-guardrails.md) | Domain smell catalog |
+| [e2-board-projection.md](./e2-board-projection.md) | E2 board snapshot → domain graph projection |
 
 ---
 

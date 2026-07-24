@@ -24,7 +24,7 @@ Mode: report-only (no fixes).
 2) Verify factual correctness against source.
 3) Verify interfaces consistency (exports/imports).
 4) Verify link integrity in reviewed files.
-5) Write report to docs/architecture/work/YYYY-MM-DD-review-<slug>.md.
+5) Write report to docs/architecture/spikes/YYYY-MM-DD-review-<slug>/notes.md (create spike folder from spikes/_template/).
 6) Update blueprint sections Reviews + Guardrail findings.
 
 [SA:SEVERITY]

@@ -23,6 +23,16 @@ Deliverables: work report; optional updates to `domain/contexts/<context>/model.
 
 ---
 
+## Board ingest (domain-discovery | domain-analysis)
+
+**Workflow:** `domain-board-ingest` · **Type:** `domain-discovery` (timeline-heavy) or `domain-analysis` (strategic/tactical projection)
+
+Sections: Context & goal · Board provenance (schema version, views, `exportedAt`) · Projection Manifest (approved) · Event timeline / context map / tactical model (as projected) · Code cross-check conflicts · Hot spots & open questions · Domain graph updates · Traceability (element id → source-ingest)
+
+Deliverables: `sources/*.storm.json` + source-ingest note; approved projection into `domain/*`; work report. Procedure: [e2-board-projection.md](./e2-board-projection.md).
+
+---
+
 ## Context map (domain-analysis)
 
 **Workflow:** `domain-work-context-map` · **Type:** `domain-analysis`
