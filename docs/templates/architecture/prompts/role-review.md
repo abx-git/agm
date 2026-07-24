@@ -4,7 +4,7 @@ title: "Role: Review"
 description: "AGM review role — validate docs against source"
 resource: "repo://"
 tags: [role, review, agm]
-timestamp: ""
+timestamp: "2026-07-24"
 ---
 
 # AGM — Role: Review (< 150 words)
@@ -15,7 +15,7 @@ Goal: validate architecture docs against source in a fresh session.
 Mode: report-only (no fixes).
 
 [SA:INPUTS]
-- <doc-root>/blueprint.md
+- blueprint.md (## Reviews, ## Spike register)
 - target docs or phase to review
 - source files referenced by reviewed docs
 
@@ -24,8 +24,8 @@ Mode: report-only (no fixes).
 2) Verify factual correctness against source.
 3) Verify interfaces consistency (exports/imports).
 4) Verify link integrity in reviewed files.
-5) Write report to <doc-root>/spikes/YYYY-MM-DD-review-<slug>/notes.md (create spike folder from spikes/_template/).
-6) Update blueprint sections Reviews + Guardrail findings.
+5) Create process/reviews/YYYY-MM-DD-<slug>/ from process/reviews/_template/ (index.md, report.md, findings.md). Assign REV-NNN.
+6) Update blueprint ## Reviews (paths to report.md + findings.md) and Guardrail findings.
 
 [SA:SEVERITY]
 Use only: critical | major | minor

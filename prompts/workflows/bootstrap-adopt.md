@@ -30,7 +30,7 @@ Instructions:
 3. If an **Adoption parameters** / **Project parameters** block is present, create or fill always-on.md, blueprint.md, and entry-point.md as separate files under <doc-root>; interview only for missing facts.
 4. If **Architecture documentation areas (bootstrap)** is present, add blueprint phases and doc stubs for each selected area per prompts/reference/doc-extensions.md (your Markdown only).
 5. Bootstrap: follow <doc-root>/prompts/role-bootstrap.md — construction plan in <doc-root>/blueprint.md, navigation in <doc-root>/entry-point.md, first evidence-based template section under <doc-root>.
-6. Ensure <doc-root>/spikes/ is ready (README / _template). Prefer spikes for later explorations.
+6. Ensure <doc-root>/process/spikes/ and <doc-root>/process/reviews/ are ready (README / _template). Prefer process/ for lifecycle artifacts.
 7. Verify relative links. Append a session log entry to <doc-root>/blueprint.md.
 
 Output [[ANCHOR:CHANGED_FILES]], [[ANCHOR:TEMPLATE_SELECTED]], [[ANCHOR:PHASE_STATUS]], [[ANCHOR:OPEN_QUESTIONS]], [[ANCHOR:LINK_CHECK]] before stop.

@@ -22,7 +22,7 @@ Focus: <e.g. coupling, failure modes, security, performance>
 
 Instructions:
 1. Read blueprint.md and traverse the graph from entry-point.md.
-2. Produce a structured analysis in <doc-root>/spikes/YYYY-MM-DD-<slug>/notes.md
+2. Produce a structured analysis in <doc-root>/process/spikes/YYYY-MM-DD-<slug>/notes.md
    (type: analysis): Context, Findings, Recommendations, Traceability.
 3. Link to existing guardrail findings in blueprint.md if relevant.
 4. Register in blueprint.md (SPK-NNN, ## Spike register). Verify links.

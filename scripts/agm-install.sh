@@ -26,7 +26,7 @@ Architect/Domain packs are opt-in.
 
 Options:
   --doc-root PATH   Documentation root (default: docs/architecture/)
-  --work-dir PATH   Store spikes/ outside Git (symlink <doc-root>/spikes → PATH; legacy work/ also supported)
+  --work-dir PATH   Store process/spikes outside Git (symlink <doc-root>/process/spikes → PATH)
   --template NAME   arc42 | c4-light | adr-first | lean-service | custom
   --project NAME    Application / project label (metadata only)
   --ai-tool NAME    cursor | claude | copilot | generic
@@ -128,10 +128,15 @@ SHARED=(
   "docs/templates/architecture/prompts/role-bootstrap.md|${DOC_ROOT}prompts/role-bootstrap.md"
   "docs/templates/architecture/prompts/role-maintenance.md|${DOC_ROOT}prompts/role-maintenance.md"
   "docs/templates/architecture/prompts/role-review.md|${DOC_ROOT}prompts/role-review.md"
-  "docs/templates/architecture/spikes/README.md|${DOC_ROOT}spikes/README.md"
-  "docs/templates/architecture/spikes/_template/index.md|${DOC_ROOT}spikes/_template/index.md"
-  "docs/templates/architecture/spikes/_template/notes.md|${DOC_ROOT}spikes/_template/notes.md"
-  "docs/templates/architecture/spikes/_template/boards/README.md|${DOC_ROOT}spikes/_template/boards/README.md"
+  "docs/templates/architecture/process/README.md|${DOC_ROOT}process/README.md"
+  "docs/templates/architecture/process/spikes/README.md|${DOC_ROOT}process/spikes/README.md"
+  "docs/templates/architecture/process/spikes/_template/index.md|${DOC_ROOT}process/spikes/_template/index.md"
+  "docs/templates/architecture/process/spikes/_template/notes.md|${DOC_ROOT}process/spikes/_template/notes.md"
+  "docs/templates/architecture/process/spikes/_template/boards/README.md|${DOC_ROOT}process/spikes/_template/boards/README.md"
+  "docs/templates/architecture/process/reviews/README.md|${DOC_ROOT}process/reviews/README.md"
+  "docs/templates/architecture/process/reviews/_template/index.md|${DOC_ROOT}process/reviews/_template/index.md"
+  "docs/templates/architecture/process/reviews/_template/report.md|${DOC_ROOT}process/reviews/_template/report.md"
+  "docs/templates/architecture/process/reviews/_template/findings.md|${DOC_ROOT}process/reviews/_template/findings.md"
   "docs/templates/architecture/work/_template.md|${DOC_ROOT}work/_template.md"
   "docs/templates/architecture/work/_template-review.md|${DOC_ROOT}work/_template-review.md"
   "docs/templates/architecture/interfaces/exports.md|${DOC_ROOT}interfaces/exports.md"

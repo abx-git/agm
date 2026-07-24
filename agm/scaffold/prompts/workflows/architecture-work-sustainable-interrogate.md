@@ -61,7 +61,7 @@ Start Phase 2 when:
 - the human writes "end interview", "done", or "write it up", OR
 - scope, focus, compare flag, and slug are all agreed.
 
-Then apply role-architecture-work.md and write <doc-root>spikes/YYYY-MM-DD-<slug>/notes.md (type: analysis).
+Then apply role-architecture-work.md and write <doc-root>/process/spikes/YYYY-MM-DD-<slug>/notes.md (type: analysis).
 
 Phase 2 procedure:
 1. Read <doc-root>blueprint.md, traverse from <doc-root>entry-point.md, read <doc-root>context/always-on.md.

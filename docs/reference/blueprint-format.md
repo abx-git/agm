@@ -51,19 +51,24 @@ States: `[ ]` open · `[~]` in progress · `[x]` done · `[!]` blocked
 **Types (architecture):** `question` · `analysis` · `design`  
 **Types (domain):** `domain-question` · `domain-discovery` · `domain-analysis` · `domain-design`  
 **Status:** `draft` · `reviewed` · `superseded`  
-**Path:** folder under `spikes/YYYY-MM-DD-<slug>/` (not a single file)
+**Path:** folder under `process/spikes/YYYY-MM-DD-<slug>/` (not a single file)
 
 Each spike folder typically contains `index.md`, `notes.md`, and `boards/*.storm.json` (E2 boards).
 
-Legacy heading `## Work register` / `## Architecture work` and flat `work/` + `WRK-*` may still appear; prefer **Spike register** and `SPK-*` for new work.
+Legacy heading `## Work register` / `## Architecture work`, top-level `spikes/`, and flat `work/` + `WRK-*` may still appear; prefer **Spike register**, `SPK-*`, and `process/spikes/` for new work.
 
 ## Reviews
 
-| Phase / target | Reviewed | Verdict | Report | Findings |
-|----------------|----------|---------|--------|----------|
-| —              | —        | —       | —      | —        |
+Verify (report-only) sessions. Each review is a folder under `process/reviews/YYYY-MM-DD-<slug>/` with `index.md`, `report.md`, and `findings.md`. IDs: `REV-NNN`.
 
-Verdict: `PASS` · `PASS WITH NOTES` · `FAIL`
+| ID | Phase / target | Reviewed | Verdict | Report | Findings |
+|----|----------------|----------|---------|--------|----------|
+| —  | —              | —        | —       | —      | —        |
+
+Verdict: `PASS` · `PASS WITH NOTES` · `FAIL`  
+**Report path:** `process/reviews/…/report.md` · **Findings path:** `process/reviews/…/findings.md`
+
+Legacy review notes under `spikes/…-review-…/` remain readable; new Verify output goes to `process/reviews/`.
 
 ## Guardrail findings
 
@@ -71,7 +76,7 @@ Verdict: `PASS` · `PASS WITH NOTES` · `FAIL`
 |------|---------|----------|--------|
 | —    | —       | —        | —      |
 
-Source: `Guardrail (Phase N)` · `Review (YYYY-MM-DD)`
+Source: `Guardrail (Phase N)` · `Review (YYYY-MM-DD)` / `REV-NNN`
 
 ## Session log
 

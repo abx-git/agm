@@ -20,5 +20,5 @@ Read <doc-root>/context/always-on.md → <doc-root>/blueprint.md → <doc-root>/
 Select next unreviewed phase in ## Reviews. Report-only — do not fix files.
 
 Output [[ANCHOR:REVIEW_SCOPE]], [[ANCHOR:VERDICT]], [[ANCHOR:FINDINGS]], [[ANCHOR:TOP_RISKS]], [[ANCHOR:LINK_CHECK]] before stop.
-Write <doc-root>/spikes/YYYY-MM-DD-review-<slug>/notes.md. Update ## Reviews and ## Guardrail findings in blueprint.md.
+Create <doc-root>/process/reviews/YYYY-MM-DD-<slug>/ from process/reviews/_template/ (index.md, report.md, findings.md). Assign next REV-NNN. Update ## Reviews and ## Guardrail findings in blueprint.md.
 ```

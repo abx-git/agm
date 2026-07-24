@@ -6,7 +6,7 @@ const PHASES: { id: JourneyPhase; label: string; hint: string }[] = [
   { id: 'connect', label: '1. Connect', hint: 'Project & folder' },
   { id: 'install', label: '2. Install', hint: 'Write starter' },
   { id: 'run', label: '3. Run', hint: 'Sessions' },
-  { id: 'spike', label: '4. Spike', hint: 'Explore & boards' },
+  { id: 'spike', label: '4. Process', hint: 'Spikes & reviews' },
   { id: 'review', label: '5. Review', hint: 'Browse graph' },
 ]
 

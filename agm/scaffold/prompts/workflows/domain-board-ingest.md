@@ -52,7 +52,7 @@ PHASE 3 — WRITE (after human approval)
 ═══════════════════════════════════════════════════════
 
 10. Apply approved manifest rows only. Route per e2-board-projection.md mapping table.
-11. Write <doc-root>spikes/YYYY-MM-DD-<slug>/notes.md (type: domain-discovery or domain-analysis) with timeline, manifest summary, conflicts.
+11. Write <doc-root>/process/spikes/YYYY-MM-DD-<slug>/notes.md (type: domain-discovery or domain-analysis) with timeline, manifest summary, conflicts.
 12. Link every graph row to the source-ingest file and board element id.
 13. If Code cross-check = yes: compare claims to always-on source map / packages (DDD-G02); record conflicts as open assumptions / hotspots — code wins.
 14. Register SPK in blueprint ## Spike register (Track: domain). Update entry-point.md links if new domain files. Verify relative links.

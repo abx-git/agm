@@ -28,7 +28,7 @@ Instructions:
 2. Verify Phase A: <doc-root>/prompts/role-bootstrap.md and prompts/core/system-prompt.md must exist. If missing, stop — ask the human to finish Install in AGM Studio (or run `agm scaffold` / install script) with the same documentation root.
 3. If an **Adoption parameters** / **Project parameters** block is present (with file roles or Documentation root), create always-on.md, blueprint.md, and entry-point.md as separate files under <doc-root>; interview only for missing facts.
 4. Bootstrap: follow <doc-root>/prompts/role-bootstrap.md — construction plan in <doc-root>/blueprint.md, navigation in <doc-root>/entry-point.md, first evidence-based template section under <doc-root>.
-5. Ensure <doc-root>/spikes/ exists (README + _template/ if missing). Prefer spikes for explorations, not flat work/ files.
+5. Ensure <doc-root>/process/spikes/ exists (README + _template/ if missing). Prefer spikes for explorations, not flat work/ files.
 6. Verify relative links. Append a session log entry to <doc-root>/blueprint.md.
 
 Output [[ANCHOR:CHANGED_FILES]], [[ANCHOR:TEMPLATE_SELECTED]], [[ANCHOR:PHASE_STATUS]], [[ANCHOR:OPEN_QUESTIONS]], [[ANCHOR:LINK_CHECK]] before stop.

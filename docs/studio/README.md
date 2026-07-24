@@ -13,16 +13,19 @@ Live: https://abx-git.github.io/agm.github.io/
 | **1. Connect** | Project name, template, bind local architecture folder (write) |
 | **2. Install** | Write Day-1 starter into the bound folder (browser only) |
 | **3. Run** | Copy session prompt → paste into Cursor / AI chat on the same repo |
-| **4. Spike** | Create/open spike folders (`SPK-*`): notes, Mermaid, E2 boards |
+| **4. Process** | Spikes (`process/spikes/`, SPK) and reviews (`process/reviews/`, REV) |
 | **5. Review** | Browse full graph: tree, search, Markdown, Mermaid, link graph, boards |
 
 Click the **AGM Studio** brand anytime to return to **What is AGM**. From there, open **How Studio works**.
 
-## Spikes
+## Spikes & reviews
 
-Each spike is a directory `spikes/YYYY-MM-DD-<slug>/` with `index.md`, `notes.md`, and `boards/*.storm.json`. Studio can create spikes, edit notes, and lean-edit Event Storming boards (download for full E2 when needed).
+Lifecycle artifacts live under `process/` (not durable chapters):
 
-Legacy flat `work/` + `WRK-*` remain readable.
+- Spike: `process/spikes/YYYY-MM-DD-<slug>/` with `index.md`, `notes.md`, `boards/*.storm.json`
+- Review: `process/reviews/YYYY-MM-DD-<slug>/` with `index.md`, `report.md`, `findings.md`
+
+Legacy top-level `spikes/` + `work/` + `WRK-*` remain readable.
 
 ## Run locally
 

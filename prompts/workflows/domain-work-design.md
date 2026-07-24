@@ -24,7 +24,7 @@ Report format: prompts/reference/ddd-work-report-formats.md § Domain design
 
 Instructions:
 1. Read domain/, relevant spikes/ and legacy work/ items, interfaces/, template decisions/.
-2. Write design to <doc-root>spikes/YYYY-MM-DD-<slug>/notes.md (type: domain-design): model, aggregates, events, integration impact.
+2. Write design to <doc-root>/process/spikes/YYYY-MM-DD-<slug>/notes.md (type: domain-design): model, aggregates, events, integration impact.
 3. Draft updates to domain/contexts/<context>/model.md (link from work item).
 4. Strategic boundary change → draft ADR in <template>/decisions/ and update context-map.md.
 5. Register SPK (Track: domain). Verify links.

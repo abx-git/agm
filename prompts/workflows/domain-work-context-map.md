@@ -26,7 +26,7 @@ Instructions:
 2. Identify bounded contexts (business capability + ubiquitous language boundary).
 3. Update <doc-root>domain/context-map.md (contexts table + Mermaid map + integration patterns).
 4. Map each context to implementation paths and interfaces/ contracts.
-5. Write <doc-root>spikes/YYYY-MM-DD-<slug>/notes.md (type: domain-analysis) with findings and recommendations.
+5. Write <doc-root>/process/spikes/YYYY-MM-DD-<slug>/notes.md (type: domain-analysis) with findings and recommendations.
 6. Record matching ddd-guardrails.md IDs in recommendations; propose blueprint guardrail rows.
 7. Register SPK (Track: domain). Verify links.
 

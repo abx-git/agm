@@ -6,20 +6,20 @@ set -euo pipefail
 DOC_ROOT="docs/architecture/"
 WORK_DIR=""
 FORCE=0
-LINK_NAME="spikes"
+LINK_NAME="process/spikes"
 
 usage() {
   cat <<'EOF'
 Usage: agm-work-link.sh --work-dir PATH [options]
 
-Point <doc-root>/spikes (preferred) or <doc-root>/work at a local directory
+Point <doc-root>/process/spikes (preferred) or <doc-root>/work at a local directory
 outside the application Git repo so each developer can prepare AGM spikes
 without committing drafts.
 
 Options:
-  --work-dir PATH   Absolute or relative path for real spike/work files (required)
+  --work-dir PATH   Absolute or relative path for real spike files (required)
   --doc-root PATH   Documentation root (default: docs/architecture/ or .agm-install-meta)
-  --legacy-work     Symlink work/ instead of spikes/ (older graphs)
+  --legacy-work     Symlink work/ instead of process/spikes (older graphs)
   --force           Replace an existing symlink that points elsewhere
   -h, --help        Show this help
 
@@ -127,6 +127,7 @@ echo "  Doc root:  ${DOC_ROOT}"
 echo "  Link:      ${LINK_PATH} → ${TARGET}"
 
 mkdir -p "$DOC_ROOT"
+mkdir -p "$(dirname "$LINK_PATH")"
 
 if [[ -L "$LINK_PATH" ]]; then
   current="$(readlink "$LINK_PATH" || true)"

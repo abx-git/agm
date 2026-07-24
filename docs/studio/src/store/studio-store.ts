@@ -23,13 +23,18 @@ import { loadProjectParams, saveProjectParams } from '../lib/project-params'
 import { buildStarterScaffold } from '../lib/scaffold-pack'
 import { createDocSearch, type SearchHit } from '../lib/search'
 import {
+  appendReviewRegisterRow,
   appendSpikeRegisterRow,
+  buildReviewFiles,
   buildSpikeFiles,
   emptyStormBoard,
+  listReviews,
   listSpikes,
+  nextReviewId,
   nextSpikeId,
   slugify,
   type CreateSpikeInput,
+  type ReviewInfo,
   type SpikeInfo,
   type SpikeTrack,
   type SpikeType,
@@ -44,7 +49,8 @@ function applyIndex(files: FileMap, label: string) {
     null
   const installStatus = detectInstallStatus(files)
   const spikes = listSpikes(files)
-  return { index, searchFn, preferred, installStatus, spikes }
+  const reviews = listReviews(files)
+  return { index, searchFn, preferred, installStatus, spikes, reviews }
 }
 
 let searchFn: ((q: string) => SearchHit[]) | null = null
@@ -58,6 +64,7 @@ interface StudioState {
   installStatus: InstallStatus
   index: ArchitectureIndex | null
   spikes: SpikeInfo[]
+  reviews: ReviewInfo[]
   activeSpikePath: string | null
   activePath: string | null
   typeFilter: string
@@ -92,6 +99,7 @@ interface StudioState {
     track: SpikeTrack
     type: SpikeType
   }) => Promise<string | null>
+  createReview: (input: { title: string; slug?: string; scope?: string }) => Promise<string | null>
   saveSpikeFile: (relativePath: string, content: string) => Promise<boolean>
   createStormBoard: (spikePath: string, name: string, modelingMode?: string) => Promise<string | null>
 }
@@ -105,7 +113,7 @@ function afterOpen(
   canWrite: boolean,
   opts?: { keepPhase?: boolean },
 ) {
-  const { index, searchFn: sf, preferred, installStatus, spikes } = applyIndex(files, label)
+  const { index, searchFn: sf, preferred, installStatus, spikes, reviews } = applyIndex(files, label)
   searchFn = sf
   const prevPhase = get().phase
   const phase: JourneyPhase = opts?.keepPhase
@@ -119,6 +127,7 @@ function afterOpen(
     canWrite,
     index,
     spikes,
+    reviews,
     activePath: preferred,
     installStatus,
     searchQuery: '',
@@ -139,6 +148,7 @@ export const useStudioStore = create<StudioState>((set, get) => ({
   installStatus: 'unknown',
   index: null,
   spikes: [],
+  reviews: [],
   activeSpikePath: null,
   activePath: null,
   typeFilter: '',
@@ -283,6 +293,7 @@ export const useStudioStore = create<StudioState>((set, get) => ({
       installStatus: 'unknown',
       index: null,
       spikes: [],
+      reviews: [],
       activeSpikePath: null,
       activePath: null,
       searchQuery: '',
@@ -339,6 +350,51 @@ export const useStudioStore = create<StudioState>((set, get) => ({
       return folder
     } catch (err) {
       set({ error: err instanceof Error ? err.message : 'Create spike failed' })
+      return null
+    }
+  },
+
+  createReview: async ({ title, slug, scope }) => {
+    const handle = get().folderHandle
+    if (!handle || !get().canWrite) {
+      set({ error: 'Write access required to create a review.' })
+      return null
+    }
+    try {
+      const filesNow: FileMap = new Map()
+      await walkDirectoryHandle(handle, '', filesNow)
+      const existing = listReviews(filesNow)
+      const bp =
+        [...filesNow.entries()].find(([p]) => p.endsWith('blueprint.md'))?.[1] ??
+        filesNow.get('blueprint.md')
+      const id = nextReviewId(bp, existing)
+      const reviewFiles = buildReviewFiles({
+        title,
+        slug: slugify(slug || title),
+        nextId: id,
+        scope: scope || 'phase',
+      })
+      await writeFileMap(handle, reviewFiles)
+      const folder = Object.keys(reviewFiles)[0]!.replace(/\/index\.md$/, '')
+      if (bp) {
+        const bpPath =
+          [...filesNow.keys()].find((p) => p.endsWith('blueprint.md')) || 'blueprint.md'
+        const updated = appendReviewRegisterRow(bp, {
+          id,
+          target: title,
+          reviewed: new Date().toISOString().slice(0, 10),
+          verdict: '',
+          reportPath: `${folder}/report.md`,
+          findingsPath: `${folder}/findings.md`,
+        })
+        await writeTextFile(handle, bpPath, updated)
+      }
+      await get().refreshIndex({ keepPhase: true })
+      set({ activeSpikePath: folder, activePath: `${folder}/report.md`, phase: 'spike' })
+      get().showToast(`Created ${id}`)
+      return folder
+    } catch (err) {
+      set({ error: err instanceof Error ? err.message : 'Create review failed' })
       return null
     }
   },

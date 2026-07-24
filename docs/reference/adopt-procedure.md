@@ -21,10 +21,10 @@ npx @abx-hh/agm-cli scaffold --project "Order Service" --template arc42 --ai-too
 Install should provide:
 
 - `prompts/core/system-prompt.md`, `prompts/reference/` (when using full CLI install)
-- `${docRoot}/` scaffold: context, role prompts, template stubs, `spikes/` (+ optional legacy `work/` templates)
+- `${docRoot}/` scaffold: context, role prompts, template stubs, `process/spikes/` and `process/reviews/` (+ optional legacy `work/` templates)
 - AI tool rules when using CLI install (Cursor `.cursor/rules/`, etc.) — Studio browser starter may omit IDE rules; remind the human if missing
 
-Optional `--work-dir`: symlink `${docRoot}/spikes` (preferred) or legacy `${docRoot}/work` outside Git — [external-work.md](./external-work.md).
+Optional `--work-dir`: symlink `${docRoot}/process/spikes` (preferred) or legacy `${docRoot}/work` outside Git — [external-work.md](./external-work.md).
 
 Do **not** invent a second documentation root. Always write under the configured `${docRoot}/`.
 
@@ -45,8 +45,8 @@ If the session prompt includes **Project parameters** or **Adoption parameters**
 | File | Write |
 |------|-------|
 | `context/always-on.md` | Session context from parameters; interview only for gaps |
-| `blueprint.md` | Construction plan: phase rows for selected template, Spike register, initial `[ ]` / `[~]` states |
-| `entry-point.md` | Overview stub, navigation table, links to template sections, `spikes/`, and source paths |
+| `blueprint.md` | Construction plan: phase rows for selected template, Spike + Review registers, initial `[ ]` / `[~]` states |
+| `entry-point.md` | Overview stub, navigation table, links to template sections, `process/`, and source paths |
 
 Remind the human only if IDE rules are missing.
 
@@ -58,7 +58,7 @@ Follow `${docRoot}/prompts/role-bootstrap.md`:
 - Populate `blueprint.md` phase table; mark first in-progress phase.
 - Populate interfaces/ and the first high-value section from evidence only.
 - Keep blueprint (plan/progress) and entry-point (navigation) in sync.
-- Ensure `${docRoot}/spikes/` is ready for later SPK items.
+- Ensure `${docRoot}/process/spikes/` and `${docRoot}/process/reviews/` are ready for later SPK/REV items.
 - Session log + required anchors at end.
 
 ## Lifecycle after Build (phase 1)
@@ -66,9 +66,9 @@ Follow `${docRoot}/prompts/role-bootstrap.md`:
 | Phase | Action |
 |-------|--------|
 | **1 · Build** (continue) | `bootstrap-continue` until phases done → `review-milestone` |
-| **2 · Evolve** | `refinement`, `maintenance` (+ git diff) |
-| **3 · Spike** | Architecture/Domain spikes (`architecture-work-*`, `domain-work-*`) under `spikes/` |
-| **Review** (any phase) | `review-phase`, `review-maintenance` — report-only, new chat |
+| **2 · Evolve** | `refinement`, `maintenance` (+ git diff); ingest → `sources/` |
+| **3 · Spike** | Architecture/Domain spikes under `process/spikes/` |
+| **Review** (any phase) | `review-phase`, `review-maintenance` — report-only → `process/reviews/` |
 
 Session prompts: [AGM Studio](https://abx-git.github.io/agm.github.io/) Run phase, or (if installed) `prompts/workflows/<id>.md` / MCP.
 

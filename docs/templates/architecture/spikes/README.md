@@ -1,24 +1,12 @@
 ---
 type: architecture-index
-title: "Spikes"
-description: "Timeboxed architecture/domain explorations (SPK register)"
+title: "Spikes (legacy path)"
+description: "Prefer process/spikes/ — this folder is legacy"
 resource: "repo://"
-tags: [architecture, spikes]
-timestamp: ""
+tags: [architecture, spike, legacy]
+timestamp: "2026-07-24"
 ---
 
-# Spikes
+# Spikes (legacy)
 
-Each spike is a **folder** under this directory: `YYYY-MM-DD-<slug>/`.
-
-Typical contents:
-
-- `index.md` — spike header (SPK id, goal, status)
-- `notes.md` — ongoing write-up + Mermaid
-- `boards/*.storm.json` — E2 boards (event storming, context map, …)
-
-Register every spike in `../blueprint.md` ## Spike register (`SPK-NNN`).
-
-Copy [`_template/`](./_template/) to start a new spike, or use **AGM Studio → Spike → New**.
-
-Legacy flat files may still live in `../work/` (`WRK-*`); prefer spikes for new work.
+New spikes belong under [process/spikes/](../process/spikes/). This top-level path remains for older graphs.

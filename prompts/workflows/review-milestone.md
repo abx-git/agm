@@ -22,9 +22,9 @@ Review type: milestone (bootstrap close)
 Focus:
 1. Validate <doc-root>/blueprint.md — phase states, Spike register (SPK; legacy WRK ok), session log, and open items match the actual documentation graph.
 2. Cross-check the full <doc-root>/ graph for consistency, stale content, and broken relative links.
-3. From bootstrap follow-up sessions: find insights still only in spikes/ (or legacy work/) files or the session log that belong in template sections (arc42, c4-light, etc.). Recommend where to link or summarize them — report-only; do not rewrite architecture docs in this session.
+3. From bootstrap follow-up sessions: find insights still only in process/spikes/ (or legacy spikes/ / work/) files or the session log that belong in template sections (arc42, c4-light, etc.). Recommend where to link or summarize them — report-only; do not rewrite architecture docs in this session.
 
-Report-only. Write report under <doc-root>/spikes/. Update blueprint.md ## Reviews.
+Report-only. Create <doc-root>/process/reviews/YYYY-MM-DD-milestone-<slug>/ from process/reviews/_template/ (index.md, report.md, findings.md). Assign next REV-NNN. Update blueprint.md ## Reviews.
 
 Output [[ANCHOR:REVIEW_SCOPE]], [[ANCHOR:VERDICT]], [[ANCHOR:FINDINGS]], [[ANCHOR:TOP_RISKS]], [[ANCHOR:LINK_CHECK]] before stop.
 ```

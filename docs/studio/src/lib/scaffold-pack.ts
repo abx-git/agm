@@ -79,6 +79,12 @@ Construction plan for the architecture graph. Status: \`[ ]\` open · \`[~]\` in
 |----|-------|-------|------|------|--------|------|
 | — | — | — | — | — | — | — |
 
+## Reviews
+
+| ID | Phase / target | Reviewed | Verdict | Report | Findings |
+|----|----------------|----------|---------|--------|----------|
+| — | — | — | — | — | — |
+
 ## Session log
 
 | Date | Summary |
@@ -107,7 +113,11 @@ Graph index (links only). Humans read template sections; agents start here.
 
 ## Spikes
 
-- [spikes/](spikes/)
+- [process/spikes/](process/spikes/)
+
+## Reviews
+
+- [process/reviews/](process/reviews/)
 
 ## Prompts
 
@@ -125,7 +135,7 @@ Graph index (links only). Humans read template sections; agents start here.
 - [Entry point](entry-point.md)
 - [Blueprint](blueprint.md)
 - [Always-on context](context/always-on.md)
-- [Spikes](spikes/)
+- [Process](process/) — spikes & reviews
 - Template: [${template}](${template}/)
 `,
   )
@@ -149,7 +159,7 @@ Graph index (links only). Humans read template sections; agents start here.
 You are the bootstrap scribe for AGM. Follow the active workflow session prompt from AGM Studio.
 Maintain blueprint.md, entry-point.md, and context/always-on.md every session.
 Human-in-the-loop: propose; do not silently invent architecture.
-Write new explorations under spikes/YYYY-MM-DD-&lt;slug&gt;/ (SPK register), not flat work/ files.
+Write new explorations under process/spikes/YYYY-MM-DD-&lt;slug&gt;/ (SPK register), not flat work/ files.
 `,
   )
 
@@ -169,7 +179,7 @@ Update blueprint status and log.md each session. Output [[ANCHOR:LINK_CHECK]].
     `# Role: review
 
 Review architecture docs for consistency, broken links, and untraceable claims.
-Write findings into a spike under spikes/YYYY-MM-DD-review-&lt;slug&gt;/notes.md when asked.
+Write Verify output under process/reviews/YYYY-MM-DD-&lt;slug&gt;/ (index.md, report.md, findings.md; REV-NNN).
 `,
   )
 
@@ -259,17 +269,42 @@ flowchart LR
       `${template} template`,
       `# ${template}\n\nTemplate sections for ${name}. Expand via Continue sessions.\n`,
     ),
-    'spikes/README.md': okf(
+    'process/README.md': okf(
+      'architecture-index',
+      'Process',
+      `# Process\n\nLifecycle artifacts: [spikes/](./spikes/) (SPK) and [reviews/](./reviews/) (REV). Not durable chapters.\n`,
+    ),
+    'process/spikes/README.md': okf(
       'architecture-index',
       'Spikes',
       `# Spikes\n\nTimeboxed explorations (SPK register). Create via AGM Studio → Spike, or copy \`_template/\`.\n`,
     ),
-    'spikes/_template/index.md': spikeIndexTpl,
-    'spikes/_template/notes.md': spikeNotesTpl,
-    'spikes/_template/boards/README.md': okf(
+    'process/spikes/_template/index.md': spikeIndexTpl,
+    'process/spikes/_template/notes.md': spikeNotesTpl,
+    'process/spikes/_template/boards/README.md': okf(
       'architecture-index',
       'Spike boards',
       `# Boards\n\nPlace \`.storm.json\` Event Storming boards here. Edit in AGM Studio or export to E2.\n`,
+    ),
+    'process/reviews/README.md': okf(
+      'architecture-index',
+      'Reviews',
+      `# Reviews\n\nVerify sessions (REV). Each folder has index.md, report.md, findings.md.\n`,
+    ),
+    'process/reviews/_template/index.md': okf(
+      'architecture-review',
+      'REV-NNN: [Title]',
+      `# REV-NNN: <Title>\n\n| Field | Value |\n|-------|-------|\n| **ID** | REV-NNN |\n| **Verdict** | |\n\n## Artifacts\n\n| Kind | Path |\n|------|------|\n| Report | [report.md](./report.md) |\n| Findings | [findings.md](./findings.md) |\n`,
+    ),
+    'process/reviews/_template/report.md': okf(
+      'architecture-review-report',
+      'Review report',
+      `# Report\n\n## Verdict\n\n\`PASS\` | \`PASS WITH NOTES\` | \`FAIL\`\n`,
+    ),
+    'process/reviews/_template/findings.md': okf(
+      'architecture-review-findings',
+      'Review findings',
+      `# Findings\n\n| ID | Severity | Finding | Evidence | Recommendation |\n|----|----------|---------|----------|----------------|\n| | | | | |\n`,
     ),
   }
 }
