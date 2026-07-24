@@ -834,15 +834,25 @@ code {
 }
 
 .connect-doc-root {
-  margin-top: 1rem;
-  padding-top: 0.85rem;
-  border-top: 1px solid var(--line);
+  margin-top: 0.75rem;
+  margin-bottom: 0.85rem;
   max-width: 28rem;
 }
 
 .connect-doc-root .hint {
   display: block;
   margin-top: 0.35rem;
+}
+
+.connect-steps {
+  margin: 0 0 0.85rem;
+  padding-left: 1.2rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.connect-steps li {
+  margin-bottom: 0.35rem;
 }
 
 .hint {

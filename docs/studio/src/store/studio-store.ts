@@ -11,7 +11,7 @@ import { detectInstallStatus } from '../lib/detect-install'
 import {
   loadDirectoryHandle,
   openArchitectureFolderViaInput,
-  openRepositoryWithDocRoot,
+  openFolderWithOptionalSubpath,
   rehydrateFolder,
   supportsDirectoryPicker,
   walkDirectoryHandle,
@@ -202,27 +202,22 @@ export const useStudioStore = create<StudioState>((set, get) => ({
         await get().connectFolderFallback()
         return
       }
-      const preferred = get().project.docRoot
-      const result = await openRepositoryWithDocRoot({
+      const subpath = get().project.docRoot
+      const result = await openFolderWithOptionalSubpath({
         mode: 'readwrite',
-        preferredDocRoot: preferred,
+        subpath,
       })
       if (!result) {
         set({ opening: false })
         return
       }
-      // Repo bind sets the prompt path; direct arch pick keeps existing docRoot
-      if (!result.pickedArchDirectly) {
-        get().setProject({ docRoot: result.docRoot })
-      }
+      get().setProject({ docRoot: result.docRoot })
       afterOpen(set, get, result.label, result.files, result.handle, result.canWrite)
-      if (result.pickedArchDirectly) {
-        get().showToast('Bound architecture folder — set repo-relative path if prompts need it')
-      } else if (!result.hasGit) {
-        get().showToast(`Using ${result.docRoot} under ${result.repoName}`)
-      } else {
-        get().showToast(`Repo bound · docs at ${result.docRoot}`)
-      }
+      get().showToast(
+        subpath?.trim()
+          ? `Bound · prompts use ${result.docRoot}`
+          : `Bound ${result.baseName} · prompts use ${result.docRoot}`,
+      )
     } catch (err) {
       set({
         opening: false,

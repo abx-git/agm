@@ -20,9 +20,8 @@ export function ConnectPhase() {
     <div className="phase-panel connect-phase">
       <h2>Connect your project</h2>
       <p className="lead">
-        Name the application, pick a template, then choose the <strong>Git repository root</strong>.
-        Studio finds (or creates) the documentation folder from the path below and uses that path in
-        Run prompts.
+        Choose a folder, optionally add a subfolder. That path is where Studio reads/writes docs and
+        what Run prompts use.
       </p>
 
       <div className="form-grid">
@@ -95,15 +94,17 @@ export function ConnectPhase() {
       </div>
 
       <div className="connect-folder-block">
-        <h3>Repository</h3>
-        <p className="hint">
-          {supportsDirectoryPicker()
-            ? 'Pick the application Git root (the folder that contains .git). Allow edit access. Studio then opens the documentation path below — or creates it if missing.'
-            : 'This browser cannot grant write access. Use Chrome, Edge, or Brave.'}
-        </p>
+        <h3>Folder</h3>
+        <ol className="connect-steps">
+          <li>Choose a folder (e.g. the repo root, or the docs folder itself).</li>
+          <li>
+            Optional: enter a subfolder under it. That path is used in prompts and as the docs
+            location.
+          </li>
+        </ol>
 
         <label className="field connect-doc-root">
-          <span>Documentation path (relative to that repo)</span>
+          <span>Subfolder (optional)</span>
           <input
             type="text"
             value={project.docRoot}
@@ -111,9 +112,9 @@ export function ConnectPhase() {
             placeholder="docs/architecture/"
           />
           <span className="hint">
-            Default candidates if empty when you connect: <code>docs/architecture/</code>,{' '}
-            <code>docs/arch/</code>, <code>architecture/</code>. After connect, this field is set to
-            what Studio found (or created).
+            Example: pick the Git repo, set <code>docs/architecture/</code>. Leave empty if the
+            folder you pick <em>is</em> already the documentation root (prompts then use that
+            folder&apos;s name).
           </span>
         </label>
 
@@ -123,7 +124,7 @@ export function ConnectPhase() {
           disabled={opening || !supportsDirectoryPicker()}
           onClick={() => connectFolder()}
         >
-          {opening ? 'Opening…' : folderLabel ? `Bound: ${folderLabel}` : 'Choose Git repository'}
+          {opening ? 'Opening…' : folderLabel ? `Bound: ${folderLabel}` : 'Choose folder'}
         </button>
         {!supportsDirectoryPicker() && (
           <button
@@ -133,12 +134,12 @@ export function ConnectPhase() {
             onClick={() => connectFolderFallback()}
             style={{ marginLeft: '0.5rem' }}
           >
-            Open folder read-only (limited)
+            Open read-only (limited)
           </button>
         )}
         {folderLabel && (
           <p className="status-line">
-            Docs folder: <strong>{project.docRoot}</strong>
+            Prompt path: <strong>{project.docRoot}</strong>
             {' · '}
             Install: <strong>{installStatus}</strong>
           </p>
