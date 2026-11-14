@@ -57,8 +57,8 @@ export function ComposePhase() {
       </div>
 
       <p className="hint">
-        Supported in 1.0: <strong>Cursor</strong> and <strong>Claude Code</strong>. Copilot/generic
-        write <code>AGENTS.md</code> only.
+        AI targets: <strong>Cursor</strong>, <strong>Claude</strong>, <strong>Copilot</strong>,{' '}
+        <strong>Kiro</strong>, <strong>generic</strong> (AGENTS.md).
       </p>
     </div>
   )

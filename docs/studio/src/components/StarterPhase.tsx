@@ -14,8 +14,8 @@ export function StarterPhase() {
         <p className="starter-brand">Tekto Studio</p>
         <h1>Architecture work with AI</h1>
         <p className="starter-lead">
-          Setup binds <code>docs/tekto/</code>. Docs, Review, Composer, and Ask AI prepare prompts —
-          your IDE runs the agent.
+          <strong>Two setup steps:</strong> bind your <code>docs/tekto/</code> folder, then write
+          steer.md + log.md. After that, Docs · Review · Composer · Ask AI unlock.
         </p>
         <div className="starter-cta">
           <button

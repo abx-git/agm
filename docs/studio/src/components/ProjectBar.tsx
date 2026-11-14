@@ -70,7 +70,7 @@ export function JourneyRail() {
               title="Finish Setup first"
             >
               <span className="journey-chip-label">{workspaceLabel(p.id)}</span>
-              <span className="journey-chip-hint">after Setup</span>
+              <span className="journey-chip-hint">browse Tekto</span>
             </button>
           ))}
         </>

@@ -10,6 +10,8 @@ import { WorkspaceShell } from './components/WorkspaceShell'
 import { ReviewsPanel } from './components/ReviewsPanel'
 import { ComposePhase } from './components/ComposePhase'
 import { NextStepBanner } from './components/NextStepBanner'
+import { SetupStepper } from './components/SetupStepper'
+import { showSetupStepper } from './lib/setup-flow'
 import { HelpDrawer } from './components/HelpDrawer'
 import './App.css'
 
@@ -48,6 +50,8 @@ function SiteFooter() {
 
 export default function App() {
   const phase = useStudioStore((s) => s.phase)
+  const folderLabel = useStudioStore((s) => s.folderLabel)
+  const installStatus = useStudioStore((s) => s.installStatus)
   const error = useStudioStore((s) => s.error)
   const toast = useStudioStore((s) => s.toast)
   const restoring = useStudioStore((s) => s.restoring)
@@ -58,14 +62,17 @@ export default function App() {
   }, [tryRestoreFolder])
 
   const introPhase = phase === 'about' || phase === 'start'
-  const showRail = !introPhase
+  const inSetup = showSetupStepper(folderLabel, installStatus, phase)
+  const showRail = !introPhase && !inSetup && installStatus === 'ready'
+  const showNextBanner = showRail
   const wide = phase === 'architecture' || phase === 'review' || phase === 'compose'
 
   return (
     <div className={`studio${introPhase ? ' studio--starter' : ''}`}>
       <ProjectBar />
+      {inSetup && <SetupStepper />}
       {showRail && <JourneyRail />}
-      {showRail && <NextStepBanner />}
+      {showNextBanner && <NextStepBanner />}
       <HelpDrawer />
       {error && (
         <div className="studio-error" role="alert">

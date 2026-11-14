@@ -39,11 +39,10 @@ export function ConnectPhase() {
 
   return (
     <div className="phase-panel connect-phase">
-      <h2>Setup — folder &amp; project</h2>
+      <h2>Step 1 — Folder &amp; project</h2>
       <p className="lead">
-        Step 1 of the process: choose a local folder (usually your repo or{' '}
-        <code>docs/architecture</code>). Studio remembers it. After Setup: browse Architecture, then
-        use <strong>Ask AI · next checklist</strong> to grow chapters with AI.
+        Pick the folder that will contain <code>steer.md</code> — often your repo’s{' '}
+        <code>docs/tekto/</code> or the repo root. Complete this step, then write the starter in step 2.
       </p>
 
       <div className="form-grid">
@@ -218,9 +217,9 @@ export function ConnectPhase() {
         )}
       </div>
 
-      <div className="phase-actions">
+      <div className="phase-actions phase-actions--solo">
         <button type="button" className="btn primary" disabled={!confirmed} onClick={continueNext}>
-          {installStatus === 'ready' ? 'Open Architecture' : 'Continue — starter'}
+          {installStatus === 'ready' ? 'Open Docs' : 'Next: step 2 — Write starter →'}
         </button>
       </div>
     </div>

@@ -539,7 +539,7 @@ export const useStudioStore = create<StudioState>((set, get) => ({
       await get().refreshIndex({ keepPhase: true })
       set({ installing: false, phase: 'architecture', installStatus: 'ready' })
       saveLastDailyPhase('architecture')
-      get().showToast(`Wrote ${Object.keys(files).length} starter files`)
+      get().showToast(`Setup complete — open Docs or Ask AI (${Object.keys(files).length} files written)`)
     } catch (err) {
       set({
         installing: false,
