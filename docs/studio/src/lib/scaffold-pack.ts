@@ -1,6 +1,4 @@
 import type { ProjectParams } from '../types'
-import { resolvedTemplate } from './project-params'
-import { NOTES_GITIGNORE } from './notes'
 
 function okf(type: string, title: string, body: string): string {
   const ts = new Date().toISOString().slice(0, 10)
@@ -10,7 +8,7 @@ function okf(type: string, title: string, body: string): string {
     `title: "${title.replace(/"/g, '\\"')}"`,
     'description: ""',
     'resource: "repo://"',
-    'tags: [architecture]',
+    'tags: [tekto]',
     `timestamp: "${ts}"`,
     '---',
     '',
@@ -19,98 +17,52 @@ function okf(type: string, title: string, body: string): string {
   ].join('\n')
 }
 
-/**
- * Minimal Day-1 bootstrap from AGM Studio.
- * Only state files needed to start — no empty chapters, domain stubs, or process templates.
- * Those appear when Adopt / Extend docs / Concepts / Analyses create them.
- */
+/** Tekto minimal starter from Studio Install. */
 export function buildStarterScaffold(params: ProjectParams): Record<string, string> {
   const name = params.appName || 'My Application'
-  const template = resolvedTemplate(params)
-  const stack = params.stack || '<stack>'
-  const purpose = params.purpose || '<one sentence domain>'
-  const today = new Date().toISOString().slice(0, 10)
-  const source = params.sourceRoot || '—'
 
-  const blueprint = okf(
-    'architecture-blueprint',
-    "Blueprint — what's next",
-    `# Blueprint — ${name}
+  const steer = okf(
+    'steer',
+    'Steer',
+    `# Tekto — steer — ${name}
 
-**What's next** for the docs. Tick items as you go: \`[ ]\` open · \`[~]\` in progress · \`[x]\` done.
+## Map
 
-Files listed below are **planned** — create them only when Adopt / Extend docs / a Studio action produces them. Do not pre-create empty stubs.
+- [Index](./index.md)
+- [Chapters](./chapters/README.md)
+- [Reviews](./reviews/README.md)
+- [Rules](./rules/README.md)
 
-## Checklist
+## Now
 
-| Status | Chapter | File (create when working this row) |
-|--------|---------|-------------------------------------|
-| [ ] | Fill entry-point facts | entry-point.md |
-| [ ] | Introduction | ${template}/introduction.md |
-| [ ] | Context view | ${template}/context.md |
-| [ ] | Domain knowledge (optional) | domain/ |
-| [ ] | Index + log (OKF) | index.md, log.md |
-
-## Spikes
-
-| ID | Track | Title | Type | Path | Status | Date |
-|----|-------|-------|------|------|--------|------|
-| — | — | — | — | — | — | — |
-
-## Reviews
-
-| ID | Target | Reviewed | Verdict | Report | Findings |
-|----|--------|----------|---------|--------|----------|
-| — | — | — | — | — | — |
-
-## Session notes
-
-| Date | Summary |
-|------|---------|
-| ${today} | Minimal starter from AGM Studio (entry-point + blueprint only) |
-`,
+| Owner | Task | Link |
+|-------|------|------|
+| — | First context capture (\`understand\`) | [chapters/](./chapters/) |
+`
   )
 
-  const entry = okf(
-    'architecture-entry',
-    'Entry point — start here',
-    `# Entry point — ${name}
+  const log = okf(
+    'log',
+    'Change log',
+    `# log
 
-**Start here.** Put this file in the AI context. Short facts + links to what exists.
+Format: \`YYYY-MM-DD | type | path | note\`
 
-## About this system
-
-**Application:** ${name}  
-**Domain:** ${purpose}  
-**Stack:** ${stack}  
-**Template:** ${template}
-
-## Source code map
-
-| Module | Path |
-|--------|------|
-| — | ${source} |
-
-## Links
-
-| What | Where |
-|------|-------|
-| What's next (checklist) | [blueprint.md](blueprint.md) |
-
-Further chapters, \`domain/\`, spikes, and reviews appear when you run **Adopt** / **Ask AI · next checklist** or create them in Studio. Do not invent empty files ahead of time.
-Local scratch lives in \`notes/\` (gitignored content) — agents must not treat it as architecture truth unless you explicitly ask.
-
-## Session habit
-
-1. Read this file → [blueprint.md](blueprint.md). Session prompts come from **AGM Studio**.
-2. Create or fill the next checklist file only when that work starts.
-3. Update this link map when new durable files appear. Tick blueprint when work moves forward.
-`,
+${new Date().toISOString().slice(0, 10)} | init | steer.md | Tekto Studio install
+`
   )
+
+  const index = okf('index', 'Tekto index', '# Index\n')
+  const chapters = okf('index', 'Chapters', '# Chapters\n')
+  const reviews = okf('index', 'Reviews', '# Reviews\n')
+  const rules = okf('index', 'Rules', '# Rules\n')
 
   return {
-    'entry-point.md': entry,
-    'blueprint.md': blueprint,
-    'notes/.gitignore': NOTES_GITIGNORE,
+    'steer.md': steer,
+    'log.md': log,
+    'index.md': index,
+    'chapters/README.md': chapters,
+    'reviews/README.md': reviews,
+    'rules/README.md': rules,
   }
 }

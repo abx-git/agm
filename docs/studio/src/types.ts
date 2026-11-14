@@ -1,26 +1,10 @@
 export type SetupPhase = 'about' | 'start' | 'connect' | 'install'
 
 /** Durable cockpit workspaces after Setup. */
-export type WorkspaceId =
-  | 'architecture'
-  | 'knowledge'
-  | 'inbox'
-  | 'notes'
-  | 'concepts'
-  | 'analyses'
-  | 'session'
+export type WorkspaceId = 'architecture' | 'review' | 'compose' | 'session'
 
 /** Which Session tab to open when navigating from a workspace CTA. */
-export type SessionIntent =
-  | 'adopt'
-  | 'continue'
-  | 'evolve'
-  | 'verify'
-  | 'advanced'
-  | 'align'
-  | 'inbox-analyze'
-  | 'inbox-refine'
-  | 'inbox-merge'
+export type SessionIntent = 'adopt' | 'continue' | 'evolve' | 'verify' | 'aspect'
 
 export type JourneyPhase = SetupPhase | WorkspaceId
 
@@ -40,7 +24,7 @@ export interface ProjectParams {
   appName: string
   template: string
   customTemplate: string
-  docRoot: string
+  docRoot: string // e.g. docs/tekto/
   aiTool: string
   purpose: string
   stack: string
@@ -110,17 +94,9 @@ export const DEFAULT_PROJECT: ProjectParams = {
   sourceRoot: '',
 }
 
-export const STORAGE_KEY = 'agm-studio-project'
+export const STORAGE_KEY = 'tekto-studio-project'
 
-export const WORKSPACE_PHASES: WorkspaceId[] = [
-  'architecture',
-  'knowledge',
-  'inbox',
-  'notes',
-  'concepts',
-  'analyses',
-  'session',
-]
+export const WORKSPACE_PHASES: WorkspaceId[] = ['architecture', 'review', 'compose', 'session']
 
 export function isWorkspacePhase(phase: JourneyPhase): phase is WorkspaceId {
   return (WORKSPACE_PHASES as string[]).includes(phase)

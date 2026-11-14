@@ -1,8 +1,0 @@
-{
-  "mcpServers": {
-    "agm": {
-      "command": "npx",
-      "args": ["-y", "@abx-hh/agm-cli", "agm-mcp"]
-    }
-  }
-}

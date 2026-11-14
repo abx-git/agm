@@ -1,32 +1,28 @@
 import type { DocWorkspace, JourneyPhase, WorkspaceId } from '../types'
 
-const COCKPIT_PHASE_KEY = 'agm-studio-last-daily-phase'
-const FOLDER_HINT_KEY = 'agm-studio-folder-hint'
-const BOOT_DONE_KEY = 'agm-studio-boot-done'
-const CONTEXT_PINS_KEY = 'agm-studio-context-pins'
-const DOC_FOCUS_KEY = 'agm-studio-doc-focus'
+const COCKPIT_PHASE_KEY = 'tekto-studio-last-daily-phase'
+const FOLDER_HINT_KEY = 'tekto-studio-folder-hint'
+const BOOT_DONE_KEY = 'tekto-studio-boot-done'
+const CONTEXT_PINS_KEY = 'tekto-studio-context-pins'
+const DOC_FOCUS_KEY = 'tekto-studio-doc-focus'
 
 export type CockpitPhase = WorkspaceId
 
 const LEGACY_MAP: Record<string, CockpitPhase> = {
   run: 'session',
-  spike: 'concepts',
-  review: 'architecture',
+  spike: 'architecture',
+  review: 'review',
+  knowledge: 'architecture',
+  inbox: 'architecture',
+  notes: 'architecture',
+  concepts: 'architecture',
+  analyses: 'architecture',
 }
 
 export function isCockpitPhase(phase: JourneyPhase): phase is CockpitPhase {
-  return (
-    phase === 'architecture' ||
-    phase === 'knowledge' ||
-    phase === 'inbox' ||
-    phase === 'notes' ||
-    phase === 'concepts' ||
-    phase === 'analyses' ||
-    phase === 'session'
-  )
+  return phase === 'architecture' || phase === 'review' || phase === 'compose' || phase === 'session'
 }
 
-/** @deprecated use isCockpitPhase */
 export function isDailyPhase(phase: JourneyPhase): phase is CockpitPhase {
   return isCockpitPhase(phase)
 }
@@ -69,7 +65,6 @@ export function saveFolderHint(label: string | null): void {
   }
 }
 
-/** True after user completed first-time setup at least once (folder bound). */
 export function loadBootDone(): boolean {
   try {
     return localStorage.getItem(BOOT_DONE_KEY) === '1'
@@ -130,22 +125,16 @@ export function saveDocFocus(ids: string[]): void {
 export function workspaceLabel(ws: DocWorkspace | WorkspaceId): string {
   switch (ws) {
     case 'architecture':
-      return 'Architecture'
-    case 'knowledge':
-      return 'Knowledge'
-    case 'inbox':
-      return 'Inbox'
-    case 'notes':
-      return 'Notes'
-    case 'concepts':
-      return 'Concepts'
-    case 'analyses':
-      return 'Analyses'
+      return 'Docs'
+    case 'review':
+      return 'Review'
+    case 'compose':
+      return 'Composer'
     case 'session':
       return 'Ask AI'
     case 'meta':
       return 'State'
     default:
-      return ws
+      return String(ws)
   }
 }

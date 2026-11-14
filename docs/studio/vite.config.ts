@@ -7,7 +7,7 @@ export default defineConfig({
   base: './',
   define: {
     // Bake wall-clock of this build into the SPA (shown in the site footer).
-    __AGM_BUILD_TIME__: JSON.stringify(new Date().toISOString()),
+    __TEKTO_BUILD_TIME__: JSON.stringify(new Date().toISOString()),
   },
   build: {
     outDir: 'dist',

@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TektoReviewThread",
+  "type": "object",
+  "required": ["id", "anchor", "author", "body", "status"],
+  "properties": {
+    "id": { "type": "string" },
+    "anchor": {
+      "description": "Finding id (F-...) or markdown heading",
+      "type": "string"
+    },
+    "author": { "type": "string" },
+    "body": { "type": "string" },
+    "status": { "enum": ["open", "addressed", "wontfix"] },
+    "resolution": { "type": "string" }
+  }
+}

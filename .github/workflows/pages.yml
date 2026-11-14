@@ -1,22 +1,29 @@
-name: Deploy AGM Review Studio (GitHub Pages)
+name: Deploy Tekto Studio (GitHub Pages)
 
 # Publishes docs/studio/dist to https://github.com/abx-git/agm.github.io
-# Live URL: https://abx-git.github.io/agm.github.io/
+# Live URL: https://abx-git.github.io/agm.github.io/  (tekto.github.io when migrated)
 
 on:
   push:
     branches: [main]
     paths:
       - 'docs/studio/**'
-      - 'docs/assistant/**'
-      - 'prompts/adopt-standalone.md'
-      - 'prompts/workflows/**'
-      - 'scripts/sync-assistant-data.py'
+      - 'docs/quickstart.md'
+      - 'docs/positioning.md'
+      - 'docs/guide.md'
+      - 'docs/ROADMAP.md'
+      - 'docs/reference/**'
+      - 'docs/tekto/**'
+      - 'docs/pages/**'
+      - 'README.md'
+      - 'MIGRATION.md'
+      - 'scripts/build-tekto-pages.mjs'
+      - 'scripts/push-studio-to-pages.sh'
       - '.github/workflows/pages.yml'
   workflow_dispatch:
 
 concurrency:
-  group: deploy-agm-github-io
+  group: deploy-tekto-studio-github-io
   cancel-in-progress: true
 
 jobs:
@@ -26,13 +33,12 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Prepare deploy key + SSH preflight
-        id: ssh
         env:
           ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
         run: |
           set -euo pipefail
           if [ -z "${ACTIONS_DEPLOY_KEY:-}" ]; then
-            echo "::error::Missing secret ACTIONS_DEPLOY_KEY on abx-git/agm. See docs/studio/GITHUB-PAGES-SETUP.md"
+            echo "::error::Missing secret ACTIONS_DEPLOY_KEY on the source repo. See docs/studio/GITHUB-PAGES-SETUP.md"
             exit 1
           fi
 
@@ -41,28 +47,26 @@ jobs:
           from pathlib import Path
 
           raw = os.environ["ACTIONS_DEPLOY_KEY"].strip()
-          # GitHub UI / some tools store real newlines as the two-char sequence \n
           if "BEGIN" in raw and raw.count("\n") < 3 and "\\n" in raw:
               raw = raw.replace("\\n", "\n")
           raw = raw.replace("\r\n", "\n").replace("\r", "\n").strip() + "\n"
           if "BEGIN" not in raw or "PRIVATE KEY" not in raw:
               raise SystemExit(
                   "::error::ACTIONS_DEPLOY_KEY does not look like a private key "
-                  "(expected -----BEGIN … PRIVATE KEY-----). You pasted the .pub file, or the secret is truncated."
+                  "(expected -----BEGIN … PRIVATE KEY-----)."
               )
-          path = Path(os.environ["RUNNER_TEMP"]) / "agm_pages_deploy_key"
+          path = Path(os.environ["RUNNER_TEMP"]) / "tekto_pages_deploy_key"
           path.write_text(raw)
           path.chmod(0o600)
           print(f"Wrote deploy key ({path.stat().st_size} bytes)")
           PY
 
-          KEY="${RUNNER_TEMP}/agm_pages_deploy_key"
+          KEY="${RUNNER_TEMP}/tekto_pages_deploy_key"
           echo "DEPLOY_KEY_PATH=$KEY" >> "$GITHUB_ENV"
 
           echo "Public key derived from secret (must match Deploy Key on agm.github.io):"
-          ssh-keygen -y -f "$KEY" | tee "${RUNNER_TEMP}/agm_pages_deploy_key.pub"
-          echo "Fingerprint:"
-          ssh-keygen -lf "${RUNNER_TEMP}/agm_pages_deploy_key.pub"
+          ssh-keygen -y -f "$KEY" | tee "${RUNNER_TEMP}/tekto_pages_deploy_key.pub"
+          ssh-keygen -lf "${RUNNER_TEMP}/tekto_pages_deploy_key.pub"
 
           eval "$(ssh-agent -s)"
           ssh-add "$KEY"
@@ -84,12 +88,13 @@ jobs:
       - name: Ensure GitHub Pages is enabled on agm.github.io
         env:
           AGM_GHIO_DEPLOY: ${{ secrets.AGM_GHIO_DEPLOY }}
+          TEKTO_GHIO_DEPLOY: ${{ secrets.TEKTO_GHIO_DEPLOY }}
           BLUEPRINT_PATTERN_GHIO_DEPLOY: ${{ secrets.BLUEPRINT_PATTERN_GHIO_DEPLOY }}
         run: |
           set -euo pipefail
-          TOKEN="${AGM_GHIO_DEPLOY:-${BLUEPRINT_PATTERN_GHIO_DEPLOY:-}}"
+          TOKEN="${TEKTO_GHIO_DEPLOY:-${AGM_GHIO_DEPLOY:-${BLUEPRINT_PATTERN_GHIO_DEPLOY:-}}}"
           if [ -z "$TOKEN" ]; then
-            echo "::notice::No AGM_GHIO_DEPLOY — skipping Pages API. Ensure Pages is on (main / /)."
+            echo "::notice::No TEKTO_GHIO_DEPLOY / AGM_GHIO_DEPLOY — skipping Pages API. Ensure Pages is on (main / /)."
             exit 0
           fi
           echo "::add-mask::$TOKEN"
@@ -101,12 +106,10 @@ jobs:
             "$API")
           if [ "$STATUS" = "200" ]; then
             echo "GitHub Pages already enabled."
-            cat /tmp/pages.json
             exit 0
           fi
           if [ "$STATUS" = "401" ] || [ "$STATUS" = "403" ]; then
             echo "::warning::Pages API auth failed (HTTP $STATUS). Enable Pages manually if needed."
-            cat /tmp/pages.json || true
             exit 0
           fi
           if [ "$STATUS" != "404" ]; then
@@ -128,15 +131,12 @@ jobs:
           cache: npm
           cache-dependency-path: docs/studio/package-lock.json
 
-      - name: Sync workflow prompts into assistant + studio data
-        run: python3 scripts/sync-assistant-data.py
-
-      - name: Build Review Studio
+      - name: Build Tekto site (Studio + docs)
         run: |
           set -euo pipefail
           cd docs/studio
           npm ci
-          npm run build
+          npm run build:pages
 
       - name: Deploy docs/studio/dist to agm.github.io
         run: |
@@ -162,10 +162,10 @@ jobs:
           <head>
             <meta charset="utf-8" />
             <meta http-equiv="refresh" content="0;url=../" />
-            <title>Moved to AGM Review Studio</title>
+            <title>Moved to Tekto Studio</title>
           </head>
           <body>
-            <p>The AGM Assistant is now part of <a href="../">AGM Review Studio</a> (Workflows tab).</p>
+            <p>Legacy assistant URL — use <a href="../">Tekto Studio</a> (Docs · Review · Composer · Ask AI).</p>
           </body>
           </html>
           HTML
@@ -177,30 +177,25 @@ jobs:
           if git diff --cached --quiet; then
             echo "No content changes — nothing to push."
           else
-            git commit -m "Deploy AGM Review Studio from agm@${GITHUB_SHA:0:7}"
+            git commit -m "Deploy Tekto Studio from tekto@${GITHUB_SHA:0:7}"
             git push origin main
             echo "Pushed to abx-git/agm.github.io main."
           fi
 
-          echo "Expected live URL: https://abx-git.github.io/agm.github.io/"
-          echo "Pages must be: Deploy from a branch → main → / (root) on abx-git/agm.github.io."
-          echo "This workflow does not create entries under abx-git/agm/deployments — check Actions here and Pages on agm.github.io."
+          echo "Live URL: https://abx-git.github.io/agm.github.io/"
 
-          # Wait for github-pages environment deploy on agm.github.io (separate from this push).
-          # A green push here with a failed pages-build-deployment leaves the live site on the last good publish.
-          echo "Waiting for pages-build-deployment on abx-git/agm.github.io…"
           SITE_SHA="$(git -C "$SITE" rev-parse HEAD)"
           DEPLOY_OK=0
           for i in $(seq 1 36); do
             sleep 10
-            DEP_JSON=$(curl -sS -H "Accept: application/vnd.github+json" -H "User-Agent: agm-pages-ci" \
+            DEP_JSON=$(curl -sS -H "Accept: application/vnd.github+json" -H "User-Agent: tekto-pages-ci" \
               "https://api.github.com/repos/abx-git/agm.github.io/deployments?sha=${SITE_SHA}&environment=github-pages&per_page=1" || true)
             DEP_ID=$(python3 -c 'import json,sys; d=json.loads(sys.argv[1]); print(d[0]["id"] if isinstance(d,list) and d else "")' "$DEP_JSON" 2>/dev/null || true)
             if [ -z "$DEP_ID" ]; then
               echo "  [$i] no deployment yet for $SITE_SHA"
               continue
             fi
-            ST_JSON=$(curl -sS -H "Accept: application/vnd.github+json" -H "User-Agent: agm-pages-ci" \
+            ST_JSON=$(curl -sS -H "Accept: application/vnd.github+json" -H "User-Agent: tekto-pages-ci" \
               "https://api.github.com/repos/abx-git/agm.github.io/deployments/${DEP_ID}/statuses?per_page=5" || true)
             STATE=$(python3 -c 'import json,sys; d=json.loads(sys.argv[1]); print(d[0]["state"] if isinstance(d,list) and d else "")' "$ST_JSON" 2>/dev/null || true)
             echo "  [$i] deployment $DEP_ID state=$STATE"
@@ -209,25 +204,25 @@ jobs:
               break
             fi
             if [ "$STATE" = "failure" ] || [ "$STATE" = "error" ]; then
-              echo "::error::pages-build-deployment failed on agm.github.io (state=$STATE). Open https://github.com/abx-git/agm.github.io/actions/workflows/pages-build-deployment.yml and Re-run. Live site stays on the last successful publish until that is green."
+              echo "::error::pages-build-deployment failed on agm.github.io (state=$STATE)."
               exit 1
             fi
           done
           if [ "$DEPLOY_OK" != "1" ]; then
-            echo "::error::Timed out waiting for github-pages deploy of ${SITE_SHA}. Check https://github.com/abx-git/agm.github.io/actions/workflows/pages-build-deployment.yml"
+            echo "::error::Timed out waiting for github-pages deploy of ${SITE_SHA}."
             exit 1
           fi
 
-          CODE=$(curl -s -o /tmp/pages-body.txt -w "%{http_code}" "https://abx-git.github.io/agm.github.io/" || true)
-          LIVE_JS=$(grep -oE 'index-[A-Za-z0-9_-]+\.js' /tmp/pages-body.txt 2>/dev/null | head -1 || true)
-          RAW_JS=$(curl -sS "https://raw.githubusercontent.com/abx-git/agm.github.io/main/index.html" | grep -oE 'index-[A-Za-z0-9_-]+\.js' | head -1 || true)
-          echo "HTTP $CODE live_js=$LIVE_JS raw_js=$RAW_JS"
-          if [ "$CODE" != "200" ]; then
-            echo "::error::Live site HTTP $CODE after successful Pages deploy status."
-            exit 1
-          fi
-          if [ -n "$RAW_JS" ] && [ -n "$LIVE_JS" ] && [ "$RAW_JS" != "$LIVE_JS" ]; then
-            echo "::warning::Live CDN still serving $LIVE_JS while main has $RAW_JS (cache lag). Hard-refresh in a minute."
-          else
-            echo "Live site OK and in sync with main."
-          fi
+          for URL in \
+            "https://abx-git.github.io/agm.github.io/" \
+            "https://abx-git.github.io/agm.github.io/docs/" \
+            "https://abx-git.github.io/agm.github.io/docs/quickstart.html"
+          do
+            CODE=$(curl -s -o /dev/null -w "%{http_code}" "$URL" || true)
+            echo "$URL → HTTP $CODE"
+            if [ "$CODE" != "200" ]; then
+              echo "::error::Expected HTTP 200 for $URL"
+              exit 1
+            fi
+          done
+          echo "Live site OK (Studio + docs)."

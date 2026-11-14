@@ -1,7 +1,0 @@
----
-description: AGM — no active workflow
-alwaysApply: false
----
-
-Select a workflow: see [docs/guide.md](../../docs/guide.md).
-Run `./scripts/agm-workflow.sh checkout <id>`.

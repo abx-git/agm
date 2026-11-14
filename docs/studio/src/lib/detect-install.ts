@@ -8,12 +8,12 @@ function hasPath(files: FileMap, suffix: string): boolean {
   return false
 }
 
-/** Detect AGM graph markers in an opened folder (doc-root contents). */
+/** Detect Tekto markers in the opened doc folder. */
 export function detectInstallStatus(files: FileMap): InstallStatus {
-  const blueprint = hasPath(files, 'blueprint.md')
-  const entry = hasPath(files, 'entry-point.md')
-  if (blueprint && entry) return 'ready'
-  if (blueprint || entry) return 'partial'
+  const steer = hasPath(files, 'steer.md')
+  const log = hasPath(files, 'log.md')
+  if (steer && log) return 'ready'
+  if (steer || log) return 'partial'
   if (files.size === 0) return 'missing'
   const anyMd = [...files.keys()].some((p) => p.endsWith('.md'))
   return anyMd ? 'partial' : 'missing'

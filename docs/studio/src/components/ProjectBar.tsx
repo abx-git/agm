@@ -1,16 +1,13 @@
 import { useStudioStore } from '../store/studio-store'
 import { supportsDirectoryPicker } from '../lib/fs-access'
-import type { JourneyPhase, WorkspaceId } from '../types'
+import type { WorkspaceId } from '../types'
 import { workspaceLabel } from '../lib/session-persist'
 
 const COCKPIT: { id: WorkspaceId; hint: string }[] = [
-  { id: 'architecture', hint: 'Your docs' },
-  { id: 'knowledge', hint: 'Domain language' },
-  { id: 'inbox', hint: 'New information' },
-  { id: 'notes', hint: 'Local scratch' },
-  { id: 'concepts', hint: 'Ideas & drafts' },
-  { id: 'analyses', hint: 'How code works' },
-  { id: 'session', hint: 'Copy a prompt' },
+  { id: 'architecture', hint: 'Browse docs' },
+  { id: 'review', hint: 'Findings & threads' },
+  { id: 'compose', hint: 'CLI export' },
+  { id: 'session', hint: 'Copy prompts' },
 ]
 
 export function JourneyRail() {
@@ -31,12 +28,11 @@ export function JourneyRail() {
       : 'Project & folder'
 
   return (
-    <nav className="journey-rail" aria-label="AGM Studio">
+    <nav className="journey-rail" aria-label="Tekto Studio">
       {ready ? (
         <>
           {COCKPIT.map((p) => {
-            const locked =
-              (p.id === 'architecture' || p.id === 'knowledge') && !index && p.id !== phase
+            const locked = p.id === 'architecture' && !index && p.id !== phase
             return (
               <button
                 key={p.id}
@@ -87,6 +83,7 @@ export function ProjectBar() {
   const phase = useStudioStore((s) => s.phase)
   const goHome = useStudioStore((s) => s.goHome)
   const goSetup = useStudioStore((s) => s.goSetup)
+  const helpOpen = useStudioStore((s) => s.helpOpen)
   const setHelpOpen = useStudioStore((s) => s.setHelpOpen)
   const openHelp = useStudioStore((s) => s.openHelp)
   const project = useStudioStore((s) => s.project)
@@ -98,104 +95,67 @@ export function ProjectBar() {
   const connectFolderFallback = useStudioStore((s) => s.connectFolderFallback)
   const refreshIndex = useStudioStore((s) => s.refreshIndex)
   const opening = useStudioStore((s) => s.opening)
-  const restoring = useStudioStore((s) => s.restoring)
 
-  const displayFolder = folderLabel || folderHint
-  const ready = Boolean(folderLabel) && installStatus === 'ready'
-  const introPhase = phase === 'about' || phase === 'start'
-
-  const tagForPhase = (p: JourneyPhase): string => {
-    if (p === 'about') return 'what is AGM'
-    if (p === 'start') return 'how it works'
-    if (!ready) return 'Setup'
-    if (
-      p === 'architecture' ||
-      p === 'knowledge' ||
-      p === 'concepts' ||
-      p === 'analyses' ||
-      p === 'inbox' ||
-      p === 'notes'
-    ) {
-      return workspaceLabel(p)
-    }
-    if (p === 'session') return 'Ask AI'
-    return 'Setup'
-  }
+  const title =
+    phase === 'about'
+      ? 'About'
+      : phase === 'start'
+        ? 'Start'
+        : phase === 'connect'
+          ? 'Connect'
+          : phase === 'install'
+            ? 'Install'
+            : workspaceLabel(phase as WorkspaceId)
 
   return (
     <header className="project-bar">
-      <button
-        type="button"
-        className="studio-brand studio-brand-btn"
-        onClick={() => goHome()}
-        title={ready ? 'Home — Architecture' : 'Home'}
-      >
-        <strong>AGM Studio</strong>
-        <span className="studio-tag">{tagForPhase(phase)}</span>
-      </button>
-      <div className="project-meta">
-        <span className="meta-pill">{project.appName || 'Unnamed project'}</span>
-        {project.docRoot ? <span className="meta-pill">{project.docRoot}</span> : null}
-        {displayFolder ? (
-          <span className="meta-pill" title={displayFolder}>
-            {displayFolder}
-            {folderLabel ? (canWrite ? ' · write' : ' · read') : ' · reconnect'}
-            {folderLabel && installStatus !== 'unknown' ? ` · ${installStatus}` : ''}
+      <div className="project-bar-left">
+        <button type="button" className="brand-btn" onClick={() => goHome()}>
+          Tekto Studio
+        </button>
+        <span className="project-bar-phase">{title}</span>
+        {project.appName ? (
+          <span className="project-bar-app" title={project.docRoot || 'docs/tekto/'}>
+            {project.appName}
           </span>
-        ) : (
-          <span className="meta-pill muted">{restoring ? 'Restoring…' : 'No folder'}</span>
-        )}
+        ) : null}
       </div>
-      <div className="studio-actions">
-        <button
-          type="button"
-          className="btn help-open-btn"
-          onClick={() => openHelp('help-flow-map')}
-          title="When concepts, terms, and files appear"
-        >
-          Map
-        </button>
-        <button
-          type="button"
-          className="btn"
-          onClick={() => setHelpOpen(true)}
-          title="Process, workspaces, glossary"
-        >
-          Help
-        </button>
-        {!introPhase && (
-          <button
-            type="button"
-            className="btn"
-            disabled={opening || restoring}
-            onClick={() => {
-              goSetup()
-              if (!folderLabel) {
-                if (supportsDirectoryPicker()) void connectFolder()
-                else void connectFolderFallback()
-              }
-            }}
-          >
-            {opening || restoring
-              ? 'Opening…'
-              : folderLabel
-                ? 'Change folder'
-                : folderHint
-                  ? 'Allow folder again'
-                  : 'Choose folder'}
-          </button>
-        )}
-        {folderLabel && !introPhase && (
-          <button
-            type="button"
-            className="btn"
-            disabled={opening}
-            onClick={() => refreshIndex()}
-            title="Reload files from disk after the AI wrote something"
-          >
+      <div className="project-bar-right">
+        {folderLabel ? (
+          <span className="folder-label" title={folderHint ?? undefined}>
+            {folderLabel}
+            {canWrite ? '' : ' (read-only)'}
+          </span>
+        ) : null}
+        {installStatus === 'ready' ? (
+          <button type="button" className="btn subtle" onClick={() => void refreshIndex()}>
             Reload folder
           </button>
-        )}
+        ) : null}
+        <button type="button" className="btn subtle" onClick={() => goSetup()}>
+          Setup
+        </button>
+        <button type="button" className="btn subtle" onClick={() => openHelp('help-flow-map')}>
+          Help
+        </button>
+        {!folderLabel &&
+          (supportsDirectoryPicker() ? (
+            <button type="button" className="btn primary" disabled={opening} onClick={() => void connectFolder()}>
+              Connect folder
+            </button>
+          ) : (
+            <button type="button" className="btn primary" disabled={opening} onClick={() => void connectFolderFallback()}>
+              Open folder
+            </button>
+          ))}
+        <button
+          type="button"
+          className="btn icon"
+          aria-label="Toggle help drawer"
+          onClick={() => setHelpOpen(!helpOpen)}
+        >
+          ?
+        </button>
       </div>
     </header>
   )

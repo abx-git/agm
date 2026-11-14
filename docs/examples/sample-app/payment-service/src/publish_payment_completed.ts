@@ -7,7 +7,7 @@ export interface PaymentCompletedEvent {
 
 /**
  * Publishes EVT-PAY-001 to the message bus.
- * See docs/architecture/interfaces/exports.md
+ * See docs/tekto/interfaces/exports.md
  */
 export async function publishPaymentCompleted(event: PaymentCompletedEvent): Promise<void> {
   void event;

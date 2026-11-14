@@ -1,0 +1,9 @@
+---
+description: Tekto — architecture documentation with evidence
+alwaysApply: true
+---
+
+Start every architecture session from `docs/tekto/steer.md`.
+Maintain `docs/tekto/log.md` (one line per change).
+Use Tekto skills under `.cursor/skills/tekto/` or MCP `tekto_get_packet`.
+Author chat and review chat stay separate.

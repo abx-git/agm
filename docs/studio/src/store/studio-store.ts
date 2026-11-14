@@ -46,13 +46,10 @@ import {
   setProposalStatus,
 } from '../lib/inbox'
 import { NOTES_GITIGNORE, buildNoteFile } from '../lib/notes'
-import { isAnalysisSpikeType } from '../lib/workspace'
 import { togglePin } from '../lib/context-pack'
 import { parseBoardJson } from '../lib/e2/storm'
 import {
-  appendReviewRegisterRow,
   appendSpikeRegisterRow,
-  buildReviewFiles,
   buildSpikeFiles,
   emptyStormBoard,
   listReviews,
@@ -66,17 +63,20 @@ import {
   type SpikeTrack,
   type SpikeType,
 } from '../lib/spikes'
+import { buildTektoReviewFiles, listTektoReviews } from '../lib/tekto-reviews'
 
 function applyIndex(files: FileMap, label: string) {
   const index = buildArchitectureIndex(label, files)
   const searchFn = createDocSearch(index.docs)
   const preferred =
-    [...index.docs.keys()].find((p) => p.endsWith('entry-point.md') || p.endsWith('blueprint.md')) ??
+    [...index.docs.keys()].find((p) => p.endsWith('steer.md')) ??
     [...index.docs.keys()].find((p) => p.endsWith('.md')) ??
     null
   const installStatus = detectInstallStatus(files)
   const spikes = listSpikes(files)
-  const reviews = listReviews(files)
+  const reviews = [...listTektoReviews(files), ...listReviews(files)].filter(
+    (r, i, arr) => arr.findIndex((x) => x.path === r.path) === i
+  )
   return { index, searchFn, preferred, installStatus, spikes, reviews }
 }
 
@@ -617,7 +617,7 @@ export const useStudioStore = create<StudioState>((set, get) => ({
       }
       const folder = Object.keys(spikeFiles)[0]!.replace(/\/index\.md$/, '')
       await get().refreshIndex({ keepPhase: true })
-      const targetPhase = isAnalysisSpikeType(type) ? 'analyses' : 'concepts'
+      const targetPhase = 'architecture'
       set({ activeSpikePath: folder, phase: targetPhase })
       get().showToast(`Created ${id}`)
       return folder
@@ -627,7 +627,7 @@ export const useStudioStore = create<StudioState>((set, get) => ({
     }
   },
 
-  createReview: async ({ title, slug, scope }) => {
+  createReview: async ({ title, slug }) => {
     const handle = get().folderHandle
     if (!handle || !get().canWrite) {
       set({ error: 'Write access required to create a review.' })
@@ -636,35 +636,27 @@ export const useStudioStore = create<StudioState>((set, get) => ({
     try {
       const filesNow: FileMap = new Map()
       await walkDirectoryHandle(handle, '', filesNow)
-      const existing = listReviews(filesNow)
-      const bp =
-        [...filesNow.entries()].find(([p]) => p.endsWith('blueprint.md'))?.[1] ??
-        filesNow.get('blueprint.md')
-      const id = nextReviewId(bp, existing)
-      const reviewFiles = buildReviewFiles({
+      const existing = [...listTektoReviews(filesNow), ...listReviews(filesNow)]
+      const logText =
+        [...filesNow.entries()].find(([p]) => p.endsWith('log.md'))?.[1] ?? filesNow.get('log.md')
+      nextReviewId(logText, existing)
+      const reviewFiles = buildTektoReviewFiles({
         title,
         slug: slugify(slug || title),
-        nextId: id,
-        scope: scope || 'phase',
       })
       await writeFileMap(handle, reviewFiles)
-      const folder = Object.keys(reviewFiles)[0]!.replace(/\/index\.md$/, '')
-      if (bp) {
-        const bpPath =
-          [...filesNow.keys()].find((p) => p.endsWith('blueprint.md')) || 'blueprint.md'
-        const updated = appendReviewRegisterRow(bp, {
-          id,
-          target: title,
-          reviewed: new Date().toISOString().slice(0, 10),
-          verdict: '',
-          reportPath: `${folder}/report.md`,
-          findingsPath: `${folder}/findings.md`,
-        })
-        await writeTextFile(handle, bpPath, updated)
-      }
+      const folder = Object.keys(reviewFiles)[0]!.replace(/\/findings\.yaml$/, '')
+      const logPath = [...filesNow.keys()].find((p) => p.endsWith('log.md')) || 'log.md'
+      const line = `${new Date().toISOString().slice(0, 10)} | review | ${folder} | ${title}\n`
+      const prev = filesNow.get(logPath) || ''
+      await writeTextFile(handle, logPath, prev + line)
       await get().refreshIndex({ keepPhase: true })
-      set({ activeSpikePath: folder, activePath: `${folder}/report.md`, phase: 'architecture' })
-      get().showToast(`Created ${id} — open Architecture → Check docs`)
+      set({
+        activeSpikePath: folder,
+        activePath: `${folder}/findings.yaml`,
+        phase: 'review',
+      })
+      get().showToast(`Created ${folder}`)
       return folder
     } catch (err) {
       set({ error: err instanceof Error ? err.message : 'Create review failed' })
@@ -785,7 +777,7 @@ export const useStudioStore = create<StudioState>((set, get) => ({
       }
 
       await get().refreshIndex({ keepPhase: true })
-      set({ phase: 'inbox', activePath: path })
+      set({ phase: 'architecture', activePath: path })
       get().showToast(`Saved ${path}`)
       return path
     } catch (err) {
@@ -829,7 +821,7 @@ export const useStudioStore = create<StudioState>((set, get) => ({
       const content = buildNoteFile({ title: title || base, body })
       await writeTextFile(handle, path, content)
       await get().refreshIndex({ keepPhase: true })
-      set({ phase: 'notes', activePath: path })
+      set({ phase: 'architecture', activePath: path })
       get().showToast(`Saved local note ${path}`)
       return path
     } catch (err) {

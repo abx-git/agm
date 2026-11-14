@@ -1,135 +1,104 @@
-# AGM — 10-minute quickstart
+# Tekto — 10-minute quickstart
 
-**Thesis:** Architecture documentation is a small Markdown wiki next to the code — start from `entry-point.md`.
+Tekto keeps architecture work **in Git** with evidence agents can follow. This path is copy-paste friendly and ends with **CI-ready** `tekto check`.
 
-**AGM in one sentence:** Repo-local Markdown with links, a checklist in `blueprint.md`, kept current with short AI sessions.
+## 0. Prerequisites
 
-*(Source: [github.com/abx-git/agm](https://github.com/abx-git/agm).)*
+- Node.js 20+
+- A git repository (app or monorepo)
 
----
-
-## Golden path
-
-One onboarding path — everything else is advanced.
-
-| Step | What you do | Workflow |
-|------|-------------|----------|
-| **Install** | Connect folder in Studio Setup, write starter (includes `domain/`) | [AGM Studio](https://abx-git.github.io/agm.github.io/) |
-| **Adopt** | Session → copy prompt → new chat — fill entry-point + first chapter | `bootstrap-adopt` |
-| **Continue** | Session → Extend — next checklist item | `bootstrap-continue` |
-| **Maintain** | Session → Sync — sync docs with code | `maintenance-diff-range` |
-| **Import** | Inbox — paste/drop → Analyze → review → Merge | `inbox-analyze` → `inbox-merge` |
-| **Import (legacy)** | Prompt → Sync/Import — one-shot paste | `content-ingest` |
-| **Review** | **Fresh chat** — report only, never same chat as write | `review-maintenance` |
-
-After Setup, Studio is a **cockpit**: Architecture · Knowledge (`domain/`) · Inbox · Concepts · Analyses · Prompt (context pack + copy-paste). Details: [reference/studio-workspaces.md](./reference/studio-workspaces.md).
-
-Copy the session prompt from Studio Session (or `prompts/workflows/<id>.md`) into a new chat. **Default:** copy-paste. **Optional:** MCP `agm_trigger_workflow` — golden path works with the public starter pack ([agm/README.md](../agm/README.md)).
-
-**Install vs `agm init`:** use Studio Install or `agm-install.sh` for the full scaffold; `agm init` creates only the core files — [reference/install.md](./reference/install.md).
+## 1. Init + export
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/abx-git/agm/main/scripts/agm-install.sh | bash -s -- \
-  --project "my-app" --template arc42
+npx @abx-hh/tekto init --project "my-app" --doc-root docs/tekto/ --ai-tool cursor
+npx @abx-hh/tekto export --ai-tool cursor
 ```
 
-Default install = golden path (7 workflows). Add `--full` for Architect + Domain packs. Details: [reference/install.md](./reference/install.md).
+Creates `docs/tekto/steer.md`, `log.md`, review scaffolding, and copies skills to `.cursor/skills/tekto/`.
 
-Templates at adopt time: **`arc42`** (multi-module, default) or **`lean-service`** (single service). Others → [guide.md](./guide.md) advanced section.
+Other targets: `claude` · `copilot` · `kiro` · `generic`.
 
----
+## 2. Steer
 
-## Two core files (+ OKF helpers)
+Open `docs/tekto/steer.md`. Use **## Now** for at most five parallel tasks. Append one-liners to `log.md` when you change structure or close a review.
 
-```
-docs/architecture/
-├── entry-point.md         ← start here: short facts + links (put in AI context)
-├── blueprint.md           ← what's next: checklist + short session notes
-├── context/always-on.md   ← legacy stub (prefer entry-point)
-├── domain/                ← Knowledge workspace (DDD)
-├── process/spikes/        ← Concepts & Analyses (by spike type)
-├── extensions/            ← optional custom areas
-└── index.md + log.md      ← OKF: per-folder disclosure + change log
+```bash
+npx @abx-hh/tekto next
 ```
 
-**Rule:** `entry-point.md` = start here. `blueprint.md` = what's next. `index.md` = OKF folder index — don't conflate with entry-point.
+## 3. Skills (agent loops)
 
-Concepts and analyses live under `process/spikes/` (Studio filters by type; see [guide.md](./guide.md)). Also traverse `interfaces/exports.md` and `interfaces/imports.md` when relevant.
+| Loop | Skill | Trigger |
+|------|-------|---------|
+| Understand | `understand` | New system or service |
+| Decide | `decide` | ADR-worthy choice |
+| Review | `review-aspect` | `tekto packet aspect <aspect>` |
+| Evolve | `evolve-sync` | After `git diff` on main paths |
 
----
+Aspects live in `packs/aspects/` (bundled with the CLI).
 
-## Why this beats context dumps
+## 4. Review packet
 
-```text
-Traditional                         AGM
-───────────                         ───
-Paste repo / long chat history  →   Open entry-point.md in AI context
-Similarity search (RAG)         →   Follow links from entry-point.md
-Stale wiki                      →   git diff → maintenance-diff-range
-Same chat writes + reviews      →   Fresh chat for Verify
+```bash
+npx @abx-hh/tekto packet aspect security
 ```
 
-Habit: **entry-point in context** · **follow links** · **tick blueprint** · **fresh chat for Verify**.
+Paste into a **new** chat (author chat ≠ revise chat). Store output under `docs/tekto/reviews/<id>/findings.yaml` — or use Studio **Review** / MCP `tekto_record_finding`.
 
-The docs also guide implementation: spikes + `interfaces/` inform code sessions; **Maintenance** syncs docs after merge. Distinction from feature-spec tools (e.g. Kiro): [reference/spec-driven-development.md](./reference/spec-driven-development.md).
+## 5. Check (local + CI)
 
----
+```bash
+npx @abx-hh/tekto check
+```
 
-## Essential workflows (6)
+Runs **core** (steer/log, evidence, reviews), **graph** (index, work registry), **trace** (active WRK items), and **links**.
 
-| When | Workflow | Fresh chat? | You get |
-|------|----------|-------------|---------|
-| First setup | `bootstrap-adopt` | Yes | `blueprint.md`, `entry-point.md`, first section |
-| Next chapter | `bootstrap-continue` | Yes | One more template section |
-| Deepen a section | `refinement` | Yes | Richer view for one file |
-| Code changed | `maintenance-diff-range` | Yes | Doc sync from git range |
-| After sync | `review-maintenance` | **Required** | Report in `work/`, no edits |
-| After a phase | `review-phase` | **Required** | Report in `work/`, no edits |
+Subset:
 
-Public MCP starter ships these six only. Architect/Domain (query, design, DDD, …): Assistant **Advanced** after a graph exists — install with `--full` / `--domain`. Catalog: [reference/extended-workflows.md](./reference/extended-workflows.md).
+```bash
+npx @abx-hh/tekto check --check trace
+npx @abx-hh/tekto check --with-validator   # + contract binary if installed
+```
 
----
+### GitHub Actions
 
-## Phase states and anchors
+```yaml
+name: tekto
+on:
+  pull_request:
+  push:
+    branches: [main]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: npx -y @abx-hh/tekto check
+```
 
-Progress in `blueprint.md` uses `[ ]` pending · `[~]` in progress · `[x]` done · `[!]` blocked.
+## 6. Log (audit)
 
-Agents output semantic anchors before stopping (session checklist):
+```bash
+npx @abx-hh/tekto log --type review --path reviews/2026-01-security --note "initial findings"
+```
 
-| Anchor | Meaning |
-|--------|---------|
-| `LINK_CHECK` | `pass` or `fail` — relative links valid |
-| `CHANGED_FILES` | Files touched this session |
-| `WORK_ITEM` | New/updated `work/` + WRK entry |
-| `VERDICT` / `FINDINGS` | Review outcome (Verify only) |
-| `OPEN_QUESTIONS` | Unresolved assumptions |
+Format: `YYYY-MM-DD | type | path | note` in `log.md`.
 
-**Compaction:** new chat after long sessions (≥2 phases, ≥15 files, or ≥30 turns); resume from `blueprint.md` session log.
+## Hosted Tekto (GitHub Pages)
 
-**CI:** enable [`agm-integrity`](https://github.com/abx-git/agm/blob/main/.github/workflows/agm-integrity.yml) on your app repo — broken links fail the PR.
+| | URL |
+|-|-----|
+| Studio | https://abx-git.github.io/agm.github.io/ |
+| Docs | https://abx-git.github.io/agm.github.io/docs/ |
 
----
+Build locally: `cd docs/studio && npm run build:pages`.
 
-## Human responsibilities
+## Next
 
-- Approve blueprint phases before marking `[x]`
-- Run Verify in a **fresh chat** (never the write/sync chat)
-- Ship doc updates in the **same PR** as architectural code changes
-
----
-
-## What AGM does not solve
-
-- **Model hallucination** — graph traversal reduces it; humans still validate claims
-- **Secrets in prompts** — never paste credentials; redact diffs
-- **Live production state** — static docs ≠ metrics, logs, or runtime topology
-- **Org ownership** — without PR rules and named owners, the graph goes stale
-- **Parallel agents on one blueprint** — one doc-writing agent per app at a time
-
-Details: [gen-ai-challenges.md](./gen-ai-challenges.md) (leads / governance).
-
----
-
-## Further reading
-
-[guide.md](./guide.md) · [reference/extended-workflows.md](./reference/extended-workflows.md) · [reference/spec-driven-development.md](./reference/spec-driven-development.md) · [ROADMAP.md](./ROADMAP.md) · [typical-dialog.md](./typical-dialog.md) · [architects article](./article/agm-for-architects.md) · [sample app](./examples/sample-app/) · [MCP/CLI](../agm/README.md)
+- [positioning.md](./positioning.md) — what Tekto is / is not
+- [guide.md](./guide.md) — full skill table
+- [reference/multi-repo.md](./reference/multi-repo.md) — several repositories
+- [reference/tekto-validator.md](./reference/tekto-validator.md) — optional contract enforcement

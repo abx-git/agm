@@ -37,7 +37,20 @@ export function buildArchitectureIndex(rootLabel: string, files: FileMap): Archi
       })
       continue
     }
-    if (!path.toLowerCase().endsWith('.md')) continue
+    const lower = path.toLowerCase()
+    if (lower.endsWith('.yaml') || lower.endsWith('.yml')) {
+      docs.set(path, {
+        path,
+        name: fileName(path),
+        kind: 'markdown',
+        content,
+        meta: { type: 'tekto-yaml' },
+        links: [],
+        workspace: classifyDocPath(path),
+      })
+      continue
+    }
+    if (!lower.endsWith('.md')) continue
 
     const { meta, body } = parseFrontmatter(content)
     const links = extractMarkdownLinks(path, body)

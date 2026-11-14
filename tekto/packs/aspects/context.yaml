@@ -1,0 +1,10 @@
+id: context
+title: Kontext und Scope
+questions:
+  - Welche Systemgrenzen und Stakeholder gelten?
+  - Welche externen Systeme und Schnittstellen gibt es?
+evidence_required:
+  - code
+  - config
+rules: []
+output: findings

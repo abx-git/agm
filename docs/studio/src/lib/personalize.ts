@@ -27,6 +27,8 @@ export function substituteDocRoot(text: string, docRoot: string): string {
   return String(text)
     .replace(/\$\{docRoot\}\//g, norm)
     .replace(/\$\{docRoot\}/g, noSlash)
+    .replace(/docs\/tekto\//g, norm)
+    .replace(/docs\/tekto(?![/\w])/g, noSlash)
     .replace(/docs\/architecture\//g, norm)
     .replace(/docs\/architecture(?![/\w])/g, noSlash)
     .replace(/<doc-root>\//g, norm)
@@ -35,17 +37,17 @@ export function substituteDocRoot(text: string, docRoot: string): string {
 
 function buildStudioPromptNote(): string {
   return [
-    '## Prompts (AGM Studio)',
+    '## Prompts (Tekto Studio)',
     '',
-    'Session and role instructions are provided **in this prompt** from AGM Studio. Do **not** expect or create `prompts/role-*.md` under the documentation root unless the human already keeps them there from a CLI install.',
-    'Human-in-the-loop scribe: propose; do not invent architecture without evidence. Keep entry-point.md and blueprint.md current.',
+    'Session instructions come from **Tekto Studio**. Use skills under packs/skills or `.cursor/skills/tekto/`.',
+    'Human-in-the-loop: evidence required. Keep steer.md and log.md current.',
     '**Do not create empty stub files.** Create a file only when you have real content for that checklist item (or when the human explicitly asks). Prefer one evidence-based chapter per session.',
     '',
     '### Non-durable sources (hard rule)',
     '',
     '- **`notes/`** — local user notes (often gitignored). Do **not** read, write, or promote them unless the human explicitly asks in this session.',
     '- **Concepts / Analyses** (`process/spikes/`, legacy `work/`) — exploration drafts. Do **not** copy them into lasting Architecture / Knowledge chapters as established truth unless the human explicitly asks to promote specific findings.',
-    '- Prefer evidence from: source code, entry-point, blueprint, lasting template chapters, `domain/`, and human-approved Inbox proposals (`status: ready`).',
+    '- Prefer evidence from: source code, steer.md, chapters, interfaces/, findings with evidence paths.',
     '',
   ].join('\n')
 }
@@ -64,7 +66,7 @@ export function stripDocRootRolePaths(text: string, docRoot: string): string {
     /prompts\/role-[\w-]+\.md/gi,
   ]
   for (const re of patterns) {
-    out = out.replace(re, '(role guidance is in this AGM Studio prompt — skip on-disk role files)')
+    out = out.replace(re, '(use Tekto skills — skip on-disk role files)')
   }
   return out
 }
@@ -74,11 +76,10 @@ function buildCoreFilesBlock(docRoot: string): string {
   return [
     '## Core files (keep simple)',
     '',
-    `- ${r}entry-point.md — **start here** (short facts + links). Put this in AI context; keep it current.`,
-    `- ${r}blueprint.md — **what's next** (checklist + short session notes). Tick items when a chapter moves forward.`,
-    `- ${r}context/always-on.md — legacy only. If it still has unique facts, merge them into entry-point; do not maintain a third source of truth.`,
+    `- ${r}steer.md — links + ## Now (max 5 tasks). Put in AI context.`,
+    `- ${r}log.md — one line per change (audit).`,
     '',
-    'When chapters or links change, update entry-point. When work progresses, update blueprint checkmarks.',
+    'Update steer when navigation changes; append log on every merged doc change.',
     '',
   ].join('\n')
 }

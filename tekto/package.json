@@ -1,0 +1,53 @@
+{
+  "name": "@abx-hh/tekto",
+  "version": "1.0.0",
+  "description": "Tekto — AI-supported architecture documentation, review, and tool export",
+  "type": "module",
+  "license": "MIT",
+  "author": "Andreas Bergmann, Hamburg, Germany",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abx-git/tekto.git"
+  },
+  "homepage": "https://github.com/abx-git/tekto#readme",
+  "keywords": [
+    "tekto",
+    "architecture",
+    "mcp",
+    "documentation",
+    "review",
+    "cursor"
+  ],
+  "bin": {
+    "tekto": "dist/cli.js",
+    "tekto-mcp": "dist/mcp-server.js"
+  },
+  "files": [
+    "dist",
+    "scaffold",
+    "packs",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "build-scaffold": "node ../scripts/tekto-build-scaffold.mjs",
+    "dev": "tsc --watch",
+    "start:mcp": "node dist/mcp-server.js",
+    "prepublishOnly": "npm run build-scaffold && npm run build"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.1",
+    "commander": "^13.1.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.3",
+    "typescript": "^5.8.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

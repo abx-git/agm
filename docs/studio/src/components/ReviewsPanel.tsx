@@ -1,12 +1,9 @@
 import { useMemo, useState } from 'react'
 import { useStudioStore } from '../store/studio-store'
 import { DocViewer } from './DocViewer'
+import { FindingsEditor } from './FindingsEditor'
 import { HelpTip } from './HelpTip'
 
-/**
- * Doc checks under Architecture → Check docs.
- * Primary CTA lives in the Architecture toolbar — not duplicated here.
- */
 export function ReviewsPanel() {
   const canWrite = useStudioStore((s) => s.canWrite)
   const reviews = useStudioStore((s) => s.reviews)
@@ -16,11 +13,13 @@ export function ReviewsPanel() {
   const activePath = useStudioStore((s) => s.activePath)
   const setActivePath = useStudioStore((s) => s.setActivePath)
   const createReview = useStudioStore((s) => s.createReview)
-  const toggleContextPin = useStudioStore((s) => s.toggleContextPin)
+  const saveSpikeFile = useStudioStore((s) => s.saveSpikeFile)
+  const openSession = useStudioStore((s) => s.openSession)
 
   const [showCreate, setShowCreate] = useState(false)
   const [title, setTitle] = useState('')
   const [slug, setSlug] = useState('')
+  const [yamlDraft, setYamlDraft] = useState('')
 
   const isReviewFolder = Boolean(activeSpikePath?.includes('/reviews/'))
   const reviewFiles = useMemo(() => {
@@ -31,22 +30,27 @@ export function ReviewsPanel() {
   }, [index, activeSpikePath, isReviewFolder])
 
   const activeDoc = index && activePath ? index.docs.get(activePath) : null
+  const threadsPath = activeSpikePath ? `${activeSpikePath}/threads.yaml` : ''
+  const isThreads = activePath === threadsPath
+  const findingsPath = activeSpikePath ? `${activeSpikePath}/findings.yaml` : ''
+  const isFindings = activePath === findingsPath
+
+  const openThreads = () => {
+    if (!threadsPath || !index) return
+    setActivePath(threadsPath)
+    const content = index.docs.get(threadsPath)?.content ?? 'threads: []\n'
+    setYamlDraft(content)
+  }
 
   return (
     <div className="reviews-panel spike-phase">
       <aside className="spike-sidebar">
         <div className="spike-sidebar-head">
           <h2>
-            Check docs{' '}
-            <HelpTip label="Check docs">
-              <p>
-                A <strong>doc check</strong> asks the AI whether your lasting documentation is sound
-                — not whether a Concept draft is good.
-              </p>
-              <p>
-                Use the toolbar button <strong>Ask AI to check docs</strong>, paste into a{' '}
-                <em>new</em> chat, then Reload folder. The AI does not fix docs in that chat.
-              </p>
+            Review{' '}
+            <HelpTip label="Review">
+              <p>Tekto reviews live under <code>reviews/&lt;id&gt;/</code> with findings.yaml and threads.yaml.</p>
+              <p>Use Ask AI → Review aspect, or <code>tekto packet revise &lt;id&gt;</code> in a fresh chat.</p>
             </HelpTip>
           </h2>
           <button
@@ -55,24 +59,12 @@ export function ReviewsPanel() {
             disabled={!canWrite}
             onClick={() => setShowCreate(true)}
           >
-            Start a check
+            New review
           </button>
         </div>
 
-        <ol className="reviews-howto">
-          <li>
-            <strong>Optional</strong> — Start a check (empty report folder).
-          </li>
-          <li>
-            <strong>Then</strong> — Toolbar → Ask AI to check docs → new chat → Reload folder.
-          </li>
-          <li>
-            <strong>Fix later</strong> — Use Ask AI · next checklist, not the same check chat.
-          </li>
-        </ol>
-
         <ul className="spike-list">
-          {reviews.length === 0 && <li className="muted">No doc checks yet.</li>}
+          {reviews.length === 0 && <li className="muted">No reviews yet.</li>}
           {reviews.map((r) => (
             <li key={r.path}>
               <button
@@ -80,7 +72,7 @@ export function ReviewsPanel() {
                 className={activeSpikePath === r.path ? 'active' : ''}
                 onClick={() => {
                   setActiveSpikePath(r.path)
-                  setActivePath(`${r.path}/report.md`)
+                  setActivePath(`${r.path}/findings.yaml`)
                 }}
               >
                 <span className="spike-id">{r.id}</span>
@@ -94,25 +86,14 @@ export function ReviewsPanel() {
       <section className="spike-main">
         {showCreate && (
           <div className="spike-create-dialog">
-            <h3>Start a documentation check</h3>
-            <p className="hint">
-              Creates an empty report the AI will fill when you run the check in a fresh chat.
-            </p>
+            <h3>New review</h3>
             <label className="field">
-              <span>What is being checked?</span>
-              <input
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                placeholder="e.g. Context chapter after first fill"
-              />
+              <span>Title</span>
+              <input value={title} onChange={(e) => setTitle(e.target.value)} />
             </label>
             <label className="field">
-              <span>Short id (optional)</span>
-              <input
-                value={slug}
-                onChange={(e) => setSlug(e.target.value)}
-                placeholder="phase-context"
-              />
+              <span>Slug (optional)</span>
+              <input value={slug} onChange={(e) => setSlug(e.target.value)} />
             </label>
             <div className="cmd-row">
               <button
@@ -125,8 +106,6 @@ export function ReviewsPanel() {
                     setShowCreate(false)
                     setTitle('')
                     setSlug('')
-                    setActiveSpikePath(folder)
-                    setActivePath(`${folder}/report.md`)
                   }
                 }}
               >
@@ -141,29 +120,15 @@ export function ReviewsPanel() {
 
         {!showCreate && !isReviewFolder && (
           <div className="phase-panel">
-            <h2>Check documentation quality</h2>
-            <p className="lead">
-              These reports check <strong>architecture documentation quality</strong> — they do{' '}
-              <strong>not</strong> review Concept drafts.
-            </p>
+            <h2>Tekto review workflow</h2>
             <ol className="reviews-howto reviews-howto--main">
-              <li>Optional: click <strong>Start a check</strong> for an empty report folder.</li>
-              <li>
-                Use the toolbar <strong>Ask AI to check docs</strong> → copy into a <em>new</em> AI
-                chat.
-              </li>
-              <li>Reload folder, read the verdict, then fix gaps with Ask AI · next checklist.</li>
+              <li>Create a review folder (findings.yaml + threads.yaml).</li>
+              <li>Ask AI → Review aspect — paste packet into a new chat.</li>
+              <li>Edit threads here; run review-revise / review-summarize in another chat.</li>
             </ol>
-            <div className="cmd-row">
-              <button
-                type="button"
-                className="btn"
-                disabled={!canWrite}
-                onClick={() => setShowCreate(true)}
-              >
-                Start a check
-              </button>
-            </div>
+            <button type="button" className="btn primary" onClick={() => openSession('aspect')}>
+              Ask AI · review aspect
+            </button>
           </div>
         )}
 
@@ -171,34 +136,70 @@ export function ReviewsPanel() {
           <div className="spike-workspace">
             <div className="spike-files">
               <h3>{activeSpikePath.split('/').pop()}</h3>
-              <p className="hint">
-                Report only. Fill via the toolbar <strong>Ask AI to check docs</strong>.
-              </p>
               <ul>
-                {reviewFiles.map((f) => (
-                  <li key={f.path}>
-                    <button
-                      type="button"
-                      className={activePath === f.path ? 'active' : ''}
-                      onClick={() => setActivePath(f.path)}
-                    >
-                      {f.path.slice(activeSpikePath.length + 1) || f.name}
-                    </button>
-                  </li>
-                ))}
+                <li>
+                  <button type="button" className={activePath === findingsPath ? 'active' : ''} onClick={() => setActivePath(findingsPath)}>
+                    findings.yaml
+                  </button>
+                </li>
+                <li>
+                  <button type="button" className={isThreads ? 'active' : ''} onClick={openThreads}>
+                    threads.yaml
+                  </button>
+                </li>
+                {reviewFiles
+                  .filter((f) => f.path.endsWith('report.md'))
+                  .map((f) => (
+                    <li key={f.path}>
+                      <button
+                        type="button"
+                        className={activePath === f.path ? 'active' : ''}
+                        onClick={() => setActivePath(f.path)}
+                      >
+                        report.md
+                      </button>
+                    </li>
+                  ))}
               </ul>
             </div>
             <div className="spike-doc">
-              {activeDoc ? (
+              {isThreads ? (
+                <div className="yaml-editor">
+                  <textarea
+                    className="yaml-editor-text"
+                    value={yamlDraft}
+                    onChange={(e) => setYamlDraft(e.target.value)}
+                    rows={18}
+                    spellCheck={false}
+                  />
+                  <button
+                    type="button"
+                    className="btn primary"
+                    disabled={!canWrite}
+                    onClick={() => void saveSpikeFile(threadsPath, yamlDraft)}
+                  >
+                    Save threads.yaml
+                  </button>
+                </div>
+              ) : isFindings && activeDoc ? (
+                <FindingsEditor
+                  path={findingsPath}
+                  initialContent={activeDoc.content}
+                  canWrite={canWrite}
+                  onSave={saveSpikeFile}
+                />
+              ) : activeDoc?.path.endsWith('.yaml') ? (
+                <pre className="yaml-raw">{activeDoc.content}</pre>
+              ) : activeDoc ? (
                 <DocViewer
                   doc={activeDoc}
                   allDocs={index!.docs}
                   onNavigate={(p) => setActivePath(p)}
                   onOpenStorm={() => undefined}
-                  onPinPath={(p) => toggleContextPin(p)}
+                  onPinPath={() => undefined}
                 />
               ) : (
-                <p className="muted">Select the report or findings file.</p>
+                <p className="muted">Select findings, threads, or report.</p>
               )}
             </div>
           </div>

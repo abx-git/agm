@@ -11,7 +11,7 @@ export interface Order {
 
 /**
  * Creates a new order and initiates the payment flow.
- * See docs/architecture/arc42/runtime.md for the full sequence.
+ * See docs/tekto/arc42/runtime.md for the full sequence.
  */
 export async function createOrder(req: CreateOrderRequest): Promise<Order> {
   const order: Order = {

@@ -26,22 +26,19 @@ export function InstallPhase() {
       <h2>Setup — write starter</h2>
       <p className="lead">
         {installStatus === 'ready'
-          ? 'Starter state files are present. Open Architecture, or rewrite entry-point + blueprint.'
-          : 'Writes only two state files: entry-point.md and blueprint.md. No empty chapters or stubs.'}
+          ? 'steer.md and log.md are present. Open Docs, or rewrite the starter.'
+          : 'Writes steer.md, log.md, and folder stubs under your doc root.'}
       </p>
 
       <div className="install-card">
         <p>
-          Into <code>{folderLabel}</code>: <strong>entry-point.md</strong> (facts + links) and{' '}
-          <strong>blueprint.md</strong> (what&apos;s next). Template chapters, domain/, spikes, and
-          reviews are created later by <strong>Ask AI · first fill</strong>,{' '}
-          <strong>Ask AI · next checklist</strong>, or Studio actions — not now. Prompts stay in AGM
-          Studio. Doc paths in prompts use <code>{project.docRoot || './'}</code>.
+          Into <code>{folderLabel}</code>: <strong>steer.md</strong>, <strong>log.md</strong>, chapters/,
+          reviews/, rules/. Then use <strong>Composer</strong> for <code>tekto export</code> in the app
+          repo ({project.docRoot || 'docs/tekto/'}).
         </p>
         {!canWrite && (
           <p className="warn">
-            Write permission is required. Go back to Connect and choose the folder again in Chrome,
-            Edge, or Brave — allow edit access when the browser asks.
+            Write permission required — reconnect folder in Chrome / Edge / Brave.
           </p>
         )}
         <button
@@ -53,8 +50,8 @@ export function InstallPhase() {
           {installing
             ? 'Writing…'
             : installStatus === 'ready'
-              ? 'Rewrite entry-point + blueprint'
-              : 'Write entry-point + blueprint'}
+              ? 'Rewrite Tekto starter'
+              : 'Write Tekto starter'}
         </button>
       </div>
 
@@ -65,14 +62,19 @@ export function InstallPhase() {
         <button
           type="button"
           className="btn primary"
+          onClick={() => setPhase('compose')}
+          disabled={installStatus === 'missing'}
+        >
+          Open Composer
+        </button>
+        <button
+          type="button"
+          className="btn"
           onClick={() => setPhase('architecture')}
           disabled={installStatus === 'missing'}
         >
-          Open Architecture
+          Open Docs
         </button>
-        {installStatus === 'missing' && (
-          <span className="hint">Write the starter first (needs write access).</span>
-        )}
       </div>
     </div>
   )

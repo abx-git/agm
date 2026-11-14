@@ -1,52 +1,11 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useStudioStore } from '../store/studio-store'
 import type { SessionIntent, WorkflowEntry } from '../types'
-import {
-  buildAdoptPrompt,
-  copyText,
-  personalizeWorkflowPrompt,
-  personalizeWorkflowWhen,
-} from '../lib/personalize'
+import { buildAdoptPrompt, copyText, personalizeWorkflowPrompt } from '../lib/personalize'
 import { buildContextPack, formatContextPackBlock } from '../lib/context-pack'
 import { HelpTip } from './HelpTip'
 import workflowCatalog from '../catalog/workflows.json'
 import adoptPromptBase from '../catalog/adopt-prompt.txt?raw'
-
-const DOC_FOCUS_OPTIONS: { id: string; label: string }[] = [
-  { id: 'implementation', label: 'Implementation' },
-  { id: 'interfaces', label: 'Interfaces' },
-  { id: 'persistence', label: 'Persistence' },
-  { id: 'security', label: 'Security' },
-  { id: 'deployment', label: 'Deployment' },
-  { id: 'observability', label: 'Observability' },
-  { id: 'operations', label: 'Operations' },
-  { id: 'decisions', label: 'Decisions' },
-  { id: 'domain-glossary', label: 'Domain glossary' },
-  { id: 'domain-model', label: 'Domain model' },
-  { id: 'ecosystem', label: 'Ecosystem' },
-  { id: 'external-sources', label: 'External sources' },
-  { id: 'use-cases', label: 'Use cases' },
-]
-
-const GOLDEN_EVOLVE = [
-  { id: 'maintenance-diff-range', label: 'Sync from git range' },
-  { id: 'content-ingest', label: 'Import pasted content' },
-  { id: 'refinement', label: 'Refine a section' },
-]
-
-const GOLDEN_REVIEW = [
-  { id: 'review-maintenance', label: 'Check docs after code sync' },
-  { id: 'review-phase', label: 'Check a documentation phase' },
-]
-
-const ADVANCED_WORK = [
-  { id: 'architecture-work-continue', label: 'Continue architecture work' },
-  { id: 'architecture-work-query', label: 'Query' },
-  { id: 'architecture-work-analysis', label: 'Analysis' },
-  { id: 'architecture-work-design', label: 'Design' },
-  { id: 'domain-work-continue', label: 'Domain continue' },
-  { id: 'domain-board-ingest', label: 'Domain board ingest' },
-]
 
 type RunStep = SessionIntent
 
@@ -54,125 +13,95 @@ function aiLabel(tool: string): string {
   if (tool === 'cursor') return 'Cursor'
   if (tool === 'claude') return 'Claude'
   if (tool === 'copilot') return 'Copilot'
+  if (tool === 'kiro') return 'Kiro'
   return 'your AI chat'
 }
 
-/** Session workspace: context pack + copy-paste prompt (successor to Run / Write). */
 export function SessionPhase() {
   const project = useStudioStore((s) => s.project)
   const goSetup = useStudioStore((s) => s.goSetup)
   const leaveSession = useStudioStore((s) => s.leaveSession)
   const sessionReturnPhase = useStudioStore((s) => s.sessionReturnPhase)
-  const installStatus = useStudioStore((s) => s.installStatus)
-  const folderLabel = useStudioStore((s) => s.folderLabel)
-  const showToast = useStudioStore((s) => s.showToast)
-  const index = useStudioStore((s) => s.index)
-  const activePath = useStudioStore((s) => s.activePath)
-  const contextPins = useStudioStore((s) => s.contextPins)
-  const toggleContextPin = useStudioStore((s) => s.toggleContextPin)
-  const docFocus = useStudioStore((s) => s.docFocus)
-  const setDocFocus = useStudioStore((s) => s.setDocFocus)
-  const includeOnDemand = useStudioStore((s) => s.includeOnDemand)
-  const setIncludeOnDemand = useStudioStore((s) => s.setIncludeOnDemand)
-  const includeLocalNotes = useStudioStore((s) => s.includeLocalNotes)
-  const setIncludeLocalNotes = useStudioStore((s) => s.setIncludeLocalNotes)
-  const includeSpikeEvidence = useStudioStore((s) => s.includeSpikeEvidence)
-  const setIncludeSpikeEvidence = useStudioStore((s) => s.setIncludeSpikeEvidence)
   const sessionIntent = useStudioStore((s) => s.sessionIntent)
-  const clearSessionIntent = useStudioStore((s) => s.clearSessionIntent)
-  const tool = aiLabel(project.aiTool)
+  const folderLabel = useStudioStore((s) => s.folderLabel)
+  const installStatus = useStudioStore((s) => s.installStatus)
+  const index = useStudioStore((s) => s.index)
+  const contextPins = useStudioStore((s) => s.contextPins)
+  const showToast = useStudioStore((s) => s.showToast)
 
-  // Bundled at build time (synced by scripts/sync-assistant-data.py) — no runtime fetch.
-  const workflows = workflowCatalog as WorkflowEntry[]
-  const adoptBase = adoptPromptBase
-  const [step, setStep] = useState<RunStep>(
-    () => sessionIntent ?? (installStatus === 'ready' ? 'continue' : 'adopt'),
-  )
+  const [step, setStep] = useState<RunStep>('continue')
   const [selectedId, setSelectedId] = useState<string | null>(null)
-  const [inputs, setInputs] = useState<Record<string, string>>({})
-  const [extensionSlug, setExtensionSlug] = useState('')
 
   useEffect(() => {
-    if (!sessionIntent) return
-    setStep(sessionIntent)
-    clearSessionIntent()
-  }, [sessionIntent, clearSessionIntent])
+    if (sessionIntent) setStep(sessionIntent)
+  }, [sessionIntent])
 
-  const pack = useMemo(
-    () =>
-      buildContextPack({
-        index,
-        activePath,
-        pins: contextPins,
-        docFocus,
-        includeOnDemand,
-        includeLocalNotes,
-        includeSpikeEvidence,
-      }),
-    [index, activePath, contextPins, docFocus, includeOnDemand, includeLocalNotes, includeSpikeEvidence],
+  const tool = aiLabel(project.aiTool || 'cursor')
+  const byId = (id: string) => (workflowCatalog as WorkflowEntry[]).find((w) => w.id === id)
+
+  const activePath = useStudioStore((s) => s.activePath)
+  const packBlock = useMemo(() => {
+    if (!index) return ''
+    const pack = buildContextPack({
+      index,
+      activePath,
+      pins: contextPins,
+      docFocus: [],
+      includeOnDemand: false,
+    })
+    return formatContextPackBlock(pack, project)
+  }, [index, contextPins, activePath, project])
+
+  const adoptText = useMemo(
+    () => buildAdoptPrompt(adoptPromptBase, project, packBlock),
+    [project, packBlock]
   )
 
-  const packBlock = useMemo(() => formatContextPackBlock(pack, project), [pack, project])
-
-  const byId = (id: string) => workflows.find((w) => w.id === id)
-
-  const adoptText = useMemo(() => {
-    if (!adoptBase) return ''
-    return buildAdoptPrompt(adoptBase, project, packBlock)
-  }, [adoptBase, project, packBlock])
-
-  const continueWf = byId('bootstrap-continue')
+  const continueWf = byId('tekto-understand')
   const continueText = useMemo(() => {
-    if (!continueWf) return ''
-    return personalizeWorkflowPrompt(continueWf, project, inputs, packBlock)
-  }, [continueWf, project, inputs, packBlock])
+    if (!continueWf) return adoptText
+    return personalizeWorkflowPrompt(continueWf, project, {}, packBlock)
+  }, [continueWf, project, packBlock, adoptText])
 
-  const selected = selectedId ? byId(selectedId) : null
-  const selectedText = useMemo(() => {
-    if (!selected) return ''
-    return personalizeWorkflowPrompt(selected, project, inputs, packBlock)
-  }, [selected, project, inputs, packBlock])
+  const evolveWf = byId('tekto-evolve')
+  const evolveText = evolveWf
+    ? personalizeWorkflowPrompt(evolveWf, project, {}, packBlock)
+    : 'Use skill evolve-sync with current git diff.'
 
-  const inboxWf =
-    step === 'inbox-analyze' || step === 'inbox-refine' || step === 'inbox-merge'
-      ? byId(step)
-      : null
-  const inboxText = useMemo(() => {
-    if (!inboxWf) return ''
-    return personalizeWorkflowPrompt(inboxWf, project, inputs, packBlock)
-  }, [inboxWf, project, inputs, packBlock])
+  const verifyWf = byId('tekto-review-security')
+  const verifyText = verifyWf
+    ? personalizeWorkflowPrompt(verifyWf, project, {}, packBlock)
+    : 'Run tekto packet aspect security in CLI; paste into fresh chat.'
 
-  const alignWf = step === 'align' ? byId('studio-align-structure') : null
-  const alignText = useMemo(() => {
-    if (!alignWf) return ''
-    return personalizeWorkflowPrompt(alignWf, project, inputs, packBlock)
-  }, [alignWf, project, inputs, packBlock])
+  const aspectWf = byId('tekto-review-security')
+  const aspectText = aspectWf
+    ? personalizeWorkflowPrompt(aspectWf, project, {}, packBlock)
+    : verifyText
 
   const copyOut = async (text: string) => {
     const ok = await copyText(text)
-    showToast(ok ? `Copied — open ${tool}, start a new chat, paste` : 'Copy failed')
+    showToast(ok ? `Copied — open ${tool}, new chat, paste` : 'Copy failed')
   }
 
-  const copyBtn = (label: string) => `Copy for ${tool} — ${label}`
-
-  const toggleFocus = (id: string) => {
-    if (docFocus.includes(id)) setDocFocus(docFocus.filter((x) => x !== id))
-    else setDocFocus([...docFocus, id])
-  }
-
-  const addExtension = () => {
-    const slug = extensionSlug.trim().toLowerCase().replace(/[^a-z0-9-]+/g, '-')
-    if (!slug) return
-    const id = `extension:${slug}`
-    if (!docFocus.includes(id)) setDocFocus([...docFocus, id])
-    setExtensionSlug('')
-  }
+  const primary = installStatus === 'ready' ? continueText : adoptText
+  const stepText =
+    step === 'adopt'
+      ? adoptText
+      : step === 'continue'
+        ? continueText
+        : step === 'evolve'
+          ? evolveText
+          : step === 'verify'
+            ? verifyText
+            : step === 'aspect'
+              ? aspectText
+              : primary
 
   if (!folderLabel) {
     return (
       <div className="phase-panel">
         <h2>Ask AI</h2>
-        <p>Finish Setup first — choose your documentation folder.</p>
+        <p>Finish Setup first.</p>
         <button type="button" className="btn primary" onClick={() => goSetup()}>
           Go to Setup
         </button>
@@ -180,467 +109,67 @@ export function SessionPhase() {
     )
   }
 
-  const primaryStep: RunStep = installStatus === 'ready' ? 'continue' : 'adopt'
-  const stepOptions: { id: RunStep; label: string }[] = [
-    { id: 'continue', label: 'Next checklist item' },
-    {
-      id: 'adopt',
-      label: installStatus === 'ready' ? 'First fill again' : 'First fill',
-    },
-    { id: 'align', label: 'Align folder for Studio' },
-    { id: 'inbox-analyze', label: 'Inbox — structure new information' },
-    { id: 'inbox-refine', label: 'Inbox — improve a plan' },
-    { id: 'inbox-merge', label: 'Inbox — apply approved plans' },
-    { id: 'evolve', label: 'Sync with code / import paste (legacy)' },
-    { id: 'verify', label: 'Check documentation quality' },
-    { id: 'advanced', label: 'More (design, domain, analysis)' },
+  const steps: { id: RunStep; label: string }[] = [
+    { id: 'continue', label: 'Continue (understand)' },
+    { id: 'adopt', label: 'First fill' },
+    { id: 'aspect', label: 'Review aspect' },
+    { id: 'evolve', label: 'Sync from code' },
+    { id: 'verify', label: 'Review / verify' },
   ]
-
-  const inboxCopyLabel =
-    step === 'inbox-analyze'
-      ? 'structure Inbox'
-      : step === 'inbox-refine'
-        ? 'improve plan'
-        : step === 'inbox-merge'
-          ? 'apply approved plans'
-          : step
 
   return (
     <div className="phase-panel run-phase">
       <h2>
         Ask AI{' '}
         <HelpTip label="Ask AI">
-          <p>
-            Studio does not write docs or call an AI itself. You copy a prompt into {tool} on this
-            project; the AI edits Markdown; then use <strong>Reload folder</strong> in the header.
-          </p>
+          <p>Copy a Tekto prompt into {tool}. Studio does not call an LLM.</p>
         </HelpTip>
       </h2>
-      <p className="lead">
-        1) Adjust the reading list if needed · 2) Choose what you want help with · 3) Copy → paste
-        into a <strong>new chat</strong> · 4) Reload folder.
-      </p>
-
-      <div className="run-card context-pack-card">
-        <h3>Reading list for the AI</h3>
-        <ul className="context-pack-list">
-          {pack.slots.map((slot) => {
-            const onDemandMissing =
-              slot.id === 'ondemand' &&
-              !(index && [...index.docs.keys()].some((p) => p.endsWith('context/on-demand.md')))
-            const locked =
-              Boolean(slot.required) ||
-              slot.id === 'focus' ||
-              slot.id === 'refs' ||
-              onDemandMissing
-            return (
-              <li key={slot.id}>
-                <label
-                  className={`context-pack-item${locked ? ' is-locked' : ''}`}
-                  title={
-                    onDemandMissing
-                      ? 'Optional extra file is not in the folder yet — create it via Ask AI (first fill / continue), then Reload folder'
-                      : slot.id === 'refs'
-                        ? 'Remember files while browsing docs'
-                        : slot.id === 'focus'
-                          ? 'Follows the doc you last opened'
-                          : undefined
-                  }
-                >
-                  <input
-                    type="checkbox"
-                    checked={slot.id === 'ondemand' ? includeOnDemand && !onDemandMissing : slot.included}
-                    disabled={locked}
-                    onChange={() => {
-                      if (slot.id === 'ondemand' && !onDemandMissing) {
-                        setIncludeOnDemand(!includeOnDemand)
-                      }
-                    }}
-                  />
-                  <span>
-                    <strong>{slot.label}</strong>
-                    {slot.id !== 'refs' && slot.path ? (
-                      <>
-                        {' '}
-                        <code>{slot.path}</code>
-                      </>
-                    ) : null}
-                    {onDemandMissing ? (
-                      <span className="muted"> — not in folder yet</span>
-                    ) : null}
-                    {slot.id === 'refs' && contextPins.length === 0 ? (
-                      <span className="muted"> — remember docs while browsing</span>
-                    ) : null}
-                  </span>
-                </label>
-              </li>
-            )
-          })}
-        </ul>
-        {contextPins.length > 0 && (
-          <div className="pin-chips">
-            {contextPins.map((p) => (
-              <button
-                key={p}
-                type="button"
-                className="btn pin-chip"
-                title="Unpin"
-                onClick={() => toggleContextPin(p)}
-              >
-                {p} ×
-              </button>
-            ))}
-          </div>
-        )}
-        <p className="hint">
-          <strong>Extra tables</strong> (optional) live in <code>context/on-demand.md</code> — include
-          them only when that file exists and you want the AI to read them. Use{' '}
-          <strong>Remember for AI prompt</strong> while browsing to add specific files here.
-        </p>
-        <div className="evidence-opt-ins">
-          <label className="focus-chip">
-            <input
-              type="checkbox"
-              checked={includeLocalNotes}
-              onChange={() => setIncludeLocalNotes(!includeLocalNotes)}
-            />
-            Include local notes (<code>notes/</code>) — only when you explicitly want them
-          </label>
-          <label className="focus-chip">
-            <input
-              type="checkbox"
-              checked={includeSpikeEvidence}
-              onChange={() => setIncludeSpikeEvidence(!includeSpikeEvidence)}
-            />
-            Include Concepts/Analyses spikes as evidence — not lasting truth by default
-          </label>
-          <p className="hint">
-            Off by default. Architecture creation must not treat notes or spikes as established
-            facts unless you turn these on (or ask in the prompt).
-          </p>
-        </div>
-
-        <details className="focus-details">
-          <summary>Optional focus topics</summary>
-          <div className="focus-grid">
-            {DOC_FOCUS_OPTIONS.map((opt) => (
-              <label key={opt.id} className="focus-chip">
-                <input
-                  type="checkbox"
-                  checked={docFocus.includes(opt.id)}
-                  onChange={() => toggleFocus(opt.id)}
-                />
-                {opt.label}
-              </label>
-            ))}
-          </div>
-          <div className="cmd-row">
-            <input
-              value={extensionSlug}
-              onChange={(e) => setExtensionSlug(e.target.value)}
-              placeholder="custom topic (e.g. billing-notes)"
-            />
-            <button type="button" className="btn" onClick={addExtension}>
-              Add topic
-            </button>
-          </div>
-          {docFocus.filter((d) => d.startsWith('extension:')).length > 0 && (
-            <p className="hint">
-              Custom: {docFocus.filter((d) => d.startsWith('extension:')).join(', ')}
-            </p>
-          )}
-        </details>
+      <div className="run-step-picker">
+        {steps.map((s) => (
+          <button
+            key={s.id}
+            type="button"
+            className={`btn${step === s.id ? ' active' : ''}`}
+            onClick={() => setStep(s.id)}
+          >
+            {s.label}
+          </button>
+        ))}
       </div>
-
-      <label className="field prompt-kind-field">
-        <span>What do you want help with?</span>
-        <select
-          value={step}
-          onChange={(e) => {
-            setStep(e.target.value as RunStep)
-            setSelectedId(null)
-            setInputs({})
-          }}
-        >
-          {stepOptions.map((opt) => (
-            <option key={opt.id} value={opt.id}>
-              {opt.id === primaryStep ? `★ ${opt.label}` : opt.label}
-            </option>
-          ))}
-        </select>
-      </label>
-
-      {step === 'adopt' && (
-        <div className="run-card">
-          <p>
-            First docs session: fills entry-point (start here), blueprint (what&apos;s next), and the
-            first chapter.
-          </p>
-          <details open>
-            <summary>Preview</summary>
-            <pre className="preview-box">
-              {adoptText.slice(0, 4000)}
-              {adoptText.length > 4000 ? '\n…' : ''}
-            </pre>
-          </details>
-          <button type="button" className="btn primary" onClick={() => copyOut(adoptText)}>
-            {copyBtn('first fill')}
-          </button>
-        </div>
-      )}
-
-      {step === 'continue' && continueWf && (
-        <div className="run-card">
-          <p>
-            Resume the next open item in <code>blueprint.md</code>.{' '}
-            {personalizeWorkflowWhen(continueWf, project)}
-          </p>
-          <details open>
-            <summary>Preview</summary>
-            <pre className="preview-box">{continueText.slice(0, 4000)}</pre>
-          </details>
-          <button type="button" className="btn primary" onClick={() => copyOut(continueText)}>
-            {copyBtn('next checklist')}
-          </button>
-        </div>
-      )}
-
-      {alignWf && (
-        <div className="run-card">
-          <p>
-            Explain the <strong>current</strong> documentation tree to the AI, then have it{' '}
-            <strong>reformat / relocate</strong> files so AGM Studio workspaces (Architecture,
-            Knowledge, Inbox, Concepts, Analyses, Check docs) match the expected layout. Does not
-            invent architecture facts — structure and links only.
-          </p>
-          <p className="hint">{personalizeWorkflowWhen(alignWf, project)}</p>
-          <div className="workflow-inputs">
-            <label className="field">
-              <span>Notes for the AI (what looks wrong?)</span>
-              <input
-                value={inputs.notes || ''}
-                onChange={(e) => setInputs({ ...inputs, notes: e.target.value })}
-                placeholder="e.g. old always-on layout; reviews under spikes; domain mixed into arc42"
-              />
-            </label>
-            <label className="field">
-              <span>Dry-run only?</span>
-              <select
-                value={inputs.dryRun || 'no'}
-                onChange={(e) => setInputs({ ...inputs, dryRun: e.target.value })}
-              >
-                <option value="no">No — apply after proposing the plan</option>
-                <option value="yes">Yes — plan only, do not move files</option>
-              </select>
-            </label>
-          </div>
-          <details open>
-            <summary>Preview</summary>
-            <pre className="preview-box">{alignText.slice(0, 4000)}</pre>
-          </details>
-          <button type="button" className="btn primary" onClick={() => copyOut(alignText)}>
-            {copyBtn('align folder')}
-          </button>
-        </div>
-      )}
-
-      {inboxWf && (
-        <div className="run-card">
-          <p>
-            {step === 'inbox-analyze' && (
-              <>
-                Ask the AI to turn received Inbox text into a clear <strong>plan</strong> you can
-                approve. Nothing is written into Architecture yet.
-              </>
-            )}
-            {step === 'inbox-refine' && (
-              <>
-                Ask the AI to improve a plan after your feedback. Do not apply it until you mark the
-                plan <strong>Approved</strong> in Inbox.
-              </>
-            )}
-            {step === 'inbox-merge' && (
-              <>
-                Ask the AI to write <strong>Approved</strong> plans into your real documentation, then
-                move them to Done.
-              </>
-            )}{' '}
-            {personalizeWorkflowWhen(inboxWf, project)}
-          </p>
-          {(step === 'inbox-refine' || step === 'inbox-merge') && (
-            <div className="workflow-inputs">
-              <label className="field">
-                <span>Plan file (optional — leave empty to use Approved plans)</span>
-                <input
-                  value={inputs.proposalPath || inputs.proposalPaths || ''}
-                  onChange={(e) =>
-                    setInputs({
-                      ...inputs,
-                      proposalPath: e.target.value,
-                      proposalPaths: e.target.value,
-                    })
-                  }
-                  placeholder="Usually leave empty"
-                />
-              </label>
-              {step === 'inbox-refine' && (
-                <label className="field">
-                  <span>Your notes for the AI</span>
-                  <input
-                    value={inputs.notes || ''}
-                    onChange={(e) => setInputs({ ...inputs, notes: e.target.value })}
-                    placeholder="What should change?"
-                  />
-                </label>
-              )}
-            </div>
-          )}
-          <details open>
-            <summary>Preview</summary>
-            <pre className="preview-box">{inboxText.slice(0, 4000)}</pre>
-          </details>
-          <button type="button" className="btn primary" onClick={() => copyOut(inboxText)}>
-            {copyBtn(inboxCopyLabel)}
-          </button>
-        </div>
-      )}
-
-      {(step === 'evolve' || step === 'verify' || step === 'advanced') && (
-        <div className="run-card">
-          {step === 'verify' && (
-            <p>
-              <strong>Check docs</strong> = quality check of architecture documentation in a{' '}
-              <em>fresh</em> AI chat. Report only (PASS / notes / FAIL). The AI does not fix chapters
-              in that chat. Browse results under Architecture → Check docs.
-            </p>
-          )}
-          <div className="mode-grid">
-            {(step === 'evolve'
-              ? GOLDEN_EVOLVE
-              : step === 'verify'
-                ? GOLDEN_REVIEW
-                : ADVANCED_WORK
-            ).map((m) => (
-              <button
-                key={m.id}
-                type="button"
-                className={selectedId === m.id ? 'mode-btn active' : 'mode-btn'}
-                disabled={!byId(m.id)}
-                onClick={() => {
-                  setSelectedId(m.id)
-                  setInputs({})
-                }}
-              >
-                {m.label}
-              </button>
-            ))}
-          </div>
-          {selected && (
-            <>
-              <p className="mode-when">{personalizeWorkflowWhen(selected, project)}</p>
-              {(selected.id === 'refinement' ||
-                selected.id === 'content-ingest' ||
-                selected.id === 'maintenance-diff-range' ||
-                selected.id === 'review-phase' ||
-                selected.id.startsWith('architecture-work') ||
-                selected.id.startsWith('domain-work') ||
-                selected.id === 'domain-board-ingest') && (
-                <div className="workflow-inputs">
-                  {selected.id === 'refinement' && (
-                    <label className="field">
-                      <span>What should improve?</span>
-                      <input
-                        value={inputs.goal || ''}
-                        onChange={(e) => setInputs({ ...inputs, goal: e.target.value })}
-                      />
-                    </label>
-                  )}
-                  {selected.id === 'content-ingest' && (
-                    <>
-                      <label className="field">
-                        <span>Source label</span>
-                        <input
-                          value={inputs.sourceLabel || ''}
-                          onChange={(e) => setInputs({ ...inputs, sourceLabel: e.target.value })}
-                        />
-                      </label>
-                      <label className="field">
-                        <span>Pasted content</span>
-                        <textarea
-                          rows={6}
-                          value={inputs.pastedContent || ''}
-                          onChange={(e) => setInputs({ ...inputs, pastedContent: e.target.value })}
-                        />
-                      </label>
-                    </>
-                  )}
-                  {selected.id === 'maintenance-diff-range' && (
-                    <>
-                      <label className="field">
-                        <span>DIFF_FROM</span>
-                        <input
-                          value={inputs.diffFrom || ''}
-                          onChange={(e) => setInputs({ ...inputs, diffFrom: e.target.value })}
-                          placeholder="main"
-                        />
-                      </label>
-                      <label className="field">
-                        <span>DIFF_TO</span>
-                        <input
-                          value={inputs.diffTo || 'HEAD'}
-                          onChange={(e) => setInputs({ ...inputs, diffTo: e.target.value })}
-                        />
-                      </label>
-                    </>
-                  )}
-                  {(selected.id === 'review-phase' ||
-                    selected.id.startsWith('architecture-work') ||
-                    selected.id.startsWith('domain-work')) && (
-                    <label className="field">
-                      <span>Slug</span>
-                      <input
-                        value={inputs.slug || ''}
-                        onChange={(e) => setInputs({ ...inputs, slug: e.target.value })}
-                        placeholder="short-name"
-                      />
-                    </label>
-                  )}
-                </div>
-              )}
-              <details>
-                <summary>Preview</summary>
-                <pre className="preview-box">{selectedText.slice(0, 4000)}</pre>
-              </details>
-              <button type="button" className="btn primary" onClick={() => copyOut(selectedText)}>
-                {copyBtn('prompt')}
-              </button>
-            </>
-          )}
-        </div>
-      )}
-
-      <div className="run-cta">
-        <p className="hint">
-          After the AI writes files: header → <strong>Reload folder</strong>, then check the
-          checklist in Architecture.
-        </p>
-        <button type="button" className="btn primary" onClick={() => leaveSession()}>
-          {sessionReturnPhase === 'inbox'
-            ? 'Back to Inbox'
-            : sessionReturnPhase === 'notes'
-              ? 'Back to Notes'
-              : sessionReturnPhase === 'knowledge'
-              ? 'Back to Knowledge'
-              : sessionReturnPhase === 'concepts'
-                ? 'Back to Concepts'
-                : sessionReturnPhase === 'analyses'
-                  ? 'Back to Analyses'
-                  : 'Back to Architecture'}
+      <div className="run-prompt-preview">
+        <pre>{stepText.slice(0, 4000)}</pre>
+      </div>
+      <div className="cmd-row">
+        <button type="button" className="btn primary" onClick={() => void copyOut(stepText)}>
+          Copy for {tool}
+        </button>
+        <button type="button" className="btn" onClick={() => leaveSession()}>
+          Back to {sessionReturnPhase === 'review' ? 'Review' : 'Docs'}
         </button>
       </div>
+      {workflowCatalog.length > 1 && (
+        <details className="run-more">
+          <summary>All Tekto prompts</summary>
+          <ul>
+            {(workflowCatalog as WorkflowEntry[]).map((w) => (
+              <li key={w.id}>
+                <button
+                  type="button"
+                  className="linkish"
+                  onClick={() => {
+                    setSelectedId(w.id)
+                    void copyOut(personalizeWorkflowPrompt(w, project, {}, packBlock))
+                  }}
+                >
+                  {w.id}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </details>
+      )}
+      {selectedId ? <p className="muted">Copied: {selectedId}</p> : null}
     </div>
   )
 }
-
-/** @deprecated use SessionPhase */
-export { SessionPhase as RunPhase }

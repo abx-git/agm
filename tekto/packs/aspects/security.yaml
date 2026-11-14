@@ -1,0 +1,11 @@
+id: security
+title: Sicherheit
+questions:
+  - Wie authentifizieren sich Services untereinander?
+  - Wo werden personenbezogene Daten gespeichert?
+evidence_required:
+  - code
+  - config
+rules:
+  - SEC-*
+output: findings

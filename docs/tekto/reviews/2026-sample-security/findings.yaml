@@ -1,0 +1,8 @@
+- id: F-SEC-001
+  aspect: security
+  severity: medium
+  claim: "Sample finding — replace after a real security review"
+  evidence:
+    - README.md
+  confidence: high
+  status: open

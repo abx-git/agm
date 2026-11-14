@@ -1,15 +1,14 @@
 import { useEffect } from 'react'
 import { useStudioStore } from './store/studio-store'
 import { ProjectBar, JourneyRail } from './components/ProjectBar'
-import { WhatIsAgmPhase } from './components/WhatIsAgmPhase'
+import { WhatIsTektoPhase } from './components/WhatIsTektoPhase'
 import { StarterPhase } from './components/StarterPhase'
 import { ConnectPhase } from './components/ConnectPhase'
 import { InstallPhase } from './components/InstallPhase'
 import { SessionPhase } from './components/SessionPhase'
-import { SpikePhase } from './components/SpikePhase'
 import { WorkspaceShell } from './components/WorkspaceShell'
-import { InboxPhase } from './components/InboxPhase'
-import { NotesPhase } from './components/NotesPhase'
+import { ReviewsPanel } from './components/ReviewsPanel'
+import { ComposePhase } from './components/ComposePhase'
 import { NextStepBanner } from './components/NextStepBanner'
 import { HelpDrawer } from './components/HelpDrawer'
 import './App.css'
@@ -27,10 +26,19 @@ function formatReleaseTime(iso: string): string {
   }).format(d)
 }
 
+function pagesDocsHref(): string {
+  const base = import.meta.env.BASE_URL ?? './'
+  return `${base}docs/index.html`
+}
+
 function SiteFooter() {
-  const released = formatReleaseTime(__AGM_BUILD_TIME__)
+  const released = formatReleaseTime(__TEKTO_BUILD_TIME__)
   return (
     <footer className="studio-site-footer">
+      <a href={pagesDocsHref()} className="studio-site-footer-link">
+        Tekto docs (Pages)
+      </a>
+      <span aria-hidden="true"> · </span>
       <span>Released {released}</span>
       <span aria-hidden="true"> · </span>
       <span>© Andreas Bergmann, Hamburg, Germany</span>
@@ -51,13 +59,7 @@ export default function App() {
 
   const introPhase = phase === 'about' || phase === 'start'
   const showRail = !introPhase
-  const wide =
-    phase === 'architecture' ||
-    phase === 'knowledge' ||
-    phase === 'inbox' ||
-    phase === 'notes' ||
-    phase === 'concepts' ||
-    phase === 'analyses'
+  const wide = phase === 'architecture' || phase === 'review' || phase === 'compose'
 
   return (
     <div className={`studio${introPhase ? ' studio--starter' : ''}`}>
@@ -83,23 +85,15 @@ export default function App() {
       <div
         className={`studio-body${wide ? ' studio-body--wide' : ''}${introPhase ? ' studio-body--starter' : ''}`}
       >
-        {phase === 'about' && <WhatIsAgmPhase />}
+        {phase === 'about' && <WhatIsTektoPhase />}
         {phase === 'start' && <StarterPhase />}
         {phase === 'connect' && <ConnectPhase />}
         {phase === 'install' && <InstallPhase />}
         {phase === 'architecture' && (
-          <WorkspaceShell
-            workspace="architecture"
-            lead="durable chapters you keep in Git"
-          />
+          <WorkspaceShell workspace="architecture" lead="Tekto docs in Git" />
         )}
-        {phase === 'knowledge' && (
-          <WorkspaceShell workspace="knowledge" lead="domain language & model (domain/)" />
-        )}
-        {phase === 'inbox' && <InboxPhase />}
-        {phase === 'notes' && <NotesPhase />}
-        {phase === 'concepts' && <SpikePhase mode="concepts" />}
-        {phase === 'analyses' && <SpikePhase mode="analyses" />}
+        {phase === 'review' && <ReviewsPanel />}
+        {phase === 'compose' && <ComposePhase />}
         {phase === 'session' && <SessionPhase />}
       </div>
       <SiteFooter />

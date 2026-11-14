@@ -1,5 +1,5 @@
 {
-  "name": "agm-review-studio",
+  "name": "tekto-studio",
   "private": true,
   "version": "0.1.0",
   "license": "MIT",
@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:pages": "node ../../scripts/build-tekto-pages.mjs",
     "lint": "oxlint",
     "preview": "vite preview"
   },

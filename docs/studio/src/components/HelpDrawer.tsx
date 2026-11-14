@@ -55,15 +55,14 @@ export function HelpDrawer() {
                 className="btn primary"
                 onClick={() => {
                   setHelpOpen(false)
-                  openSession('align')
+                  openSession('continue')
                 }}
               >
-                Ask AI · align folder for Studio
+                Ask AI · continue from steer.md
               </button>
             </div>
             <p className="hint">
-              Use this when an existing docs tree does not match the map — the AI inventories and
-              reformats structure so workspaces light up correctly.
+              After AGM migration, run scripts/migrate-from-agm.mjs then reload the folder.
             </p>
           </section>
 
@@ -100,7 +99,7 @@ export function HelpDrawer() {
                   setPhase('about')
                 }}
               >
-                What is AGM?
+                What is Tekto?
               </button>
               <button
                 type="button"

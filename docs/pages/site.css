@@ -1,0 +1,125 @@
+:root {
+  color-scheme: light dark;
+  --bg: #f8fafc;
+  --text: #0f172a;
+  --muted: #64748b;
+  --line: #e2e8f0;
+  --accent: #2563eb;
+  --card: #fff;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f172a;
+    --text: #f1f5f9;
+    --muted: #94a3b8;
+    --line: #334155;
+    --card: #1e293b;
+  }
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.55;
+}
+.site-shell {
+  max-width: 52rem;
+  margin: 0 auto;
+  padding: 1.25rem 1.5rem 3rem;
+}
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.9rem;
+}
+.site-nav a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.site-nav a:hover {
+  text-decoration: underline;
+}
+.site-nav .brand {
+  font-weight: 700;
+  color: var(--text);
+}
+.doc-main h1 {
+  font-size: 1.65rem;
+  margin-top: 0;
+}
+.doc-main h2 {
+  margin-top: 1.75rem;
+  font-size: 1.2rem;
+}
+.doc-main h3 {
+  font-size: 1.05rem;
+}
+.doc-main code {
+  font-size: 0.88em;
+  background: var(--line);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+}
+.doc-main pre {
+  overflow: auto;
+  padding: 0.85rem 1rem;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-size: 0.82rem;
+}
+.doc-main pre code {
+  background: none;
+  padding: 0;
+}
+.doc-main table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin: 1rem 0;
+}
+.doc-main th,
+.doc-main td {
+  border: 1px solid var(--line);
+  padding: 0.4rem 0.55rem;
+  text-align: left;
+}
+.doc-main a {
+  color: var(--accent);
+}
+.doc-card-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  margin-top: 1.5rem;
+}
+.doc-card {
+  display: block;
+  padding: 1rem;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  text-decoration: none;
+  color: inherit;
+}
+.doc-card:hover {
+  border-color: var(--accent);
+}
+.doc-card h2 {
+  margin: 0 0 0.35rem;
+  font-size: 1rem;
+}
+.doc-card p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}

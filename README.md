@@ -1,80 +1,100 @@
-# Architecture Graph Method (AGM)
+# Tekto
 
-> **Architecture documentation is the API of AI conversation.**
+**Team governance for architecture in Git** — `steer.md`, evidence, `interfaces/`, reviews, and CI checks. Your IDE and model stay where they are; Tekto is the **shared spec surface** agents read and teams verify.
 
-AGM is a repo-local Markdown link graph, orchestrated by `blueprint.md`, maintained by agents via MCP. Living architecture docs — traversable by humans and AI, versioned with your code.
+Not an IDE replacement. Positioning: [docs/positioning.md](docs/positioning.md).
 
-**Start here:** **[docs/quickstart.md](./docs/quickstart.md)** — the only mandatory read (~10 min).
+## Golden path (copy-paste)
 
-Repository: [github.com/abx-git/agm](https://github.com/abx-git/agm)
+```bash
+# 1. Bootstrap
+npx @abx-hh/tekto init --project "my-app" --doc-root docs/tekto/ --ai-tool cursor
 
----
+# 2. Export skills/rules after pack updates
+npx @abx-hh/tekto export --ai-tool cursor
 
-## Golden path
+# 3. Work from steer
+#    Open docs/tekto/steer.md in agent context; keep ## Now ≤ 5 rows
 
-| Step | Action |
-|------|--------|
-| Install | [Review Studio](https://abx-git.github.io/agm.github.io/) → `agm-install.sh` |
-| Adopt | One chat → `bootstrap-adopt` |
-| Continue | `bootstrap-continue` — next chapter |
-| Maintain | `maintenance-diff-range` — sync on git diff |
-| Review | Fresh chat → `review-maintenance` |
+# 4. Aspect review (new chat)
+npx @abx-hh/tekto packet aspect security
 
-Default: copy session prompt from Assistant into a new chat. Optional: MCP `agm_trigger_workflow` (same golden prompts) — [agm/README.md](./agm/README.md).
-
----
-
-## Core insight
-
-Agents fail on cross-cutting architecture (hallucinate or exhaust context). AGM **compiles** knowledge into linked Markdown and **traverses** it deterministically — not similarity search.
-
-```text
-Dump loop          →    Doc-driven context
-────────────────        ────────────────────
-Paste repo/history      always-on.md + blueprint.md
-RAG / wiki search       Links from entry-point.md
-Same chat review        Fresh Verify chat
+# 5. CI / local verify
+npx @abx-hh/tekto check
 ```
 
+## CI (GitHub Actions)
+
+```yaml
+- uses: actions/setup-node@v4
+  with:
+    node-version: "20"
+- run: npx -y @abx-hh/tekto check
+```
+
+Optional contract-on-diff when the [Tekto-Validator](docs/reference/tekto-validator.md) binary is licensed:
+
+```yaml
+- run: tekto-validator validate --repo . --arch docs/tekto --base origin/main
+```
+
+## Daily use
+
+| Step | Command / artifact |
+|------|-------------------|
+| Orient | `docs/tekto/steer.md` · `tekto next` |
+| Contracts | `docs/tekto/interfaces/exports.md` · `imports.md` |
+| Work | Tekto skills under `.cursor/skills/tekto/` (or Copilot/Kiro export) |
+| Review | `tekto packet aspect <id>` → fresh chat · `reviews/<id>/findings.yaml` |
+| Verify | `tekto check` (core · graph · trace · links) |
+| Audit | `docs/tekto/log.md` |
+
+## MCP (recommended slim set)
+
+Register only **`@abx-hh/tekto`** — skip legacy workflow MCPs.
+
+```json
+{
+  "mcpServers": {
+    "tekto": {
+      "command": "npx",
+      "args": ["-y", "@abx-hh/tekto", "tekto-mcp"]
+    }
+  }
+}
+```
+
+| Tool | Use |
+|------|-----|
+| `tekto_load_context` | Load steer + nearby docs |
+| `tekto_next` | ## Now rows |
+| `tekto_get_packet` | Aspect/revise/summarize packets |
+| `tekto_check` | Same as CLI check |
+| `tekto_record_finding` | Append to `findings.yaml` |
+| `tekto_init` | Scaffold in a new repo |
+
+Details: [docs/reference/tekto-mcp-install.md](docs/reference/tekto-mcp-install.md).
+
+## Studio
+
+Local browser or **GitHub Pages** — **Docs · Review · Composer · Ask AI**. No built-in LLM.
+
+| | |
+|-|-|
+| Local | `./scripts/open-studio.sh` |
+| Hosted | https://abx-git.github.io/agm.github.io/ (Studio + [docs](https://abx-git.github.io/agm.github.io/docs/)) |
+
+[docs/studio/README.md](docs/studio/README.md) · [Pages setup](docs/studio/GITHUB-PAGES-SETUP.md)
+
+## Learn more
+
+| Doc | Purpose |
+|-----|---------|
+| [quickstart](docs/quickstart.md) | 10-minute walkthrough |
+| [guide](docs/guide.md) | Skill loops |
+| [multi-repo](docs/reference/multi-repo.md) | Several services |
+| [MIGRATION](MIGRATION.md) | From AGM |
+
 ---
 
-## Your app (`docs/architecture/`)
-
-| File | Purpose |
-|------|---------|
-| `context/always-on.md` | App identity, stack, source map — every session |
-| `blueprint.md` | Construction plan, phase status, WRK register |
-| `entry-point.md` | Agent navigation — links only |
-| `index.md` + `log.md` | OKF per-folder index + change log |
-| `interfaces/` | `exports.md` · `imports.md` — cross-service contracts |
-
-Templates: [docs/templates/architecture/](./docs/templates/architecture/) · Agent rules: [prompts/core/system-prompt.md](./prompts/core/system-prompt.md)
-
----
-
-## Day-1 vs Advanced
-
-**Day-1:** Build · Evolve · Verify — six golden workflows.
-
-**Advanced** (after a graph exists; install `--full`): Architect and Domain intents — see [docs/reference/extended-workflows.md](./docs/reference/extended-workflows.md).
-
----
-
-## Further reading
-
-| Document | Audience |
-|----------|----------|
-| [docs/guide.md](./docs/guide.md) | Practitioners — full procedure |
-| [docs/ROADMAP.md](./docs/ROADMAP.md) | Consolidation progress |
-| [docs/gen-ai-challenges.md](./docs/gen-ai-challenges.md) | Leads — governance |
-| [docs/reference/spec-driven-development.md](./docs/reference/spec-driven-development.md) | AGM vs feature SDD (Kiro, …) |
-| [docs/reference/agm-validator.md](./docs/reference/agm-validator.md) | Commercial enforcement engine (hook, CI, MCP) |
-| [docs/case-studies.md](./docs/case-studies.md) | Real-world examples |
-| [docs/examples/sample-app/](./docs/examples/sample-app/) | Multi-service example |
-
-Local AGM Studio: `./scripts/open-studio.sh` → http://localhost:5173  
-Legacy Assistant-only: `./scripts/open-assistant.sh` → http://localhost:8765
-
----
-
-[MIT](./LICENSE) © Andreas Bergmann, Hamburg, Germany · [Contributing](./CONTRIBUTING.md)
+MIT © Andreas Bergmann, Hamburg, Germany · Package [github.com/abx-git/tekto](https://github.com/abx-git/tekto)

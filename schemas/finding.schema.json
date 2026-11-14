@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TektoFinding",
+  "type": "object",
+  "required": ["id", "aspect", "severity", "claim", "evidence", "status"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^F-[A-Z0-9-]+$" },
+    "aspect": { "type": "string" },
+    "severity": { "enum": ["low", "medium", "high", "critical"] },
+    "claim": { "type": "string" },
+    "evidence": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "rule": { "type": "string" },
+    "confidence": { "enum": ["low", "medium", "high"] },
+    "status": { "enum": ["open", "addressed", "wontfix"] }
+  }
+}

@@ -1,0 +1,9 @@
+id: interfaces
+title: Schnittstellen
+questions:
+  - Welche APIs, Events und Verträge sind definiert?
+  - Stimmen exports/imports mit dem Code überein?
+evidence_required:
+  - code
+rules: []
+output: findings

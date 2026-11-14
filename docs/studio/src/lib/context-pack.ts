@@ -49,8 +49,8 @@ export function buildContextPack(opts: {
 }): ContextPack {
   const includeLocalNotes = Boolean(opts.includeLocalNotes)
   const includeSpikeEvidence = Boolean(opts.includeSpikeEvidence)
-  const entry = findEnding(opts.index, 'entry-point.md') || 'entry-point.md'
-  const blueprint = findEnding(opts.index, 'blueprint.md') || 'blueprint.md'
+  const entry = findEnding(opts.index, 'steer.md') || 'steer.md'
+  const blueprint = findEnding(opts.index, 'log.md') || 'log.md'
   const onDemand = findEnding(opts.index, 'context/on-demand.md')
   const pins = filterEvidencePins(opts.pins, { includeLocalNotes, includeSpikeEvidence })
   const focusOk = allowPath(opts.activePath, { includeLocalNotes, includeSpikeEvidence })
@@ -58,14 +58,14 @@ export function buildContextPack(opts: {
   const slots: ContextPackSlot[] = [
     {
       id: 'always',
-      label: 'Start here (entry-point)',
+      label: 'Steer (start here)',
       path: entry,
       included: true,
       required: true,
     },
     {
       id: 'plan',
-      label: 'Checklist (blueprint)',
+      label: 'Log (audit)',
       path: blueprint,
       included: true,
       required: true,

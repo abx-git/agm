@@ -90,6 +90,7 @@ export function ConnectPhase() {
             <option value="cursor">Cursor</option>
             <option value="claude">Claude</option>
             <option value="copilot">Copilot / VS Code</option>
+            <option value="kiro">Kiro</option>
             <option value="generic">Other</option>
           </select>
         </label>
