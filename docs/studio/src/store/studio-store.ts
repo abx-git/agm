@@ -5,9 +5,9 @@ import type {
   JourneyPhase,
   ProjectParams,
   SessionIntent,
-  WorkspaceId,
 } from '../types'
-import { DEFAULT_PROJECT, isWorkspacePhase } from '../types'
+import { DEFAULT_PROJECT, isWorkspacePhase, normalizePhase } from '../types'
+import type { ArtifactKind } from '../lib/artifacts'
 import { buildArchitectureIndex } from '../lib/build-index'
 import { detectInstallStatus } from '../lib/detect-install'
 import {
@@ -113,8 +113,8 @@ interface StudioState {
   includeSpikeEvidence: boolean
   /** Preferred Ask AI tab when opening from a CTA (consumed once). */
   sessionIntent: SessionIntent | null
-  /** Workspace to return to from Ask AI (Back). */
-  sessionReturnPhase: Exclude<WorkspaceId, 'session'> | null
+  artifactKind: ArtifactKind
+  aiDrawerOpen: boolean
   helpOpen: boolean
   /** When opening Help, scroll to this element id (e.g. help-flow-map). */
   helpFocusId: string | null
@@ -127,8 +127,9 @@ interface StudioState {
   /** Open Ask AI on a specific intent; remembers current workspace for Back. */
   openSession: (intent?: SessionIntent) => void
   clearSessionIntent: () => void
-  /** Leave Ask AI → remembered workspace (or Architecture). */
   leaveSession: () => void
+  setArtifactKind: (kind: ArtifactKind) => void
+  setAiDrawerOpen: (open: boolean) => void
   setHelpOpen: (open: boolean) => void
   /** Open Help, optionally focusing the flow map. */
   openHelp: (focusId?: string) => void
@@ -202,11 +203,9 @@ function afterOpen(
   if (opts?.keepPhase) {
     phase = prevPhase
   } else if (installStatus === 'ready') {
-    phase = opts?.preferDaily ? loadLastDailyPhase() : 'architecture'
-  } else if (get().folderLabel || label) {
-    phase = 'install'
+    phase = opts?.preferDaily ? loadLastDailyPhase() : 'project'
   } else {
-    phase = 'connect'
+    phase = 'setup'
   }
   saveFolderHint(label)
   saveBootDone(true)
@@ -232,7 +231,7 @@ function afterOpen(
 }
 
 export const useStudioStore = create<StudioState>((set, get) => ({
-  phase: 'connect',
+  phase: 'start',
   project: loadProjectParams(),
   folderHandle: null,
   folderLabel: null,
@@ -259,7 +258,8 @@ export const useStudioStore = create<StudioState>((set, get) => ({
   includeLocalNotes: false,
   includeSpikeEvidence: false,
   sessionIntent: null,
-  sessionReturnPhase: null,
+  artifactKind: 'documentation',
+  aiDrawerOpen: false,
   helpOpen: false,
   helpFocusId: null,
   error: null,
@@ -268,26 +268,25 @@ export const useStudioStore = create<StudioState>((set, get) => ({
   toast: null,
 
   setPhase: (phase) => {
-    if (isCockpitPhase(phase)) saveLastDailyPhase(phase)
-    set({ phase })
+    const next = normalizePhase(phase)
+    if (isCockpitPhase(next)) saveLastDailyPhase(next)
+    set({ phase: next })
   },
 
+  setArtifactKind: (artifactKind) => set({ artifactKind }),
+
+  setAiDrawerOpen: (aiDrawerOpen) => set({ aiDrawerOpen }),
+
   openSession: (intent = 'continue') => {
-    const { phase, sessionReturnPhase } = get()
-    const returning =
-      isCockpitPhase(phase) && phase !== 'session'
-        ? (phase as Exclude<WorkspaceId, 'session'>)
-        : sessionReturnPhase
-    saveLastDailyPhase('session')
-    set({ phase: 'session', sessionIntent: intent, sessionReturnPhase: returning })
+    saveLastDailyPhase('project')
+    set({ phase: 'project', sessionIntent: intent, aiDrawerOpen: true })
   },
 
   clearSessionIntent: () => set({ sessionIntent: null }),
 
   leaveSession: () => {
-    const back = get().sessionReturnPhase ?? 'architecture'
-    if (isCockpitPhase(back)) saveLastDailyPhase(back)
-    set({ phase: back, sessionReturnPhase: null })
+    saveLastDailyPhase('project')
+    set({ phase: 'project', aiDrawerOpen: false, sessionIntent: null })
   },
 
   setHelpOpen: (helpOpen) => set({ helpOpen, helpFocusId: null }),
@@ -297,24 +296,19 @@ export const useStudioStore = create<StudioState>((set, get) => ({
   goHome: () => {
     const { folderLabel, installStatus, phase } = get()
     if (folderLabel && installStatus === 'ready') {
-      saveLastDailyPhase('architecture')
-      set({ phase: 'architecture' })
+      saveLastDailyPhase('project')
+      set({ phase: 'project', aiDrawerOpen: false })
       return
     }
     if (phase === 'about' || phase === 'start') {
       set({ phase: 'start' })
       return
     }
-    if (!folderLabel) set({ phase: 'connect' })
-    else if (installStatus !== 'ready') set({ phase: 'install' })
-    else set({ phase: 'architecture' })
+    set({ phase: 'setup', aiDrawerOpen: false })
   },
 
   goSetup: () => {
-    const { folderLabel, installStatus } = get()
-    if (!folderLabel) set({ phase: 'connect' })
-    else if (installStatus !== 'ready') set({ phase: 'install' })
-    else set({ phase: 'connect' })
+    set({ phase: 'setup', aiDrawerOpen: false })
   },
 
   setProject: (patch) => {
@@ -391,7 +385,7 @@ export const useStudioStore = create<StudioState>((set, get) => ({
         pendingSubpath: defaultSub,
         opening: false,
         error: null,
-        phase: 'connect',
+        phase: 'setup',
       })
       get().setProject({ docRoot: suggested })
       get().showToast(`Selected “${picked.handle.name}” — set subfolder if needed, then confirm`)
@@ -480,7 +474,7 @@ export const useStudioStore = create<StudioState>((set, get) => ({
       set({
         restoring: false,
         folderHint: hint,
-        phase: bootDone ? 'connect' : 'start',
+        phase: bootDone ? 'setup' : 'start',
       })
       return
     }
@@ -489,7 +483,7 @@ export const useStudioStore = create<StudioState>((set, get) => ({
       set({
         restoring: false,
         folderHint: hint || handle.name,
-        phase: 'connect',
+        phase: 'setup',
         error:
           'Previously chosen folder needs permission again. Click “Choose folder” (or Allow) to continue.',
       })
@@ -537,8 +531,14 @@ export const useStudioStore = create<StudioState>((set, get) => ({
       const files = buildStarterScaffold(get().project)
       await writeFileMap(handle, files)
       await get().refreshIndex({ keepPhase: true })
-      set({ installing: false, phase: 'architecture', installStatus: 'ready' })
-      saveLastDailyPhase('architecture')
+      set({
+        installing: false,
+        phase: 'project',
+        installStatus: 'ready',
+        artifactKind: 'documentation',
+        aiDrawerOpen: false,
+      })
+      saveLastDailyPhase('project')
       get().showToast(`Setup complete — open Docs or Ask AI (${Object.keys(files).length} files written)`)
     } catch (err) {
       set({
@@ -617,7 +617,7 @@ export const useStudioStore = create<StudioState>((set, get) => ({
       }
       const folder = Object.keys(spikeFiles)[0]!.replace(/\/index\.md$/, '')
       await get().refreshIndex({ keepPhase: true })
-      const targetPhase = 'architecture'
+      const targetPhase = 'project'
       set({ activeSpikePath: folder, phase: targetPhase })
       get().showToast(`Created ${id}`)
       return folder
@@ -654,7 +654,8 @@ export const useStudioStore = create<StudioState>((set, get) => ({
       set({
         activeSpikePath: folder,
         activePath: `${folder}/findings.yaml`,
-        phase: 'review',
+        phase: 'project',
+        artifactKind: 'reviews',
       })
       get().showToast(`Created ${folder}`)
       return folder
@@ -777,7 +778,7 @@ export const useStudioStore = create<StudioState>((set, get) => ({
       }
 
       await get().refreshIndex({ keepPhase: true })
-      set({ phase: 'architecture', activePath: path })
+      set({ phase: 'project', activePath: path })
       get().showToast(`Saved ${path}`)
       return path
     } catch (err) {
@@ -821,7 +822,7 @@ export const useStudioStore = create<StudioState>((set, get) => ({
       const content = buildNoteFile({ title: title || base, body })
       await writeTextFile(handle, path, content)
       await get().refreshIndex({ keepPhase: true })
-      set({ phase: 'architecture', activePath: path })
+      set({ phase: 'project', activePath: path })
       get().showToast(`Saved local note ${path}`)
       return path
     } catch (err) {

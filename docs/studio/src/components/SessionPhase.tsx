@@ -21,7 +21,6 @@ export function SessionPhase() {
   const project = useStudioStore((s) => s.project)
   const goSetup = useStudioStore((s) => s.goSetup)
   const leaveSession = useStudioStore((s) => s.leaveSession)
-  const sessionReturnPhase = useStudioStore((s) => s.sessionReturnPhase)
   const sessionIntent = useStudioStore((s) => s.sessionIntent)
   const folderLabel = useStudioStore((s) => s.folderLabel)
   const installStatus = useStudioStore((s) => s.installStatus)
@@ -145,7 +144,7 @@ export function SessionPhase() {
           Copy for {tool}
         </button>
         <button type="button" className="btn" onClick={() => leaveSession()}>
-          Back to {sessionReturnPhase === 'review' ? 'Review' : 'Docs'}
+          Zurück zum Projekt
         </button>
       </div>
       {workflowCatalog.length > 1 && (

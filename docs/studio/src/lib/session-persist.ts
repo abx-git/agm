@@ -1,4 +1,5 @@
-import type { DocWorkspace, JourneyPhase, WorkspaceId } from '../types'
+import type { DocWorkspace, JourneyPhase } from '../types'
+import { normalizePhase } from '../types'
 
 const COCKPIT_PHASE_KEY = 'tekto-studio-last-daily-phase'
 const FOLDER_HINT_KEY = 'tekto-studio-folder-hint'
@@ -6,21 +7,24 @@ const BOOT_DONE_KEY = 'tekto-studio-boot-done'
 const CONTEXT_PINS_KEY = 'tekto-studio-context-pins'
 const DOC_FOCUS_KEY = 'tekto-studio-doc-focus'
 
-export type CockpitPhase = WorkspaceId
+export type CockpitPhase = 'project'
 
 const LEGACY_MAP: Record<string, CockpitPhase> = {
-  run: 'session',
-  spike: 'architecture',
-  review: 'review',
-  knowledge: 'architecture',
-  inbox: 'architecture',
-  notes: 'architecture',
-  concepts: 'architecture',
-  analyses: 'architecture',
+  run: 'project',
+  spike: 'project',
+  review: 'project',
+  knowledge: 'project',
+  inbox: 'project',
+  notes: 'project',
+  concepts: 'project',
+  analyses: 'project',
+  architecture: 'project',
+  compose: 'project',
+  session: 'project',
 }
 
 export function isCockpitPhase(phase: JourneyPhase): phase is CockpitPhase {
-  return phase === 'architecture' || phase === 'review' || phase === 'compose' || phase === 'session'
+  return phase === 'project'
 }
 
 export function isDailyPhase(phase: JourneyPhase): phase is CockpitPhase {
@@ -30,13 +34,14 @@ export function isDailyPhase(phase: JourneyPhase): phase is CockpitPhase {
 export function loadLastDailyPhase(): CockpitPhase {
   try {
     const raw = localStorage.getItem(COCKPIT_PHASE_KEY)
-    if (!raw) return 'architecture'
+    if (!raw) return 'project'
     if (LEGACY_MAP[raw]) return LEGACY_MAP[raw]!
-    if (isCockpitPhase(raw as JourneyPhase)) return raw as CockpitPhase
+    const normalized = normalizePhase(raw)
+    if (normalized === 'project') return 'project'
   } catch {
     /* ignore */
   }
-  return 'architecture'
+  return 'project'
 }
 
 export function saveLastDailyPhase(phase: JourneyPhase): void {
@@ -122,18 +127,15 @@ export function saveDocFocus(ids: string[]): void {
   }
 }
 
-export function workspaceLabel(ws: DocWorkspace | WorkspaceId): string {
+export function workspaceLabel(ws: DocWorkspace | string): string {
   switch (ws) {
+    case 'project':
     case 'architecture':
-      return 'Docs'
-    case 'review':
-      return 'Review'
-    case 'compose':
-      return 'Composer'
-    case 'session':
-      return 'Ask AI'
+      return 'Projekt'
+    case 'setup':
+      return 'Setup'
     case 'meta':
-      return 'State'
+      return 'Meta'
     default:
       return String(ws)
   }

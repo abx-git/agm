@@ -1,8 +1,9 @@
 import { useMemo } from 'react'
 import { useStudioStore } from '../store/studio-store'
-import { filterDocsByWorkspace, uniqueTypes } from '../lib/build-index'
+import { uniqueTypes } from '../lib/build-index'
 import { supportsDirectoryPicker } from '../lib/fs-access'
-import type { WorkspaceId } from '../types'
+import type { ArtifactKind } from '../lib/artifacts'
+import { filterDocsByArtifact } from '../lib/artifacts'
 import { DocTree } from './DocTree'
 import { DocViewer } from './DocViewer'
 import { LinkGraph } from './LinkGraph'
@@ -11,11 +12,11 @@ import { E2Canvas } from './E2Canvas'
 interface Props {
   /** When true, skip the empty-state “open folder” panel (parent handles CTA). */
   embedded?: boolean
-  /** Filter tree to a cockpit workspace (Architecture / Knowledge). */
-  workspaceFilter?: Exclude<WorkspaceId, 'session'>
+  /** Filter tree by artifact kind (documentation / analyses). */
+  artifactFilter?: ArtifactKind
 }
 
-export function BrowseMode({ embedded = false, workspaceFilter }: Props) {
+export function BrowseMode({ embedded = false, artifactFilter }: Props) {
   const index = useStudioStore((s) => s.index)
   const activePath = useStudioStore((s) => s.activePath)
   const setActivePath = useStudioStore((s) => s.setActivePath)
@@ -36,9 +37,9 @@ export function BrowseMode({ embedded = false, workspaceFilter }: Props) {
 
   const filteredDocs = useMemo(() => {
     if (!index) return new Map()
-    if (!workspaceFilter) return index.docs
-    return filterDocsByWorkspace(index.docs, workspaceFilter)
-  }, [index, workspaceFilter])
+    if (!artifactFilter) return index.docs
+    return filterDocsByArtifact(index.docs, artifactFilter)
+  }, [index, artifactFilter])
 
   const types = useMemo(() => uniqueTypes(filteredDocs), [filteredDocs])
   const activeDoc = index && activePath ? index.docs.get(activePath) : null
@@ -88,7 +89,7 @@ export function BrowseMode({ embedded = false, workspaceFilter }: Props) {
         {searchHits.length > 0 && (
           <ul className="search-hits">
             {searchHits
-              .filter((h) => !workspaceFilter || filteredDocs.has(h.path))
+              .filter((h) => !artifactFilter || filteredDocs.has(h.path))
               .map((h) => (
                 <li key={h.path}>
                   <button type="button" onClick={() => setActivePath(h.path)}>

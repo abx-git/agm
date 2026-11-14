@@ -1,30 +1,22 @@
 import { useEffect } from 'react'
 import { useStudioStore } from './store/studio-store'
-import { ProjectBar, JourneyRail } from './components/ProjectBar'
+import { ProjectBar } from './components/ProjectBar'
 import { WhatIsTektoPhase } from './components/WhatIsTektoPhase'
 import { StarterPhase } from './components/StarterPhase'
-import { ConnectPhase } from './components/ConnectPhase'
-import { InstallPhase } from './components/InstallPhase'
-import { SessionPhase } from './components/SessionPhase'
-import { WorkspaceShell } from './components/WorkspaceShell'
-import { ReviewsPanel } from './components/ReviewsPanel'
-import { ComposePhase } from './components/ComposePhase'
-import { NextStepBanner } from './components/NextStepBanner'
-import { SetupStepper } from './components/SetupStepper'
-import { showSetupStepper } from './lib/setup-flow'
+import { SetupPhase } from './components/SetupPhase'
+import { ProjectPhase } from './components/ProjectPhase'
 import { HelpDrawer } from './components/HelpDrawer'
 import './App.css'
 
 function formatReleaseTime(iso: string): string {
   const d = new Date(iso)
   if (Number.isNaN(d.getTime())) return iso
-  return new Intl.DateTimeFormat('en-GB', {
+  return new Intl.DateTimeFormat('de-DE', {
     day: 'numeric',
     month: 'short',
     year: 'numeric',
     hour: '2-digit',
     minute: '2-digit',
-    timeZoneName: 'short',
   }).format(d)
 }
 
@@ -38,20 +30,16 @@ function SiteFooter() {
   return (
     <footer className="studio-site-footer">
       <a href={pagesDocsHref()} className="studio-site-footer-link">
-        Tekto docs (Pages)
+        Tekto-Doku (Pages)
       </a>
       <span aria-hidden="true"> · </span>
-      <span>Released {released}</span>
-      <span aria-hidden="true"> · </span>
-      <span>© Andreas Bergmann, Hamburg, Germany</span>
+      <span>Build {released}</span>
     </footer>
   )
 }
 
 export default function App() {
   const phase = useStudioStore((s) => s.phase)
-  const folderLabel = useStudioStore((s) => s.folderLabel)
-  const installStatus = useStudioStore((s) => s.installStatus)
   const error = useStudioStore((s) => s.error)
   const toast = useStudioStore((s) => s.toast)
   const restoring = useStudioStore((s) => s.restoring)
@@ -62,17 +50,11 @@ export default function App() {
   }, [tryRestoreFolder])
 
   const introPhase = phase === 'about' || phase === 'start'
-  const inSetup = showSetupStepper(folderLabel, installStatus, phase)
-  const showRail = !introPhase && !inSetup && installStatus === 'ready'
-  const showNextBanner = showRail
-  const wide = phase === 'architecture' || phase === 'review' || phase === 'compose'
+  const wide = phase === 'project' || phase === 'setup'
 
   return (
     <div className={`studio${introPhase ? ' studio--starter' : ''}`}>
       <ProjectBar />
-      {inSetup && <SetupStepper />}
-      {showRail && <JourneyRail />}
-      {showNextBanner && <NextStepBanner />}
       <HelpDrawer />
       {error && (
         <div className="studio-error" role="alert">
@@ -84,9 +66,9 @@ export default function App() {
           {toast}
         </div>
       )}
-      {restoring && introPhase === false && phase === 'connect' && !error ? (
+      {restoring && phase === 'setup' && !error ? (
         <div className="studio-toast" role="status">
-          Restoring folder…
+          Ordner wird wiederhergestellt…
         </div>
       ) : null}
       <div
@@ -94,14 +76,8 @@ export default function App() {
       >
         {phase === 'about' && <WhatIsTektoPhase />}
         {phase === 'start' && <StarterPhase />}
-        {phase === 'connect' && <ConnectPhase />}
-        {phase === 'install' && <InstallPhase />}
-        {phase === 'architecture' && (
-          <WorkspaceShell workspace="architecture" lead="Tekto docs in Git" />
-        )}
-        {phase === 'review' && <ReviewsPanel />}
-        {phase === 'compose' && <ComposePhase />}
-        {phase === 'session' && <SessionPhase />}
+        {phase === 'setup' && <SetupPhase />}
+        {phase === 'project' && <ProjectPhase />}
       </div>
       <SiteFooter />
     </div>

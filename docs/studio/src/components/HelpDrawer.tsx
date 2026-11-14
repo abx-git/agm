@@ -79,9 +79,11 @@ export function HelpDrawer() {
           {HELP_OVERVIEW.map((sec) => (
             <section key={sec.id} className="help-block">
               <h3>{sec.title}</h3>
-              {sec.body.map((p) => (
-                <p key={p.slice(0, 48)}>{p}</p>
-              ))}
+              <ul>
+                {sec.bullets.map((p) => (
+                  <li key={p.slice(0, 48)}>{p}</li>
+                ))}
+              </ul>
             </section>
           ))}
 

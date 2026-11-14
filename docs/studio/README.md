@@ -1,27 +1,21 @@
 # Tekto Studio
 
-Local cockpit for **Tekto** documentation: bind a repo folder, browse `docs/tekto/`, manage reviews, copy CLI commands.
+Lokal oder [GitHub Pages](https://abx-git.github.io/agm.github.io/): **zwei Phasen**, drei Artefakt-Bereiche.
 
-| Mode | URL |
-|------|-----|
-| **Local** | `./scripts/open-studio.sh` → http://localhost:5173 |
-| **GitHub Pages** | [Studio](https://abx-git.github.io/agm.github.io/) · [Docs](https://abx-git.github.io/agm.github.io/docs/) ([setup](./GITHUB-PAGES-SETUP.md)) |
+## 1. Setup
 
-Pages runs the same static build as `npm run build` in this folder; you still pick a local folder via the browser (File System Access API).
+Projektordner wählen, KI-Tool, `steer.md` + Starter schreiben, optional `tekto export` kopieren.
 
-## In scope (Wave 2)
+## 2. Projekt
 
-| Workspace | Purpose |
-|-----------|---------|
-| **Docs** | Browse and read architecture Markdown |
-| **Review** | `findings.yaml` / `threads.yaml` / `report.md` |
-| **Composer** | Copy `init` · `export` · `check` per AI tool |
-| **Ask AI** | Context pack + skill prompts to paste into your IDE |
+| Bereich | Inhalt |
+|---------|--------|
+| **Dokumentation** | steer, Kapitel, Regeln |
+| **Reviews** | findings.yaml, threads — in Git für **Team und KI** |
+| **Analysen** | work/, chapters/ |
 
-## Out of scope
+KI-Prompts: Seitenpanel „Prompt für KI“. Reviews: „Für Team teilen“ kopiert einen PR-/Chat-Text.
 
-- No embedded LLM or cloud agent
-- No inbox / storm / spike / legacy AGM workflow catalog
-- No substitute for Git or `tekto check` in CI
-
-Copy prompts into Cursor, Claude Code, Copilot, or Kiro.
+```bash
+./scripts/open-studio.sh
+```

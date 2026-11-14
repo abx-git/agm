@@ -12,36 +12,33 @@ export function StarterPhase() {
     <div className="starter-page">
       <div className="starter-hero">
         <p className="starter-brand">Tekto Studio</p>
-        <h1>Architecture work with AI</h1>
-        <p className="starter-lead">
-          <strong>Two setup steps:</strong> bind your <code>docs/tekto/</code> folder, then write
-          steer.md + log.md. After that, Docs · Review · Composer · Ask AI unlock.
-        </p>
+        <h1>Zwei Phasen</h1>
+        <ol className="starter-list starter-list--numbered">
+          <li>
+            <strong>Setup</strong> — lokales Projekt, KI-Tool, <code>steer.md</code>
+          </li>
+          <li>
+            <strong>Projekt</strong> — navigieren in Dokumentation, Reviews, Analysen (alles in Git, für
+            Team und KI sichtbar)
+          </li>
+        </ol>
         <div className="starter-cta">
           <button
             type="button"
             className="btn primary"
-            onClick={() => (ready ? setPhase('architecture') : goSetup())}
+            onClick={() => (ready ? setPhase('project') : goSetup())}
           >
-            {ready ? 'Open Docs' : folderLabel ? 'Continue Setup' : 'Start Setup'}
+            {ready ? 'Projekt öffnen' : 'Setup starten'}
           </button>
           <button type="button" className="btn" onClick={() => setPhase('about')}>
-            What is Tekto?
+            Was ist Tekto?
           </button>
         </div>
       </div>
 
-      <section className="starter-section">
-        <h2>What you need</h2>
-        <ul className="starter-list">
-          <li>Chrome, Edge, or Brave (folder write access)</li>
-          <li>Local <code>docs/tekto/</code> in your app repo</li>
-          <li>Cursor, Claude Code, or Copilot on the same repo</li>
-        </ul>
-        {!supportsDirectoryPicker() && (
-          <p className="starter-note">Use Chromium for full write access.</p>
-        )}
-      </section>
+      {!supportsDirectoryPicker() && (
+        <p className="starter-note">Für Schreibzugriff: Chrome, Edge oder Brave.</p>
+      )}
     </div>
   )
 }

@@ -1,12 +1,32 @@
-export type SetupPhase = 'about' | 'start' | 'connect' | 'install'
+/** Intro screens */
+export type SetupPhase = 'about' | 'start' | 'setup'
 
-/** Durable cockpit workspaces after Setup. */
-export type WorkspaceId = 'architecture' | 'review' | 'compose' | 'session'
+/** @deprecated legacy workspace ids — map to `project` */
+export type WorkspaceId = 'architecture' | 'review' | 'compose' | 'session' | 'project'
+
+export type JourneyPhase = SetupPhase | 'project'
+
+/** @deprecated */
+export type LegacyJourneyPhase = 'connect' | 'install' | SetupPhase | WorkspaceId
+
+export function normalizePhase(phase: string): JourneyPhase {
+  if (phase === 'connect' || phase === 'install') return 'setup'
+  if (
+    phase === 'architecture' ||
+    phase === 'review' ||
+    phase === 'compose' ||
+    phase === 'session'
+  ) {
+    return 'project'
+  }
+  if (phase === 'about' || phase === 'start' || phase === 'setup' || phase === 'project') {
+    return phase
+  }
+  return 'start'
+}
 
 /** Which Session tab to open when navigating from a workspace CTA. */
 export type SessionIntent = 'adopt' | 'continue' | 'evolve' | 'verify' | 'aspect'
-
-export type JourneyPhase = SetupPhase | WorkspaceId
 
 /** DocNode classification from path conventions. */
 export type DocWorkspace =
@@ -96,12 +116,13 @@ export const DEFAULT_PROJECT: ProjectParams = {
 
 export const STORAGE_KEY = 'tekto-studio-project'
 
-export const WORKSPACE_PHASES: WorkspaceId[] = ['architecture', 'review', 'compose', 'session']
-
-export function isWorkspacePhase(phase: JourneyPhase): phase is WorkspaceId {
-  return (WORKSPACE_PHASES as string[]).includes(phase)
+export function isProjectPhase(phase: JourneyPhase): boolean {
+  return phase === 'project'
 }
 
+/** @deprecated use isProjectPhase */
+export const isWorkspacePhase = isProjectPhase
+
 export function isSetupPhase(phase: JourneyPhase): phase is SetupPhase {
-  return phase === 'about' || phase === 'start' || phase === 'connect' || phase === 'install'
+  return phase === 'about' || phase === 'start' || phase === 'setup'
 }

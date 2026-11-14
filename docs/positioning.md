@@ -28,4 +28,4 @@ Each service repo owns `docs/tekto/` and `interfaces/`. Partner APIs are linked 
 
 ## Studio
 
-**Tekto Studio** is a browser UI (local or [GitHub Pages](https://abx-git.github.io/agm.github.io/)): bind your repo, edit reviews, copy CLI commands. Static product docs: [/docs/](https://abx-git.github.io/agm.github.io/docs/). Scope: [studio/README.md](./studio/README.md).
+**Tekto Studio** — zwei Phasen: **Setup** (Projekt + KI + Starter), **Projekt** (ein Navigator mit **Dokumentation**, **Reviews**, **Analysen**; Reviews in Git für Team und KI). [Studio](https://abx-git.github.io/agm.github.io/) · [README](./studio/README.md).
